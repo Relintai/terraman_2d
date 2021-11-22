@@ -25,56 +25,56 @@ sources = [
 
     "register_types.cpp",
 
-    "library/terraman_library.cpp",
-    "library/terraman_library_simple.cpp",
-    "library/terra_material_cache.cpp",
+    "library/terraman_library_2d.cpp",
+    "library/terraman_library_simple_2d.cpp",
+    "library/terra_material_cache_2d.cpp",
     
-    "nodes/terraman_light.cpp",
+    "nodes/terraman_light_2d.cpp",
 
-    "library/terra_surface.cpp",
-    "library/terra_surface_simple.cpp",
+    "library/terra_surface_2d.cpp",
+    "library/terra_surface_simple_2d.cpp",
 
-    "data/terra_light.cpp",
+    "data/terra_light_2d.cpp",
 
-    "meshers/terra_mesher.cpp",
+    "meshers/terra_mesher_2d.cpp",
 
-    "meshers/blocky/terra_mesher_blocky.cpp",
-    "meshers/blocky/terra_mesher_liquid_blocky.cpp",
-    "meshers/default/terra_mesher_default.cpp",
+    "meshers/blocky/terra_mesher_blocky_2d.cpp",
+    "meshers/blocky/terra_mesher_liquid_blocky_2d.cpp",
+    "meshers/default/terra_mesher_default_2d.cpp",
 
-    "world/terra_world.cpp",
-    "world/terra_chunk.cpp",
-    "world/terra_structure.cpp",
-    "world/block_terra_structure.cpp",
-    "world/terra_environment_data.cpp",
+    "world/terra_world_2d.cpp",
+    "world/terra_chunk_2d.cpp",
+    "world/terra_structure_2d.cpp",
+    "world/block_terra_structure_2d.cpp",
+    "world/terra_environment_data_2d.cpp",
 
-    "world/blocky/terra_chunk_blocky.cpp",
-    "world/blocky/terra_world_blocky.cpp",
+    "world/blocky/terra_chunk_blocky_2d.cpp",
+    "world/blocky/terra_world_blocky_2d.cpp",
 
-    "world/default/terra_world_default.cpp",
-    "world/default/terra_chunk_default.cpp",
+    "world/default/terra_world_default_2d.cpp",
+    "world/default/terra_chunk_default_2d.cpp",
 
-    "level_generator/terraman_level_generator.cpp",
-    "level_generator/terraman_level_generator_flat.cpp",
+    "level_generator/terraman_level_generator_2d.cpp",
+    "level_generator/terraman_level_generator_flat_2d.cpp",
 
-    "areas/terra_world_area.cpp",
+    "areas/terra_world_area_2d.cpp",
 
-    "world/terra_world_editor.cpp",
+    "world/terra_world_2d_editor.cpp",
     
     "thirdparty/lz4/lz4.c",
 
-    "world/jobs/terra_job.cpp",
-    "world/jobs/terra_terrarin_job.cpp",
-    "world/jobs/terra_mesher_job_step.cpp",
-    "world/jobs/terra_light_job.cpp",
-    "world/jobs/terra_prop_job.cpp",
+    "world/jobs/terra_job_2d.cpp",
+    "world/jobs/terra_terrarin_job_2d.cpp",
+    "world/jobs/terra_mesher_job_step_2d.cpp",
+    "world/jobs/terra_light_job_2d.cpp",
+    "world/jobs/terra_prop_job_2d.cpp",
 ]
 
 if has_texture_packer:
-    sources.append("library/terraman_library_merger.cpp")
-    sources.append("library/terraman_library_merger_pcm.cpp")
-    sources.append("library/terra_surface_merger.cpp")
-    sources.append("library/terra_material_cache_pcm.cpp")
+    sources.append("library/terraman_library_merger_2d.cpp")
+    sources.append("library/terraman_library_merger_pcm_2d.cpp")
+    sources.append("library/terra_surface_merger_2d.cpp")
+    sources.append("library/terra_material_cache_pcm_2d.cpp")
 
 if ARGUMENTS.get('custom_modules_shared', 'no') == 'yes':
     # Shared lib compilation
