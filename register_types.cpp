@@ -69,7 +69,7 @@ SOFTWARE.
 #include "world/jobs/terra_prop_job.h"
 #include "world/jobs/terra_terrarin_job.h"
 
-void register_terraman_types() {
+void register_terraman_2d_types() {
 	ClassDB::register_class<TerraMesher>();
 	ClassDB::register_class<TerraMesherDefault>();
 
@@ -121,5 +121,5 @@ void register_terraman_types() {
 #endif
 }
 
-void unregister_terraman_types() {
+void unregister_terraman_2d_types() {
 }

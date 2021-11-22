@@ -20,10 +20,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAMAN_REGISTER_TYPES_H
-#define TERRAMAN_REGISTER_TYPES_H
+#ifndef TERRAMAN_2D_REGISTER_TYPES_H
+#define TERRAMAN_2D_REGISTER_TYPES_H
 
-void register_terraman_types();
-void unregister_terraman_types();
+void register_terraman_2d_types();
+void unregister_terraman_2d_types();
 
 #endif
