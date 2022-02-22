@@ -25,8 +25,6 @@ SOFTWARE.
 
 #include "terrain_2d_job.h"
 
-#include "terrain_2d_mesher_job_step.h"
-
 #include "../../defines.h"
 
 #include pool_vector_h
@@ -45,12 +43,6 @@ public:
 	Ref<Terrain2DMesher> get_liquid_mesher() const;
 	void set_liquid_mesher(const Ref<Terrain2DMesher> &mesher);
 
-	Ref<Terrain2DMesherJobStep> get_jobs_step(const int index) const;
-	void set_jobs_step(const int index, const Ref<Terrain2DMesherJobStep> &step);
-	void remove_jobs_step(const int index);
-	void add_jobs_step(const Ref<Terrain2DMesherJobStep> &step);
-	int get_jobs_step_count() const;
-
 	void phase_setup();
 	void phase_library_setup();
 	void phase_terrain_mesh_setup();
@@ -65,11 +57,6 @@ public:
 	void _physics_process(float delta);
 
 	void step_type_normal();
-	void step_type_normal_lod();
-	void step_type_drop_uv2();
-	void step_type_merge_verts();
-	void step_type_bake_texture();
-	void step_type_simplify_mesh();
 
 	Terrain2DTerrain2DJob();
 	~Terrain2DTerrain2DJob();
@@ -79,10 +66,6 @@ protected:
 
 	Ref<Terrain2DMesher> _mesher;
 	Ref<Terrain2DMesher> _liquid_mesher;
-
-	Vector<Ref<Terrain2DMesherJobStep> > _job_steps;
-	int _current_job_step;
-	int _current_mesh;
 
 	PoolVector<Vector3> temp_arr_collider;
 	PoolVector<Vector3> temp_arr_collider_liquid;

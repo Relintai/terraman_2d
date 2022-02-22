@@ -64,7 +64,6 @@ sources = [
 
     "world/jobs/terrain_2d_job.cpp",
     "world/jobs/terrain_2d_terrain_job.cpp",
-    "world/jobs/terrain_2d_mesher_job_step.cpp",
     "world/jobs/terrain_2d_light_job.cpp",
     "world/jobs/terrain_2d_prop_job.cpp",
 ]

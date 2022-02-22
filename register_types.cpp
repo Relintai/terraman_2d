@@ -64,7 +64,6 @@ SOFTWARE.
 
 #include "world/jobs/terrain_2d_job.h"
 #include "world/jobs/terrain_2d_light_job.h"
-#include "world/jobs/terrain_2d_mesher_job_step.h"
 #include "world/jobs/terrain_2d_prop_job.h"
 #include "world/jobs/terrain_2d_terrain_job.h"
 
@@ -110,7 +109,6 @@ void register_terraman_2d_types() {
 
 	ClassDB::register_class<Terrain2DJob>();
 	ClassDB::register_class<Terrain2DTerrain2DJob>();
-	ClassDB::register_class<Terrain2DMesherJobStep>();
 	ClassDB::register_class<Terrain2DLightJob>();
 	ClassDB::register_class<Terrain2DProp2DJob>();
 

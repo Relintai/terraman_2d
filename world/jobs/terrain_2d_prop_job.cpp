@@ -24,9 +24,9 @@ SOFTWARE.
 
 #include "../../defines.h"
 
+#include "../../library/terrain_2d_library.h"
 #include "../../library/terrain_2d_material_cache.h"
 #include "../../library/terrain_2d_surface.h"
-#include "../../library/terrain_2d_library.h"
 
 #include "../../meshers/default/terrain_2d_mesher_default.h"
 #include "../../meshers/terrain_2d_mesher.h"
@@ -47,28 +47,6 @@ Ref<Terrain2DMesher> Terrain2DProp2DJob::get_prop_mesher() const {
 }
 void Terrain2DProp2DJob::set_prop_mesher(const Ref<Terrain2DMesher> &mesher) {
 	_prop_mesher = mesher;
-}
-
-Ref<Terrain2DMesherJobStep> Terrain2DProp2DJob::get_jobs_step(int index) const {
-	ERR_FAIL_INDEX_V(index, _job_steps.size(), Ref<Terrain2DMesherJobStep>());
-
-	return _job_steps.get(index);
-}
-void Terrain2DProp2DJob::set_jobs_step(int index, const Ref<Terrain2DMesherJobStep> &step) {
-	ERR_FAIL_INDEX(index, _job_steps.size());
-
-	_job_steps.set(index, step);
-}
-void Terrain2DProp2DJob::remove_jobs_step(const int index) {
-	ERR_FAIL_INDEX(index, _job_steps.size());
-
-	_job_steps.remove(index);
-}
-void Terrain2DProp2DJob::add_jobs_step(const Ref<Terrain2DMesherJobStep> &step) {
-	_job_steps.push_back(step);
-}
-int Terrain2DProp2DJob::get_jobs_step_count() const {
-	return _job_steps.size();
 }
 
 void Terrain2DProp2DJob::phase_physics_process() {
@@ -259,9 +237,6 @@ void Terrain2DProp2DJob::_reset() {
 	_build_done = false;
 	_phase = 0;
 
-	_current_job_step = 0;
-	_current_mesh = 0;
-
 	if (get_prop_mesher().is_valid()) {
 		get_prop_mesher()->reset();
 		get_prop_mesher()->set_library(_chunk->get_library());
@@ -300,7 +275,7 @@ void Terrain2DProp2DJob::phase_setup() {
 
 #if MESH_DATA_RESOURCE_PRESENT
 		for (int i = 0; i < _chunk->mesh_data_resource_get_count(); ++i) {
-			Ref<Texture> tex  = _chunk->mesh_data_resource_get_texture(i);
+			Ref<Texture> tex = _chunk->mesh_data_resource_get_texture(i);
 
 			if (!tex.is_valid())
 				continue;
@@ -344,42 +319,8 @@ void Terrain2DProp2DJob::phase_steps() {
 		if (mesh_rid == RID()) {
 			//need to allocate the meshes
 
-			//first count how many we need
-			int count = 0;
-			for (int i = 0; i < _job_steps.size(); ++i) {
-				Ref<Terrain2DMesherJobStep> step = _job_steps[i];
-
-				ERR_FAIL_COND(!step.is_valid());
-
-				switch (step->get_job_type()) {
-					case Terrain2DMesherJobStep::TYPE_NORMAL:
-						++count;
-						break;
-					case Terrain2DMesherJobStep::TYPE_NORMAL_LOD:
-						++count;
-						break;
-					case Terrain2DMesherJobStep::TYPE_DROP_UV2:
-						++count;
-						break;
-					case Terrain2DMesherJobStep::TYPE_MERGE_VERTS:
-						++count;
-						break;
-					case Terrain2DMesherJobStep::TYPE_BAKE_TEXTURE:
-						++count;
-						break;
-					case Terrain2DMesherJobStep::TYPE_SIMPLIFY_MESH:
-#ifdef MESH_UTILS_PRESENT
-						count += step->get_simplification_steps();
-#endif
-						break;
-					default:
-						break;
-				}
-			}
-
 			//allocate
-			if (count > 0)
-				chunk->meshes_create(Terrain2DChunkDefault::MESH_INDEX_PROP, count);
+			chunk->meshes_create(Terrain2DChunkDefault::MESH_INDEX_PROP, 1);
 
 		} else {
 			//we have the meshes, just clear
@@ -398,41 +339,7 @@ void Terrain2DProp2DJob::phase_steps() {
 		}
 	}
 
-	for (; _current_job_step < _job_steps.size();) {
-		Ref<Terrain2DMesherJobStep> step = _job_steps[_current_job_step];
-
-		ERR_FAIL_COND(!step.is_valid());
-
-		switch (step->get_job_type()) {
-			case Terrain2DMesherJobStep::TYPE_NORMAL:
-				step_type_normal();
-				break;
-			case Terrain2DMesherJobStep::TYPE_NORMAL_LOD:
-				step_type_normal_lod();
-				break;
-			case Terrain2DMesherJobStep::TYPE_DROP_UV2:
-				step_type_drop_uv2();
-				break;
-			case Terrain2DMesherJobStep::TYPE_MERGE_VERTS:
-				step_type_merge_verts();
-				break;
-			case Terrain2DMesherJobStep::TYPE_BAKE_TEXTURE:
-				step_type_bake_texture();
-				break;
-			case Terrain2DMesherJobStep::TYPE_SIMPLIFY_MESH:
-				step_type_simplify_mesh();
-				break;
-			case Terrain2DMesherJobStep::TYPE_OTHER:
-				//do nothing
-				break;
-		}
-
-		++_current_job_step;
-
-		if (should_return()) {
-			return;
-		}
-	}
+	step_type_normal();
 
 	reset_stages();
 	//next_phase();
@@ -448,158 +355,25 @@ void Terrain2DProp2DJob::step_type_normal() {
 
 	temp_mesh_arr = _prop_mesher->build_mesh();
 
-	RID mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_PROP, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, _current_mesh);
+	RID mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_PROP, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, 0);
 
 	VS::get_singleton()->mesh_add_surface_from_arrays(mesh_rid, VisualServer::PRIMITIVE_TRIANGLES, temp_mesh_arr);
 
 	Ref<Material> lmat;
 
 	if (chunk->prop_material_cache_key_has()) {
-		lmat = chunk->get_library()->prop_material_cache_get(_chunk->prop_material_cache_key_get())->material_lod_get(_current_mesh);
+		lmat = chunk->get_library()->prop_material_cache_get(_chunk->prop_material_cache_key_get())->material_lod_get(0);
 	} else {
-		lmat = chunk->get_library()->prop_material_lod_get(_current_mesh);
+		lmat = chunk->get_library()->prop_material_lod_get(0);
 	}
 
 	if (lmat.is_valid()) {
 		VisualServer::get_singleton()->mesh_surface_set_material(mesh_rid, 0, lmat->get_rid());
 	}
-
-	++_current_mesh;
-}
-
-void Terrain2DProp2DJob::step_type_normal_lod() {
-	print_error("Error: step_type_normal_lod doesn't work for Terrain2DProp2DJobs!");
-
-	++_current_mesh;
-}
-
-void Terrain2DProp2DJob::step_type_drop_uv2() {
-	Ref<Terrain2DChunkDefault> chunk = _chunk;
-
-	RID mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_PROP, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, _current_mesh);
-
-	temp_mesh_arr[VisualServer::ARRAY_TEX_UV2] = Variant();
-
-	VisualServer::get_singleton()->mesh_add_surface_from_arrays(mesh_rid, VisualServer::PRIMITIVE_TRIANGLES, temp_mesh_arr);
-
-	Ref<Material> lmat;
-
-	if (chunk->prop_material_cache_key_has()) {
-		lmat = chunk->get_library()->prop_material_cache_get(_chunk->prop_material_cache_key_get())->material_lod_get(_current_mesh);
-	} else {
-		lmat = chunk->get_library()->prop_material_lod_get(_current_mesh);
-	}
-
-	if (lmat.is_valid()) {
-		VisualServer::get_singleton()->mesh_surface_set_material(mesh_rid, 0, lmat->get_rid());
-	}
-
-	++_current_mesh;
-}
-
-void Terrain2DProp2DJob::step_type_merge_verts() {
-	Array temp_mesh_arr2 = merge_mesh_array(temp_mesh_arr);
-	temp_mesh_arr = temp_mesh_arr2;
-
-	Ref<Terrain2DChunkDefault> chunk = _chunk;
-	RID mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_PROP, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, _current_mesh);
-
-	VisualServer::get_singleton()->mesh_add_surface_from_arrays(mesh_rid, VisualServer::PRIMITIVE_TRIANGLES, temp_mesh_arr);
-
-	Ref<Material> lmat;
-
-	if (chunk->prop_material_cache_key_has()) {
-		lmat = chunk->get_library()->prop_material_cache_get(_chunk->prop_material_cache_key_get())->material_lod_get(_current_mesh);
-	} else {
-		lmat = chunk->get_library()->prop_material_lod_get(_current_mesh);
-	}
-
-	if (lmat.is_valid()) {
-		VisualServer::get_singleton()->mesh_surface_set_material(mesh_rid, 0, lmat->get_rid());
-	}
-
-	++_current_mesh;
-}
-
-void Terrain2DProp2DJob::step_type_bake_texture() {
-	Ref<Terrain2DChunkDefault> chunk = _chunk;
-
-	Ref<ShaderMaterial> mat = chunk->get_library()->material_lod_get(0);
-	Ref<SpatialMaterial> spmat = chunk->get_library()->material_lod_get(0);
-	Ref<Texture> tex;
-
-	if (mat.is_valid()) {
-		tex = mat->get_shader_param("texture_albedo");
-	} else if (spmat.is_valid()) {
-		tex = spmat->get_texture(SpatialMaterial::TEXTURE_ALBEDO);
-	}
-
-	if (tex.is_valid()) {
-		temp_mesh_arr = bake_mesh_array_uv(temp_mesh_arr, tex);
-		temp_mesh_arr[VisualServer::ARRAY_TEX_UV] = Variant();
-
-		RID mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_PROP, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, _current_mesh);
-
-		VisualServer::get_singleton()->mesh_add_surface_from_arrays(mesh_rid, VisualServer::PRIMITIVE_TRIANGLES, temp_mesh_arr);
-
-		Ref<Material> lmat;
-
-		if (chunk->prop_material_cache_key_has()) {
-			lmat = chunk->get_library()->prop_material_cache_get(_chunk->prop_material_cache_key_get())->material_lod_get(_current_mesh);
-		} else {
-			lmat = chunk->get_library()->prop_material_lod_get(_current_mesh);
-		}
-
-		if (lmat.is_valid()) {
-			VisualServer::get_singleton()->mesh_surface_set_material(mesh_rid, 0, lmat->get_rid());
-		}
-	}
-
-	++_current_mesh;
-}
-
-void Terrain2DProp2DJob::step_type_simplify_mesh() {
-#ifdef MESH_UTILS_PRESENT
-
-	Ref<Terrain2DChunkDefault> chunk = _chunk;
-	Ref<Terrain2DMesherJobStep> step = _job_steps[_current_job_step];
-	ERR_FAIL_COND(!step.is_valid());
-	Ref<FastQuadraticMeshSimplifier> fqms = step->get_fqms();
-	ERR_FAIL_COND(!fqms.is_valid());
-
-	fqms->initialize(temp_mesh_arr);
-
-	for (int i = 0; i < step->get_simplification_steps(); ++i) {
-		fqms->simplify_mesh(temp_mesh_arr.size() * step->get_simplification_step_ratio(), step->get_simplification_agressiveness());
-		temp_mesh_arr = fqms->get_arrays();
-
-		RID mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_PROP, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, _current_mesh);
-
-		VisualServer::get_singleton()->mesh_add_surface_from_arrays(mesh_rid, VisualServer::PRIMITIVE_TRIANGLES, temp_mesh_arr);
-
-		Ref<Material> lmat;
-
-		if (chunk->prop_material_cache_key_has()) {
-			lmat = chunk->get_library()->prop_material_cache_get(_chunk->prop_material_cache_key_get())->material_lod_get(_current_mesh);
-		} else {
-			lmat = chunk->get_library()->prop_material_lod_get(_current_mesh);
-		}
-
-		if (lmat.is_valid()) {
-			VisualServer::get_singleton()->mesh_surface_set_material(mesh_rid, 0, lmat->get_rid());
-		}
-
-		++_current_mesh;
-	}
-
-#endif
 }
 
 Terrain2DProp2DJob::Terrain2DProp2DJob() {
 	set_build_phase_type(BUILD_PHASE_TYPE_PHYSICS_PROCESS);
-
-	_current_job_step = 0;
-	_current_mesh = 0;
 }
 
 Terrain2DProp2DJob::~Terrain2DProp2DJob() {
@@ -609,12 +383,6 @@ void Terrain2DProp2DJob::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_prop_mesher"), &Terrain2DProp2DJob::get_prop_mesher);
 	ClassDB::bind_method(D_METHOD("set_prop_mesher", "mesher"), &Terrain2DProp2DJob::set_prop_mesher);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "prop_mesher", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DMesher", 0), "set_prop_mesher", "get_prop_mesher");
-
-	ClassDB::bind_method(D_METHOD("get_jobs_step", "index"), &Terrain2DProp2DJob::get_jobs_step);
-	ClassDB::bind_method(D_METHOD("set_jobs_step", "index", "mesher"), &Terrain2DProp2DJob::set_jobs_step);
-	ClassDB::bind_method(D_METHOD("remove_jobs_step", "index"), &Terrain2DProp2DJob::remove_jobs_step);
-	ClassDB::bind_method(D_METHOD("add_jobs_step", "mesher"), &Terrain2DProp2DJob::add_jobs_step);
-	ClassDB::bind_method(D_METHOD("get_jobs_step_count"), &Terrain2DProp2DJob::get_jobs_step_count);
 
 	ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Terrain2DProp2DJob::_physics_process);
 }

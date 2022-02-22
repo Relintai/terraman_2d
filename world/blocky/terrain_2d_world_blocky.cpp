@@ -41,29 +41,6 @@ Ref<Terrain2DChunk> Terrain2DWorldBlocky::_create_chunk(int x, int z, Ref<Terrai
 		Ref<Terrain2DLightJob> lj;
 		lj.instance();
 
-		Ref<Terrain2DMesherJobStep> s;
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL);
-		tj->add_jobs_step(s);
-
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL_LOD);
-		s->set_lod_index(1);
-		tj->add_jobs_step(s);
-
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL_LOD);
-		s->set_lod_index(2);
-		tj->add_jobs_step(s);
-
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_MERGE_VERTS);
-		tj->add_jobs_step(s);
-
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_BAKE_TEXTURE);
-		tj->add_jobs_step(s);
-
 		tj->set_mesher(Ref<Terrain2DMesher>(memnew(Terrain2DMesherBlocky())));
 
 		Ref<Terrain2DMesherBlocky> liquid_mesher;
@@ -75,28 +52,6 @@ Ref<Terrain2DChunk> Terrain2DWorldBlocky::_create_chunk(int x, int z, Ref<Terrai
 		Ref<Terrain2DProp2DJob> pj;
 		pj.instance();
 		pj->set_prop_mesher(Ref<Terrain2DMesher>(memnew(Terrain2DMesherBlocky)));
-
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL);
-		pj->add_jobs_step(s);
-
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_MERGE_VERTS);
-		pj->add_jobs_step(s);
-
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_BAKE_TEXTURE);
-		pj->add_jobs_step(s);
-
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_SIMPLIFY_MESH);
-#ifdef MESH_UTILS_PRESENT
-		Ref<FastQuadraticMeshSimplifier> fqms;
-		fqms.instance();
-		s->set_fqms(fqms);
-		s->set_simplification_steps(2);
-#endif
-		pj->add_jobs_step(s);
 
 		chunk->job_add(lj);
 		chunk->job_add(tj);

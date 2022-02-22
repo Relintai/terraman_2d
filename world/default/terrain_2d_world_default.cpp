@@ -191,29 +191,6 @@ Ref<Terrain2DChunk> Terrain2DWorldDefault::_create_chunk(int x, int z, Ref<Terra
 		pj.instance();
 		pj->set_prop_mesher(Ref<Terrain2DMesher>(memnew(Terrain2DMesherDefault)));
 
-		Ref<Terrain2DMesherJobStep> s;
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL);
-		tj->add_jobs_step(s);
-
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL_LOD);
-		s->set_lod_index(1);
-		tj->add_jobs_step(s);
-
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL_LOD);
-		s->set_lod_index(2);
-		tj->add_jobs_step(s);
-
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_MERGE_VERTS);
-		tj->add_jobs_step(s);
-
-		s.instance();
-		s->set_job_type(Terrain2DMesherJobStep::TYPE_BAKE_TEXTURE);
-		tj->add_jobs_step(s);
-
 		chunk->job_add(lj);
 		chunk->job_add(tj);
 		chunk->job_add(pj);
