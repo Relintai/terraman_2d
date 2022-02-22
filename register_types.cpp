@@ -22,51 +22,51 @@ SOFTWARE.
 
 #include "register_types.h"
 
-#include "library/terrain_surface.h"
-#include "library/terrain_surface_simple.h"
+#include "library/terrain_2d_surface.h"
+#include "library/terrain_2d_surface_simple.h"
 
-#include "library/terrain_material_cache.h"
-#include "library/terrain_library.h"
-#include "library/terrain_library_simple.h"
+#include "library/terrain_2d_material_cache.h"
+#include "library/terrain_2d_library.h"
+#include "library/terrain_2d_library_simple.h"
 
 #ifdef TEXTURE_PACKER_PRESENT
-#include "library/terrain_surface_merger.h"
-#include "library/terrain_library_merger.h"
-#include "library/terrain_library_merger_pcm.h"
-#include "library/terrain_material_cache_pcm.h"
+#include "library/terrain_2d_surface_merger.h"
+#include "library/terrain_2d_library_merger.h"
+#include "library/terrain_2d_library_merger_pcm.h"
+#include "library/terrain_2d_material_cache_pcm.h"
 #endif
 
-#include "data/terrain_light.h"
-#include "meshers/terrain_mesher.h"
+#include "data/terrain_2d_light.h"
+#include "meshers/terrain_2d_mesher.h"
 
-#include "world/block_terrain_structure.h"
-#include "world/terrain_chunk.h"
-#include "world/terrain_environment_data.h"
-#include "world/terrain_structure.h"
-#include "world/terrain_world.h"
+#include "world/block_terrain_2d_structure.h"
+#include "world/terrain_2d_chunk.h"
+#include "world/terrain_2d_environment_data.h"
+#include "world/terrain_2d_structure.h"
+#include "world/terrain_2d_world.h"
 
-#include "world/default/terrain_chunk_default.h"
-#include "world/default/terrain_world_default.h"
+#include "world/default/terrain_2d_chunk_default.h"
+#include "world/default/terrain_2d_world_default.h"
 
-#include "level_generator/terrain_level_generator.h"
-#include "level_generator/terrain_level_generator_flat.h"
+#include "level_generator/terrain_2d_level_generator.h"
+#include "level_generator/terrain_2d_level_generator_flat.h"
 
-#include "areas/terrain_world_area.h"
+#include "areas/terrain_2d_world_area.h"
 
-#include "world/terrain_world_editor.h"
+#include "world/terrain_2d_world_editor.h"
 
-#include "meshers/blocky/terrain_mesher_blocky.h"
+#include "meshers/blocky/terrain_2d_mesher_blocky.h"
 
-#include "world/blocky/terrain_chunk_blocky.h"
-#include "world/blocky/terrain_world_blocky.h"
+#include "world/blocky/terrain_2d_chunk_blocky.h"
+#include "world/blocky/terrain_2d_world_blocky.h"
 
-#include "nodes/terrain_light_node.h"
+#include "nodes/terrain_2d_light_node.h"
 
-#include "world/jobs/terrain_job.h"
-#include "world/jobs/terrain_light_job.h"
-#include "world/jobs/terrain_mesher_job_step.h"
-#include "world/jobs/terrain_prop_job.h"
-#include "world/jobs/terrain_terrain_job.h"
+#include "world/jobs/terrain_2d_job.h"
+#include "world/jobs/terrain_2d_light_job.h"
+#include "world/jobs/terrain_2d_mesher_job_step.h"
+#include "world/jobs/terrain_2d_prop_job.h"
+#include "world/jobs/terrain_2d_terrain_job.h"
 
 void register_terraman_2d_types() {
 	ClassDB::register_class<TerrainMesher>();
