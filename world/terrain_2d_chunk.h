@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAIN_CHUNK_H
-#define TERRAIN_CHUNK_H
+#ifndef TERRAIN_2D_CHUNK_H
+#define TERRAIN_2D_CHUNK_H
 
 #include "core/version.h"
 
@@ -79,7 +79,7 @@ class Terrain2DChunk : public Resource {
 
 public:
 	enum {
-		TERRAIN_CHUNK_STATE_OK = 0,
+		TERRAIN_2D_CHUNK_STATE_OK = 0,
 	};
 
 public:

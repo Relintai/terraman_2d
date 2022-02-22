@@ -51,7 +51,7 @@ void Terrain2DSurfaceSimple::refresh_rects() {
 
 	ERR_FAIL_COND(lib == NULL);
 
-	for (int i = 0; i < TERRAIN_SIDES_COUNT; ++i) {
+	for (int i = 0; i < TERRAIN_2D_SIDES_COUNT; ++i) {
 		float culomn = 1.0 / static_cast<float>(lib->get_atlas_columns());
 		float row = 1.0 / static_cast<float>(lib->get_atlas_rows());
 
@@ -68,7 +68,7 @@ void Terrain2DSurfaceSimple::refresh_rects() {
 }
 
 Terrain2DSurfaceSimple::Terrain2DSurfaceSimple() {
-	for (int i = 0; i < TERRAIN_SIDES_ARRAY_SIZE; ++i) {
+	for (int i = 0; i < TERRAIN_2D_SIDES_ARRAY_SIZE; ++i) {
 		_atlas_positions[i] = 0;
 	}
 }
@@ -83,12 +83,12 @@ void Terrain2DSurfaceSimple::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_atlas_y", "side"), &Terrain2DSurfaceSimple::get_atlas_y);
 	ClassDB::bind_method(D_METHOD("set_atlas_y", "side", "value"), &Terrain2DSurfaceSimple::set_atlas_y);
 
-	ADD_PROPERTYI(PropertyInfo(Variant::INT, "top_atlas_x"), "set_atlas_x", "get_atlas_x", TERRAIN_SIDE_TOP);
-	ADD_PROPERTYI(PropertyInfo(Variant::INT, "top_atlas_y"), "set_atlas_y", "get_atlas_y", TERRAIN_SIDE_TOP);
+	ADD_PROPERTYI(PropertyInfo(Variant::INT, "top_atlas_x"), "set_atlas_x", "get_atlas_x", TERRAIN_2D_SIDE_TOP);
+	ADD_PROPERTYI(PropertyInfo(Variant::INT, "top_atlas_y"), "set_atlas_y", "get_atlas_y", TERRAIN_2D_SIDE_TOP);
 
-	ADD_PROPERTYI(PropertyInfo(Variant::INT, "bottom_atlas_x"), "set_atlas_x", "get_atlas_x", TERRAIN_SIDE_BOTTOM);
-	ADD_PROPERTYI(PropertyInfo(Variant::INT, "bottom_atlas_y"), "set_atlas_y", "get_atlas_y", TERRAIN_SIDE_BOTTOM);
+	ADD_PROPERTYI(PropertyInfo(Variant::INT, "bottom_atlas_x"), "set_atlas_x", "get_atlas_x", TERRAIN_2D_SIDE_BOTTOM);
+	ADD_PROPERTYI(PropertyInfo(Variant::INT, "bottom_atlas_y"), "set_atlas_y", "get_atlas_y", TERRAIN_2D_SIDE_BOTTOM);
 
-	ADD_PROPERTYI(PropertyInfo(Variant::INT, "side_atlas_x"), "set_atlas_x", "get_atlas_x", TERRAIN_SIDE_SIDE);
-	ADD_PROPERTYI(PropertyInfo(Variant::INT, "side_atlas_y"), "set_atlas_y", "get_atlas_y", TERRAIN_SIDE_SIDE);
+	ADD_PROPERTYI(PropertyInfo(Variant::INT, "side_atlas_x"), "set_atlas_x", "get_atlas_x", TERRAIN_2D_SIDE_SIDE);
+	ADD_PROPERTYI(PropertyInfo(Variant::INT, "side_atlas_y"), "set_atlas_y", "get_atlas_y", TERRAIN_2D_SIDE_SIDE);
 }

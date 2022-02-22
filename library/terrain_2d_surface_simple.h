@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAIN_SURFACE_SIMPLE_H
-#define TERRAIN_SURFACE_SIMPLE_H
+#ifndef TERRAIN_2D_SURFACE_SIMPLE_H
+#define TERRAIN_2D_SURFACE_SIMPLE_H
 
 #include "terrain_2d_surface.h"
 
@@ -44,7 +44,7 @@ protected:
 	static void _bind_methods();
 
 private:
-	int _atlas_positions[TERRAIN_SIDES_ARRAY_SIZE];
+	int _atlas_positions[TERRAIN_2D_SIDES_ARRAY_SIZE];
 };
 
 #endif

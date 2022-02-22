@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAIN_LIBRARY_H
-#define TERRAIN_LIBRARY_H
+#ifndef TERRAIN_2D_LIBRARY_H
+#define TERRAIN_2D_LIBRARY_H
 
 #include "core/version.h"
 
@@ -205,4 +205,4 @@ protected:
 	Vector<Ref<Material>> _prop_materials;
 };
 
-#endif // TERRAIN_LIBRARY_H
+#endif // TERRAIN_2D_LIBRARY_H

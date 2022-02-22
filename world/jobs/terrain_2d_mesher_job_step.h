@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAIN_TERRAIN_JOB_STEP_H
-#define TERRAIN_TERRAIN_JOB_STEP_H
+#ifndef TERRAIN_2D_TERRAIN_2D_JOB_STEP_H
+#define TERRAIN_2D_TERRAIN_2D_JOB_STEP_H
 
 #include "core/version.h"
 
@@ -56,7 +56,7 @@ public:
 		TYPE_OTHER,
 	};
 
-	static const String BINDING_STRING_TERRAIN_TERRAIN_JOB_STEP_TYPE;
+	static const String BINDING_STRING_TERRAIN_2D_TERRAIN_2D_JOB_STEP_TYPE;
 
 	Terrain2DMesherJobStepType get_job_type() const;
 	void set_job_type(const Terrain2DMesherJobStepType value);

@@ -45,7 +45,7 @@ void Terrain2DSurfaceMerger::set_texture(const Terrain2DSurfaceSides side, const
 }
 
 void Terrain2DSurfaceMerger::refresh_rects() {
-	for (int i = 0; i < TERRAIN_SIDES_COUNT; ++i) {
+	for (int i = 0; i < TERRAIN_2D_SIDES_COUNT; ++i) {
 		if (!_regions[i].is_valid()) {
 			_rects[i] = Rect2();
 			continue;
@@ -75,7 +75,7 @@ void Terrain2DSurfaceMerger::refresh_rects() {
 }
 
 Terrain2DSurfaceMerger::Terrain2DSurfaceMerger() {
-	for (int i = 0; i < TERRAIN_SIDES_COUNT; ++i) {
+	for (int i = 0; i < TERRAIN_2D_SIDES_COUNT; ++i) {
 		_regions[i].unref();
 		_textures[i].unref();
 	}
@@ -87,13 +87,13 @@ Terrain2DSurfaceMerger::~Terrain2DSurfaceMerger() {
 void Terrain2DSurfaceMerger::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_region", "side"), &Terrain2DSurfaceMerger::get_region);
 	ClassDB::bind_method(D_METHOD("set_region", "side", "texture"), &Terrain2DSurfaceMerger::set_region);
-	ADD_PROPERTYI(PropertyInfo(Variant::OBJECT, "region_top", PROPERTY_HINT_RESOURCE_TYPE, "AtlasTexture", 0), "set_region", "get_region", TERRAIN_SIDE_TOP);
-	ADD_PROPERTYI(PropertyInfo(Variant::OBJECT, "region_bottom", PROPERTY_HINT_RESOURCE_TYPE, "AtlasTexture", 0), "set_region", "get_region", TERRAIN_SIDE_BOTTOM);
-	ADD_PROPERTYI(PropertyInfo(Variant::OBJECT, "region_side", PROPERTY_HINT_RESOURCE_TYPE, "AtlasTexture", 0), "set_region", "get_region", TERRAIN_SIDE_SIDE);
+	ADD_PROPERTYI(PropertyInfo(Variant::OBJECT, "region_top", PROPERTY_HINT_RESOURCE_TYPE, "AtlasTexture", 0), "set_region", "get_region", TERRAIN_2D_SIDE_TOP);
+	ADD_PROPERTYI(PropertyInfo(Variant::OBJECT, "region_bottom", PROPERTY_HINT_RESOURCE_TYPE, "AtlasTexture", 0), "set_region", "get_region", TERRAIN_2D_SIDE_BOTTOM);
+	ADD_PROPERTYI(PropertyInfo(Variant::OBJECT, "region_side", PROPERTY_HINT_RESOURCE_TYPE, "AtlasTexture", 0), "set_region", "get_region", TERRAIN_2D_SIDE_SIDE);
 
 	ClassDB::bind_method(D_METHOD("get_texture", "side"), &Terrain2DSurfaceMerger::get_texture);
 	ClassDB::bind_method(D_METHOD("set_texture", "side", "texture"), &Terrain2DSurfaceMerger::set_texture);
-	ADD_PROPERTYI(PropertyInfo(Variant::OBJECT, "texture_top", PROPERTY_HINT_RESOURCE_TYPE, "Texture"), "set_texture", "get_texture", TERRAIN_SIDE_TOP);
-	ADD_PROPERTYI(PropertyInfo(Variant::OBJECT, "texture_bottom", PROPERTY_HINT_RESOURCE_TYPE, "Texture"), "set_texture", "get_texture", TERRAIN_SIDE_BOTTOM);
-	ADD_PROPERTYI(PropertyInfo(Variant::OBJECT, "texture_side", PROPERTY_HINT_RESOURCE_TYPE, "Texture"), "set_texture", "get_texture", TERRAIN_SIDE_SIDE);
+	ADD_PROPERTYI(PropertyInfo(Variant::OBJECT, "texture_top", PROPERTY_HINT_RESOURCE_TYPE, "Texture"), "set_texture", "get_texture", TERRAIN_2D_SIDE_TOP);
+	ADD_PROPERTYI(PropertyInfo(Variant::OBJECT, "texture_bottom", PROPERTY_HINT_RESOURCE_TYPE, "Texture"), "set_texture", "get_texture", TERRAIN_2D_SIDE_BOTTOM);
+	ADD_PROPERTYI(PropertyInfo(Variant::OBJECT, "texture_side", PROPERTY_HINT_RESOURCE_TYPE, "Texture"), "set_texture", "get_texture", TERRAIN_2D_SIDE_SIDE);
 }

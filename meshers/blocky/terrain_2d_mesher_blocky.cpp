@@ -173,10 +173,10 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 			add_indices(vc + 0);
 
 			Vector2 uvs[] = {
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 			};
 
 			Vector3 verts[] = {
@@ -340,10 +340,10 @@ void Terrain2DMesherBlocky::add_chunk_lod(Ref<Terrain2DChunkDefault> chunk) {
 			add_indices(vc + 0);
 
 			Vector2 uvs[] = {
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 			};
 
 			Vector3 verts[] = {
@@ -512,10 +512,10 @@ void Terrain2DMesherBlocky::create_margin_zmin(Ref<Terrain2DChunkDefault> chunk)
 		add_indices(vc + 0);
 
 		Vector2 uvs[] = {
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 		};
 
 		float vi0 = Math::lerp(isolevels[2], isolevels[3], x_interp);
@@ -684,10 +684,10 @@ void Terrain2DMesherBlocky::create_margin_zmax(Ref<Terrain2DChunkDefault> chunk)
 		add_indices(vc + 0);
 
 		Vector2 uvs[] = {
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 		};
 
 		float vi0 = Math::lerp(isolevels[1], isolevels[0], x_interp);
@@ -856,10 +856,10 @@ void Terrain2DMesherBlocky::create_margin_xmin(Ref<Terrain2DChunkDefault> chunk)
 		add_indices(vc + 0);
 
 		Vector2 uvs[] = {
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 		};
 
 		float vi0 = Math::lerp(isolevels[0], isolevels[3], z_interp);
@@ -1026,10 +1026,10 @@ void Terrain2DMesherBlocky::create_margin_xmax(Ref<Terrain2DChunkDefault> chunk)
 		add_indices(vc + 0);
 
 		Vector2 uvs[] = {
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 		};
 
 		float vi0 = Math::lerp(isolevels[1], isolevels[2], z_interp);
@@ -1186,10 +1186,10 @@ void Terrain2DMesherBlocky::create_face(Ref<Terrain2DChunkDefault> chunk, int da
 	add_indices(vc + 0);
 
 	Vector2 uvs[] = {
-		surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale()),
-		surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale()),
-		surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale()),
-		surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale())
+		surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 0), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale()),
+		surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 0), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale()),
+		surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 1), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale()),
+		surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 1), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale())
 	};
 
 	Vector3 verts[] = {

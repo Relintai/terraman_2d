@@ -1074,7 +1074,7 @@ Terrain2DChunk::Terrain2DChunk() {
 
 	_is_generating = false;
 	_dirty = false;
-	_state = TERRAIN_CHUNK_STATE_OK;
+	_state = TERRAIN_2D_CHUNK_STATE_OK;
 
 	_voxel_scale = 1;
 

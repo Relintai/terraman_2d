@@ -109,7 +109,7 @@ void Terrain2DMaterialCachePCM::refresh_rects() {
 		Ref<Terrain2DSurfaceMerger> surface = Ref<Terrain2DSurfaceMerger>(_surfaces[i]);
 
 		if (surface.is_valid()) {
-			for (int j = 0; j < Terrain2DSurface::TERRAIN_SIDES_COUNT; ++j) {
+			for (int j = 0; j < Terrain2DSurface::TERRAIN_2D_SIDES_COUNT; ++j) {
 				Ref<Texture> tex = surface->get_texture(static_cast<Terrain2DSurface::Terrain2DSurfaceSides>(j));
 
 				if (!tex.is_valid())

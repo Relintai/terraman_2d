@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAIN_JOB_H
-#define TERRAIN_JOB_H
+#ifndef TERRAIN_2D_JOB_H
+#define TERRAIN_2D_JOB_H
 
 #include "scene/resources/texture.h"
 

@@ -22,7 +22,7 @@ SOFTWARE.
 
 #include "terrain_2d_mesher_job_step.h"
 
-const String Terrain2DMesherJobStep::BINDING_STRING_TERRAIN_TERRAIN_JOB_STEP_TYPE = "Normal,Normal LOD,Drop UV2,Merge Verts,Bake Texture,Simplify Mesh";
+const String Terrain2DMesherJobStep::BINDING_STRING_TERRAIN_2D_TERRAIN_2D_JOB_STEP_TYPE = "Normal,Normal LOD,Drop UV2,Merge Verts,Bake Texture,Simplify Mesh";
 
 Terrain2DMesherJobStep::Terrain2DMesherJobStepType Terrain2DMesherJobStep::get_job_type() const {
 	return _job_type;
@@ -89,7 +89,7 @@ Terrain2DMesherJobStep::~Terrain2DMesherJobStep() {
 void Terrain2DMesherJobStep::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_job_type"), &Terrain2DMesherJobStep::get_job_type);
 	ClassDB::bind_method(D_METHOD("set_job_type", "value"), &Terrain2DMesherJobStep::set_job_type);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "job_type", PROPERTY_HINT_ENUM, Terrain2DMesherJobStep::BINDING_STRING_TERRAIN_TERRAIN_JOB_STEP_TYPE), "set_job_type", "get_job_type");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "job_type", PROPERTY_HINT_ENUM, Terrain2DMesherJobStep::BINDING_STRING_TERRAIN_2D_TERRAIN_2D_JOB_STEP_TYPE), "set_job_type", "get_job_type");
 
 	ClassDB::bind_method(D_METHOD("get_lod_index"), &Terrain2DMesherJobStep::get_lod_index);
 	ClassDB::bind_method(D_METHOD("set_lod_index", "value"), &Terrain2DMesherJobStep::set_lod_index);

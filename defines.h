@@ -1,6 +1,6 @@
 
-#ifndef TERRAIN_DEFINES_H
-#define TERRAIN_DEFINES_H
+#ifndef TERRAIN_2D_DEFINES_H
+#define TERRAIN_2D_DEFINES_H
 
 #include "core/version.h"
 

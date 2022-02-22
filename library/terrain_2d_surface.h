@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAIN_SURFACE_H
-#define TERRAIN_SURFACE_H
+#ifndef TERRAIN_2D_SURFACE_H
+#define TERRAIN_2D_SURFACE_H
 
 
 #include "core/version.h"
@@ -63,14 +63,14 @@ public:
 	*/
 
 	enum Terrain2DSurfaceSides {
-		TERRAIN_SIDE_TOP = 0,
-		TERRAIN_SIDE_BOTTOM = 1,
-		TERRAIN_SIDE_SIDE = 2,
+		TERRAIN_2D_SIDE_TOP = 0,
+		TERRAIN_2D_SIDE_BOTTOM = 1,
+		TERRAIN_2D_SIDE_SIDE = 2,
 	};
 
 	enum {
-		TERRAIN_SIDES_COUNT = 3,
-		TERRAIN_SIDES_ARRAY_SIZE = TERRAIN_SIDES_COUNT * 2,
+		TERRAIN_2D_SIDES_COUNT = 3,
+		TERRAIN_2D_SIDES_ARRAY_SIZE = TERRAIN_2D_SIDES_COUNT * 2,
 	};
 
 	int get_id() const;
@@ -99,7 +99,7 @@ protected:
 	int _mesher_index;
 	bool _transparent;
 	bool _liquid;
-	Rect2 _rects[TERRAIN_SIDES_COUNT];
+	Rect2 _rects[TERRAIN_2D_SIDES_COUNT];
 };
 
 VARIANT_ENUM_CAST(Terrain2DSurface::Terrain2DSurfaceSides);

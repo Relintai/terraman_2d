@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAIN_SURFACE_MERGER_H
-#define TERRAIN_SURFACE_MERGER_H
+#ifndef TERRAIN_2D_SURFACE_MERGER_H
+#define TERRAIN_2D_SURFACE_MERGER_H
 
 #include "terrain_2d_surface.h"
 
@@ -54,8 +54,8 @@ protected:
 	static void _bind_methods();
 
 private:
-	Ref<AtlasTexture> _regions[TERRAIN_SIDES_COUNT];
-	Ref<Texture> _textures[TERRAIN_SIDES_COUNT];
+	Ref<AtlasTexture> _regions[TERRAIN_2D_SIDES_COUNT];
+	Ref<Texture> _textures[TERRAIN_2D_SIDES_COUNT];
 };
 
 #endif

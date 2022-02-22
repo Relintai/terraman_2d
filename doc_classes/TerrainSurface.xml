@@ -56,13 +56,13 @@
 		</member>
 	</members>
 	<constants>
-		<constant name="TERRAIN_SIDE_TOP" value="0" enum="Terrain2DSurfaceSides">
+		<constant name="TERRAIN_2D_SIDE_TOP" value="0" enum="Terrain2DSurfaceSides">
 		</constant>
-		<constant name="TERRAIN_SIDE_BOTTOM" value="1" enum="Terrain2DSurfaceSides">
+		<constant name="TERRAIN_2D_SIDE_BOTTOM" value="1" enum="Terrain2DSurfaceSides">
 		</constant>
-		<constant name="TERRAIN_SIDE_SIDE" value="2" enum="Terrain2DSurfaceSides">
+		<constant name="TERRAIN_2D_SIDE_SIDE" value="2" enum="Terrain2DSurfaceSides">
 		</constant>
-		<constant name="TERRAIN_SIDES_COUNT" value="3">
+		<constant name="TERRAIN_2D_SIDES_COUNT" value="3">
 		</constant>
 	</constants>
 </class>
