@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2021 Péter Magyar
+Copyright (c) 2019-2022 Péter Magyar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAMAN_2D_REGISTER_TYPES_H
-#define TERRAMAN_2D_REGISTER_TYPES_H
+#ifndef TERRAIN_REGISTER_TYPES_H
+#define TERRAIN_REGISTER_TYPES_H
 
 void register_terraman_2d_types();
 void unregister_terraman_2d_types();

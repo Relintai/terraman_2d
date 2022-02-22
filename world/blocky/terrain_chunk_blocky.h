@@ -1,3 +1,4 @@
+/*
 Copyright (c) 2019-2022 Péter Magyar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -17,3 +18,24 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+
+#ifndef TERRAIN_CHUNK_BLOCKY_H
+#define TERRAIN_CHUNK_BLOCKY_H
+
+#include "../default/terrain_chunk_default.h"
+
+class TerrainChunkBlocky : public TerrainChunkDefault {
+	GDCLASS(TerrainChunkBlocky, TerrainChunkDefault);
+
+public:
+	TerrainChunkBlocky();
+	~TerrainChunkBlocky();
+
+protected:
+	virtual void _setup_channels();
+
+	static void _bind_methods();
+};
+
+#endif

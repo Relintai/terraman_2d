@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2019-2021 Péter Magyar
+Copyright (c) 2019-2022 Péter Magyar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,102 +22,100 @@ SOFTWARE.
 
 #include "register_types.h"
 
-#include "library/terra_surface_2d.h"
-#include "library/terra_surface_simple_2d.h"
+#include "library/terrain_surface.h"
+#include "library/terrain_surface_simple.h"
 
-#include "library/terra_material_cache_2d.h"
-#include "library/terraman_library_2d.h"
-#include "library/terraman_library_simple_2d.h"
+#include "library/terrain_material_cache.h"
+#include "library/terrain_library.h"
+#include "library/terrain_library_simple.h"
 
 #ifdef TEXTURE_PACKER_PRESENT
-#include "library/terra_surface_merger_2d.h"
-#include "library/terraman_library_merger_2d.h"
-#include "library/terraman_library_merger_pcm_2d.h"
-#include "library/terra_material_cache_pcm_2d.h"
+#include "library/terrain_surface_merger.h"
+#include "library/terrain_library_merger.h"
+#include "library/terrain_library_merger_pcm.h"
+#include "library/terrain_material_cache_pcm.h"
 #endif
 
-#include "data/terra_light_2d.h"
-#include "meshers/terra_mesher_2d.h"
+#include "data/terrain_light.h"
+#include "meshers/terrain_mesher.h"
 
-#include "world/block_terra_structure_2d.h"
-#include "world/terra_chunk_2d.h"
-#include "world/terra_environment_data_2d.h"
-#include "world/terra_structure_2d.h"
-#include "world/terra_world_2d.h"
+#include "world/block_terrain_structure.h"
+#include "world/terrain_chunk.h"
+#include "world/terrain_environment_data.h"
+#include "world/terrain_structure.h"
+#include "world/terrain_world.h"
 
-#include "world/default/terra_chunk_default_2d.h"
-#include "world/default/terra_world_default_2d.h"
+#include "world/default/terrain_chunk_default.h"
+#include "world/default/terrain_world_default.h"
 
-#include "level_generator/terraman_level_generator_2d.h"
-#include "level_generator/terraman_level_generator_flat_2d.h"
+#include "level_generator/terrain_level_generator.h"
+#include "level_generator/terrain_level_generator_flat.h"
 
-#include "areas/terra_world_area_2d.h"
+#include "areas/terrain_world_area.h"
 
-#include "world/terra_world_2d_editor.h"
+#include "world/terrain_world_editor.h"
 
-#include "meshers/blocky/terra_mesher_blocky_2d.h"
-#include "meshers/blocky/terra_mesher_liquid_blocky_2d.h"
+#include "meshers/blocky/terrain_mesher_blocky.h"
 
-#include "world/blocky/terra_chunk_blocky_2d.h"
-#include "world/blocky/terra_world_blocky_2d.h"
+#include "world/blocky/terrain_chunk_blocky.h"
+#include "world/blocky/terrain_world_blocky.h"
 
-#include "nodes/terraman_light_2d.h"
+#include "nodes/terrain_light_node.h"
 
-#include "world/jobs/terra_job_2d.h"
-#include "world/jobs/terra_light_job_2d.h"
-#include "world/jobs/terra_mesher_job_step_2d.h"
-#include "world/jobs/terra_prop_job_2d.h"
-#include "world/jobs/terra_terrarin_job_2d.h"
+#include "world/jobs/terrain_job.h"
+#include "world/jobs/terrain_light_job.h"
+#include "world/jobs/terrain_mesher_job_step.h"
+#include "world/jobs/terrain_prop_job.h"
+#include "world/jobs/terrain_terrain_job.h"
 
 void register_terraman_2d_types() {
-	ClassDB::register_class<TerraMesher2D>();
-	ClassDB::register_class<TerraMesherDefault2D>();
+	ClassDB::register_class<TerrainMesher>();
+	ClassDB::register_class<TerrainMesherDefault>();
 
-	ClassDB::register_class<TerraSurface2D>();
-	ClassDB::register_class<TerraSurfaceSimple2D>();
+	ClassDB::register_class<TerrainSurface>();
+	ClassDB::register_class<TerrainSurfaceSimple>();
 
-	ClassDB::register_class<TerramanLibrary2D>();
-	ClassDB::register_class<TerramanLibrarySimple2D>();
+	ClassDB::register_class<TerrainLibrary>();
+	ClassDB::register_class<TerrainLibrarySimple>();
 
-	ClassDB::register_class<TerraMaterialCache2D>();
+	ClassDB::register_class<TerrainMaterialCache>();
 
 #ifdef TEXTURE_PACKER_PRESENT
-	ClassDB::register_class<TerraSurfaceMerger2D>();
-	ClassDB::register_class<TerramanLibraryMerger2D>();
-	ClassDB::register_class<TerramanLibraryMergerPCM2D>();
-	ClassDB::register_class<TerraMaterialCachePCM2D>();
+	ClassDB::register_class<TerrainSurfaceMerger>();
+	ClassDB::register_class<TerrainLibraryMerger>();
+	ClassDB::register_class<TerrainLibraryMergerPCM>();
+	ClassDB::register_class<TerrainMaterialCachePCM>();
 #endif
 
-	ClassDB::register_class<TerraLight2D>();
-	ClassDB::register_class<TerramanLight2D>();
+	ClassDB::register_class<TerrainLight>();
+	ClassDB::register_class<TerrainLightNode>();
 
-	ClassDB::register_class<TerraWorld2D>();
-	ClassDB::register_class<TerraChunk2D>();
-	ClassDB::register_class<TerraStructure2D>();
-	ClassDB::register_class<BlockTerraStructure2D>();
-	ClassDB::register_class<TerraEnvironmentData2D>();
+	ClassDB::register_class<TerrainWorld>();
+	ClassDB::register_class<TerrainChunk>();
+	ClassDB::register_class<TerrainStructure>();
+	ClassDB::register_class<BlockTerrainStructure>();
+	ClassDB::register_class<TerrainEnvironmentData>();
 
-	ClassDB::register_class<TerraChunkDefault2D>();
-	ClassDB::register_class<TerraWorldDefault2D>();
+	ClassDB::register_class<TerrainChunkDefault>();
+	ClassDB::register_class<TerrainWorldDefault>();
 
-	ClassDB::register_class<TerraMesherBlocky2D>();
-	ClassDB::register_class<TerraWorldBlocky2D>();
-	ClassDB::register_class<TerraChunkBlocky2D>();
-	ClassDB::register_class<TerraMesherLiquidBlocky2D>();
+	ClassDB::register_class<TerrainMesherBlocky>();
+	ClassDB::register_class<TerrainWorldBlocky>();
+	ClassDB::register_class<TerrainChunkBlocky>();
 
-	ClassDB::register_class<TerramanLevelGenerator2D>();
-	ClassDB::register_class<TerramanLevelGeneratorFlat2D>();
+	ClassDB::register_class<TerrainLevelGenerator>();
+	ClassDB::register_class<TerrainLevelGeneratorFlat>();
 
-	ClassDB::register_class<TerraWorldArea2D>();
+	ClassDB::register_class<TerrainWorldArea>();
 
-	ClassDB::register_class<TerraJob2D>();
-	ClassDB::register_class<TerraTerrarinJob2D>();
-	ClassDB::register_class<TerraMesherJobStep2D>();
-	ClassDB::register_class<TerraLightJob2D>();
-	ClassDB::register_class<TerraPropJob2D>();
+	ClassDB::register_class<TerrainJob>();
+	ClassDB::register_class<TerrainTerrainJob>();
+	ClassDB::register_class<TerrainMesherJobStep>();
+	ClassDB::register_class<TerrainLightJob>();
+	ClassDB::register_class<TerrainPropJob>();
 
 #ifdef TOOLS_ENABLED
-	EditorPlugins::add_by_type<TerraWorld2DEditorPlugin>();
+	EditorPlugins::add_by_type<TerrainWorldEditorPlugin>();
 #endif
 }
 
