@@ -25,13 +25,13 @@ SOFTWARE.
 #include "scene/resources/packed_scene.h"
 #include "scene/resources/texture.h"
 
-#ifdef PROPS_PRESENT
-#include "../../props/props/prop_data.h"
+#ifdef PROPS_2D_PRESENT
+#include "../../props_2d/props/prop_2d_data.h"
 
-#include "../../props/props/prop_data_prop.h"
+#include "../../props_2d/props/prop_2d_data_prop.h"
 
 #if MESH_DATA_RESOURCE_PRESENT
-#include "../../mesh_data_resource/props/prop_data_mesh_data.h"
+#include "../../mesh_data_resource/props_2d/prop_2d_data_mesh_data.h"
 #endif
 #endif
 
@@ -151,19 +151,19 @@ void Terrain2DLibraryMerger::set_terra_surfaces(const Vector<Variant> &surfaces)
 	}
 }
 
-#ifdef PROPS_PRESENT
-Ref<PropData> Terrain2DLibraryMerger::get_prop(const int index) {
-	ERR_FAIL_INDEX_V(index, _props.size(), Ref<PropData>());
+#ifdef PROPS_2D_PRESENT
+Ref<Prop2DData> Terrain2DLibraryMerger::get_prop(const int index) {
+	ERR_FAIL_INDEX_V(index, _props.size(), Ref<Prop2DData>());
 
 	return _props[index];
 }
-void Terrain2DLibraryMerger::add_prop(Ref<PropData> value) {
+void Terrain2DLibraryMerger::add_prop(Ref<Prop2DData> value) {
 	_props.push_back(value);
 }
-bool Terrain2DLibraryMerger::has_prop(const Ref<PropData> &value) const {
+bool Terrain2DLibraryMerger::has_prop(const Ref<Prop2DData> &value) const {
 	return _props.find(value) != -1;
 }
-void Terrain2DLibraryMerger::set_prop(const int index, const Ref<PropData> &value) {
+void Terrain2DLibraryMerger::set_prop(const int index, const Ref<Prop2DData> &value) {
 	ERR_FAIL_INDEX(index, _props.size());
 
 	_props.write[index] = value;
@@ -185,7 +185,7 @@ Vector<Variant> Terrain2DLibraryMerger::get_props() {
 }
 
 void Terrain2DLibraryMerger::set_props(const Vector<Variant> &props) {
-	VARIANT_ARRAY_SET(props, _props, PropData);
+	VARIANT_ARRAY_SET(props, _props, Prop2DData);
 }
 
 Rect2 Terrain2DLibraryMerger::get_prop_uv_rect(const Ref<Texture> &texture) {
@@ -260,11 +260,11 @@ void Terrain2DLibraryMerger::refresh_rects() {
 		setup_material_albedo(MATERIAL_INDEX_LIQUID, tex);
 	}
 
-#ifdef PROPS_PRESENT
+#ifdef PROPS_2D_PRESENT
 	//todo add this back
 	//texture_added = false;
 	for (int i = 0; i < _props.size(); i++) {
-		Ref<PropData> prop = _props.get(i);
+		Ref<Prop2DData> prop = _props.get(i);
 
 		if (prop.is_valid()) {
 			if (process_prop_textures(prop))
@@ -408,8 +408,8 @@ Terrain2DLibraryMerger::~Terrain2DLibraryMerger() {
 	_prop_packer.unref();
 }
 
-#ifdef PROPS_PRESENT
-bool Terrain2DLibraryMerger::process_prop_textures(Ref<PropData> prop) {
+#ifdef PROPS_2D_PRESENT
+bool Terrain2DLibraryMerger::process_prop_textures(Ref<Prop2DData> prop) {
 	if (!prop.is_valid()) {
 		return false;
 	}
@@ -418,7 +418,7 @@ bool Terrain2DLibraryMerger::process_prop_textures(Ref<PropData> prop) {
 
 	for (int i = 0; i < prop->get_prop_count(); ++i) {
 #if MESH_DATA_RESOURCE_PRESENT
-		Ref<PropDataMeshData> pdm = prop->get_prop(i);
+		Ref<Prop2DDataMeshData> pdm = prop->get_prop(i);
 
 		if (pdm.is_valid()) {
 			Ref<Texture> tex = pdm->get_texture();
@@ -433,7 +433,7 @@ bool Terrain2DLibraryMerger::process_prop_textures(Ref<PropData> prop) {
 		}
 #endif
 
-		Ref<PropDataProp> pdp = prop->get_prop(i);
+		Ref<Prop2DDataProp2D> pdp = prop->get_prop(i);
 
 		if (pdp.is_valid()) {
 			if (process_prop_textures(pdp))
@@ -470,10 +470,10 @@ void Terrain2DLibraryMerger::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_terra_surfaces"), &Terrain2DLibraryMerger::set_terra_surfaces);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "terra_surfaces", PROPERTY_HINT_NONE, "17/17:Terrain2DSurfaceMerger", PROPERTY_USAGE_DEFAULT, "Terrain2DSurfaceMerger"), "set_terra_surfaces", "get_terra_surfaces");
 
-#ifdef PROPS_PRESENT
+#ifdef PROPS_2D_PRESENT
 	ClassDB::bind_method(D_METHOD("get_props"), &Terrain2DLibraryMerger::get_props);
 	ClassDB::bind_method(D_METHOD("set_props"), &Terrain2DLibraryMerger::set_props);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "props", PROPERTY_HINT_NONE, "17/17:PropData", PROPERTY_USAGE_DEFAULT, "PropData"), "set_props", "get_props");
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "props", PROPERTY_HINT_NONE, "17/17:Prop2DData", PROPERTY_USAGE_DEFAULT, "Prop2DData"), "set_props", "get_props");
 
 	ClassDB::bind_method(D_METHOD("get_prop_uv_rect", "texture"), &Terrain2DLibraryMerger::get_prop_uv_rect);
 

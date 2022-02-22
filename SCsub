@@ -15,8 +15,8 @@ if os.path.isdir('../thread_pool'):
 if os.path.isdir('../mesh_data_resource'):
     module_env.Append(CPPDEFINES=['MESH_DATA_RESOURCE_PRESENT'])
 
-if os.path.isdir('../props'):
-    module_env.Append(CPPDEFINES=['PROPS_PRESENT'])
+if os.path.isdir('../props_2d'):
+    module_env.Append(CPPDEFINES=['PROPS_2D_PRESENT'])
 
 if os.path.isdir('../mesh_utils'):
     module_env.Append(CPPDEFINES=['MESH_UTILS_PRESENT'])
@@ -79,7 +79,7 @@ if ARGUMENTS.get('custom_modules_shared', 'no') == 'yes':
     # Shared lib compilation
     module_env.Append(CCFLAGS=['-fPIC'])
     module_env['LIBS'] = []
-    shared_lib = module_env.SharedLibrary(target='#bin/terraman', source=sources)
+    shared_lib = module_env.SharedLibrary(target='#bin/terraman_2d', source=sources)
     shared_lib_shim = shared_lib[0].name.rsplit('.', 1)[0]
     env.Append(LIBS=[shared_lib_shim])
     env.Append(LIBPATH=['#bin'])

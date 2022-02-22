@@ -43,13 +43,13 @@ SOFTWARE.
 
 #include "core/os/os.h"
 
-#if PROPS_PRESENT
-#include "../../props/props/prop_data.h"
+#if PROPS_2D_PRESENT
+#include "../../props_2d/props/prop_2d_data.h"
 #endif
 
 class Terrain2DStructure;
 class Terrain2DChunk;
-class PropData;
+class Prop2DData;
 
 class Terrain2DWorld : public Navigation {
 	GDCLASS(Terrain2DWorld, Navigation);
@@ -169,8 +169,8 @@ public:
 	void generation_remove_index(const int index);
 	int generation_get_size() const;
 
-#if PROPS_PRESENT
-	void prop_add(Transform transform, const Ref<PropData> &prop, const bool apply_voxel_scale = true);
+#if PROPS_2D_PRESENT
+	void prop_add(Transform transform, const Ref<Prop2DData> &prop, const bool apply_voxel_scale = true);
 #endif
 
 	//Lights

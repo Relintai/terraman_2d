@@ -255,7 +255,7 @@
 		<method name="prop_add">
 			<return type="void" />
 			<argument index="0" name="transform" type="Transform" />
-			<argument index="1" name="prop" type="PropData" />
+			<argument index="1" name="prop" type="Prop2DData" />
 			<argument index="2" name="apply_voxel_scale" type="bool" default="true" />
 			<description>
 			</description>

@@ -67,8 +67,8 @@ class Terrain2DSurface;
 class Terrain2DMesher;
 class PackedScene;
 class Terrain2DChunk;
-#ifdef PROPS_PRESENT
-class PropData;
+#ifdef PROPS_2D_PRESENT
+class Prop2DData;
 #endif
 
 class Terrain2DLibrary : public Resource {
@@ -159,11 +159,11 @@ public:
 	virtual int scene_get_num() const;
 	virtual void scenes_clear();
 
-#ifdef PROPS_PRESENT
-	virtual Ref<PropData> prop_get(const int id);
-	virtual void prop_add(Ref<PropData> value);
-	virtual bool prop_has(const Ref<PropData> &value) const;
-	virtual void prop_set(const int id, Ref<PropData> value);
+#ifdef PROPS_2D_PRESENT
+	virtual Ref<Prop2DData> prop_get(const int id);
+	virtual void prop_add(Ref<Prop2DData> value);
+	virtual bool prop_has(const Ref<Prop2DData> &value) const;
+	virtual void prop_set(const int id, Ref<Prop2DData> value);
 	virtual void prop_remove(const int id);
 	virtual int prop_get_num() const;
 	virtual void props_clear();

@@ -26,8 +26,8 @@ SOFTWARE.
 
 #include "terrain_2d_material_cache.h"
 
-#ifdef PROPS_PRESENT
-#include "../../props/props/prop_data.h"
+#ifdef PROPS_2D_PRESENT
+#include "../../props_2d/props/prop_2d_data.h"
 #endif
 
 #include "scene/resources/packed_scene.h"
@@ -319,7 +319,7 @@ void Terrain2DLibrary::liquid_materials_set(const Vector<Variant> &materials) {
 	}
 }
 
-//Prop Materials
+//Prop2D Materials
 Ref<Material> Terrain2DLibrary::prop_material_get(const int index) {
 	ERR_FAIL_INDEX_V(index, _prop_materials.size(), Ref<Material>());
 
@@ -424,16 +424,16 @@ int Terrain2DLibrary::scene_get_num() const {
 void Terrain2DLibrary::scenes_clear() {
 }
 
-#ifdef PROPS_PRESENT
-Ref<PropData> Terrain2DLibrary::prop_get(const int id) {
-	return Ref<PropData>();
+#ifdef PROPS_2D_PRESENT
+Ref<Prop2DData> Terrain2DLibrary::prop_get(const int id) {
+	return Ref<Prop2DData>();
 }
-void Terrain2DLibrary::prop_add(Ref<PropData> value) {
+void Terrain2DLibrary::prop_add(Ref<Prop2DData> value) {
 }
-bool Terrain2DLibrary::prop_has(const Ref<PropData> &value) const {
+bool Terrain2DLibrary::prop_has(const Ref<Prop2DData> &value) const {
 	return false;
 }
-void Terrain2DLibrary::prop_set(int id, Ref<PropData> value) {
+void Terrain2DLibrary::prop_set(int id, Ref<Prop2DData> value) {
 }
 void Terrain2DLibrary::prop_remove(const int id) {
 }
@@ -607,7 +607,7 @@ void Terrain2DLibrary::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("scene_get_num"), &Terrain2DLibrary::scene_get_num);
 	ClassDB::bind_method(D_METHOD("scenes_clear"), &Terrain2DLibrary::scenes_clear);
 
-#ifdef PROPS_PRESENT
+#ifdef PROPS_2D_PRESENT
 	ClassDB::bind_method(D_METHOD("prop_get", "id"), &Terrain2DLibrary::prop_get);
 	ClassDB::bind_method(D_METHOD("prop_add", "value"), &Terrain2DLibrary::prop_add);
 	ClassDB::bind_method(D_METHOD("prop_has", "prop"), &Terrain2DLibrary::prop_has);

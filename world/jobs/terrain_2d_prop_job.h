@@ -29,8 +29,8 @@ SOFTWARE.
 
 class Terrain2DMesher;
 
-class Terrain2DPropJob : public Terrain2DJob {
-	GDCLASS(Terrain2DPropJob, Terrain2DJob);
+class Terrain2DProp2DJob : public Terrain2DJob {
+	GDCLASS(Terrain2DProp2DJob, Terrain2DJob);
 
 public:
 	Ref<Terrain2DMesher> get_prop_mesher() const;
@@ -60,8 +60,8 @@ public:
 	void step_type_bake_texture();
 	void step_type_simplify_mesh();
 
-	Terrain2DPropJob();
-	~Terrain2DPropJob();
+	Terrain2DProp2DJob();
+	~Terrain2DProp2DJob();
 
 protected:
 	static void _bind_methods();

@@ -719,18 +719,18 @@ void Terrain2DChunk::clear_baked_lights() {
 		call("_clear_baked_lights");
 }
 
-#if PROPS_PRESENT
-void Terrain2DChunk::prop_add(const Transform &tarnsform, const Ref<PropData> &prop) {
+#if PROPS_2D_PRESENT
+void Terrain2DChunk::prop_add(const Transform &tarnsform, const Ref<Prop2DData> &prop) {
 	ERR_FAIL_COND(!prop.is_valid());
 
-	PropDataStore s;
+	Prop2DDataStore s;
 	s.transform = tarnsform;
 	s.prop = prop;
 
 	_props.push_back(s);
 }
-Ref<PropData> Terrain2DChunk::prop_get(int index) {
-	ERR_FAIL_INDEX_V(index, _props.size(), Ref<PropData>());
+Ref<Prop2DData> Terrain2DChunk::prop_get(int index) {
+	ERR_FAIL_INDEX_V(index, _props.size(), Ref<Prop2DData>());
 
 	return _props.get(index).prop;
 }
@@ -775,7 +775,7 @@ int Terrain2DChunk::mesh_data_resource_addv(const Vector3 &local_data_pos, const
 	AABB mesh_aabb = e.transform.xform(mesh->get_aabb());
 	e.is_inside = aabb.encloses(mesh_aabb);
 
-#if PROPS_PRESENT
+#if PROPS_2D_PRESENT
 	if (get_library().is_valid() && texture.is_valid()) {
 		e.uv_rect = get_library()->get_prop_uv_rect(texture);
 	} else {
@@ -815,7 +815,7 @@ int Terrain2DChunk::mesh_data_resource_add(const Transform &local_transform, con
 	AABB mesh_aabb = e.transform.xform(mesh->get_aabb());
 	e.is_inside = aabb.encloses(mesh_aabb);
 
-#if PROPS_PRESENT
+#if PROPS_2D_PRESENT
 	if (get_library().is_valid() && texture.is_valid())
 		e.uv_rect = get_library()->get_prop_uv_rect(texture);
 	else
@@ -1113,7 +1113,7 @@ Terrain2DChunk::~Terrain2DChunk() {
 		_library.unref();
 	}
 
-#if PROPS_PRESENT
+#if PROPS_2D_PRESENT
 	props_clear();
 #endif
 
@@ -1490,7 +1490,7 @@ void Terrain2DChunk::_bind_methods() {
 
 	//Meshes
 
-#if PROPS_PRESENT
+#if PROPS_2D_PRESENT
 	ClassDB::bind_method(D_METHOD("prop_add", "prop"), &Terrain2DChunk::prop_add);
 	ClassDB::bind_method(D_METHOD("prop_get", "index"), &Terrain2DChunk::prop_get);
 	ClassDB::bind_method(D_METHOD("prop_get_count"), &Terrain2DChunk::prop_get_count);

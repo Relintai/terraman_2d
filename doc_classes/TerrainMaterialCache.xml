@@ -118,13 +118,13 @@
 		</method>
 		<method name="prop_add_textures">
 			<return type="void" />
-			<argument index="0" name="prop" type="PropData" />
+			<argument index="0" name="prop" type="Prop2DData" />
 			<description>
 			</description>
 		</method>
 		<method name="prop_remove_textures">
 			<return type="void" />
-			<argument index="0" name="prop" type="PropData" />
+			<argument index="0" name="prop" type="Prop2DData" />
 			<description>
 			</description>
 		</method>

@@ -24,12 +24,12 @@ SOFTWARE.
 
 #include "../defines.h"
 
-#ifdef PROPS_PRESENT
-#include "../../props/props/prop_data.h"
-#include "../../props/props/prop_data_prop.h"
+#ifdef PROPS_2D_PRESENT
+#include "../../props_2d/props/prop_2d_data.h"
+#include "../../props_2d/props/prop_2d_data_prop.h"
 
 #if MESH_DATA_RESOURCE_PRESENT
-#include "../../mesh_data_resource/props/prop_data_mesh_data.h"
+#include "../../mesh_data_resource/props_2d/prop_2d_data_mesh_data.h"
 #endif
 #endif
 
@@ -196,15 +196,15 @@ Rect2 Terrain2DMaterialCache::additional_texture_get_uv_rect(const Ref<Texture> 
 	return Rect2(0, 0, 1, 1);
 }
 
-#ifdef PROPS_PRESENT
-void Terrain2DMaterialCache::prop_add_textures(const Ref<PropData> &prop) {
+#ifdef PROPS_2D_PRESENT
+void Terrain2DMaterialCache::prop_add_textures(const Ref<Prop2DData> &prop) {
 	if (!prop.is_valid()) {
 		return;
 	}
 
 	for (int i = 0; i < prop->get_prop_count(); ++i) {
 #if MESH_DATA_RESOURCE_PRESENT
-		Ref<PropDataMeshData> pdm = prop->get_prop(i);
+		Ref<Prop2DDataMeshData> pdm = prop->get_prop(i);
 
 		if (pdm.is_valid()) {
 			Ref<Texture> tex = pdm->get_texture();
@@ -216,21 +216,21 @@ void Terrain2DMaterialCache::prop_add_textures(const Ref<PropData> &prop) {
 		}
 #endif
 
-		Ref<PropDataProp> pdp = prop->get_prop(i);
+		Ref<Prop2DDataProp2D> pdp = prop->get_prop(i);
 
 		if (pdp.is_valid()) {
 			prop_add_textures(pdp);
 		}
 	}
 }
-void Terrain2DMaterialCache::prop_remove_textures(const Ref<PropData> &prop) {
+void Terrain2DMaterialCache::prop_remove_textures(const Ref<Prop2DData> &prop) {
 	if (!prop.is_valid()) {
 		return;
 	}
 
 	for (int i = 0; i < prop->get_prop_count(); ++i) {
 #if MESH_DATA_RESOURCE_PRESENT
-		Ref<PropDataMeshData> pdm = prop->get_prop(i);
+		Ref<Prop2DDataMeshData> pdm = prop->get_prop(i);
 
 		if (pdm.is_valid()) {
 			Ref<Texture> tex = pdm->get_texture();
@@ -242,7 +242,7 @@ void Terrain2DMaterialCache::prop_remove_textures(const Ref<PropData> &prop) {
 		}
 #endif
 
-		Ref<PropDataProp> pdp = prop->get_prop(i);
+		Ref<Prop2DDataProp2D> pdp = prop->get_prop(i);
 
 		if (pdp.is_valid()) {
 			prop_remove_textures(pdp);
@@ -323,7 +323,7 @@ void Terrain2DMaterialCache::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("additional_texture_get_atlas_tex", "index"), &Terrain2DMaterialCache::additional_texture_get_atlas_tex);
 	ClassDB::bind_method(D_METHOD("additional_texture_get_uv_rect", "texture"), &Terrain2DMaterialCache::additional_texture_get_uv_rect);
 
-#ifdef PROPS_PRESENT
+#ifdef PROPS_2D_PRESENT
 	ClassDB::bind_method(D_METHOD("prop_add_textures", "prop"), &Terrain2DMaterialCache::prop_add_textures);
 	ClassDB::bind_method(D_METHOD("prop_remove_textures", "prop"), &Terrain2DMaterialCache::prop_remove_textures);
 #endif

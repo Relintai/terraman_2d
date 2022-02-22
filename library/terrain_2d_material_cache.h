@@ -85,9 +85,9 @@ public:
 	virtual Ref<AtlasTexture> additional_texture_get_atlas_tex(const Ref<Texture> &texture);
 	virtual Rect2 additional_texture_get_uv_rect(const Ref<Texture> &texture);
 
-#ifdef PROPS_PRESENT
-	void prop_add_textures(const Ref<PropData> &prop);
-	void prop_remove_textures(const Ref<PropData> &prop);
+#ifdef PROPS_2D_PRESENT
+	void prop_add_textures(const Ref<Prop2DData> &prop);
+	void prop_remove_textures(const Ref<Prop2DData> &prop);
 #endif
 
 	virtual void refresh_rects();

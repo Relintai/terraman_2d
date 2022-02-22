@@ -1888,7 +1888,7 @@ LZ4_decompress_generic(
                 }
 
                 /* The second stage didn't work out, but the info is ready.
-                 * Propel it right to the point of match copying. */
+                 * Prop2Del it right to the point of match copying. */
                 goto _copy_match;
             }
 

@@ -62,7 +62,7 @@ def get_doc_classes():
         "Terrain2DJob",
         "Terrain2DTerrain2DJob",
         "Terrain2DLightJob",
-        "Terrain2DPropJob",
+        "Terrain2DProp2DJob",
 
         "Terrain2DEnvironmentData",
         "Terrain2DMesherJobStep",

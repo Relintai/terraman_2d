@@ -30,16 +30,16 @@ SOFTWARE.
 
 #include "../defines.h"
 
-#if PROPS_PRESENT
-#include "../../props/props/prop_data.h"
-#include "../../props/props/prop_data_entry.h"
-#include "../../props/props/prop_data_light.h"
-#include "../../props/props/prop_data_prop.h"
-#include "../../props/props/prop_data_scene.h"
+#if PROPS_2D_PRESENT
+#include "../../props_2d/props/prop_2d_data.h"
+#include "../../props_2d/props/prop_2d_data_entry.h"
+#include "../../props_2d/props/prop_2d_data_light.h"
+#include "../../props_2d/props/prop_2d_data_prop.h"
+#include "../../props_2d/props/prop_2d_data_scene.h"
 #endif
 
 #if MESH_DATA_RESOURCE_PRESENT
-#include "../../mesh_data_resource/props/prop_data_mesh_data.h"
+#include "../../mesh_data_resource/props_2d/prop_2d_data_mesh_data.h"
 #endif
 
 #if TOOLS_ENABLED
@@ -586,8 +586,8 @@ int Terrain2DWorld::generation_get_size() const {
 	return _generating.size();
 }
 
-#if PROPS_PRESENT
-void Terrain2DWorld::prop_add(Transform transform, const Ref<PropData> &prop, const bool apply_voxel_scale) {
+#if PROPS_2D_PRESENT
+void Terrain2DWorld::prop_add(Transform transform, const Ref<Prop2DData> &prop, const bool apply_voxel_scale) {
 	ERR_FAIL_COND(!prop.is_valid());
 
 	if (apply_voxel_scale) {
@@ -602,7 +602,7 @@ void Terrain2DWorld::prop_add(Transform transform, const Ref<PropData> &prop, co
 
 	int count = prop->get_prop_count();
 	for (int i = 0; i < count; ++i) {
-		Ref<PropDataEntry> entry = prop->get_prop(i);
+		Ref<Prop2DDataEntry> entry = prop->get_prop(i);
 
 		if (!entry.is_valid())
 			continue;
@@ -612,10 +612,10 @@ void Terrain2DWorld::prop_add(Transform transform, const Ref<PropData> &prop, co
 		wp = t.xform(Vector3());
 		chunk = get_or_create_chunk_at_world_position(wp);
 
-		Ref<PropDataProp> prop_entry_data = entry;
+		Ref<Prop2DDataProp2D> prop_entry_data = entry;
 
 		if (prop_entry_data.is_valid()) {
-			Ref<PropData> p = prop_entry_data->get_prop();
+			Ref<Prop2DData> p = prop_entry_data->get_prop();
 
 			if (!p.is_valid())
 				continue;
@@ -625,7 +625,7 @@ void Terrain2DWorld::prop_add(Transform transform, const Ref<PropData> &prop, co
 			continue;
 		}
 
-		Ref<PropDataScene> scene_data = entry;
+		Ref<Prop2DDataScene> scene_data = entry;
 
 		if (scene_data.is_valid()) {
 			Ref<PackedScene> sc = scene_data->get_scene();
@@ -646,7 +646,7 @@ void Terrain2DWorld::prop_add(Transform transform, const Ref<PropData> &prop, co
 			continue;
 		}
 
-		Ref<PropDataLight> light_data = entry;
+		Ref<Prop2DDataLight> light_data = entry;
 
 		if (light_data.is_valid()) {
 			Ref<Terrain2DLight> light;
@@ -662,7 +662,7 @@ void Terrain2DWorld::prop_add(Transform transform, const Ref<PropData> &prop, co
 		}
 
 #if MESH_DATA_RESOURCE_PRESENT
-		Ref<PropDataMeshData> mesh_data = entry;
+		Ref<Prop2DDataMeshData> mesh_data = entry;
 
 		if (mesh_data.is_valid()) {
 			Ref<MeshDataResource> mdr = mesh_data->get_mesh();
@@ -1219,7 +1219,7 @@ void Terrain2DWorld::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("is_position_walkable", "position"), &Terrain2DWorld::is_position_walkable);
 	ClassDB::bind_method(D_METHOD("on_chunk_mesh_generation_finished", "chunk"), &Terrain2DWorld::on_chunk_mesh_generation_finished);
 
-#if PROPS_PRESENT
+#if PROPS_2D_PRESENT
 	ClassDB::bind_method(D_METHOD("prop_add", "transform", "prop", "apply_voxel_scale"), &Terrain2DWorld::prop_add, DEFVAL(true));
 #endif
 

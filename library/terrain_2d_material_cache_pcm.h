@@ -44,7 +44,7 @@ SOFTWARE.
 
 class Terrain2DSurface;
 class TexturePacker;
-class PropData;
+class Prop2DData;
 
 class Terrain2DMaterialCachePCM : public Terrain2DMaterialCache {
 	GDCLASS(Terrain2DMaterialCachePCM, Terrain2DMaterialCache);

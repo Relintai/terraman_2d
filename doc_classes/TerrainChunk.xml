@@ -531,12 +531,12 @@
 		<method name="prop_add">
 			<return type="void" />
 			<argument index="0" name="prop" type="Transform" />
-			<argument index="1" name="arg1" type="PropData" />
+			<argument index="1" name="arg1" type="Prop2DData" />
 			<description>
 			</description>
 		</method>
 		<method name="prop_get">
-			<return type="PropData" />
+			<return type="Prop2DData" />
 			<argument index="0" name="index" type="int" />
 			<description>
 			</description>

@@ -193,12 +193,12 @@
 		</method>
 		<method name="prop_add">
 			<return type="void" />
-			<argument index="0" name="value" type="PropData" />
+			<argument index="0" name="value" type="Prop2DData" />
 			<description>
 			</description>
 		</method>
 		<method name="prop_get">
-			<return type="PropData" />
+			<return type="Prop2DData" />
 			<argument index="0" name="id" type="int" />
 			<description>
 			</description>
@@ -210,7 +210,7 @@
 		</method>
 		<method name="prop_has" qualifiers="const">
 			<return type="bool" />
-			<argument index="0" name="prop" type="PropData" />
+			<argument index="0" name="prop" type="Prop2DData" />
 			<description>
 			</description>
 		</method>
@@ -282,7 +282,7 @@
 		<method name="prop_set">
 			<return type="void" />
 			<argument index="0" name="id" type="int" />
-			<argument index="1" name="surface" type="PropData" />
+			<argument index="1" name="surface" type="Prop2DData" />
 			<description>
 			</description>
 		</method>

@@ -124,7 +124,7 @@ This will generate your terrain collider and mesh (with lods) for you, using the
 
 Your lod setup is easily customizable with [TerraMesherJobSteps](https://github.com/Relintai/terraman/blob/master/world/jobs/voxel_mesher_job_step.h). The setup happens in your selected world's `_create_chunk` method.
 
-### TerraPropJob
+### TerraProp2DJob
 
 This will generate your prop meshes (with lods).
 

@@ -54,8 +54,8 @@ include_pool_vector
 
 #include "../meshers/terrain_2d_mesher.h"
 
-#if PROPS_PRESENT
-#include "../../props/props/prop_data.h"
+#if PROPS_2D_PRESENT
+#include "../../props_2d/props/prop_2d_data.h"
 #endif
 
 #include "core/version.h"
@@ -233,9 +233,9 @@ public:
 	void bake_light(Ref<Terrain2DLight> light);
 	void clear_baked_lights();
 
-#if PROPS_PRESENT
-	void prop_add(const Transform &tarnsform, const Ref<PropData> &prop);
-	Ref<PropData> prop_get(const int index);
+#if PROPS_2D_PRESENT
+	void prop_add(const Transform &tarnsform, const Ref<Prop2DData> &prop);
+	Ref<Prop2DData> prop_get(const int index);
 	Transform prop_get_tarnsform(const int index);
 	int prop_get_count() const;
 	void prop_remove(const int index);
@@ -319,10 +319,10 @@ protected:
 	virtual void _generation_physics_process(const float delta);
 
 protected:
-#if PROPS_PRESENT
-	struct PropDataStore {
+#if PROPS_2D_PRESENT
+	struct Prop2DDataStore {
 		Transform transform;
-		Ref<PropData> prop;
+		Ref<Prop2DData> prop;
 	};
 #endif
 
@@ -401,8 +401,8 @@ protected:
 
 	Vector<Ref<Terrain2DStructure>> _voxel_structures;
 
-#if PROPS_PRESENT
-	Vector<PropDataStore> _props;
+#if PROPS_2D_PRESENT
+	Vector<Prop2DDataStore> _props;
 #endif
 
 #if MESH_DATA_RESOURCE_PRESENT

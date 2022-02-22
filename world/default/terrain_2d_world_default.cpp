@@ -187,7 +187,7 @@ Ref<Terrain2DChunk> Terrain2DWorldDefault::_create_chunk(int x, int z, Ref<Terra
 		Ref<Terrain2DLightJob> lj;
 		lj.instance();
 
-		Ref<Terrain2DPropJob> pj;
+		Ref<Terrain2DProp2DJob> pj;
 		pj.instance();
 		pj->set_prop_mesher(Ref<Terrain2DMesher>(memnew(Terrain2DMesherDefault)));
 

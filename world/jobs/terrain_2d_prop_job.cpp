@@ -42,36 +42,36 @@ SOFTWARE.
 #include "../../../mesh_utils/fast_quadratic_mesh_simplifier.h"
 #endif
 
-Ref<Terrain2DMesher> Terrain2DPropJob::get_prop_mesher() const {
+Ref<Terrain2DMesher> Terrain2DProp2DJob::get_prop_mesher() const {
 	return _prop_mesher;
 }
-void Terrain2DPropJob::set_prop_mesher(const Ref<Terrain2DMesher> &mesher) {
+void Terrain2DProp2DJob::set_prop_mesher(const Ref<Terrain2DMesher> &mesher) {
 	_prop_mesher = mesher;
 }
 
-Ref<Terrain2DMesherJobStep> Terrain2DPropJob::get_jobs_step(int index) const {
+Ref<Terrain2DMesherJobStep> Terrain2DProp2DJob::get_jobs_step(int index) const {
 	ERR_FAIL_INDEX_V(index, _job_steps.size(), Ref<Terrain2DMesherJobStep>());
 
 	return _job_steps.get(index);
 }
-void Terrain2DPropJob::set_jobs_step(int index, const Ref<Terrain2DMesherJobStep> &step) {
+void Terrain2DProp2DJob::set_jobs_step(int index, const Ref<Terrain2DMesherJobStep> &step) {
 	ERR_FAIL_INDEX(index, _job_steps.size());
 
 	_job_steps.set(index, step);
 }
-void Terrain2DPropJob::remove_jobs_step(const int index) {
+void Terrain2DProp2DJob::remove_jobs_step(const int index) {
 	ERR_FAIL_INDEX(index, _job_steps.size());
 
 	_job_steps.remove(index);
 }
-void Terrain2DPropJob::add_jobs_step(const Ref<Terrain2DMesherJobStep> &step) {
+void Terrain2DProp2DJob::add_jobs_step(const Ref<Terrain2DMesherJobStep> &step) {
 	_job_steps.push_back(step);
 }
-int Terrain2DPropJob::get_jobs_step_count() const {
+int Terrain2DProp2DJob::get_jobs_step_count() const {
 	return _job_steps.size();
 }
 
-void Terrain2DPropJob::phase_physics_process() {
+void Terrain2DProp2DJob::phase_physics_process() {
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
 
 	//TODO this should only update the differences
@@ -129,7 +129,7 @@ void Terrain2DPropJob::phase_physics_process() {
 	next_phase();
 }
 
-void Terrain2DPropJob::phase_prop() {
+void Terrain2DProp2DJob::phase_prop() {
 #ifdef MESH_DATA_RESOURCE_PRESENT
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
 
@@ -216,12 +216,12 @@ void Terrain2DPropJob::phase_prop() {
 	next_phase();
 }
 
-void Terrain2DPropJob::_physics_process(float delta) {
+void Terrain2DProp2DJob::_physics_process(float delta) {
 	if (_phase == 0)
 		phase_physics_process();
 }
 
-void Terrain2DPropJob::_execute_phase() {
+void Terrain2DProp2DJob::_execute_phase() {
 	ERR_FAIL_COND(!_chunk.is_valid());
 
 	Ref<Terrain2DLibrary> library = _chunk->get_library();
@@ -249,11 +249,11 @@ void Terrain2DPropJob::_execute_phase() {
 	} else if (_phase > 3) {
 		set_complete(true); //So threadpool knows it's done
 		next_job();
-		ERR_FAIL_MSG("Terrain2DPropJob: _phase is too high!");
+		ERR_FAIL_MSG("Terrain2DProp2DJob: _phase is too high!");
 	}
 }
 
-void Terrain2DPropJob::_reset() {
+void Terrain2DProp2DJob::_reset() {
 	Terrain2DJob::_reset();
 
 	_build_done = false;
@@ -270,7 +270,7 @@ void Terrain2DPropJob::_reset() {
 	set_build_phase_type(BUILD_PHASE_TYPE_PHYSICS_PROCESS);
 }
 
-void Terrain2DPropJob::phase_setup() {
+void Terrain2DProp2DJob::phase_setup() {
 	Ref<Terrain2DLibrary> library = _chunk->get_library();
 
 	if (!library->supports_caching()) {
@@ -319,7 +319,7 @@ void Terrain2DPropJob::phase_setup() {
 	}
 }
 
-void Terrain2DPropJob::phase_steps() {
+void Terrain2DProp2DJob::phase_steps() {
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
 
 	ERR_FAIL_COND(!_prop_mesher.is_valid());
@@ -441,7 +441,7 @@ void Terrain2DPropJob::phase_steps() {
 	next_job();
 }
 
-void Terrain2DPropJob::step_type_normal() {
+void Terrain2DProp2DJob::step_type_normal() {
 	//TODO add a lighting generation step
 
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
@@ -467,13 +467,13 @@ void Terrain2DPropJob::step_type_normal() {
 	++_current_mesh;
 }
 
-void Terrain2DPropJob::step_type_normal_lod() {
-	print_error("Error: step_type_normal_lod doesn't work for Terrain2DPropJobs!");
+void Terrain2DProp2DJob::step_type_normal_lod() {
+	print_error("Error: step_type_normal_lod doesn't work for Terrain2DProp2DJobs!");
 
 	++_current_mesh;
 }
 
-void Terrain2DPropJob::step_type_drop_uv2() {
+void Terrain2DProp2DJob::step_type_drop_uv2() {
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
 
 	RID mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_PROP, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, _current_mesh);
@@ -497,7 +497,7 @@ void Terrain2DPropJob::step_type_drop_uv2() {
 	++_current_mesh;
 }
 
-void Terrain2DPropJob::step_type_merge_verts() {
+void Terrain2DProp2DJob::step_type_merge_verts() {
 	Array temp_mesh_arr2 = merge_mesh_array(temp_mesh_arr);
 	temp_mesh_arr = temp_mesh_arr2;
 
@@ -521,7 +521,7 @@ void Terrain2DPropJob::step_type_merge_verts() {
 	++_current_mesh;
 }
 
-void Terrain2DPropJob::step_type_bake_texture() {
+void Terrain2DProp2DJob::step_type_bake_texture() {
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
 
 	Ref<ShaderMaterial> mat = chunk->get_library()->material_lod_get(0);
@@ -558,7 +558,7 @@ void Terrain2DPropJob::step_type_bake_texture() {
 	++_current_mesh;
 }
 
-void Terrain2DPropJob::step_type_simplify_mesh() {
+void Terrain2DProp2DJob::step_type_simplify_mesh() {
 #ifdef MESH_UTILS_PRESENT
 
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
@@ -595,26 +595,26 @@ void Terrain2DPropJob::step_type_simplify_mesh() {
 #endif
 }
 
-Terrain2DPropJob::Terrain2DPropJob() {
+Terrain2DProp2DJob::Terrain2DProp2DJob() {
 	set_build_phase_type(BUILD_PHASE_TYPE_PHYSICS_PROCESS);
 
 	_current_job_step = 0;
 	_current_mesh = 0;
 }
 
-Terrain2DPropJob::~Terrain2DPropJob() {
+Terrain2DProp2DJob::~Terrain2DProp2DJob() {
 }
 
-void Terrain2DPropJob::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_prop_mesher"), &Terrain2DPropJob::get_prop_mesher);
-	ClassDB::bind_method(D_METHOD("set_prop_mesher", "mesher"), &Terrain2DPropJob::set_prop_mesher);
+void Terrain2DProp2DJob::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("get_prop_mesher"), &Terrain2DProp2DJob::get_prop_mesher);
+	ClassDB::bind_method(D_METHOD("set_prop_mesher", "mesher"), &Terrain2DProp2DJob::set_prop_mesher);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "prop_mesher", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DMesher", 0), "set_prop_mesher", "get_prop_mesher");
 
-	ClassDB::bind_method(D_METHOD("get_jobs_step", "index"), &Terrain2DPropJob::get_jobs_step);
-	ClassDB::bind_method(D_METHOD("set_jobs_step", "index", "mesher"), &Terrain2DPropJob::set_jobs_step);
-	ClassDB::bind_method(D_METHOD("remove_jobs_step", "index"), &Terrain2DPropJob::remove_jobs_step);
-	ClassDB::bind_method(D_METHOD("add_jobs_step", "mesher"), &Terrain2DPropJob::add_jobs_step);
-	ClassDB::bind_method(D_METHOD("get_jobs_step_count"), &Terrain2DPropJob::get_jobs_step_count);
+	ClassDB::bind_method(D_METHOD("get_jobs_step", "index"), &Terrain2DProp2DJob::get_jobs_step);
+	ClassDB::bind_method(D_METHOD("set_jobs_step", "index", "mesher"), &Terrain2DProp2DJob::set_jobs_step);
+	ClassDB::bind_method(D_METHOD("remove_jobs_step", "index"), &Terrain2DProp2DJob::remove_jobs_step);
+	ClassDB::bind_method(D_METHOD("add_jobs_step", "mesher"), &Terrain2DProp2DJob::add_jobs_step);
+	ClassDB::bind_method(D_METHOD("get_jobs_step_count"), &Terrain2DProp2DJob::get_jobs_step_count);
 
-	ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Terrain2DPropJob::_physics_process);
+	ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Terrain2DProp2DJob::_physics_process);
 }

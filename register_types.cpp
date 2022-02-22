@@ -112,7 +112,7 @@ void register_terraman_2d_types() {
 	ClassDB::register_class<Terrain2DTerrain2DJob>();
 	ClassDB::register_class<Terrain2DMesherJobStep>();
 	ClassDB::register_class<Terrain2DLightJob>();
-	ClassDB::register_class<Terrain2DPropJob>();
+	ClassDB::register_class<Terrain2DProp2DJob>();
 
 #ifdef TOOLS_ENABLED
 	EditorPlugins::add_by_type<Terrain2DWorldEditorPlugin>();

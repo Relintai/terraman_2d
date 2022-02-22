@@ -88,11 +88,11 @@ public:
 	Vector<Variant> get_terra_surfaces();
 	void set_terra_surfaces(const Vector<Variant> &surfaces);
 
-#ifdef PROPS_PRESENT
-	Ref<PropData> get_prop(const int index);
-	void add_prop(Ref<PropData> value);
-	bool has_prop(const Ref<PropData> &value) const;
-	void set_prop(const int index, const Ref<PropData> &value);
+#ifdef PROPS_2D_PRESENT
+	Ref<Prop2DData> get_prop(const int index);
+	void add_prop(Ref<Prop2DData> value);
+	bool has_prop(const Ref<Prop2DData> &value) const;
+	void set_prop(const int index, const Ref<Prop2DData> &value);
 	void remove_prop(const int index);
 	int get_num_props() const;
 	void clear_props();
@@ -113,8 +113,8 @@ public:
 	~Terrain2DLibraryMergerPCM();
 
 protected:
-#ifdef PROPS_PRESENT
-	bool process_prop_textures(Ref<PropData> prop);
+#ifdef PROPS_2D_PRESENT
+	bool process_prop_textures(Ref<Prop2DData> prop);
 #endif
 
 	static void _bind_methods();
@@ -123,8 +123,8 @@ protected:
 	Map<int, Ref<Terrain2DMaterialCachePCM> > _prop_material_cache;
 
 	Vector<Ref<Terrain2DSurfaceMerger> > _terra_surfaces;
-#ifdef PROPS_PRESENT
-	Vector<Ref<PropData> > _props;
+#ifdef PROPS_2D_PRESENT
+	Vector<Ref<Prop2DData> > _props;
 #endif
 
 	//todo remove these
