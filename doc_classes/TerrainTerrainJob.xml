@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="TerrainTerrainJob" inherits="TerrainJob" version="3.5">
+<class name="Terrain2DTerrain2DJob" inherits="Terrain2DJob" version="3.5">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -9,12 +9,12 @@
 	<methods>
 		<method name="add_jobs_step">
 			<return type="void" />
-			<argument index="0" name="mesher" type="TerrainMesherJobStep" />
+			<argument index="0" name="mesher" type="Terrain2DMesherJobStep" />
 			<description>
 			</description>
 		</method>
 		<method name="get_jobs_step" qualifiers="const">
-			<return type="TerrainMesherJobStep" />
+			<return type="Terrain2DMesherJobStep" />
 			<argument index="0" name="index" type="int" />
 			<description>
 			</description>
@@ -25,12 +25,12 @@
 			</description>
 		</method>
 		<method name="get_liquid_mesher" qualifiers="const">
-			<return type="TerrainMesher" />
+			<return type="Terrain2DMesher" />
 			<description>
 			</description>
 		</method>
 		<method name="get_mesher" qualifiers="const">
-			<return type="TerrainMesher" />
+			<return type="Terrain2DMesher" />
 			<description>
 			</description>
 		</method>
@@ -43,19 +43,19 @@
 		<method name="set_jobs_step">
 			<return type="void" />
 			<argument index="0" name="index" type="int" />
-			<argument index="1" name="mesher" type="TerrainMesherJobStep" />
+			<argument index="1" name="mesher" type="Terrain2DMesherJobStep" />
 			<description>
 			</description>
 		</method>
 		<method name="set_liquid_mesher">
 			<return type="void" />
-			<argument index="0" name="mesher" type="TerrainMesher" />
+			<argument index="0" name="mesher" type="Terrain2DMesher" />
 			<description>
 			</description>
 		</method>
 		<method name="set_mesher">
 			<return type="void" />
-			<argument index="0" name="mesher" type="TerrainMesher" />
+			<argument index="0" name="mesher" type="Terrain2DMesher" />
 			<description>
 			</description>
 		</method>

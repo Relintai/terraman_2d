@@ -42,12 +42,12 @@ SOFTWARE.
 
 #include "../defines.h"
 
-class TerrainSurface;
+class Terrain2DSurface;
 class TexturePacker;
 class PropData;
 
-class TerrainMaterialCachePCM : public TerrainMaterialCache {
-	GDCLASS(TerrainMaterialCachePCM, TerrainMaterialCache);
+class Terrain2DMaterialCachePCM : public Terrain2DMaterialCache {
+	GDCLASS(Terrain2DMaterialCachePCM, Terrain2DMaterialCache);
 
 public:
 	int get_texture_flags() const;
@@ -72,8 +72,8 @@ public:
 
 	void _setup_material_albedo(Ref<Texture> texture);
 
-	TerrainMaterialCachePCM();
-	~TerrainMaterialCachePCM();
+	Terrain2DMaterialCachePCM();
+	~Terrain2DMaterialCachePCM();
 
 protected:
 	static void _bind_methods();

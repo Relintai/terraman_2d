@@ -47,12 +47,12 @@ SOFTWARE.
 #include "../../props/props/prop_data.h"
 #endif
 
-class TerrainStructure;
-class TerrainChunk;
+class Terrain2DStructure;
+class Terrain2DChunk;
 class PropData;
 
-class TerrainWorld : public Navigation {
-	GDCLASS(TerrainWorld, Navigation);
+class Terrain2DWorld : public Navigation {
+	GDCLASS(Terrain2DWorld, Navigation);
 
 public:
 	enum ChannelTypeInfo {
@@ -95,11 +95,11 @@ public:
 	int get_max_concurrent_generations();
 	void set_max_concurrent_generations(const int value);
 
-	Ref<TerrainLibrary> get_library();
-	void set_library(const Ref<TerrainLibrary> &library);
+	Ref<Terrain2DLibrary> get_library();
+	void set_library(const Ref<Terrain2DLibrary> &library);
 
-	Ref<TerrainLevelGenerator> get_level_generator() const;
-	void set_level_generator(const Ref<TerrainLevelGenerator> &level_generator);
+	Ref<Terrain2DLevelGenerator> get_level_generator() const;
+	void set_level_generator(const Ref<Terrain2DLevelGenerator> &level_generator);
 
 	float get_voxel_scale() const;
 	void set_voxel_scale(const float value);
@@ -115,41 +115,41 @@ public:
 	void set_player_bind(Node *player);
 
 	//World Areas
-	Ref<TerrainWorldArea> world_area_get(const int index) const;
-	void world_area_add(const Ref<TerrainWorldArea> &area);
+	Ref<Terrain2DWorldArea> world_area_get(const int index) const;
+	void world_area_add(const Ref<Terrain2DWorldArea> &area);
 	void world_area_remove(const int index);
 	void world_areas_clear();
 	int world_area_get_count() const;
 
 	//Terra Structures
-	Ref<TerrainStructure> voxel_structure_get(const int index) const;
-	void voxel_structure_add(const Ref<TerrainStructure> &structure);
-	void voxel_structure_remove(const Ref<TerrainStructure> &structure);
+	Ref<Terrain2DStructure> voxel_structure_get(const int index) const;
+	void voxel_structure_add(const Ref<Terrain2DStructure> &structure);
+	void voxel_structure_remove(const Ref<Terrain2DStructure> &structure);
 	void voxel_structure_remove_index(const int index);
 	void voxel_structures_clear();
 	int voxel_structure_get_count() const;
-	void voxel_structure_add_at_position(Ref<TerrainStructure> structure, const Vector3 &world_position);
+	void voxel_structure_add_at_position(Ref<Terrain2DStructure> structure, const Vector3 &world_position);
 
 	Vector<Variant> voxel_structures_get();
 	void voxel_structures_set(const Vector<Variant> &structures);
 
 	//Chunks
-	void chunk_add(Ref<TerrainChunk> chunk, const int x, const int z);
+	void chunk_add(Ref<Terrain2DChunk> chunk, const int x, const int z);
 	bool chunk_has(const int x, const int z) const;
-	Ref<TerrainChunk> chunk_get(const int x, const int z);
-	Ref<TerrainChunk> chunk_remove(const int x, const int z);
-	Ref<TerrainChunk> chunk_remove_index(const int index);
-	Ref<TerrainChunk> chunk_get_index(const int index);
+	Ref<Terrain2DChunk> chunk_get(const int x, const int z);
+	Ref<Terrain2DChunk> chunk_remove(const int x, const int z);
+	Ref<Terrain2DChunk> chunk_remove_index(const int index);
+	Ref<Terrain2DChunk> chunk_get_index(const int index);
 
 	int chunk_get_count() const;
 
 	void chunks_clear();
 
-	Ref<TerrainChunk> chunk_get_or_create(const int x, const int z);
-	Ref<TerrainChunk> chunk_create(const int x, const int z);
-	void chunk_setup(Ref<TerrainChunk> chunk);
+	Ref<Terrain2DChunk> chunk_get_or_create(const int x, const int z);
+	Ref<Terrain2DChunk> chunk_create(const int x, const int z);
+	void chunk_setup(Ref<Terrain2DChunk> chunk);
 
-	void chunk_generate(Ref<TerrainChunk> chunk);
+	void chunk_generate(Ref<Terrain2DChunk> chunk);
 
 	Vector<Variant> chunks_get();
 	void chunks_set(const Vector<Variant> &chunks);
@@ -157,15 +157,15 @@ public:
 	bool can_chunk_do_build_step();
 	bool is_position_walkable(const Vector3 &p_pos);
 
-	void on_chunk_mesh_generation_finished(Ref<TerrainChunk> p_chunk);
+	void on_chunk_mesh_generation_finished(Ref<Terrain2DChunk> p_chunk);
 
-	void generation_queue_add_to(const Ref<TerrainChunk> &chunk);
-	Ref<TerrainChunk> generation_queue_get_index(const int index);
+	void generation_queue_add_to(const Ref<Terrain2DChunk> &chunk);
+	Ref<Terrain2DChunk> generation_queue_get_index(const int index);
 	void generation_queue_remove_index(const int index);
 	int generation_queue_get_size() const;
 
-	void generation_add_to(const Ref<TerrainChunk> &chunk);
-	Ref<TerrainChunk> generation_get_index(const int index);
+	void generation_add_to(const Ref<Terrain2DChunk> &chunk);
+	Ref<Terrain2DChunk> generation_get_index(const int index);
 	void generation_remove_index(const int index);
 	int generation_get_size() const;
 
@@ -174,8 +174,8 @@ public:
 #endif
 
 	//Lights
-	void light_add(const Ref<TerrainLight> &light);
-	Ref<TerrainLight> light_get(const int index);
+	void light_add(const Ref<Terrain2DLight> &light);
+	Ref<Terrain2DLight> light_get(const int index);
 	void light_remove(const int index);
 	int light_get_count() const;
 	void lights_clear();
@@ -186,8 +186,8 @@ public:
 	//Helpers
 	uint8_t get_voxel_at_world_position(const Vector3 &world_position, const int channel_index);
 	void set_voxel_at_world_position(const Vector3 &world_position, const uint8_t data, const int channel_index, const bool rebuild = true);
-	Ref<TerrainChunk> get_chunk_at_world_position(const Vector3 &world_position);
-	Ref<TerrainChunk> get_or_create_chunk_at_world_position(const Vector3 &world_position);
+	Ref<Terrain2DChunk> get_chunk_at_world_position(const Vector3 &world_position);
+	Ref<Terrain2DChunk> get_or_create_chunk_at_world_position(const Vector3 &world_position);
 	void set_voxel_with_tool(const bool mode_add, const Vector3 hit_position, const Vector3 hit_normal, const int selected_voxel, const int isolevel);
 
 	int get_channel_index_info(const ChannelTypeInfo channel_type);
@@ -195,25 +195,25 @@ public:
 	Spatial *get_editor_camera();
 
 #if VERSION_MAJOR >= 4
-	GDVIRTUAL1(_chunk_added, Ref<TerrainChunk>);
+	GDVIRTUAL1(_chunk_added, Ref<Terrain2DChunk>);
 
 	GDVIRTUAL0(_generation_finished);
 
-	GDVIRTUAL3R(Ref<TerrainChunk>, _create_chunk, int, int, Ref<TerrainChunk>);
-	GDVIRTUAL1(_prepare_chunk_for_generation, Ref<TerrainChunk>);
-	GDVIRTUAL1(_generate_chunk, Ref<TerrainChunk>);
+	GDVIRTUAL3R(Ref<Terrain2DChunk>, _create_chunk, int, int, Ref<Terrain2DChunk>);
+	GDVIRTUAL1(_prepare_chunk_for_generation, Ref<Terrain2DChunk>);
+	GDVIRTUAL1(_generate_chunk, Ref<Terrain2DChunk>);
 
 	GDVIRTUAL1R(int, _get_channel_index_info, int);
 
 	GDVIRTUAL5(_set_voxel_with_tool, bool, Vector3, Vector3, int, int);
 #endif
 
-	TerrainWorld();
-	~TerrainWorld();
+	Terrain2DWorld();
+	~Terrain2DWorld();
 
 protected:
-	virtual void _generate_chunk(Ref<TerrainChunk> chunk);
-	virtual Ref<TerrainChunk> _create_chunk(int x, int z, Ref<TerrainChunk> p_chunk);
+	virtual void _generate_chunk(Ref<Terrain2DChunk> chunk);
+	virtual Ref<Terrain2DChunk> _create_chunk(int x, int z, Ref<Terrain2DChunk> p_chunk);
 	virtual int _get_channel_index_info(const ChannelTypeInfo channel_type);
 	virtual void _set_voxel_with_tool(const bool mode_add, const Vector3 hit_position, const Vector3 hit_normal, const int selected_voxel, const int isolevel);
 
@@ -263,34 +263,34 @@ private:
 	int _data_margin_end;
 	float _world_height;
 
-	Ref<TerrainLibrary> _library;
-	Ref<TerrainLevelGenerator> _level_generator;
+	Ref<Terrain2DLibrary> _library;
+	Ref<Terrain2DLevelGenerator> _level_generator;
 	float _voxel_scale;
 	int _chunk_spawn_range;
 
-	HashMap<IntPos, Ref<TerrainChunk>, IntPosHasher> _chunks;
-	Vector<Ref<TerrainChunk>> _chunks_vector;
+	HashMap<IntPos, Ref<Terrain2DChunk>, IntPosHasher> _chunks;
+	Vector<Ref<Terrain2DChunk>> _chunks_vector;
 
-	Vector<Ref<TerrainWorldArea>> _world_areas;
+	Vector<Ref<Terrain2DWorldArea>> _world_areas;
 
-	Vector<Ref<TerrainStructure>> _voxel_structures;
+	Vector<Ref<Terrain2DStructure>> _voxel_structures;
 
 	NodePath _player_path;
 	Spatial *_player;
 
 	int _max_concurrent_generations;
-	Vector<Ref<TerrainChunk>> _generation_queue;
-	Vector<Ref<TerrainChunk>> _generating;
+	Vector<Ref<Terrain2DChunk>> _generation_queue;
+	Vector<Ref<Terrain2DChunk>> _generating;
 	int _max_frame_chunk_build_steps;
 	int _num_frame_chunk_build_steps;
 
-	Vector<Ref<TerrainLight>> _lights;
+	Vector<Ref<Terrain2DLight>> _lights;
 };
 
-_FORCE_INLINE_ bool operator==(const TerrainWorld::IntPos &a, const TerrainWorld::IntPos &b) {
+_FORCE_INLINE_ bool operator==(const Terrain2DWorld::IntPos &a, const Terrain2DWorld::IntPos &b) {
 	return a.x == b.x && a.z == b.z;
 }
 
-VARIANT_ENUM_CAST(TerrainWorld::ChannelTypeInfo);
+VARIANT_ENUM_CAST(Terrain2DWorld::ChannelTypeInfo);
 
 #endif

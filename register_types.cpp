@@ -69,53 +69,53 @@ SOFTWARE.
 #include "world/jobs/terrain_2d_terrain_job.h"
 
 void register_terraman_2d_types() {
-	ClassDB::register_class<TerrainMesher>();
-	ClassDB::register_class<TerrainMesherDefault>();
+	ClassDB::register_class<Terrain2DMesher>();
+	ClassDB::register_class<Terrain2DMesherDefault>();
 
-	ClassDB::register_class<TerrainSurface>();
-	ClassDB::register_class<TerrainSurfaceSimple>();
+	ClassDB::register_class<Terrain2DSurface>();
+	ClassDB::register_class<Terrain2DSurfaceSimple>();
 
-	ClassDB::register_class<TerrainLibrary>();
-	ClassDB::register_class<TerrainLibrarySimple>();
+	ClassDB::register_class<Terrain2DLibrary>();
+	ClassDB::register_class<Terrain2DLibrarySimple>();
 
-	ClassDB::register_class<TerrainMaterialCache>();
+	ClassDB::register_class<Terrain2DMaterialCache>();
 
 #ifdef TEXTURE_PACKER_PRESENT
-	ClassDB::register_class<TerrainSurfaceMerger>();
-	ClassDB::register_class<TerrainLibraryMerger>();
-	ClassDB::register_class<TerrainLibraryMergerPCM>();
-	ClassDB::register_class<TerrainMaterialCachePCM>();
+	ClassDB::register_class<Terrain2DSurfaceMerger>();
+	ClassDB::register_class<Terrain2DLibraryMerger>();
+	ClassDB::register_class<Terrain2DLibraryMergerPCM>();
+	ClassDB::register_class<Terrain2DMaterialCachePCM>();
 #endif
 
-	ClassDB::register_class<TerrainLight>();
-	ClassDB::register_class<TerrainLightNode>();
+	ClassDB::register_class<Terrain2DLight>();
+	ClassDB::register_class<Terrain2DLightNode>();
 
-	ClassDB::register_class<TerrainWorld>();
-	ClassDB::register_class<TerrainChunk>();
-	ClassDB::register_class<TerrainStructure>();
-	ClassDB::register_class<BlockTerrainStructure>();
-	ClassDB::register_class<TerrainEnvironmentData>();
+	ClassDB::register_class<Terrain2DWorld>();
+	ClassDB::register_class<Terrain2DChunk>();
+	ClassDB::register_class<Terrain2DStructure>();
+	ClassDB::register_class<BlockTerrain2DStructure>();
+	ClassDB::register_class<Terrain2DEnvironmentData>();
 
-	ClassDB::register_class<TerrainChunkDefault>();
-	ClassDB::register_class<TerrainWorldDefault>();
+	ClassDB::register_class<Terrain2DChunkDefault>();
+	ClassDB::register_class<Terrain2DWorldDefault>();
 
-	ClassDB::register_class<TerrainMesherBlocky>();
-	ClassDB::register_class<TerrainWorldBlocky>();
-	ClassDB::register_class<TerrainChunkBlocky>();
+	ClassDB::register_class<Terrain2DMesherBlocky>();
+	ClassDB::register_class<Terrain2DWorldBlocky>();
+	ClassDB::register_class<Terrain2DChunkBlocky>();
 
-	ClassDB::register_class<TerrainLevelGenerator>();
-	ClassDB::register_class<TerrainLevelGeneratorFlat>();
+	ClassDB::register_class<Terrain2DLevelGenerator>();
+	ClassDB::register_class<Terrain2DLevelGeneratorFlat>();
 
-	ClassDB::register_class<TerrainWorldArea>();
+	ClassDB::register_class<Terrain2DWorldArea>();
 
-	ClassDB::register_class<TerrainJob>();
-	ClassDB::register_class<TerrainTerrainJob>();
-	ClassDB::register_class<TerrainMesherJobStep>();
-	ClassDB::register_class<TerrainLightJob>();
-	ClassDB::register_class<TerrainPropJob>();
+	ClassDB::register_class<Terrain2DJob>();
+	ClassDB::register_class<Terrain2DTerrain2DJob>();
+	ClassDB::register_class<Terrain2DMesherJobStep>();
+	ClassDB::register_class<Terrain2DLightJob>();
+	ClassDB::register_class<Terrain2DPropJob>();
 
 #ifdef TOOLS_ENABLED
-	EditorPlugins::add_by_type<TerrainWorldEditorPlugin>();
+	EditorPlugins::add_by_type<Terrain2DWorldEditorPlugin>();
 #endif
 }
 

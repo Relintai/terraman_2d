@@ -29,33 +29,33 @@ SOFTWARE.
 #include visual_server_h
 #include mesh_instance_h
 
-_FORCE_INLINE_ int TerrainMesherDefault::get_build_flags() const {
+_FORCE_INLINE_ int Terrain2DMesherDefault::get_build_flags() const {
 	return _build_flags;
 }
-_FORCE_INLINE_ void TerrainMesherDefault::set_build_flags(const int flags) {
+_FORCE_INLINE_ void Terrain2DMesherDefault::set_build_flags(const int flags) {
 	_build_flags = flags;
 
-	if ((_build_flags & TerrainChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
+	if ((_build_flags & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
 		_format |= VisualServer::ARRAY_FORMAT_COLOR;
 	} else {
 		_format ^= VisualServer::ARRAY_FORMAT_COLOR;
 	}
 }
 
-void TerrainMesherDefault::_bake_colors(Ref<TerrainChunk> chunk) {
+void Terrain2DMesherDefault::_bake_colors(Ref<Terrain2DChunk> chunk) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
-	//if ((get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_LIGHTING) == 0)
+	//if ((get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) == 0)
 	//	return;
 
 	if (_vertices.size() == 0)
 		return;
 
-	uint8_t *channel_color_r = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
-	uint8_t *channel_color_g = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
-	uint8_t *channel_color_b = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
-	uint8_t *channel_ao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_AO);
-	uint8_t *channel_rao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
+	uint8_t *channel_color_r = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
+	uint8_t *channel_color_g = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
+	uint8_t *channel_color_b = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
+	uint8_t *channel_ao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO);
+	uint8_t *channel_rao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
 
 	Color base_light(_base_light_value, _base_light_value, _base_light_value);
 
@@ -103,20 +103,20 @@ void TerrainMesherDefault::_bake_colors(Ref<TerrainChunk> chunk) {
 	}
 }
 
-void TerrainMesherDefault::_bake_liquid_colors(Ref<TerrainChunk> chunk) {
+void Terrain2DMesherDefault::_bake_liquid_colors(Ref<Terrain2DChunk> chunk) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
-	if ((get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_LIGHTING) == 0)
+	if ((get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) == 0)
 		return;
 
 	if (_vertices.size() == 0)
 		return;
 
-	uint8_t *channel_color_r = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
-	uint8_t *channel_color_g = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
-	uint8_t *channel_color_b = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
-	uint8_t *channel_ao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_AO);
-	uint8_t *channel_rao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
+	uint8_t *channel_color_r = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
+	uint8_t *channel_color_g = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
+	uint8_t *channel_color_b = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
+	uint8_t *channel_ao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO);
+	uint8_t *channel_rao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
 
 	Color base_light(_base_light_value, _base_light_value, _base_light_value);
 
@@ -170,20 +170,20 @@ void TerrainMesherDefault::_bake_liquid_colors(Ref<TerrainChunk> chunk) {
 	}
 }
 
-TerrainMesherDefault::TerrainMesherDefault() {
-	_build_flags = TerrainChunkDefault::BUILD_FLAG_CREATE_COLLIDER | TerrainChunkDefault::BUILD_FLAG_CREATE_LODS;
+Terrain2DMesherDefault::Terrain2DMesherDefault() {
+	_build_flags = Terrain2DChunkDefault::BUILD_FLAG_CREATE_COLLIDER | Terrain2DChunkDefault::BUILD_FLAG_CREATE_LODS;
 
 	_format = VisualServer::ARRAY_FORMAT_NORMAL | VisualServer::ARRAY_FORMAT_TEX_UV;
 }
 
-TerrainMesherDefault::~TerrainMesherDefault() {
+Terrain2DMesherDefault::~Terrain2DMesherDefault() {
 }
 
-void TerrainMesherDefault::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("_bake_colors", "chunk"), &TerrainMesherDefault::_bake_colors);
-	ClassDB::bind_method(D_METHOD("_bake_liquid_colors", "chunk"), &TerrainMesherDefault::_bake_liquid_colors);
+void Terrain2DMesherDefault::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("_bake_colors", "chunk"), &Terrain2DMesherDefault::_bake_colors);
+	ClassDB::bind_method(D_METHOD("_bake_liquid_colors", "chunk"), &Terrain2DMesherDefault::_bake_liquid_colors);
 
-	ClassDB::bind_method(D_METHOD("get_build_flags"), &TerrainMesherDefault::get_build_flags);
-	ClassDB::bind_method(D_METHOD("set_build_flags", "value"), &TerrainMesherDefault::set_build_flags);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "build_flags", PROPERTY_HINT_FLAGS, TerrainChunkDefault::BINDING_STRING_BUILD_FLAGS), "set_build_flags", "get_build_flags");
+	ClassDB::bind_method(D_METHOD("get_build_flags"), &Terrain2DMesherDefault::get_build_flags);
+	ClassDB::bind_method(D_METHOD("set_build_flags", "value"), &Terrain2DMesherDefault::set_build_flags);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "build_flags", PROPERTY_HINT_FLAGS, Terrain2DChunkDefault::BINDING_STRING_BUILD_FLAGS), "set_build_flags", "get_build_flags");
 }

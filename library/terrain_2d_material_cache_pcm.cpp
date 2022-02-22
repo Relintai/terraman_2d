@@ -27,49 +27,49 @@ SOFTWARE.
 #include "terrain_2d_surface.h"
 #include "terrain_2d_surface_merger.h"
 
-int TerrainMaterialCachePCM::get_texture_flags() const {
+int Terrain2DMaterialCachePCM::get_texture_flags() const {
 	return _packer->get_texture_flags();
 }
-void TerrainMaterialCachePCM::set_texture_flags(const int flags) {
+void Terrain2DMaterialCachePCM::set_texture_flags(const int flags) {
 	_packer->set_texture_flags(flags);
 }
 
-int TerrainMaterialCachePCM::get_max_atlas_size() const {
+int Terrain2DMaterialCachePCM::get_max_atlas_size() const {
 	return _packer->get_max_atlas_size();
 }
-void TerrainMaterialCachePCM::set_max_atlas_size(const int size) {
+void Terrain2DMaterialCachePCM::set_max_atlas_size(const int size) {
 	_packer->set_max_atlas_size(size);
 }
 
-bool TerrainMaterialCachePCM::get_keep_original_atlases() const {
+bool Terrain2DMaterialCachePCM::get_keep_original_atlases() const {
 	return _packer->get_keep_original_atlases();
 }
-void TerrainMaterialCachePCM::set_keep_original_atlases(const bool value) {
+void Terrain2DMaterialCachePCM::set_keep_original_atlases(const bool value) {
 	_packer->set_keep_original_atlases(value);
 }
 
-Color TerrainMaterialCachePCM::get_background_color() const {
+Color Terrain2DMaterialCachePCM::get_background_color() const {
 	return _packer->get_background_color();
 }
-void TerrainMaterialCachePCM::set_background_color(const Color &color) {
+void Terrain2DMaterialCachePCM::set_background_color(const Color &color) {
 	_packer->set_background_color(color);
 }
 
-int TerrainMaterialCachePCM::get_margin() const {
+int Terrain2DMaterialCachePCM::get_margin() const {
 	return _packer->get_margin();
 }
-void TerrainMaterialCachePCM::set_margin(const int margin) {
+void Terrain2DMaterialCachePCM::set_margin(const int margin) {
 	_packer->set_margin(margin);
 }
 
-Ref<AtlasTexture> TerrainMaterialCachePCM::additional_texture_get_atlas_tex(const Ref<Texture> &texture) {
+Ref<AtlasTexture> Terrain2DMaterialCachePCM::additional_texture_get_atlas_tex(const Ref<Texture> &texture) {
 	if (!_packer->contains_texture(texture)) {
 		return Ref<AtlasTexture>();
 	}
 
 	return _packer->get_texture(texture);
 }
-Rect2 TerrainMaterialCachePCM::additional_texture_get_uv_rect(const Ref<Texture> &texture) {
+Rect2 Terrain2DMaterialCachePCM::additional_texture_get_uv_rect(const Ref<Texture> &texture) {
 	if (!texture.is_valid()) {
 		return Rect2(0, 0, 1, 1);
 	}
@@ -103,23 +103,23 @@ Rect2 TerrainMaterialCachePCM::additional_texture_get_uv_rect(const Ref<Texture>
 	return region;
 }
 
-void TerrainMaterialCachePCM::refresh_rects() {
+void Terrain2DMaterialCachePCM::refresh_rects() {
 	bool texture_added = false;
 	for (int i = 0; i < _surfaces.size(); i++) {
-		Ref<TerrainSurfaceMerger> surface = Ref<TerrainSurfaceMerger>(_surfaces[i]);
+		Ref<Terrain2DSurfaceMerger> surface = Ref<Terrain2DSurfaceMerger>(_surfaces[i]);
 
 		if (surface.is_valid()) {
-			for (int j = 0; j < TerrainSurface::TERRAIN_SIDES_COUNT; ++j) {
-				Ref<Texture> tex = surface->get_texture(static_cast<TerrainSurface::TerrainSurfaceSides>(j));
+			for (int j = 0; j < Terrain2DSurface::TERRAIN_SIDES_COUNT; ++j) {
+				Ref<Texture> tex = surface->get_texture(static_cast<Terrain2DSurface::Terrain2DSurfaceSides>(j));
 
 				if (!tex.is_valid())
 					continue;
 
 				if (!_packer->contains_texture(tex)) {
 					texture_added = true;
-					surface->set_region(static_cast<TerrainSurface::TerrainSurfaceSides>(j), _packer->add_texture(tex));
+					surface->set_region(static_cast<Terrain2DSurface::Terrain2DSurfaceSides>(j), _packer->add_texture(tex));
 				} else {
-					surface->set_region(static_cast<TerrainSurface::TerrainSurfaceSides>(j), _packer->get_texture(tex));
+					surface->set_region(static_cast<Terrain2DSurface::Terrain2DSurfaceSides>(j), _packer->get_texture(tex));
 				}
 			}
 		}
@@ -147,7 +147,7 @@ void TerrainMaterialCachePCM::refresh_rects() {
 	}
 
 	for (int i = 0; i < _surfaces.size(); i++) {
-		Ref<TerrainSurfaceMerger> surface = _surfaces[i];
+		Ref<Terrain2DSurfaceMerger> surface = _surfaces[i];
 
 		if (surface.is_valid()) {
 			surface->refresh_rects();
@@ -157,7 +157,7 @@ void TerrainMaterialCachePCM::refresh_rects() {
 	_initialized = true;
 }
 
-void TerrainMaterialCachePCM::_setup_material_albedo(Ref<Texture> texture) {
+void Terrain2DMaterialCachePCM::_setup_material_albedo(Ref<Texture> texture) {
 	int count = material_get_num();
 
 	for (int i = 0; i < count; ++i) {
@@ -178,7 +178,7 @@ void TerrainMaterialCachePCM::_setup_material_albedo(Ref<Texture> texture) {
 	}
 }
 
-TerrainMaterialCachePCM::TerrainMaterialCachePCM() {
+Terrain2DMaterialCachePCM::Terrain2DMaterialCachePCM() {
 	_packer.instance();
 
 #if GODOT4
@@ -192,12 +192,12 @@ TerrainMaterialCachePCM::TerrainMaterialCachePCM() {
 	_packer->set_margin(0);
 }
 
-TerrainMaterialCachePCM::~TerrainMaterialCachePCM() {
+Terrain2DMaterialCachePCM::~Terrain2DMaterialCachePCM() {
 	for (int i = 0; i < _surfaces.size(); ++i) {
-		Ref<TerrainSurface> surface = _surfaces[i];
+		Ref<Terrain2DSurface> surface = _surfaces[i];
 
 		if (surface.is_valid()) {
-			surface->set_library(Ref<TerrainLibrary>());
+			surface->set_library(Ref<Terrain2DLibrary>());
 		}
 	}
 
@@ -207,26 +207,26 @@ TerrainMaterialCachePCM::~TerrainMaterialCachePCM() {
 	_packer.unref();
 }
 
-void TerrainMaterialCachePCM::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_texture_flags"), &TerrainMaterialCachePCM::get_texture_flags);
-	ClassDB::bind_method(D_METHOD("set_texture_flags", "flags"), &TerrainMaterialCachePCM::set_texture_flags);
+void Terrain2DMaterialCachePCM::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("get_texture_flags"), &Terrain2DMaterialCachePCM::get_texture_flags);
+	ClassDB::bind_method(D_METHOD("set_texture_flags", "flags"), &Terrain2DMaterialCachePCM::set_texture_flags);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "texture_flags", PROPERTY_HINT_FLAGS, "Mipmaps,Repeat,Filter,Anisotropic Linear,Convert to Linear,Mirrored Repeat,Video Surface"), "set_texture_flags", "get_texture_flags");
 
-	ClassDB::bind_method(D_METHOD("get_max_atlas_size"), &TerrainMaterialCachePCM::get_max_atlas_size);
-	ClassDB::bind_method(D_METHOD("set_max_atlas_size", "size"), &TerrainMaterialCachePCM::set_max_atlas_size);
+	ClassDB::bind_method(D_METHOD("get_max_atlas_size"), &Terrain2DMaterialCachePCM::get_max_atlas_size);
+	ClassDB::bind_method(D_METHOD("set_max_atlas_size", "size"), &Terrain2DMaterialCachePCM::set_max_atlas_size);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "max_atlas_size"), "set_max_atlas_size", "get_max_atlas_size");
 
-	ClassDB::bind_method(D_METHOD("get_keep_original_atlases"), &TerrainMaterialCachePCM::get_keep_original_atlases);
-	ClassDB::bind_method(D_METHOD("set_keep_original_atlases", "value"), &TerrainMaterialCachePCM::set_keep_original_atlases);
+	ClassDB::bind_method(D_METHOD("get_keep_original_atlases"), &Terrain2DMaterialCachePCM::get_keep_original_atlases);
+	ClassDB::bind_method(D_METHOD("set_keep_original_atlases", "value"), &Terrain2DMaterialCachePCM::set_keep_original_atlases);
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "keep_original_atlases"), "set_keep_original_atlases", "get_keep_original_atlases");
 
-	ClassDB::bind_method(D_METHOD("get_background_color"), &TerrainMaterialCachePCM::get_background_color);
-	ClassDB::bind_method(D_METHOD("set_background_color", "color"), &TerrainMaterialCachePCM::set_background_color);
+	ClassDB::bind_method(D_METHOD("get_background_color"), &Terrain2DMaterialCachePCM::get_background_color);
+	ClassDB::bind_method(D_METHOD("set_background_color", "color"), &Terrain2DMaterialCachePCM::set_background_color);
 	ADD_PROPERTY(PropertyInfo(Variant::COLOR, "background_color"), "set_background_color", "get_background_color");
 
-	ClassDB::bind_method(D_METHOD("get_margin"), &TerrainMaterialCachePCM::get_margin);
-	ClassDB::bind_method(D_METHOD("set_margin", "size"), &TerrainMaterialCachePCM::set_margin);
+	ClassDB::bind_method(D_METHOD("get_margin"), &Terrain2DMaterialCachePCM::get_margin);
+	ClassDB::bind_method(D_METHOD("set_margin", "size"), &Terrain2DMaterialCachePCM::set_margin);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "margin"), "set_margin", "get_margin");
 
-	ClassDB::bind_method(D_METHOD("_setup_material_albedo", "texture"), &TerrainMaterialCachePCM::_setup_material_albedo);
+	ClassDB::bind_method(D_METHOD("_setup_material_albedo", "texture"), &Terrain2DMaterialCachePCM::_setup_material_albedo);
 }

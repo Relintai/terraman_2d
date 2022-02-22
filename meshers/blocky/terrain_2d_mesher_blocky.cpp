@@ -26,15 +26,15 @@ SOFTWARE.
 
 #include "../../library/terrain_2d_material_cache.h"
 
-bool TerrainMesherBlocky::get_always_add_colors() const {
+bool Terrain2DMesherBlocky::get_always_add_colors() const {
 	return _always_add_colors;
 }
-void TerrainMesherBlocky::set_always_add_colors(const bool value) {
+void Terrain2DMesherBlocky::set_always_add_colors(const bool value) {
 	_always_add_colors = value;
 }
 
-void TerrainMesherBlocky::_add_chunk(Ref<TerrainChunk> p_chunk) {
-	Ref<TerrainChunkDefault> chunk = p_chunk;
+void Terrain2DMesherBlocky::_add_chunk(Ref<Terrain2DChunk> p_chunk) {
+	Ref<Terrain2DChunkDefault> chunk = p_chunk;
 
 	ERR_FAIL_COND(!chunk.is_valid());
 	ERR_FAIL_COND(chunk->get_margin_end() < 1);
@@ -49,9 +49,9 @@ void TerrainMesherBlocky::_add_chunk(Ref<TerrainChunk> p_chunk) {
 	}
 }
 
-void TerrainMesherBlocky::add_chunk_normal(Ref<TerrainChunkDefault> chunk) {
-	//if ((get_build_flags() & TerrainChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
-	//	if (!chunk->get_channel(TerrainChunkDefault::DEFAULT_CHANNEL_AO))
+void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
+	//if ((get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
+	//	if (!chunk->get_channel(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO))
 	//		chunk->generate_ao();
 
 	int x_size = chunk->get_size_x();
@@ -79,23 +79,23 @@ void TerrainMesherBlocky::add_chunk_normal(Ref<TerrainChunkDefault> chunk) {
 	Color base_light(_base_light_value, _base_light_value, _base_light_value);
 	Color light[4]{ Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1) };
 
-	bool use_lighting = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
-	bool use_ao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_AO) != 0;
-	bool use_rao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_RAO) != 0;
+	bool use_lighting = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
+	bool use_ao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_AO) != 0;
+	bool use_rao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_RAO) != 0;
 
 	if (use_lighting) {
-		channel_color_r = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
-		channel_color_g = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
-		channel_color_b = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
+		channel_color_r = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
+		channel_color_g = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
+		channel_color_b = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
 
 		if (use_ao)
-			channel_ao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_AO);
+			channel_ao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO);
 
 		if (use_rao)
-			channel_rao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
+			channel_rao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
 	}
 
-	Ref<TerrainMaterialCache> mcache;
+	Ref<Terrain2DMaterialCache> mcache;
 
 	if (chunk->material_cache_key_has()) {
 		mcache = _library->material_cache_get(chunk->material_cache_key_get());
@@ -117,7 +117,7 @@ void TerrainMesherBlocky::add_chunk_normal(Ref<TerrainChunkDefault> chunk) {
 			if (type == 0)
 				continue;
 
-			Ref<TerrainSurface> surface;
+			Ref<Terrain2DSurface> surface;
 
 			if (!mcache.is_valid()) {
 				surface = _library->terra_surface_get(type - 1);
@@ -173,10 +173,10 @@ void TerrainMesherBlocky::add_chunk_normal(Ref<TerrainChunkDefault> chunk) {
 			add_indices(vc + 0);
 
 			Vector2 uvs[] = {
-				surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 			};
 
 			Vector3 verts[] = {
@@ -206,9 +206,9 @@ void TerrainMesherBlocky::add_chunk_normal(Ref<TerrainChunkDefault> chunk) {
 	}
 }
 
-void TerrainMesherBlocky::add_chunk_lod(Ref<TerrainChunkDefault> chunk) {
-	//if ((get_build_flags() & TerrainChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
-	//	if (!chunk->get_channel(TerrainChunkDefault::DEFAULT_CHANNEL_AO))
+void Terrain2DMesherBlocky::add_chunk_lod(Ref<Terrain2DChunkDefault> chunk) {
+	//if ((get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
+	//	if (!chunk->get_channel(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO))
 	//		chunk->generate_ao();
 
 	create_margin_zmin(chunk);
@@ -242,23 +242,23 @@ void TerrainMesherBlocky::add_chunk_lod(Ref<TerrainChunkDefault> chunk) {
 	Color base_light(_base_light_value, _base_light_value, _base_light_value);
 	Color light[4]{ Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1) };
 
-	bool use_lighting = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
-	bool use_ao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_AO) != 0;
-	bool use_rao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_RAO) != 0;
+	bool use_lighting = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
+	bool use_ao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_AO) != 0;
+	bool use_rao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_RAO) != 0;
 
 	if (use_lighting) {
-		channel_color_r = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
-		channel_color_g = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
-		channel_color_b = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
+		channel_color_r = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
+		channel_color_g = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
+		channel_color_b = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
 
 		if (use_ao)
-			channel_ao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_AO);
+			channel_ao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO);
 
 		if (use_rao)
-			channel_rao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
+			channel_rao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
 	}
 
-	Ref<TerrainMaterialCache> mcache;
+	Ref<Terrain2DMaterialCache> mcache;
 
 	if (chunk->material_cache_key_has()) {
 		mcache = _library->material_cache_get(chunk->material_cache_key_get());
@@ -284,7 +284,7 @@ void TerrainMesherBlocky::add_chunk_lod(Ref<TerrainChunkDefault> chunk) {
 			if (type == 0)
 				continue;
 
-			Ref<TerrainSurface> surface;
+			Ref<Terrain2DSurface> surface;
 
 			if (!mcache.is_valid()) {
 				surface = _library->terra_surface_get(type - 1);
@@ -340,10 +340,10 @@ void TerrainMesherBlocky::add_chunk_lod(Ref<TerrainChunkDefault> chunk) {
 			add_indices(vc + 0);
 
 			Vector2 uvs[] = {
-				surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 			};
 
 			Vector3 verts[] = {
@@ -373,9 +373,9 @@ void TerrainMesherBlocky::add_chunk_lod(Ref<TerrainChunkDefault> chunk) {
 	}
 }
 
-void TerrainMesherBlocky::create_margin_zmin(Ref<TerrainChunkDefault> chunk) {
-	//if ((get_build_flags() & TerrainChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
-	//	if (!chunk->get_channel(TerrainChunkDefault::DEFAULT_CHANNEL_AO))
+void Terrain2DMesherBlocky::create_margin_zmin(Ref<Terrain2DChunkDefault> chunk) {
+	//if ((get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
+	//	if (!chunk->get_channel(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO))
 	//		chunk->generate_ao();
 
 	int x_size = chunk->get_size_x();
@@ -403,23 +403,23 @@ void TerrainMesherBlocky::create_margin_zmin(Ref<TerrainChunkDefault> chunk) {
 	Color base_light(_base_light_value, _base_light_value, _base_light_value);
 	Color light[4]{ Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1) };
 
-	bool use_lighting = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
-	bool use_ao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_AO) != 0;
-	bool use_rao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_RAO) != 0;
+	bool use_lighting = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
+	bool use_ao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_AO) != 0;
+	bool use_rao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_RAO) != 0;
 
 	if (use_lighting) {
-		channel_color_r = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
-		channel_color_g = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
-		channel_color_b = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
+		channel_color_r = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
+		channel_color_g = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
+		channel_color_b = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
 
 		if (use_ao)
-			channel_ao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_AO);
+			channel_ao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO);
 
 		if (use_rao)
-			channel_rao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
+			channel_rao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
 	}
 
-	Ref<TerrainMaterialCache> mcache;
+	Ref<Terrain2DMaterialCache> mcache;
 
 	if (chunk->material_cache_key_has()) {
 		mcache = _library->material_cache_get(chunk->material_cache_key_get());
@@ -453,7 +453,7 @@ void TerrainMesherBlocky::create_margin_zmin(Ref<TerrainChunkDefault> chunk) {
 		if (type == 0)
 			continue;
 
-		Ref<TerrainSurface> surface;
+		Ref<Terrain2DSurface> surface;
 
 		if (!mcache.is_valid()) {
 			surface = _library->terra_surface_get(type - 1);
@@ -512,10 +512,10 @@ void TerrainMesherBlocky::create_margin_zmin(Ref<TerrainChunkDefault> chunk) {
 		add_indices(vc + 0);
 
 		Vector2 uvs[] = {
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 		};
 
 		float vi0 = Math::lerp(isolevels[2], isolevels[3], x_interp);
@@ -547,9 +547,9 @@ void TerrainMesherBlocky::create_margin_zmin(Ref<TerrainChunkDefault> chunk) {
 	}
 }
 
-void TerrainMesherBlocky::create_margin_zmax(Ref<TerrainChunkDefault> chunk) {
-	//if ((get_build_flags() & TerrainChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
-	//	if (!chunk->get_channel(TerrainChunkDefault::DEFAULT_CHANNEL_AO))
+void Terrain2DMesherBlocky::create_margin_zmax(Ref<Terrain2DChunkDefault> chunk) {
+	//if ((get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
+	//	if (!chunk->get_channel(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO))
 	//		chunk->generate_ao();
 
 	int x_size = chunk->get_size_x();
@@ -577,23 +577,23 @@ void TerrainMesherBlocky::create_margin_zmax(Ref<TerrainChunkDefault> chunk) {
 	Color base_light(_base_light_value, _base_light_value, _base_light_value);
 	Color light[4]{ Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1) };
 
-	bool use_lighting = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
-	bool use_ao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_AO) != 0;
-	bool use_rao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_RAO) != 0;
+	bool use_lighting = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
+	bool use_ao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_AO) != 0;
+	bool use_rao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_RAO) != 0;
 
 	if (use_lighting) {
-		channel_color_r = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
-		channel_color_g = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
-		channel_color_b = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
+		channel_color_r = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
+		channel_color_g = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
+		channel_color_b = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
 
 		if (use_ao)
-			channel_ao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_AO);
+			channel_ao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO);
 
 		if (use_rao)
-			channel_rao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
+			channel_rao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
 	}
 
-	Ref<TerrainMaterialCache> mcache;
+	Ref<Terrain2DMaterialCache> mcache;
 
 	if (chunk->material_cache_key_has()) {
 		mcache = _library->material_cache_get(chunk->material_cache_key_get());
@@ -625,7 +625,7 @@ void TerrainMesherBlocky::create_margin_zmax(Ref<TerrainChunkDefault> chunk) {
 		if (type == 0)
 			continue;
 
-		Ref<TerrainSurface> surface;
+		Ref<Terrain2DSurface> surface;
 
 		if (!mcache.is_valid()) {
 			surface = _library->terra_surface_get(type - 1);
@@ -684,10 +684,10 @@ void TerrainMesherBlocky::create_margin_zmax(Ref<TerrainChunkDefault> chunk) {
 		add_indices(vc + 0);
 
 		Vector2 uvs[] = {
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 		};
 
 		float vi0 = Math::lerp(isolevels[1], isolevels[0], x_interp);
@@ -719,9 +719,9 @@ void TerrainMesherBlocky::create_margin_zmax(Ref<TerrainChunkDefault> chunk) {
 	}
 }
 
-void TerrainMesherBlocky::create_margin_xmin(Ref<TerrainChunkDefault> chunk) {
-	//if ((get_build_flags() & TerrainChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
-	//	if (!chunk->get_channel(TerrainChunkDefault::DEFAULT_CHANNEL_AO))
+void Terrain2DMesherBlocky::create_margin_xmin(Ref<Terrain2DChunkDefault> chunk) {
+	//if ((get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
+	//	if (!chunk->get_channel(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO))
 	//		chunk->generate_ao();
 
 	int z_size = chunk->get_size_x();
@@ -749,23 +749,23 @@ void TerrainMesherBlocky::create_margin_xmin(Ref<TerrainChunkDefault> chunk) {
 	Color base_light(_base_light_value, _base_light_value, _base_light_value);
 	Color light[4]{ Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1) };
 
-	bool use_lighting = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
-	bool use_ao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_AO) != 0;
-	bool use_rao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_RAO) != 0;
+	bool use_lighting = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
+	bool use_ao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_AO) != 0;
+	bool use_rao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_RAO) != 0;
 
 	if (use_lighting) {
-		channel_color_r = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
-		channel_color_g = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
-		channel_color_b = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
+		channel_color_r = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
+		channel_color_g = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
+		channel_color_b = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
 
 		if (use_ao)
-			channel_ao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_AO);
+			channel_ao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO);
 
 		if (use_rao)
-			channel_rao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
+			channel_rao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
 	}
 
-	Ref<TerrainMaterialCache> mcache;
+	Ref<Terrain2DMaterialCache> mcache;
 
 	if (chunk->material_cache_key_has()) {
 		mcache = _library->material_cache_get(chunk->material_cache_key_get());
@@ -797,7 +797,7 @@ void TerrainMesherBlocky::create_margin_xmin(Ref<TerrainChunkDefault> chunk) {
 		if (type == 0)
 			continue;
 
-		Ref<TerrainSurface> surface;
+		Ref<Terrain2DSurface> surface;
 
 		if (!mcache.is_valid()) {
 			surface = _library->terra_surface_get(type - 1);
@@ -856,10 +856,10 @@ void TerrainMesherBlocky::create_margin_xmin(Ref<TerrainChunkDefault> chunk) {
 		add_indices(vc + 0);
 
 		Vector2 uvs[] = {
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 		};
 
 		float vi0 = Math::lerp(isolevels[0], isolevels[3], z_interp);
@@ -891,9 +891,9 @@ void TerrainMesherBlocky::create_margin_xmin(Ref<TerrainChunkDefault> chunk) {
 	}
 }
 
-void TerrainMesherBlocky::create_margin_xmax(Ref<TerrainChunkDefault> chunk) {
-	//if ((get_build_flags() & TerrainChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
-	//	if (!chunk->get_channel(TerrainChunkDefault::DEFAULT_CHANNEL_AO))
+void Terrain2DMesherBlocky::create_margin_xmax(Ref<Terrain2DChunkDefault> chunk) {
+	//if ((get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
+	//	if (!chunk->get_channel(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO))
 	//		chunk->generate_ao();
 
 	int z_size = chunk->get_size_x();
@@ -921,23 +921,23 @@ void TerrainMesherBlocky::create_margin_xmax(Ref<TerrainChunkDefault> chunk) {
 	Color base_light(_base_light_value, _base_light_value, _base_light_value);
 	Color light[4]{ Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1) };
 
-	bool use_lighting = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
-	bool use_ao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_AO) != 0;
-	bool use_rao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_RAO) != 0;
+	bool use_lighting = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
+	bool use_ao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_AO) != 0;
+	bool use_rao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_RAO) != 0;
 
 	if (use_lighting) {
-		channel_color_r = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
-		channel_color_g = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
-		channel_color_b = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
+		channel_color_r = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
+		channel_color_g = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
+		channel_color_b = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
 
 		if (use_ao)
-			channel_ao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_AO);
+			channel_ao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO);
 
 		if (use_rao)
-			channel_rao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
+			channel_rao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
 	}
 
-	Ref<TerrainMaterialCache> mcache;
+	Ref<Terrain2DMaterialCache> mcache;
 
 	if (chunk->material_cache_key_has()) {
 		mcache = _library->material_cache_get(chunk->material_cache_key_get());
@@ -967,7 +967,7 @@ void TerrainMesherBlocky::create_margin_xmax(Ref<TerrainChunkDefault> chunk) {
 		if (type == 0)
 			continue;
 
-		Ref<TerrainSurface> surface;
+		Ref<Terrain2DSurface> surface;
 
 		if (!mcache.is_valid()) {
 			surface = _library->terra_surface_get(type - 1);
@@ -1026,10 +1026,10 @@ void TerrainMesherBlocky::create_margin_xmax(Ref<TerrainChunkDefault> chunk) {
 		add_indices(vc + 0);
 
 		Vector2 uvs[] = {
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-			surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
+			surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 		};
 
 		float vi0 = Math::lerp(isolevels[1], isolevels[2], z_interp);
@@ -1061,16 +1061,16 @@ void TerrainMesherBlocky::create_margin_xmax(Ref<TerrainChunkDefault> chunk) {
 	}
 }
 
-void TerrainMesherBlocky::create_margin_corners(Ref<TerrainChunkDefault> chunk) {
+void Terrain2DMesherBlocky::create_margin_corners(Ref<Terrain2DChunkDefault> chunk) {
 	create_face(chunk, 1, 2, 1, 2);
 	create_face(chunk, 1, 2, chunk->get_size_z() + chunk->get_margin_start() - 1, chunk->get_size_z() + chunk->get_margin_start());
 	create_face(chunk, chunk->get_size_x() + chunk->get_margin_start() - 1, chunk->get_size_x() + chunk->get_margin_start(), 1, 2);
 	create_face(chunk, chunk->get_size_x() + chunk->get_margin_start() - 1, chunk->get_size_x() + chunk->get_margin_start(), chunk->get_size_z() + chunk->get_margin_start() - 1, chunk->get_size_z() + chunk->get_margin_start());
 }
 
-void TerrainMesherBlocky::create_face(Ref<TerrainChunkDefault> chunk, int dataxmin, int dataxmax, int datazmin, int datazmax) {
-	//if ((get_build_flags() & TerrainChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
-	//	if (!chunk->get_channel(TerrainChunkDefault::DEFAULT_CHANNEL_AO))
+void Terrain2DMesherBlocky::create_face(Ref<Terrain2DChunkDefault> chunk, int dataxmin, int dataxmax, int datazmin, int datazmax) {
+	//if ((get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
+	//	if (!chunk->get_channel(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO))
 	//		chunk->generate_ao();
 
 	float world_height = chunk->get_world_height();
@@ -1096,23 +1096,23 @@ void TerrainMesherBlocky::create_face(Ref<TerrainChunkDefault> chunk, int dataxm
 	Color base_light(_base_light_value, _base_light_value, _base_light_value);
 	Color light[4]{ Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1), Color(1, 1, 1) };
 
-	bool use_lighting = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
-	bool use_ao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_AO) != 0;
-	bool use_rao = (get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_RAO) != 0;
+	bool use_lighting = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0;
+	bool use_ao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_AO) != 0;
+	bool use_rao = (get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_RAO) != 0;
 
 	if (use_lighting) {
-		channel_color_r = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
-		channel_color_g = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
-		channel_color_b = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
+		channel_color_r = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
+		channel_color_g = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
+		channel_color_b = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B);
 
 		if (use_ao)
-			channel_ao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_AO);
+			channel_ao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO);
 
 		if (use_rao)
-			channel_rao = chunk->channel_get_valid(TerrainChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
+			channel_rao = chunk->channel_get_valid(Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
 	}
 
-	Ref<TerrainMaterialCache> mcache;
+	Ref<Terrain2DMaterialCache> mcache;
 
 	if (chunk->material_cache_key_has()) {
 		mcache = _library->material_cache_get(chunk->material_cache_key_get());
@@ -1130,7 +1130,7 @@ void TerrainMesherBlocky::create_face(Ref<TerrainChunkDefault> chunk, int dataxm
 	if (type == 0)
 		return;
 
-	Ref<TerrainSurface> surface;
+	Ref<Terrain2DSurface> surface;
 
 	if (!mcache.is_valid()) {
 		surface = _library->terra_surface_get(type - 1);
@@ -1186,10 +1186,10 @@ void TerrainMesherBlocky::create_face(Ref<TerrainChunkDefault> chunk, int dataxm
 	add_indices(vc + 0);
 
 	Vector2 uvs[] = {
-		surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale()),
-		surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale()),
-		surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale()),
-		surface->transform_uv_scaled(TerrainSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale())
+		surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 0), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale()),
+		surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 0), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale()),
+		surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(0, 1), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale()),
+		surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_SIDE_TOP, Vector2(1, 1), dataxmin % get_texture_scale(), datazmin % get_texture_scale(), get_texture_scale())
 	};
 
 	Vector3 verts[] = {
@@ -1217,17 +1217,17 @@ void TerrainMesherBlocky::create_face(Ref<TerrainChunkDefault> chunk, int dataxm
 	}
 }
 
-TerrainMesherBlocky::TerrainMesherBlocky() {
+Terrain2DMesherBlocky::Terrain2DMesherBlocky() {
 	_always_add_colors = false;
 }
 
-TerrainMesherBlocky::~TerrainMesherBlocky() {
+Terrain2DMesherBlocky::~Terrain2DMesherBlocky() {
 }
 
-void TerrainMesherBlocky::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("_add_chunk", "buffer"), &TerrainMesherBlocky::_add_chunk);
+void Terrain2DMesherBlocky::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("_add_chunk", "buffer"), &Terrain2DMesherBlocky::_add_chunk);
 
-	ClassDB::bind_method(D_METHOD("get_always_add_colors"), &TerrainMesherBlocky::get_always_add_colors);
-	ClassDB::bind_method(D_METHOD("set_always_add_colors", "value"), &TerrainMesherBlocky::set_always_add_colors);
+	ClassDB::bind_method(D_METHOD("get_always_add_colors"), &Terrain2DMesherBlocky::get_always_add_colors);
+	ClassDB::bind_method(D_METHOD("set_always_add_colors", "value"), &Terrain2DMesherBlocky::set_always_add_colors);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "always_add_colors"), "set_always_add_colors", "get_always_add_colors");
 }

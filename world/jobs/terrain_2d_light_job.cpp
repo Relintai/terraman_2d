@@ -30,21 +30,21 @@ SOFTWARE.
 #include "../../meshers/terrain_2d_mesher.h"
 #include "../default/terrain_2d_chunk_default.h"
 
-void TerrainLightJob::phase_light() {
-	Ref<TerrainChunkDefault> chunk = _chunk;
+void Terrain2DLightJob::phase_light() {
+	Ref<Terrain2DChunkDefault> chunk = _chunk;
 
-	if ((chunk->get_build_flags() & TerrainChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
-		if (!chunk->channel_get(TerrainChunkDefault::DEFAULT_CHANNEL_AO))
+	if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
+		if (!chunk->channel_get(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO))
 			generate_ao();
 
-	bool gr = (chunk->get_build_flags() & TerrainChunkDefault::BUILD_FLAG_AUTO_GENERATE_RAO) != 0;
+	bool gr = (chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_AUTO_GENERATE_RAO) != 0;
 
-	if (!gr && (chunk->get_build_flags() & TerrainChunkDefault::BUILD_FLAG_USE_LIGHTING) == 0) {
+	if (!gr && (chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) == 0) {
 		next_phase();
 		return;
 	}
 
-	bool bl = (chunk->get_build_flags() & TerrainChunkDefault::BUILD_FLAG_BAKE_LIGHTS) != 0;
+	bool bl = (chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_BAKE_LIGHTS) != 0;
 
 	if (bl && should_do()) {
 		chunk->clear_baked_lights();
@@ -71,10 +71,10 @@ void TerrainLightJob::phase_light() {
 	next_phase();
 }
 
-void TerrainLightJob::_execute_phase() {
+void Terrain2DLightJob::_execute_phase() {
 	ERR_FAIL_COND(!_chunk.is_valid());
 
-	Ref<TerrainLibrary> library = _chunk->get_library();
+	Ref<Terrain2DLibrary> library = _chunk->get_library();
 
 	ERR_FAIL_COND(!library.is_valid());
 
@@ -83,11 +83,11 @@ void TerrainLightJob::_execute_phase() {
 	next_job();
 }
 
-TerrainLightJob::TerrainLightJob() {
+Terrain2DLightJob::Terrain2DLightJob() {
 }
 
-TerrainLightJob::~TerrainLightJob() {
+Terrain2DLightJob::~Terrain2DLightJob() {
 }
 
-void TerrainLightJob::_bind_methods() {
+void Terrain2DLightJob::_bind_methods() {
 }

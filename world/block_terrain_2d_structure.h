@@ -41,8 +41,8 @@ include_pool_vector
 #include "terrain_2d_chunk.h"
 		;
 
-class BlockTerrainStructure : public TerrainStructure {
-	GDCLASS(BlockTerrainStructure, TerrainStructure);
+class BlockTerrain2DStructure : public Terrain2DStructure {
+	GDCLASS(BlockTerrain2DStructure, Terrain2DStructure);
 
 public:
 	int get_channel_type() const;
@@ -56,12 +56,12 @@ public:
 
 	void set_voxel(int p_x, int p_y, int p_z, int p_type, int p_isolevel);
 
-	void _write_to_chunk(Ref<TerrainChunk> chunk);
+	void _write_to_chunk(Ref<Terrain2DChunk> chunk);
 
 	void clear();
 
-	BlockTerrainStructure();
-	~BlockTerrainStructure();
+	BlockTerrain2DStructure();
+	~BlockTerrain2DStructure();
 
 protected:
 	static void _bind_methods();

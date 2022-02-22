@@ -40,12 +40,12 @@ SOFTWARE.
 #include "../data/terrain_2d_light.h"
 #include "terrain_2d_surface_merger.h"
 
-class TerrainSurfaceSimple;
-class TerrainMesher;
+class Terrain2DSurfaceSimple;
+class Terrain2DMesher;
 class PackedScene;
 
-class TerrainLibraryMerger : public TerrainLibrary {
-	GDCLASS(TerrainLibraryMerger, TerrainLibrary)
+class Terrain2DLibraryMerger : public Terrain2DLibrary {
+	GDCLASS(Terrain2DLibraryMerger, Terrain2DLibrary)
 
 public:
 	int get_texture_flags() const;
@@ -63,9 +63,9 @@ public:
 	int get_margin() const;
 	void set_margin(const int margin);
 
-	Ref<TerrainSurface> terra_surface_get(const int index);
-	void terra_surface_add(Ref<TerrainSurface> value);
-	void terra_surface_set(const int index, Ref<TerrainSurface> value);
+	Ref<Terrain2DSurface> terra_surface_get(const int index);
+	void terra_surface_add(Ref<Terrain2DSurface> value);
+	void terra_surface_set(const int index, Ref<Terrain2DSurface> value);
 	void terra_surface_remove(const int index);
 	int terra_surface_get_num() const;
 	void terra_surfaces_clear();
@@ -94,8 +94,8 @@ public:
 
 	void _setup_material_albedo(const int material_index, const Ref<Texture> &texture);
 
-	TerrainLibraryMerger();
-	~TerrainLibraryMerger();
+	Terrain2DLibraryMerger();
+	~Terrain2DLibraryMerger();
 
 protected:
 #ifdef PROPS_PRESENT
@@ -104,7 +104,7 @@ protected:
 
 	static void _bind_methods();
 
-	Vector<Ref<TerrainSurfaceMerger> > _terra_surfaces;
+	Vector<Ref<Terrain2DSurfaceMerger> > _terra_surfaces;
 #ifdef PROPS_PRESENT
 	Vector<Ref<PropData> > _props;
 #endif

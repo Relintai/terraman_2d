@@ -25,12 +25,12 @@ SOFTWARE.
 
 #include "../default/terrain_2d_chunk_default.h"
 
-class TerrainChunkBlocky : public TerrainChunkDefault {
-	GDCLASS(TerrainChunkBlocky, TerrainChunkDefault);
+class Terrain2DChunkBlocky : public Terrain2DChunkDefault {
+	GDCLASS(Terrain2DChunkBlocky, Terrain2DChunkDefault);
 
 public:
-	TerrainChunkBlocky();
-	~TerrainChunkBlocky();
+	Terrain2DChunkBlocky();
+	~Terrain2DChunkBlocky();
 
 protected:
 	virtual void _setup_channels();

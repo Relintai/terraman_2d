@@ -58,11 +58,11 @@ include_pool_vector
 
 #include "../library/terrain_2d_library.h"
 
-		class TerrainLibrary;
-class TerrainChunk;
+		class Terrain2DLibrary;
+class Terrain2DChunk;
 
-class TerrainMesher : public Reference {
-	GDCLASS(TerrainMesher, Reference);
+class Terrain2DMesher : public Reference {
+	GDCLASS(Terrain2DMesher, Reference);
 
 public:
 	const double PI_2 = 3.141592653589793238463 / 2;
@@ -115,8 +115,8 @@ public:
 	int get_lod_index() const;
 	void set_lod_index(const int value);
 
-	Ref<TerrainLibrary> get_library();
-	void set_library(const Ref<TerrainLibrary> &library);
+	Ref<Terrain2DLibrary> get_library();
+	void set_library(const Ref<Terrain2DLibrary> &library);
 
 	Ref<Material> get_material();
 	void set_material(const Ref<Material> &material);
@@ -135,7 +135,7 @@ public:
 
 	void reset();
 
-	void add_chunk(Ref<TerrainChunk> chunk);
+	void add_chunk(Ref<Terrain2DChunk> chunk);
 
 #ifdef MESH_DATA_RESOURCE_PRESENT
 	void add_mesh_data_resource(Ref<MeshDataResource> mesh, const Vector3 position = Vector3(0, 0, 0), const Vector3 rotation = Vector3(0, 0, 0), const Vector3 scale = Vector3(1.0, 1.0, 1.0), const Rect2 uv_rect = Rect2(0, 0, 1, 1));
@@ -143,15 +143,15 @@ public:
 	void add_mesh_data_resource_transform_colored(Ref<MeshDataResource> mesh, const Transform transform, const PoolColorArray &colors, const Rect2 uv_rect = Rect2(0, 0, 1, 1));
 #endif
 
-	void add_mesher(const Ref<TerrainMesher> &mesher);
-	void _add_mesher(const Ref<TerrainMesher> &mesher);
+	void add_mesher(const Ref<Terrain2DMesher> &mesher);
+	void _add_mesher(const Ref<Terrain2DMesher> &mesher);
 
-	void bake_colors(Ref<TerrainChunk> chunk);
-	void bake_liquid_colors(Ref<TerrainChunk> chunk);
+	void bake_colors(Ref<Terrain2DChunk> chunk);
+	void bake_liquid_colors(Ref<Terrain2DChunk> chunk);
 
 	PoolVector<Vector3> build_collider() const;
 
-	void bake_lights(MeshInstance *node, Vector<Ref<TerrainLight>> &lights);
+	void bake_lights(MeshInstance *node, Vector<Ref<Terrain2DLight>> &lights);
 
 	Array build_mesh();
 	void build_mesh_into(RID mesh);
@@ -195,15 +195,15 @@ public:
 	void add_indices(const int index);
 
 #if VERSION_MAJOR >= 4
-	GDVIRTUAL1(_add_chunk, Ref<TerrainChunk>);
-	GDVIRTUAL1(_bake_colors, Ref<TerrainChunk>);
-	GDVIRTUAL1(_bake_liquid_colors, Ref<TerrainChunk>);
-	GDVIRTUAL1(_add_mesher, Ref<TerrainChunk>);
+	GDVIRTUAL1(_add_chunk, Ref<Terrain2DChunk>);
+	GDVIRTUAL1(_bake_colors, Ref<Terrain2DChunk>);
+	GDVIRTUAL1(_bake_liquid_colors, Ref<Terrain2DChunk>);
+	GDVIRTUAL1(_add_mesher, Ref<Terrain2DChunk>);
 #endif
 
-	TerrainMesher(const Ref<TerrainLibrary> &library);
-	TerrainMesher();
-	~TerrainMesher();
+	Terrain2DMesher(const Ref<Terrain2DLibrary> &library);
+	Terrain2DMesher();
+	~Terrain2DMesher();
 
 protected:
 	static void _bind_methods();
@@ -230,7 +230,7 @@ protected:
 	Vector<float> _last_weights;
 	Plane _last_tangent;
 
-	Ref<TerrainLibrary> _library;
+	Ref<Terrain2DLibrary> _library;
 	Ref<Material> _material;
 
 	float _voxel_scale;

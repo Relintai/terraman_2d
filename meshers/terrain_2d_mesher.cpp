@@ -29,7 +29,7 @@ SOFTWARE.
 #include "../world/default/terrain_2d_chunk_default.h"
 #include "../world/terrain_2d_chunk.h"
 
-bool TerrainMesher::Vertex::operator==(const Vertex &p_vertex) const {
+bool Terrain2DMesher::Vertex::operator==(const Vertex &p_vertex) const {
 	if (vertex != p_vertex.vertex)
 		return false;
 
@@ -64,7 +64,7 @@ bool TerrainMesher::Vertex::operator==(const Vertex &p_vertex) const {
 	return true;
 }
 
-uint32_t TerrainMesher::VertexHasher::hash(const Vertex &p_vtx) {
+uint32_t Terrain2DMesher::VertexHasher::hash(const Vertex &p_vtx) {
 	uint32_t h = hash_djb2_buffer((const uint8_t *)&p_vtx.vertex, sizeof(real_t) * 3);
 	h = hash_djb2_buffer((const uint8_t *)&p_vtx.normal, sizeof(real_t) * 3, h);
 	h = hash_djb2_buffer((const uint8_t *)&p_vtx.binormal, sizeof(real_t) * 3, h);
@@ -77,91 +77,91 @@ uint32_t TerrainMesher::VertexHasher::hash(const Vertex &p_vtx) {
 	return h;
 }
 
-int TerrainMesher::get_channel_index_type() const {
+int Terrain2DMesher::get_channel_index_type() const {
 	return _channel_index_type;
 }
-void TerrainMesher::set_channel_index_type(const int value) {
+void Terrain2DMesher::set_channel_index_type(const int value) {
 	_channel_index_type = value;
 }
 
-int TerrainMesher::get_channel_index_isolevel() const {
+int Terrain2DMesher::get_channel_index_isolevel() const {
 	return _channel_index_isolevel;
 }
-void TerrainMesher::set_channel_index_isolevel(const int value) {
+void Terrain2DMesher::set_channel_index_isolevel(const int value) {
 	_channel_index_isolevel = value;
 }
 
-int TerrainMesher::get_mesher_index() const {
+int Terrain2DMesher::get_mesher_index() const {
 	return _mesher_index;
 }
-void TerrainMesher::set_mesher_index(const int value) {
+void Terrain2DMesher::set_mesher_index(const int value) {
 	_mesher_index = value;
 }
 
-int TerrainMesher::get_format() const {
+int Terrain2DMesher::get_format() const {
 	return _format;
 }
-void TerrainMesher::set_format(const int value) {
+void Terrain2DMesher::set_format(const int value) {
 	_format = value;
 }
 
-int TerrainMesher::get_texture_scale() const {
+int Terrain2DMesher::get_texture_scale() const {
 	return _texture_scale;
 }
-void TerrainMesher::set_texture_scale(const int value) {
+void Terrain2DMesher::set_texture_scale(const int value) {
 	_texture_scale = value;
 }
 
-int TerrainMesher::get_lod_index() const {
+int Terrain2DMesher::get_lod_index() const {
 	return _lod_index;
 }
-void TerrainMesher::set_lod_index(const int value) {
+void Terrain2DMesher::set_lod_index(const int value) {
 	_lod_index = value;
 }
 
-Ref<TerrainLibrary> TerrainMesher::get_library() {
+Ref<Terrain2DLibrary> Terrain2DMesher::get_library() {
 	return _library;
 }
-void TerrainMesher::set_library(const Ref<TerrainLibrary> &library) {
+void Terrain2DMesher::set_library(const Ref<Terrain2DLibrary> &library) {
 	_library = library;
 }
 
-Ref<Material> TerrainMesher::get_material() {
+Ref<Material> Terrain2DMesher::get_material() {
 	return _material;
 }
-void TerrainMesher::set_material(const Ref<Material> &material) {
+void Terrain2DMesher::set_material(const Ref<Material> &material) {
 	_material = material;
 }
 
-float TerrainMesher::get_ao_strength() const {
+float Terrain2DMesher::get_ao_strength() const {
 	return _ao_strength;
 }
-void TerrainMesher::set_ao_strength(float value) {
+void Terrain2DMesher::set_ao_strength(float value) {
 	_ao_strength = value;
 }
 
-float TerrainMesher::get_base_light_value() const {
+float Terrain2DMesher::get_base_light_value() const {
 	return _base_light_value;
 }
-void TerrainMesher::set_base_light_value(float value) {
+void Terrain2DMesher::set_base_light_value(float value) {
 	_base_light_value = value;
 }
 
-float TerrainMesher::get_voxel_scale() const {
+float Terrain2DMesher::get_voxel_scale() const {
 	return _voxel_scale;
 }
-void TerrainMesher::set_voxel_scale(const float voxel_scale) {
+void Terrain2DMesher::set_voxel_scale(const float voxel_scale) {
 	_voxel_scale = voxel_scale;
 }
 
-Rect2 TerrainMesher::get_uv_margin() const {
+Rect2 Terrain2DMesher::get_uv_margin() const {
 	return _uv_margin;
 }
-void TerrainMesher::set_uv_margin(const Rect2 margin) {
+void Terrain2DMesher::set_uv_margin(const Rect2 margin) {
 	_uv_margin = margin;
 }
 
-Array TerrainMesher::build_mesh() {
+Array Terrain2DMesher::build_mesh() {
 	Array a;
 	a.resize(VisualServer::ARRAY_MAX);
 
@@ -305,7 +305,7 @@ Array TerrainMesher::build_mesh() {
 	return a;
 }
 
-void TerrainMesher::build_mesh_into(RID mesh) {
+void Terrain2DMesher::build_mesh_into(RID mesh) {
 	ERR_FAIL_COND(mesh == RID());
 
 	VS::get_singleton()->mesh_clear(mesh);
@@ -323,7 +323,7 @@ void TerrainMesher::build_mesh_into(RID mesh) {
 		VS::get_singleton()->mesh_surface_set_material(mesh, 0, _library->material_lod_get(0)->get_rid());
 }
 
-void TerrainMesher::generate_normals(bool p_flip) {
+void Terrain2DMesher::generate_normals(bool p_flip) {
 	_format = _format | VisualServer::ARRAY_FORMAT_NORMAL;
 
 	for (int i = 0; i < _indices.size(); i += 3) {
@@ -355,7 +355,7 @@ void TerrainMesher::generate_normals(bool p_flip) {
 	}
 }
 
-void TerrainMesher::remove_doubles() {
+void Terrain2DMesher::remove_doubles() {
 	if (_vertices.size() == 0)
 		return;
 
@@ -401,7 +401,7 @@ void TerrainMesher::remove_doubles() {
 }
 
 //lot faster that normal remove_doubles, but false positives can happen curtesy of hash collisions
-void TerrainMesher::remove_doubles_hashed() {
+void Terrain2DMesher::remove_doubles_hashed() {
 	if (_vertices.size() == 0)
 		return;
 
@@ -453,7 +453,7 @@ void TerrainMesher::remove_doubles_hashed() {
 	//print_error("after " + String::num(_vertices.size()) + " " + String::num(duration.count()));
 }
 
-void TerrainMesher::reset() {
+void Terrain2DMesher::reset() {
 	_vertices.resize(0);
 	_indices.resize(0);
 
@@ -466,7 +466,7 @@ void TerrainMesher::reset() {
 	_last_tangent = Plane();
 }
 
-void TerrainMesher::add_chunk(Ref<TerrainChunk> chunk) {
+void Terrain2DMesher::add_chunk(Ref<Terrain2DChunk> chunk) {
 	ERR_FAIL_COND(!has_method("_add_chunk"));
 	ERR_FAIL_COND(!chunk.is_valid());
 
@@ -474,13 +474,13 @@ void TerrainMesher::add_chunk(Ref<TerrainChunk> chunk) {
 }
 
 #ifdef MESH_DATA_RESOURCE_PRESENT
-void TerrainMesher::add_mesh_data_resource(Ref<MeshDataResource> mesh, const Vector3 position, const Vector3 rotation, const Vector3 scale, const Rect2 uv_rect) {
+void Terrain2DMesher::add_mesh_data_resource(Ref<MeshDataResource> mesh, const Vector3 position, const Vector3 rotation, const Vector3 scale, const Rect2 uv_rect) {
 	Transform transform = Transform(Basis(rotation).scaled(scale), position);
 
 	add_mesh_data_resource_transform(mesh, transform, uv_rect);
 }
 
-void TerrainMesher::add_mesh_data_resource_transform(Ref<MeshDataResource> mesh, const Transform transform, const Rect2 uv_rect) {
+void Terrain2DMesher::add_mesh_data_resource_transform(Ref<MeshDataResource> mesh, const Transform transform, const Rect2 uv_rect) {
 	if (mesh->get_array().size() == 0)
 		return;
 
@@ -524,7 +524,7 @@ void TerrainMesher::add_mesh_data_resource_transform(Ref<MeshDataResource> mesh,
 	}
 }
 
-void TerrainMesher::add_mesh_data_resource_transform_colored(Ref<MeshDataResource> mesh, const Transform transform, const PoolColorArray &colors, const Rect2 uv_rect) {
+void Terrain2DMesher::add_mesh_data_resource_transform_colored(Ref<MeshDataResource> mesh, const Transform transform, const PoolColorArray &colors, const Rect2 uv_rect) {
 	if (mesh->get_array().size() == 0)
 		return;
 
@@ -568,10 +568,10 @@ void TerrainMesher::add_mesh_data_resource_transform_colored(Ref<MeshDataResourc
 }
 #endif
 
-void TerrainMesher::add_mesher(const Ref<TerrainMesher> &mesher) {
+void Terrain2DMesher::add_mesher(const Ref<Terrain2DMesher> &mesher) {
 	CALL(_add_mesher, mesher);
 }
-void TerrainMesher::_add_mesher(const Ref<TerrainMesher> &mesher) {
+void Terrain2DMesher::_add_mesher(const Ref<Terrain2DMesher> &mesher) {
 	int orig_size = _vertices.size();
 
 	_vertices.append_array(mesher->_vertices);
@@ -589,7 +589,7 @@ void TerrainMesher::_add_mesher(const Ref<TerrainMesher> &mesher) {
 	}
 }
 
-void TerrainMesher::bake_colors(Ref<TerrainChunk> chunk) {
+void Terrain2DMesher::bake_colors(Ref<Terrain2DChunk> chunk) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
 	if (has_method("_bake_colors")) {
@@ -597,7 +597,7 @@ void TerrainMesher::bake_colors(Ref<TerrainChunk> chunk) {
 	}
 }
 
-void TerrainMesher::bake_liquid_colors(Ref<TerrainChunk> chunk) {
+void Terrain2DMesher::bake_liquid_colors(Ref<Terrain2DChunk> chunk) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
 	if (has_method("_bake_liquid_colors")) {
@@ -605,7 +605,7 @@ void TerrainMesher::bake_liquid_colors(Ref<TerrainChunk> chunk) {
 	}
 }
 
-PoolVector<Vector3> TerrainMesher::build_collider() const {
+PoolVector<Vector3> Terrain2DMesher::build_collider() const {
 	PoolVector<Vector3> face_points;
 
 	if (_vertices.size() == 0)
@@ -635,7 +635,7 @@ PoolVector<Vector3> TerrainMesher::build_collider() const {
 	return face_points;
 }
 
-void TerrainMesher::bake_lights(MeshInstance *node, Vector<Ref<TerrainLight>> &lights) {
+void Terrain2DMesher::bake_lights(MeshInstance *node, Vector<Ref<Terrain2DLight>> &lights) {
 	ERR_FAIL_COND(node == NULL);
 
 	Color darkColor(0, 0, 0, 1);
@@ -652,7 +652,7 @@ void TerrainMesher::bake_lights(MeshInstance *node, Vector<Ref<TerrainLight>> &l
 
 		//calculate the lights value
 		for (int i = 0; i < lights.size(); ++i) {
-			Ref<TerrainLight> light = lights.get(i);
+			Ref<Terrain2DLight> light = lights.get(i);
 
 			Vector3 lightDir = light->get_world_position() - vertex;
 
@@ -722,7 +722,7 @@ void TerrainMesher::bake_lights(MeshInstance *node, Vector<Ref<TerrainLight>> &l
 	//	}
 }
 
-PoolVector<Vector3> TerrainMesher::get_vertices() const {
+PoolVector<Vector3> Terrain2DMesher::get_vertices() const {
 	PoolVector<Vector3> arr;
 
 	arr.resize(_vertices.size());
@@ -733,7 +733,7 @@ PoolVector<Vector3> TerrainMesher::get_vertices() const {
 	return arr;
 }
 
-void TerrainMesher::set_vertices(const PoolVector<Vector3> &values) {
+void Terrain2DMesher::set_vertices(const PoolVector<Vector3> &values) {
 	ERR_FAIL_COND(values.size() != _vertices.size());
 
 	for (int i = 0; i < _vertices.size(); ++i) {
@@ -745,11 +745,11 @@ void TerrainMesher::set_vertices(const PoolVector<Vector3> &values) {
 	}
 }
 
-int TerrainMesher::get_vertex_count() const {
+int Terrain2DMesher::get_vertex_count() const {
 	return _vertices.size();
 }
 
-void TerrainMesher::add_vertex(const Vector3 &vertex) {
+void Terrain2DMesher::add_vertex(const Vector3 &vertex) {
 	Vertex vtx;
 	vtx.vertex = vertex;
 	vtx.color = _last_color;
@@ -765,15 +765,15 @@ void TerrainMesher::add_vertex(const Vector3 &vertex) {
 	_vertices.push_back(vtx);
 }
 
-Vector3 TerrainMesher::get_vertex(const int idx) const {
+Vector3 Terrain2DMesher::get_vertex(const int idx) const {
 	return _vertices.get(idx).vertex;
 }
 
-void TerrainMesher::remove_vertex(const int idx) {
+void Terrain2DMesher::remove_vertex(const int idx) {
 	_vertices.VREMOVE(idx);
 }
 
-PoolVector<Vector3> TerrainMesher::get_normals() const {
+PoolVector<Vector3> Terrain2DMesher::get_normals() const {
 	PoolVector<Vector3> arr;
 
 	arr.resize(_vertices.size());
@@ -784,7 +784,7 @@ PoolVector<Vector3> TerrainMesher::get_normals() const {
 	return arr;
 }
 
-void TerrainMesher::set_normals(const PoolVector<Vector3> &values) {
+void Terrain2DMesher::set_normals(const PoolVector<Vector3> &values) {
 	ERR_FAIL_COND(values.size() != _vertices.size());
 
 	for (int i = 0; i < _vertices.size(); ++i) {
@@ -796,15 +796,15 @@ void TerrainMesher::set_normals(const PoolVector<Vector3> &values) {
 	}
 }
 
-void TerrainMesher::add_normal(const Vector3 &normal) {
+void Terrain2DMesher::add_normal(const Vector3 &normal) {
 	_last_normal = normal;
 }
 
-Vector3 TerrainMesher::get_normal(int idx) const {
+Vector3 Terrain2DMesher::get_normal(int idx) const {
 	return _vertices.get(idx).normal;
 }
 
-PoolVector<Color> TerrainMesher::get_colors() const {
+PoolVector<Color> Terrain2DMesher::get_colors() const {
 	PoolVector<Color> arr;
 
 	arr.resize(_vertices.size());
@@ -815,7 +815,7 @@ PoolVector<Color> TerrainMesher::get_colors() const {
 	return arr;
 }
 
-void TerrainMesher::set_colors(const PoolVector<Color> &values) {
+void Terrain2DMesher::set_colors(const PoolVector<Color> &values) {
 	ERR_FAIL_COND(values.size() != _vertices.size());
 
 	for (int i = 0; i < _vertices.size(); ++i) {
@@ -827,15 +827,15 @@ void TerrainMesher::set_colors(const PoolVector<Color> &values) {
 	}
 }
 
-void TerrainMesher::add_color(const Color &color) {
+void Terrain2DMesher::add_color(const Color &color) {
 	_last_color = color;
 }
 
-Color TerrainMesher::get_color(const int idx) const {
+Color Terrain2DMesher::get_color(const int idx) const {
 	return _vertices.get(idx).color;
 }
 
-PoolVector<Vector2> TerrainMesher::get_uvs() const {
+PoolVector<Vector2> Terrain2DMesher::get_uvs() const {
 	PoolVector<Vector2> arr;
 
 	arr.resize(_vertices.size());
@@ -846,7 +846,7 @@ PoolVector<Vector2> TerrainMesher::get_uvs() const {
 	return arr;
 }
 
-void TerrainMesher::set_uvs(const PoolVector<Vector2> &values) {
+void Terrain2DMesher::set_uvs(const PoolVector<Vector2> &values) {
 	ERR_FAIL_COND(values.size() != _vertices.size());
 
 	for (int i = 0; i < _vertices.size(); ++i) {
@@ -858,15 +858,15 @@ void TerrainMesher::set_uvs(const PoolVector<Vector2> &values) {
 	}
 }
 
-void TerrainMesher::add_uv(const Vector2 &uv) {
+void Terrain2DMesher::add_uv(const Vector2 &uv) {
 	_last_uv = uv;
 }
 
-Vector2 TerrainMesher::get_uv(const int idx) const {
+Vector2 Terrain2DMesher::get_uv(const int idx) const {
 	return _vertices.get(idx).uv;
 }
 
-PoolVector<Vector2> TerrainMesher::get_uv2s() const {
+PoolVector<Vector2> Terrain2DMesher::get_uv2s() const {
 	PoolVector<Vector2> arr;
 
 	arr.resize(_vertices.size());
@@ -877,7 +877,7 @@ PoolVector<Vector2> TerrainMesher::get_uv2s() const {
 	return arr;
 }
 
-void TerrainMesher::set_uv2s(const PoolVector<Vector2> &values) {
+void Terrain2DMesher::set_uv2s(const PoolVector<Vector2> &values) {
 	ERR_FAIL_COND(values.size() != _vertices.size());
 
 	for (int i = 0; i < _vertices.size(); ++i) {
@@ -889,39 +889,39 @@ void TerrainMesher::set_uv2s(const PoolVector<Vector2> &values) {
 	}
 }
 
-void TerrainMesher::add_uv2(const Vector2 &uv) {
+void Terrain2DMesher::add_uv2(const Vector2 &uv) {
 	_last_uv2 = uv;
 }
 
-Vector2 TerrainMesher::get_uv2(const int idx) const {
+Vector2 Terrain2DMesher::get_uv2(const int idx) const {
 	return _vertices.get(idx).uv2;
 }
 
-PoolVector<int> TerrainMesher::get_indices() const {
+PoolVector<int> Terrain2DMesher::get_indices() const {
 	return _indices;
 }
 
-void TerrainMesher::set_indices(const PoolVector<int> &values) {
+void Terrain2DMesher::set_indices(const PoolVector<int> &values) {
 	_indices = values;
 }
 
-int TerrainMesher::get_indices_count() const {
+int Terrain2DMesher::get_indices_count() const {
 	return _indices.size();
 }
 
-void TerrainMesher::add_indices(const int index) {
+void Terrain2DMesher::add_indices(const int index) {
 	_indices.push_back(index);
 }
 
-int TerrainMesher::get_index(const int idx) const {
+int Terrain2DMesher::get_index(const int idx) const {
 	return _indices.get(idx);
 }
 
-void TerrainMesher::remove_index(const int idx) {
+void Terrain2DMesher::remove_index(const int idx) {
 	_indices.VREMOVE(idx);
 }
 
-TerrainMesher::TerrainMesher(const Ref<TerrainLibrary> &library) {
+Terrain2DMesher::Terrain2DMesher(const Ref<Terrain2DLibrary> &library) {
 	_library = library;
 
 	_mesher_index = 0;
@@ -936,7 +936,7 @@ TerrainMesher::TerrainMesher(const Ref<TerrainLibrary> &library) {
 	_texture_scale = 1;
 }
 
-TerrainMesher::TerrainMesher() {
+Terrain2DMesher::Terrain2DMesher() {
 	_mesher_index = 0;
 	_voxel_scale = 1;
 	_ao_strength = 0.25;
@@ -949,135 +949,135 @@ TerrainMesher::TerrainMesher() {
 	_lod_index = 0;
 }
 
-TerrainMesher::~TerrainMesher() {
+Terrain2DMesher::~Terrain2DMesher() {
 	if (_library.is_valid()) {
 		_library.unref();
 	}
 }
 
-void TerrainMesher::_bind_methods() {
+void Terrain2DMesher::_bind_methods() {
 #if VERSION_MAJOR < 4
-	BIND_VMETHOD(MethodInfo("_add_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerrainChunk")));
-	BIND_VMETHOD(MethodInfo("_bake_colors", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerrainChunk")));
-	BIND_VMETHOD(MethodInfo("_bake_liquid_colors", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerrainChunk")));
+	BIND_VMETHOD(MethodInfo("_add_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
+	BIND_VMETHOD(MethodInfo("_bake_colors", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
+	BIND_VMETHOD(MethodInfo("_bake_liquid_colors", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
 #else
 	GDVIRTUAL_BIND(_add_chunk, "chunk");
 	GDVIRTUAL_BIND(_bake_colors, "chunk");
 	GDVIRTUAL_BIND(_bake_liquid_colors, "chunk");
 #endif
 
-	ClassDB::bind_method(D_METHOD("get_channel_index_type"), &TerrainMesher::get_channel_index_type);
-	ClassDB::bind_method(D_METHOD("set_channel_index_type", "value"), &TerrainMesher::set_channel_index_type);
+	ClassDB::bind_method(D_METHOD("get_channel_index_type"), &Terrain2DMesher::get_channel_index_type);
+	ClassDB::bind_method(D_METHOD("set_channel_index_type", "value"), &Terrain2DMesher::set_channel_index_type);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "channel_index_type"), "set_channel_index_type", "get_channel_index_type");
 
-	ClassDB::bind_method(D_METHOD("get_channel_index_isolevel"), &TerrainMesher::get_channel_index_isolevel);
-	ClassDB::bind_method(D_METHOD("set_channel_index_isolevel", "value"), &TerrainMesher::set_channel_index_isolevel);
+	ClassDB::bind_method(D_METHOD("get_channel_index_isolevel"), &Terrain2DMesher::get_channel_index_isolevel);
+	ClassDB::bind_method(D_METHOD("set_channel_index_isolevel", "value"), &Terrain2DMesher::set_channel_index_isolevel);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "channel_index_isolevel"), "set_channel_index_isolevel", "get_channel_index_isolevel");
 
-	ClassDB::bind_method(D_METHOD("get_mesher_index"), &TerrainMesher::get_mesher_index);
-	ClassDB::bind_method(D_METHOD("set_mesher_index", "value"), &TerrainMesher::set_mesher_index);
+	ClassDB::bind_method(D_METHOD("get_mesher_index"), &Terrain2DMesher::get_mesher_index);
+	ClassDB::bind_method(D_METHOD("set_mesher_index", "value"), &Terrain2DMesher::set_mesher_index);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "mesher_index"), "set_mesher_index", "get_mesher_index");
 
-	ClassDB::bind_method(D_METHOD("get_format"), &TerrainMesher::get_format);
-	ClassDB::bind_method(D_METHOD("set_format", "value"), &TerrainMesher::set_format);
+	ClassDB::bind_method(D_METHOD("get_format"), &Terrain2DMesher::get_format);
+	ClassDB::bind_method(D_METHOD("set_format", "value"), &Terrain2DMesher::set_format);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "format"), "set_format", "get_format");
 
-	ClassDB::bind_method(D_METHOD("get_texture_scale"), &TerrainMesher::get_texture_scale);
-	ClassDB::bind_method(D_METHOD("set_texture_scale", "value"), &TerrainMesher::set_texture_scale);
+	ClassDB::bind_method(D_METHOD("get_texture_scale"), &Terrain2DMesher::get_texture_scale);
+	ClassDB::bind_method(D_METHOD("set_texture_scale", "value"), &Terrain2DMesher::set_texture_scale);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "texture_scale"), "set_texture_scale", "get_texture_scale");
 
-	ClassDB::bind_method(D_METHOD("get_lod_index"), &TerrainMesher::get_lod_index);
-	ClassDB::bind_method(D_METHOD("set_lod_index", "value"), &TerrainMesher::set_lod_index);
+	ClassDB::bind_method(D_METHOD("get_lod_index"), &Terrain2DMesher::get_lod_index);
+	ClassDB::bind_method(D_METHOD("set_lod_index", "value"), &Terrain2DMesher::set_lod_index);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "lod_index"), "set_lod_index", "get_lod_index");
 
-	ClassDB::bind_method(D_METHOD("get_library"), &TerrainMesher::get_library);
-	ClassDB::bind_method(D_METHOD("set_library", "value"), &TerrainMesher::set_library);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "TerrainLibrary"), "set_library", "get_library");
+	ClassDB::bind_method(D_METHOD("get_library"), &Terrain2DMesher::get_library);
+	ClassDB::bind_method(D_METHOD("set_library", "value"), &Terrain2DMesher::set_library);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DLibrary"), "set_library", "get_library");
 
-	ClassDB::bind_method(D_METHOD("get_material"), &TerrainMesher::get_material);
-	ClassDB::bind_method(D_METHOD("set_material", "value"), &TerrainMesher::set_material);
+	ClassDB::bind_method(D_METHOD("get_material"), &Terrain2DMesher::get_material);
+	ClassDB::bind_method(D_METHOD("set_material", "value"), &Terrain2DMesher::set_material);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "set_material", "get_material");
 
-	ClassDB::bind_method(D_METHOD("get_voxel_scale"), &TerrainMesher::get_voxel_scale);
-	ClassDB::bind_method(D_METHOD("set_voxel_scale", "value"), &TerrainMesher::set_voxel_scale);
+	ClassDB::bind_method(D_METHOD("get_voxel_scale"), &Terrain2DMesher::get_voxel_scale);
+	ClassDB::bind_method(D_METHOD("set_voxel_scale", "value"), &Terrain2DMesher::set_voxel_scale);
 	ADD_PROPERTY(PropertyInfo(Variant::REAL, "voxel_scale"), "set_voxel_scale", "get_voxel_scale");
 
-	ClassDB::bind_method(D_METHOD("get_ao_strength"), &TerrainMesher::get_ao_strength);
-	ClassDB::bind_method(D_METHOD("set_ao_strength", "value"), &TerrainMesher::set_ao_strength);
+	ClassDB::bind_method(D_METHOD("get_ao_strength"), &Terrain2DMesher::get_ao_strength);
+	ClassDB::bind_method(D_METHOD("set_ao_strength", "value"), &Terrain2DMesher::set_ao_strength);
 	ADD_PROPERTY(PropertyInfo(Variant::REAL, "ao_strength"), "set_ao_strength", "get_ao_strength");
 
-	ClassDB::bind_method(D_METHOD("get_base_light_value"), &TerrainMesher::get_base_light_value);
-	ClassDB::bind_method(D_METHOD("set_base_light_value", "value"), &TerrainMesher::set_base_light_value);
+	ClassDB::bind_method(D_METHOD("get_base_light_value"), &Terrain2DMesher::get_base_light_value);
+	ClassDB::bind_method(D_METHOD("set_base_light_value", "value"), &Terrain2DMesher::set_base_light_value);
 	ADD_PROPERTY(PropertyInfo(Variant::REAL, "base_light_value"), "set_base_light_value", "get_base_light_value");
 
-	ClassDB::bind_method(D_METHOD("get_uv_margin"), &TerrainMesher::get_uv_margin);
-	ClassDB::bind_method(D_METHOD("set_uv_margin", "value"), &TerrainMesher::set_uv_margin);
+	ClassDB::bind_method(D_METHOD("get_uv_margin"), &Terrain2DMesher::get_uv_margin);
+	ClassDB::bind_method(D_METHOD("set_uv_margin", "value"), &Terrain2DMesher::set_uv_margin);
 	ADD_PROPERTY(PropertyInfo(Variant::RECT2, "uv_margin"), "set_uv_margin", "get_uv_margin");
 
-	ClassDB::bind_method(D_METHOD("add_chunk", "chunk"), &TerrainMesher::add_chunk);
+	ClassDB::bind_method(D_METHOD("add_chunk", "chunk"), &Terrain2DMesher::add_chunk);
 
 #ifdef MESH_DATA_RESOURCE_PRESENT
-	ClassDB::bind_method(D_METHOD("add_mesh_data_resource", "mesh", "position", "rotation", "scale", "uv_rect"), &TerrainMesher::add_mesh_data_resource, DEFVAL(Rect2(0, 0, 1, 1)), DEFVAL(Vector3(1.0, 1.0, 1.0)), DEFVAL(Vector3()), DEFVAL(Vector3()));
-	ClassDB::bind_method(D_METHOD("add_mesh_data_resource_transform", "mesh", "transform", "uv_rect"), &TerrainMesher::add_mesh_data_resource_transform, DEFVAL(Rect2(0, 0, 1, 1)));
-	ClassDB::bind_method(D_METHOD("add_mesh_data_resource_transform_colored", "mesh", "transform", "colors", "uv_rect"), &TerrainMesher::add_mesh_data_resource_transform_colored, DEFVAL(Rect2(0, 0, 1, 1)));
+	ClassDB::bind_method(D_METHOD("add_mesh_data_resource", "mesh", "position", "rotation", "scale", "uv_rect"), &Terrain2DMesher::add_mesh_data_resource, DEFVAL(Rect2(0, 0, 1, 1)), DEFVAL(Vector3(1.0, 1.0, 1.0)), DEFVAL(Vector3()), DEFVAL(Vector3()));
+	ClassDB::bind_method(D_METHOD("add_mesh_data_resource_transform", "mesh", "transform", "uv_rect"), &Terrain2DMesher::add_mesh_data_resource_transform, DEFVAL(Rect2(0, 0, 1, 1)));
+	ClassDB::bind_method(D_METHOD("add_mesh_data_resource_transform_colored", "mesh", "transform", "colors", "uv_rect"), &Terrain2DMesher::add_mesh_data_resource_transform_colored, DEFVAL(Rect2(0, 0, 1, 1)));
 #endif
 
 
 #if VERSION_MAJOR < 4
-	BIND_VMETHOD(MethodInfo("_add_mesher", PropertyInfo(Variant::OBJECT, "mesher", PROPERTY_HINT_RESOURCE_TYPE, "TerrainMesher")));
+	BIND_VMETHOD(MethodInfo("_add_mesher", PropertyInfo(Variant::OBJECT, "mesher", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DMesher")));
 #else
 	GDVIRTUAL_BIND(_add_mesher, "mesher");
 #endif
-	ClassDB::bind_method(D_METHOD("add_mesher", "mesher"), &TerrainMesher::add_mesher);
-	ClassDB::bind_method(D_METHOD("_add_mesher", "mesher"), &TerrainMesher::_add_mesher);
+	ClassDB::bind_method(D_METHOD("add_mesher", "mesher"), &Terrain2DMesher::add_mesher);
+	ClassDB::bind_method(D_METHOD("_add_mesher", "mesher"), &Terrain2DMesher::_add_mesher);
 
-	ClassDB::bind_method(D_METHOD("bake_colors", "chunk"), &TerrainMesher::bake_colors);
-	ClassDB::bind_method(D_METHOD("bake_liquid_colors", "chunk"), &TerrainMesher::bake_liquid_colors);
+	ClassDB::bind_method(D_METHOD("bake_colors", "chunk"), &Terrain2DMesher::bake_colors);
+	ClassDB::bind_method(D_METHOD("bake_liquid_colors", "chunk"), &Terrain2DMesher::bake_liquid_colors);
 
-	ClassDB::bind_method(D_METHOD("get_vertices"), &TerrainMesher::get_vertices);
-	ClassDB::bind_method(D_METHOD("set_vertices", "values"), &TerrainMesher::set_vertices);
-	ClassDB::bind_method(D_METHOD("get_vertex_count"), &TerrainMesher::get_vertex_count);
-	ClassDB::bind_method(D_METHOD("get_vertex", "idx"), &TerrainMesher::get_vertex);
-	ClassDB::bind_method(D_METHOD("remove_vertex", "idx"), &TerrainMesher::remove_vertex);
-	ClassDB::bind_method(D_METHOD("add_vertex", "vertex"), &TerrainMesher::add_vertex);
+	ClassDB::bind_method(D_METHOD("get_vertices"), &Terrain2DMesher::get_vertices);
+	ClassDB::bind_method(D_METHOD("set_vertices", "values"), &Terrain2DMesher::set_vertices);
+	ClassDB::bind_method(D_METHOD("get_vertex_count"), &Terrain2DMesher::get_vertex_count);
+	ClassDB::bind_method(D_METHOD("get_vertex", "idx"), &Terrain2DMesher::get_vertex);
+	ClassDB::bind_method(D_METHOD("remove_vertex", "idx"), &Terrain2DMesher::remove_vertex);
+	ClassDB::bind_method(D_METHOD("add_vertex", "vertex"), &Terrain2DMesher::add_vertex);
 
-	ClassDB::bind_method(D_METHOD("get_normals"), &TerrainMesher::get_normals);
-	ClassDB::bind_method(D_METHOD("set_normals", "values"), &TerrainMesher::set_normals);
-	ClassDB::bind_method(D_METHOD("get_normal", "idx"), &TerrainMesher::get_normal);
-	ClassDB::bind_method(D_METHOD("add_normal", "normal"), &TerrainMesher::add_normal);
+	ClassDB::bind_method(D_METHOD("get_normals"), &Terrain2DMesher::get_normals);
+	ClassDB::bind_method(D_METHOD("set_normals", "values"), &Terrain2DMesher::set_normals);
+	ClassDB::bind_method(D_METHOD("get_normal", "idx"), &Terrain2DMesher::get_normal);
+	ClassDB::bind_method(D_METHOD("add_normal", "normal"), &Terrain2DMesher::add_normal);
 
-	ClassDB::bind_method(D_METHOD("get_colors"), &TerrainMesher::get_colors);
-	ClassDB::bind_method(D_METHOD("set_colors", "values"), &TerrainMesher::set_colors);
-	ClassDB::bind_method(D_METHOD("get_color", "idx"), &TerrainMesher::get_color);
-	ClassDB::bind_method(D_METHOD("add_color", "color"), &TerrainMesher::add_color);
+	ClassDB::bind_method(D_METHOD("get_colors"), &Terrain2DMesher::get_colors);
+	ClassDB::bind_method(D_METHOD("set_colors", "values"), &Terrain2DMesher::set_colors);
+	ClassDB::bind_method(D_METHOD("get_color", "idx"), &Terrain2DMesher::get_color);
+	ClassDB::bind_method(D_METHOD("add_color", "color"), &Terrain2DMesher::add_color);
 
-	ClassDB::bind_method(D_METHOD("get_uvs"), &TerrainMesher::get_uvs);
-	ClassDB::bind_method(D_METHOD("set_uvs", "values"), &TerrainMesher::set_uvs);
-	ClassDB::bind_method(D_METHOD("get_uv", "idx"), &TerrainMesher::get_uv);
-	ClassDB::bind_method(D_METHOD("add_uv", "uv"), &TerrainMesher::add_uv);
+	ClassDB::bind_method(D_METHOD("get_uvs"), &Terrain2DMesher::get_uvs);
+	ClassDB::bind_method(D_METHOD("set_uvs", "values"), &Terrain2DMesher::set_uvs);
+	ClassDB::bind_method(D_METHOD("get_uv", "idx"), &Terrain2DMesher::get_uv);
+	ClassDB::bind_method(D_METHOD("add_uv", "uv"), &Terrain2DMesher::add_uv);
 
-	ClassDB::bind_method(D_METHOD("get_uv2s"), &TerrainMesher::get_uv2s);
-	ClassDB::bind_method(D_METHOD("set_uv2s", "values"), &TerrainMesher::set_uv2s);
-	ClassDB::bind_method(D_METHOD("get_uv2", "idx"), &TerrainMesher::get_uv2);
-	ClassDB::bind_method(D_METHOD("add_uv2", "uv"), &TerrainMesher::add_uv2);
+	ClassDB::bind_method(D_METHOD("get_uv2s"), &Terrain2DMesher::get_uv2s);
+	ClassDB::bind_method(D_METHOD("set_uv2s", "values"), &Terrain2DMesher::set_uv2s);
+	ClassDB::bind_method(D_METHOD("get_uv2", "idx"), &Terrain2DMesher::get_uv2);
+	ClassDB::bind_method(D_METHOD("add_uv2", "uv"), &Terrain2DMesher::add_uv2);
 
-	ClassDB::bind_method(D_METHOD("get_indices"), &TerrainMesher::get_indices);
-	ClassDB::bind_method(D_METHOD("set_indices", "values"), &TerrainMesher::set_indices);
-	ClassDB::bind_method(D_METHOD("get_indices_count"), &TerrainMesher::get_indices_count);
-	ClassDB::bind_method(D_METHOD("get_index", "idx"), &TerrainMesher::get_index);
-	ClassDB::bind_method(D_METHOD("remove_index", "idx"), &TerrainMesher::remove_index);
-	ClassDB::bind_method(D_METHOD("add_indices", "indice"), &TerrainMesher::add_indices);
+	ClassDB::bind_method(D_METHOD("get_indices"), &Terrain2DMesher::get_indices);
+	ClassDB::bind_method(D_METHOD("set_indices", "values"), &Terrain2DMesher::set_indices);
+	ClassDB::bind_method(D_METHOD("get_indices_count"), &Terrain2DMesher::get_indices_count);
+	ClassDB::bind_method(D_METHOD("get_index", "idx"), &Terrain2DMesher::get_index);
+	ClassDB::bind_method(D_METHOD("remove_index", "idx"), &Terrain2DMesher::remove_index);
+	ClassDB::bind_method(D_METHOD("add_indices", "indice"), &Terrain2DMesher::add_indices);
 
-	ClassDB::bind_method(D_METHOD("reset"), &TerrainMesher::reset);
+	ClassDB::bind_method(D_METHOD("reset"), &Terrain2DMesher::reset);
 
-	//ClassDB::bind_method(D_METHOD("calculate_vertex_ambient_occlusion", "meshinstance_path", "radius", "intensity", "sampleCount"), &TerrainMesher::calculate_vertex_ambient_occlusion_path);
+	//ClassDB::bind_method(D_METHOD("calculate_vertex_ambient_occlusion", "meshinstance_path", "radius", "intensity", "sampleCount"), &Terrain2DMesher::calculate_vertex_ambient_occlusion_path);
 
-	ClassDB::bind_method(D_METHOD("build_mesh"), &TerrainMesher::build_mesh);
-	ClassDB::bind_method(D_METHOD("build_mesh_into", "mesh_rid"), &TerrainMesher::build_mesh_into);
-	ClassDB::bind_method(D_METHOD("build_collider"), &TerrainMesher::build_collider);
+	ClassDB::bind_method(D_METHOD("build_mesh"), &Terrain2DMesher::build_mesh);
+	ClassDB::bind_method(D_METHOD("build_mesh_into", "mesh_rid"), &Terrain2DMesher::build_mesh_into);
+	ClassDB::bind_method(D_METHOD("build_collider"), &Terrain2DMesher::build_collider);
 
-	ClassDB::bind_method(D_METHOD("generate_normals", "flip"), &TerrainMesher::generate_normals, DEFVAL(false));
+	ClassDB::bind_method(D_METHOD("generate_normals", "flip"), &Terrain2DMesher::generate_normals, DEFVAL(false));
 
-	ClassDB::bind_method(D_METHOD("remove_doubles"), &TerrainMesher::remove_doubles);
-	ClassDB::bind_method(D_METHOD("remove_doubles_hashed"), &TerrainMesher::remove_doubles_hashed);
+	ClassDB::bind_method(D_METHOD("remove_doubles"), &Terrain2DMesher::remove_doubles);
+	ClassDB::bind_method(D_METHOD("remove_doubles_hashed"), &Terrain2DMesher::remove_doubles_hashed);
 }

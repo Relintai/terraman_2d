@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="TerrainSurfaceSimple" inherits="TerrainSurface" version="3.5">
+<class name="Terrain2DSurfaceSimple" inherits="Terrain2DSurface" version="3.5">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -9,26 +9,26 @@
 	<methods>
 		<method name="get_atlas_x" qualifiers="const">
 			<return type="int" />
-			<argument index="0" name="side" type="int" enum="TerrainSurface.TerrainSurfaceSides" />
+			<argument index="0" name="side" type="int" enum="Terrain2DSurface.Terrain2DSurfaceSides" />
 			<description>
 			</description>
 		</method>
 		<method name="get_atlas_y" qualifiers="const">
 			<return type="int" />
-			<argument index="0" name="side" type="int" enum="TerrainSurface.TerrainSurfaceSides" />
+			<argument index="0" name="side" type="int" enum="Terrain2DSurface.Terrain2DSurfaceSides" />
 			<description>
 			</description>
 		</method>
 		<method name="set_atlas_x">
 			<return type="void" />
-			<argument index="0" name="side" type="int" enum="TerrainSurface.TerrainSurfaceSides" />
+			<argument index="0" name="side" type="int" enum="Terrain2DSurface.Terrain2DSurfaceSides" />
 			<argument index="1" name="value" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="set_atlas_y">
 			<return type="void" />
-			<argument index="0" name="side" type="int" enum="TerrainSurface.TerrainSurfaceSides" />
+			<argument index="0" name="side" type="int" enum="Terrain2DSurface.Terrain2DSurfaceSides" />
 			<argument index="1" name="value" type="int" />
 			<description>
 			</description>

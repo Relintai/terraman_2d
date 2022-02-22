@@ -38,11 +38,11 @@ SOFTWARE.
 #include "../data/terrain_2d_light.h"
 #include "terrain_2d_surface_simple.h"
 
-class TerrainSurfaceSimple;
-class TerrainMesher;
+class Terrain2DSurfaceSimple;
+class Terrain2DMesher;
 
-class TerrainLibrarySimple : public TerrainLibrary {
-	GDCLASS(TerrainLibrarySimple, TerrainLibrary)
+class Terrain2DLibrarySimple : public Terrain2DLibrary {
+	GDCLASS(Terrain2DLibrarySimple, Terrain2DLibrary)
 
 public:
 	int get_atlas_columns() const;
@@ -51,9 +51,9 @@ public:
 	int get_atlas_rows() const;
 	void set_atlas_rows(int s);
 
-	Ref<TerrainSurface> terra_surface_get(const int index);
-	void terra_surface_add(Ref<TerrainSurface> value);
-	void terra_surface_set(const int index, Ref<TerrainSurface> value);
+	Ref<Terrain2DSurface> terra_surface_get(const int index);
+	void terra_surface_add(Ref<Terrain2DSurface> value);
+	void terra_surface_set(const int index, Ref<Terrain2DSurface> value);
 	void terra_surface_remove(const int index);
 	int terra_surface_get_num() const;
 	void terra_surfaces_clear();
@@ -63,14 +63,14 @@ public:
 
 	void refresh_rects();
 
-	TerrainLibrarySimple();
-	~TerrainLibrarySimple();
+	Terrain2DLibrarySimple();
+	~Terrain2DLibrarySimple();
 
 protected:
 	static void _bind_methods();
 
 private:
-	Vector<Ref<TerrainSurfaceSimple> > _terra_surfaces;
+	Vector<Ref<Terrain2DSurfaceSimple> > _terra_surfaces;
 
 	//atlas
 	int _atlas_columns;

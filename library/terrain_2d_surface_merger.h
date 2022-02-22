@@ -35,20 +35,20 @@ SOFTWARE.
 #define Texture Texture2D
 #endif
 
-class TerrainSurfaceMerger : public TerrainSurface {
-	GDCLASS(TerrainSurfaceMerger, TerrainSurface)
+class Terrain2DSurfaceMerger : public Terrain2DSurface {
+	GDCLASS(Terrain2DSurfaceMerger, Terrain2DSurface)
 
 public:
-	Ref<AtlasTexture> get_region(const TerrainSurfaceSides side);
-	void set_region(const TerrainSurfaceSides side, const Ref<AtlasTexture> &texture);
+	Ref<AtlasTexture> get_region(const Terrain2DSurfaceSides side);
+	void set_region(const Terrain2DSurfaceSides side, const Ref<AtlasTexture> &texture);
 
-	Ref<Texture> get_texture(const TerrainSurfaceSides side);
-	void set_texture(const TerrainSurfaceSides side, const Ref<Texture> &texture);
+	Ref<Texture> get_texture(const Terrain2DSurfaceSides side);
+	void set_texture(const Terrain2DSurfaceSides side, const Ref<Texture> &texture);
 
 	void refresh_rects();
 
-	TerrainSurfaceMerger();
-	~TerrainSurfaceMerger();
+	Terrain2DSurfaceMerger();
+	~Terrain2DSurfaceMerger();
 
 protected:
 	static void _bind_methods();

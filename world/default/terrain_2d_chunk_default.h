@@ -51,11 +51,11 @@ SOFTWARE.
 #include "../../library/terrain_2d_surface.h"
 #include "../../library/terrain_2d_library.h"
 
-class TerrainWorld;
-class TerrainJob;
+class Terrain2DWorld;
+class Terrain2DJob;
 
-class TerrainChunkDefault : public TerrainChunk {
-	GDCLASS(TerrainChunkDefault, TerrainChunk);
+class Terrain2DChunkDefault : public Terrain2DChunk {
+	GDCLASS(Terrain2DChunkDefault, Terrain2DChunk);
 
 	_THREAD_SAFE_CLASS_
 
@@ -149,7 +149,7 @@ public:
 	void update_transforms();
 
 	//Lights
-	Ref<TerrainLight> get_light(const int index);
+	Ref<Terrain2DLight> get_light(const int index);
 	int get_light_count() const;
 
 	//Debug
@@ -183,8 +183,8 @@ public:
 
 	void _finalize_build();
 
-	TerrainChunkDefault();
-	~TerrainChunkDefault();
+	Terrain2DChunkDefault();
+	~Terrain2DChunkDefault();
 
 protected:
 	virtual void _channel_setup();
@@ -196,10 +196,10 @@ protected:
 
 	//lights
 	virtual void _bake_lights();
-	virtual void _bake_light(Ref<TerrainLight> light);
+	virtual void _bake_light(Ref<Terrain2DLight> light);
 	virtual void _clear_baked_lights();
-	virtual void _world_light_added(const Ref<TerrainLight> &light);
-	virtual void _world_light_removed(const Ref<TerrainLight> &light);
+	virtual void _world_light_added(const Ref<Terrain2DLight> &light);
+	virtual void _world_light_removed(const Ref<Terrain2DLight> &light);
 
 	static void _bind_methods();
 
@@ -221,10 +221,10 @@ protected:
 	RID _debug_mesh_instance;
 	PoolVector3Array _debug_mesh_array;
 
-	Vector<Ref<TerrainLight> > _lights;
+	Vector<Ref<Terrain2DLight> > _lights;
 };
 
-VARIANT_ENUM_CAST(TerrainChunkDefault::DefaultChannels);
-VARIANT_ENUM_CAST(TerrainChunkDefault::BuildFlags);
+VARIANT_ENUM_CAST(Terrain2DChunkDefault::DefaultChannels);
+VARIANT_ENUM_CAST(Terrain2DChunkDefault::BuildFlags);
 
 #endif

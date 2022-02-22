@@ -36,19 +36,19 @@ SOFTWARE.
 
 #include "../terrain_2d_mesher.h"
 
-class TerrainMesherDefault : public TerrainMesher {
-	GDCLASS(TerrainMesherDefault, TerrainMesher);
+class Terrain2DMesherDefault : public Terrain2DMesher {
+	GDCLASS(Terrain2DMesherDefault, Terrain2DMesher);
 
 public:
 	int get_build_flags() const;
 	void set_build_flags(const int flags);
 
-	TerrainMesherDefault();
-	~TerrainMesherDefault();
+	Terrain2DMesherDefault();
+	~Terrain2DMesherDefault();
 
 protected:
-	virtual void _bake_colors(Ref<TerrainChunk> p_chunk);
-	virtual void _bake_liquid_colors(Ref<TerrainChunk> p_chunk);
+	virtual void _bake_colors(Ref<Terrain2DChunk> p_chunk);
+	virtual void _bake_liquid_colors(Ref<Terrain2DChunk> p_chunk);
 
 	static void _bind_methods();
 

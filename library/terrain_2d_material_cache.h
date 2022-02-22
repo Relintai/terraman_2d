@@ -42,10 +42,10 @@ SOFTWARE.
 
 #include "../defines.h"
 
-class TerrainLibrary;
+class Terrain2DLibrary;
 
-class TerrainMaterialCache : public Resource {
-	GDCLASS(TerrainMaterialCache, Resource)
+class Terrain2DMaterialCache : public Resource {
+	GDCLASS(Terrain2DMaterialCache, Resource)
 
 public:
 	bool get_initialized();
@@ -67,10 +67,10 @@ public:
 	Vector<Variant> materials_get();
 	void materials_set(const Vector<Variant> &materials);
 
-	virtual Ref<TerrainSurface> surface_get(const int index);
-	virtual Ref<TerrainSurface> surface_id_get(const int id);
-	virtual void surface_add(Ref<TerrainSurface> value);
-	virtual void surface_set(const int index, Ref<TerrainSurface> value);
+	virtual Ref<Terrain2DSurface> surface_get(const int index);
+	virtual Ref<Terrain2DSurface> surface_id_get(const int id);
+	virtual void surface_add(Ref<Terrain2DSurface> value);
+	virtual void surface_set(const int index, Ref<Terrain2DSurface> value);
 	virtual void surface_remove(const int index);
 	virtual int surface_get_num() const;
 	virtual void surfaces_clear();
@@ -98,15 +98,15 @@ public:
 	GDVIRTUAL1(_setup_material_albedo, Ref<Texture>);
 #endif
 
-	TerrainMaterialCache();
-	~TerrainMaterialCache();
+	Terrain2DMaterialCache();
+	~Terrain2DMaterialCache();
 
 protected:
 	static void _bind_methods();
 
 	bool _initialized;
 
-	Vector<Ref<TerrainSurface>> _surfaces;
+	Vector<Ref<Terrain2DSurface>> _surfaces;
 	Vector<Ref<Material>> _materials;
 	Vector<Ref<Texture>> _additional_textures;
 

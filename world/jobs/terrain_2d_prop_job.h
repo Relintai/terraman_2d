@@ -27,19 +27,19 @@ SOFTWARE.
 
 #include "terrain_2d_mesher_job_step.h"
 
-class TerrainMesher;
+class Terrain2DMesher;
 
-class TerrainPropJob : public TerrainJob {
-	GDCLASS(TerrainPropJob, TerrainJob);
+class Terrain2DPropJob : public Terrain2DJob {
+	GDCLASS(Terrain2DPropJob, Terrain2DJob);
 
 public:
-	Ref<TerrainMesher> get_prop_mesher() const;
-	void set_prop_mesher(const Ref<TerrainMesher> &mesher);
+	Ref<Terrain2DMesher> get_prop_mesher() const;
+	void set_prop_mesher(const Ref<Terrain2DMesher> &mesher);
 
-	Ref<TerrainMesherJobStep> get_jobs_step(const int index) const;
-	void set_jobs_step(const int index, const Ref<TerrainMesherJobStep> &step);
+	Ref<Terrain2DMesherJobStep> get_jobs_step(const int index) const;
+	void set_jobs_step(const int index, const Ref<Terrain2DMesherJobStep> &step);
 	void remove_jobs_step(const int index);
-	void add_jobs_step(const Ref<TerrainMesherJobStep> &step);
+	void add_jobs_step(const Ref<Terrain2DMesherJobStep> &step);
 	int get_jobs_step_count() const;
 
 	void phase_physics_process();
@@ -60,15 +60,15 @@ public:
 	void step_type_bake_texture();
 	void step_type_simplify_mesh();
 
-	TerrainPropJob();
-	~TerrainPropJob();
+	Terrain2DPropJob();
+	~Terrain2DPropJob();
 
 protected:
 	static void _bind_methods();
 
-	Ref<TerrainMesher> _prop_mesher;
+	Ref<Terrain2DMesher> _prop_mesher;
 
-	Vector<Ref<TerrainMesherJobStep>> _job_steps;
+	Vector<Ref<Terrain2DMesherJobStep>> _job_steps;
 	int _current_job_step;
 	int _current_mesh;
 

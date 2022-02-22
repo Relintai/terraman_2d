@@ -1,9 +1,9 @@
 #include "terrain_2d_light_node.h"
 
-TerrainLightNode::TerrainLightNode() {
+Terrain2DLightNode::Terrain2DLightNode() {
 }
-TerrainLightNode::~TerrainLightNode() {
+Terrain2DLightNode::~Terrain2DLightNode() {
 }
 
-void TerrainLightNode::_bind_methods() {
+void Terrain2DLightNode::_bind_methods() {
 }

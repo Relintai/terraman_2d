@@ -40,8 +40,8 @@ SOFTWARE.
 #include "scene/3d/world_environment.h"
 #include "scene/main/node.h"
 
-class TerrainEnvironmentData : public Resource {
-	GDCLASS(TerrainEnvironmentData, Resource);
+class Terrain2DEnvironmentData : public Resource {
+	GDCLASS(Terrain2DEnvironmentData, Resource);
 
 public:
 	Ref<Environment> get_environment();
@@ -61,8 +61,8 @@ public:
 	GDVIRTUAL3(_setup, WorldEnvironment *, DirectionalLight *, DirectionalLight *);
 #endif
 
-	TerrainEnvironmentData();
-	~TerrainEnvironmentData();
+	Terrain2DEnvironmentData();
+	~Terrain2DEnvironmentData();
 
 public:
 	enum {

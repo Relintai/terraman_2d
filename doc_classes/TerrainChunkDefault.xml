@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="TerrainChunkDefault" inherits="TerrainChunk" version="3.5">
+<class name="Terrain2DChunkDefault" inherits="Terrain2DChunk" version="3.5">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -108,7 +108,7 @@
 			</description>
 		</method>
 		<method name="get_light">
-			<return type="TerrainLight" />
+			<return type="Terrain2DLight" />
 			<argument index="0" name="index" type="int" />
 			<description>
 			</description>

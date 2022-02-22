@@ -26,52 +26,52 @@ SOFTWARE.
 
 #include "../../../opensimplex/open_simplex_noise.h"
 
-const String TerrainJob::BINDING_STRING_ACTIVE_BUILD_PHASE_TYPE = "Normal,Process,Physics Process";
+const String Terrain2DJob::BINDING_STRING_ACTIVE_BUILD_PHASE_TYPE = "Normal,Process,Physics Process";
 
-TerrainJob::ActiveBuildPhaseType TerrainJob::get_build_phase_type() {
+Terrain2DJob::ActiveBuildPhaseType Terrain2DJob::get_build_phase_type() {
 	return _build_phase_type;
 }
-void TerrainJob::set_build_phase_type(TerrainJob::ActiveBuildPhaseType build_phase_type) {
+void Terrain2DJob::set_build_phase_type(Terrain2DJob::ActiveBuildPhaseType build_phase_type) {
 	_build_phase_type = build_phase_type;
 }
 
-void TerrainJob::set_chunk(const Ref<TerrainChunk> &chunk) {
+void Terrain2DJob::set_chunk(const Ref<Terrain2DChunk> &chunk) {
 	_chunk = chunk;
 
 	_in_tree = true;
 }
 
-int TerrainJob::get_phase() {
+int Terrain2DJob::get_phase() {
 	return _phase;
 }
-void TerrainJob::set_phase(const int phase) {
+void Terrain2DJob::set_phase(const int phase) {
 	_phase = phase;
 }
-void TerrainJob::next_phase() {
+void Terrain2DJob::next_phase() {
 	++_phase;
 }
 
-bool TerrainJob::get_build_done() {
+bool Terrain2DJob::get_build_done() {
 	return _build_done;
 }
-void TerrainJob::set_build_done(const bool val) {
+void Terrain2DJob::set_build_done(const bool val) {
 	_build_done = val;
 }
 
-void TerrainJob::next_job() {
+void Terrain2DJob::next_job() {
 	_chunk->job_next();
 	set_build_done(true);
 }
 
-void TerrainJob::reset() {
+void Terrain2DJob::reset() {
 	call("_reset");
 }
-void TerrainJob::_reset() {
+void Terrain2DJob::_reset() {
 	_build_done = false;
 	_phase = 0;
 }
 
-void TerrainJob::_execute() {
+void Terrain2DJob::_execute() {
 
 	ActiveBuildPhaseType origpt = _build_phase_type;
 
@@ -84,25 +84,25 @@ void TerrainJob::_execute() {
 	}
 }
 
-void TerrainJob::execute_phase() {
+void Terrain2DJob::execute_phase() {
 	call("_execute_phase");
 }
 
-void TerrainJob::_execute_phase() {
+void Terrain2DJob::_execute_phase() {
 	next_job();
 }
 
-void TerrainJob::process(const float delta) {
+void Terrain2DJob::process(const float delta) {
 	if (has_method("_process"))
 		call("_process", delta);
 }
-void TerrainJob::physics_process(const float delta) {
+void Terrain2DJob::physics_process(const float delta) {
 	if (has_method("_physics_process"))
 		call("_physics_process", delta);
 }
 
 //Data Management functions
-void TerrainJob::generate_ao() {
+void Terrain2DJob::generate_ao() {
 	ERR_FAIL_COND(!_chunk.is_valid());
 
 	int data_size_x = _chunk->get_data_size_x();
@@ -121,12 +121,12 @@ void TerrainJob::generate_ao() {
 
 	for (int z = margin_start - 1; z < size_z - 1; ++z) {
 		for (int x = margin_start - 1; x < size_x - 1; ++x) {
-			int current = _chunk->get_voxel(x, z, TerrainChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
+			int current = _chunk->get_voxel(x, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
 
-			int sum = _chunk->get_voxel(x + 1, z, TerrainChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
-			sum += _chunk->get_voxel(x - 1, z, TerrainChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
-			sum += _chunk->get_voxel(x, z + 1, TerrainChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
-			sum += _chunk->get_voxel(x, z - 1, TerrainChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
+			int sum = _chunk->get_voxel(x + 1, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
+			sum += _chunk->get_voxel(x - 1, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
+			sum += _chunk->get_voxel(x, z + 1, Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
+			sum += _chunk->get_voxel(x, z - 1, Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
 
 			sum /= 6;
 
@@ -135,12 +135,12 @@ void TerrainJob::generate_ao() {
 			if (sum < 0)
 				sum = 0;
 
-			_chunk->set_voxel(sum, x, z, TerrainChunkDefault::DEFAULT_CHANNEL_AO);
+			_chunk->set_voxel(sum, x, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_AO);
 		}
 	}
 }
 
-void TerrainJob::generate_random_ao(int seed, int octaves, int period, float persistence, float scale_factor) {
+void Terrain2DJob::generate_random_ao(int seed, int octaves, int period, float persistence, float scale_factor) {
 	ERR_FAIL_COND(!_chunk.is_valid());
 
 	int margin_start = _chunk->get_margin_start();
@@ -173,12 +173,12 @@ void TerrainJob::generate_random_ao(int seed, int octaves, int period, float per
 			if (val < 0)
 				val = -val;
 
-			_chunk->set_voxel(int(val * 255.0), x, z, TerrainChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
+			_chunk->set_voxel(int(val * 255.0), x, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
 		}
 	}
 }
 
-Array TerrainJob::merge_mesh_array(Array arr) const {
+Array Terrain2DJob::merge_mesh_array(Array arr) const {
 	ERR_FAIL_COND_V(arr.size() != VisualServer::ARRAY_MAX, arr);
 
 	PoolVector3Array verts = arr[VisualServer::ARRAY_VERTEX];
@@ -242,7 +242,7 @@ Array TerrainJob::merge_mesh_array(Array arr) const {
 
 	return arr;
 }
-Array TerrainJob::bake_mesh_array_uv(Array arr, Ref<Texture> tex, const float mul_color) const {
+Array Terrain2DJob::bake_mesh_array_uv(Array arr, Ref<Texture> tex, const float mul_color) const {
 	ERR_FAIL_COND_V(arr.size() != VisualServer::ARRAY_MAX, arr);
 	ERR_FAIL_COND_V(!tex.is_valid(), arr);
 
@@ -283,7 +283,7 @@ Array TerrainJob::bake_mesh_array_uv(Array arr, Ref<Texture> tex, const float mu
 	return arr;
 }
 
-void TerrainJob::chunk_exit_tree() {
+void Terrain2DJob::chunk_exit_tree() {
 
 	_in_tree = false;
 
@@ -294,7 +294,7 @@ void TerrainJob::chunk_exit_tree() {
 	}
 }
 
-TerrainJob::TerrainJob() {
+Terrain2DJob::Terrain2DJob() {
 	_in_tree = false;
 
 	_build_phase_type = BUILD_PHASE_TYPE_NORMAL;
@@ -313,138 +313,138 @@ TerrainJob::TerrainJob() {
 #endif
 }
 
-TerrainJob::~TerrainJob() {
+Terrain2DJob::~Terrain2DJob() {
 	_chunk.unref();
 }
 
-void TerrainJob::_bind_methods() {
+void Terrain2DJob::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_process", PropertyInfo(Variant::REAL, "delta")));
 	BIND_VMETHOD(MethodInfo("_physics_process", PropertyInfo(Variant::REAL, "delta")));
 
-	ClassDB::bind_method(D_METHOD("get_build_phase_type"), &TerrainJob::get_build_phase_type);
-	ClassDB::bind_method(D_METHOD("set_build_phase_type", "value"), &TerrainJob::set_build_phase_type);
+	ClassDB::bind_method(D_METHOD("get_build_phase_type"), &Terrain2DJob::get_build_phase_type);
+	ClassDB::bind_method(D_METHOD("set_build_phase_type", "value"), &Terrain2DJob::set_build_phase_type);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "build_phase_type", PROPERTY_HINT_ENUM, BINDING_STRING_ACTIVE_BUILD_PHASE_TYPE), "set_build_phase_type", "get_build_phase_type");
 
-	ClassDB::bind_method(D_METHOD("set_chunk", "chunk"), &TerrainJob::set_chunk);
+	ClassDB::bind_method(D_METHOD("set_chunk", "chunk"), &Terrain2DJob::set_chunk);
 
-	ClassDB::bind_method(D_METHOD("get_phase"), &TerrainJob::get_phase);
-	ClassDB::bind_method(D_METHOD("set_phase", "phase"), &TerrainJob::set_phase);
-	ClassDB::bind_method(D_METHOD("next_phase"), &TerrainJob::next_phase);
+	ClassDB::bind_method(D_METHOD("get_phase"), &Terrain2DJob::get_phase);
+	ClassDB::bind_method(D_METHOD("set_phase", "phase"), &Terrain2DJob::set_phase);
+	ClassDB::bind_method(D_METHOD("next_phase"), &Terrain2DJob::next_phase);
 
-	ClassDB::bind_method(D_METHOD("get_build_done"), &TerrainJob::get_build_done);
-	ClassDB::bind_method(D_METHOD("set_build_done", "val"), &TerrainJob::set_build_done);
+	ClassDB::bind_method(D_METHOD("get_build_done"), &Terrain2DJob::get_build_done);
+	ClassDB::bind_method(D_METHOD("set_build_done", "val"), &Terrain2DJob::set_build_done);
 
-	ClassDB::bind_method(D_METHOD("next_job"), &TerrainJob::next_job);
+	ClassDB::bind_method(D_METHOD("next_job"), &Terrain2DJob::next_job);
 
 	BIND_VMETHOD(MethodInfo("_reset"));
 
-	ClassDB::bind_method(D_METHOD("reset"), &TerrainJob::reset);
-	ClassDB::bind_method(D_METHOD("_reset"), &TerrainJob::_reset);
+	ClassDB::bind_method(D_METHOD("reset"), &Terrain2DJob::reset);
+	ClassDB::bind_method(D_METHOD("_reset"), &Terrain2DJob::_reset);
 
-	ClassDB::bind_method(D_METHOD("_execute"), &TerrainJob::_execute);
+	ClassDB::bind_method(D_METHOD("_execute"), &Terrain2DJob::_execute);
 
 	BIND_VMETHOD(MethodInfo("_execute_phase"));
 
-	ClassDB::bind_method(D_METHOD("execute_phase"), &TerrainJob::execute_phase);
-	ClassDB::bind_method(D_METHOD("_execute_phase"), &TerrainJob::_execute_phase);
+	ClassDB::bind_method(D_METHOD("execute_phase"), &Terrain2DJob::execute_phase);
+	ClassDB::bind_method(D_METHOD("_execute_phase"), &Terrain2DJob::_execute_phase);
 
-	ClassDB::bind_method(D_METHOD("generate_ao"), &TerrainJob::generate_ao);
-	ClassDB::bind_method(D_METHOD("generate_random_ao", "seed", "octaves", "period", "persistence", "scale_factor"), &TerrainJob::generate_random_ao, DEFVAL(4), DEFVAL(30), DEFVAL(0.3), DEFVAL(0.6));
+	ClassDB::bind_method(D_METHOD("generate_ao"), &Terrain2DJob::generate_ao);
+	ClassDB::bind_method(D_METHOD("generate_random_ao", "seed", "octaves", "period", "persistence", "scale_factor"), &Terrain2DJob::generate_random_ao, DEFVAL(4), DEFVAL(30), DEFVAL(0.3), DEFVAL(0.6));
 
-	ClassDB::bind_method(D_METHOD("chunk_exit_tree"), &TerrainJob::chunk_exit_tree);
+	ClassDB::bind_method(D_METHOD("chunk_exit_tree"), &Terrain2DJob::chunk_exit_tree);
 
 #if !THREAD_POOL_PRESENT
-	ClassDB::bind_method(D_METHOD("get_complete"), &TerrainJob::get_complete);
-	ClassDB::bind_method(D_METHOD("set_complete", "value"), &TerrainJob::set_complete);
+	ClassDB::bind_method(D_METHOD("get_complete"), &Terrain2DJob::get_complete);
+	ClassDB::bind_method(D_METHOD("set_complete", "value"), &Terrain2DJob::set_complete);
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "complete"), "set_complete", "get_complete");
 
-	ClassDB::bind_method(D_METHOD("get_start_time"), &TerrainJob::get_start_time);
-	ClassDB::bind_method(D_METHOD("set_start_time", "value"), &TerrainJob::set_start_time);
+	ClassDB::bind_method(D_METHOD("get_start_time"), &Terrain2DJob::get_start_time);
+	ClassDB::bind_method(D_METHOD("set_start_time", "value"), &Terrain2DJob::set_start_time);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "start_time"), "set_start_time", "get_start_time");
 
-	ClassDB::bind_method(D_METHOD("get_current_run_stage"), &TerrainJob::get_current_run_stage);
-	ClassDB::bind_method(D_METHOD("set_current_run_stage", "value"), &TerrainJob::set_current_run_stage);
+	ClassDB::bind_method(D_METHOD("get_current_run_stage"), &Terrain2DJob::get_current_run_stage);
+	ClassDB::bind_method(D_METHOD("set_current_run_stage", "value"), &Terrain2DJob::set_current_run_stage);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "current_run_stage"), "set_current_run_stage", "get_current_run_stage");
 
-	ClassDB::bind_method(D_METHOD("get_stage"), &TerrainJob::get_stage);
-	ClassDB::bind_method(D_METHOD("set_stage", "value"), &TerrainJob::set_stage);
+	ClassDB::bind_method(D_METHOD("get_stage"), &Terrain2DJob::get_stage);
+	ClassDB::bind_method(D_METHOD("set_stage", "value"), &Terrain2DJob::set_stage);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "stage"), "set_stage", "get_stage");
 
-	ClassDB::bind_method(D_METHOD("get_current_execution_time"), &TerrainJob::get_current_execution_time);
+	ClassDB::bind_method(D_METHOD("get_current_execution_time"), &Terrain2DJob::get_current_execution_time);
 
-	ClassDB::bind_method(D_METHOD("should_do", "just_check"), &TerrainJob::should_do, DEFVAL(false));
-	ClassDB::bind_method(D_METHOD("should_return"), &TerrainJob::should_return);
+	ClassDB::bind_method(D_METHOD("should_do", "just_check"), &Terrain2DJob::should_do, DEFVAL(false));
+	ClassDB::bind_method(D_METHOD("should_return"), &Terrain2DJob::should_return);
 
 	BIND_VMETHOD(MethodInfo("_execute"));
-	ClassDB::bind_method(D_METHOD("execute"), &TerrainJob::execute);
+	ClassDB::bind_method(D_METHOD("execute"), &Terrain2DJob::execute);
 
 	ADD_SIGNAL(MethodInfo("completed"));
 #endif
 }
 
 #if !THREAD_POOL_PRESENT
-bool TerrainJob::get_complete() const {
+bool Terrain2DJob::get_complete() const {
 	return _complete;
 }
-void TerrainJob::set_complete(const bool value) {
+void Terrain2DJob::set_complete(const bool value) {
 	_complete = value;
 }
 
-bool TerrainJob::get_cancelled() const {
+bool Terrain2DJob::get_cancelled() const {
 	return _cancelled;
 }
-void TerrainJob::set_cancelled(const bool value) {
+void Terrain2DJob::set_cancelled(const bool value) {
 	_cancelled = value;
 }
 
-float TerrainJob::get_max_allocated_time() const {
+float Terrain2DJob::get_max_allocated_time() const {
 	return _max_allocated_time;
 }
-void TerrainJob::set_max_allocated_time(const float value) {
+void Terrain2DJob::set_max_allocated_time(const float value) {
 	_max_allocated_time = value;
 }
 
-int TerrainJob::get_start_time() const {
+int Terrain2DJob::get_start_time() const {
 	return _start_time;
 }
-void TerrainJob::set_start_time(const int value) {
+void Terrain2DJob::set_start_time(const int value) {
 	_start_time = value;
 }
 
-int TerrainJob::get_current_run_stage() const {
+int Terrain2DJob::get_current_run_stage() const {
 	return _current_run_stage;
 }
-void TerrainJob::set_current_run_stage(const int value) {
+void Terrain2DJob::set_current_run_stage(const int value) {
 	_current_run_stage = value;
 }
 
-int TerrainJob::get_stage() const {
+int Terrain2DJob::get_stage() const {
 	return _stage;
 }
-void TerrainJob::set_stage(const int value) {
+void Terrain2DJob::set_stage(const int value) {
 	_stage = value;
 }
 
-void TerrainJob::reset_stages() {
+void Terrain2DJob::reset_stages() {
 	_current_run_stage = 0;
 	_stage = 0;
 }
 
-float TerrainJob::get_current_execution_time() {
+float Terrain2DJob::get_current_execution_time() {
 	return 0;
 }
 
-bool TerrainJob::should_do(const bool just_check) {
+bool Terrain2DJob::should_do(const bool just_check) {
 	return true;
 }
-bool TerrainJob::should_return() {
+bool Terrain2DJob::should_return() {
 	if (_cancelled)
 		return true;
 
 	return false;
 }
 
-void TerrainJob::execute() {
+void Terrain2DJob::execute() {
 	ERR_FAIL_COND(!has_method("_execute"));
 
 	call("_execute");

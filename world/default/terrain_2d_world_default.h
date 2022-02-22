@@ -25,8 +25,8 @@ SOFTWARE.
 
 #include "../terrain_2d_world.h"
 
-class TerrainWorldDefault : public TerrainWorld {
-	GDCLASS(TerrainWorldDefault, TerrainWorld);
+class Terrain2DWorldDefault : public Terrain2DWorld {
+	GDCLASS(Terrain2DWorldDefault, Terrain2DWorld);
 
 public:
 	int get_build_flags() const;
@@ -48,14 +48,14 @@ public:
 
 	PoolColorArray get_vertex_colors(const Transform &transform, const PoolVector3Array &vertices, const float base_light_value = 0.45, const float ao_strength = 0.2);
 
-	TerrainWorldDefault();
-	~TerrainWorldDefault();
+	Terrain2DWorldDefault();
+	~Terrain2DWorldDefault();
 
 protected:
 	void _notification(int p_what);
 	void _update_lods();
-	Ref<TerrainChunk> _create_chunk(int x, int z, Ref<TerrainChunk> p_chunk);
-	virtual void _chunk_added(Ref<TerrainChunk> chunk);
+	Ref<Terrain2DChunk> _create_chunk(int x, int z, Ref<Terrain2DChunk> p_chunk);
+	virtual void _chunk_added(Ref<Terrain2DChunk> chunk);
 	int _get_channel_index_info(const ChannelTypeInfo channel_type);
 
 	//virtual void _notification(int p_what);

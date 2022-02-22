@@ -10,62 +10,62 @@ def configure(env):
 
 def get_doc_classes():
     return [
-        "TerrainWorldArea",
+        "Terrain2DWorldArea",
 
-        "TerrainLight",
-        "TerrainLightNode",
+        "Terrain2DLight",
+        "Terrain2DLightNode",
 
-        "TerrainLevelGenerator",
-        "TerrainLevelGeneratorFlat",
+        "Terrain2DLevelGenerator",
+        "Terrain2DLevelGeneratorFlat",
 
-        "TerrainSurfaceMerger",
-        "TerrainSurfaceSimple",
-        "TerrainSurface",
-        "TerrainLibraryMerger",
-        "TerrainLibrarySimple",
-        "TerrainLibrary",
-        "TerrainLibraryMergerPCM",
+        "Terrain2DSurfaceMerger",
+        "Terrain2DSurfaceSimple",
+        "Terrain2DSurface",
+        "Terrain2DLibraryMerger",
+        "Terrain2DLibrarySimple",
+        "Terrain2DLibrary",
+        "Terrain2DLibraryMergerPCM",
 
-        "TerrainMaterialCache",
-        "TerrainMaterialCachePCM",
+        "Terrain2DMaterialCache",
+        "Terrain2DMaterialCachePCM",
 
         "TerraCubePoints",
-        "TerrainMesherCubic",
-        "TerrainMeshData",
+        "Terrain2DMesherCubic",
+        "Terrain2DMeshData",
 
         "MarchingCubesCellData",
-        "TerrainMesherMarchingCubes",
+        "Terrain2DMesherMarchingCubes",
 
-        "TerrainMesher",
+        "Terrain2DMesher",
 
         "EnvironmentData",
-        "TerrainChunk",
-        "TerrainChunkDefault",
-        "TerrainStructure",
-        "BlockTerrainStructure",
-        "TerrainWorld",
+        "Terrain2DChunk",
+        "Terrain2DChunkDefault",
+        "Terrain2DStructure",
+        "BlockTerrain2DStructure",
+        "Terrain2DWorld",
 
-        "TerrainMesherBlocky",
-        "TerrainWorldBlocky",
-        "TerrainChunkBlocky",
+        "Terrain2DMesherBlocky",
+        "Terrain2DWorldBlocky",
+        "Terrain2DChunkBlocky",
 
-        "TerrainWorldMarchingCubes",
-        "TerrainChunkMarchingCubes",
+        "Terrain2DWorldMarchingCubes",
+        "Terrain2DChunkMarchingCubes",
     
-        "TerrainMesherCubic",
-        "TerrainWorldCubic",
-        "TerrainChunkCubic",
+        "Terrain2DMesherCubic",
+        "Terrain2DWorldCubic",
+        "Terrain2DChunkCubic",
 
-        "TerrainMesherDefault",
-        "TerrainWorldDefault",
+        "Terrain2DMesherDefault",
+        "Terrain2DWorldDefault",
 
-        "TerrainJob",
-        "TerrainTerrainJob",
-        "TerrainLightJob",
-        "TerrainPropJob",
+        "Terrain2DJob",
+        "Terrain2DTerrain2DJob",
+        "Terrain2DLightJob",
+        "Terrain2DPropJob",
 
-        "TerrainEnvironmentData",
-        "TerrainMesherJobStep",
+        "Terrain2DEnvironmentData",
+        "Terrain2DMesherJobStep",
         
     ]
 

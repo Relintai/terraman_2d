@@ -33,22 +33,22 @@ SOFTWARE.
 
 include_pool_vector
 
-		class TerrainMesher;
+		class Terrain2DMesher;
 
-class TerrainTerrainJob : public TerrainJob {
-	GDCLASS(TerrainTerrainJob, TerrainJob);
+class Terrain2DTerrain2DJob : public Terrain2DJob {
+	GDCLASS(Terrain2DTerrain2DJob, Terrain2DJob);
 
 public:
-	Ref<TerrainMesher> get_mesher() const;
-	void set_mesher(const Ref<TerrainMesher> &mesher);
+	Ref<Terrain2DMesher> get_mesher() const;
+	void set_mesher(const Ref<Terrain2DMesher> &mesher);
 
-	Ref<TerrainMesher> get_liquid_mesher() const;
-	void set_liquid_mesher(const Ref<TerrainMesher> &mesher);
+	Ref<Terrain2DMesher> get_liquid_mesher() const;
+	void set_liquid_mesher(const Ref<Terrain2DMesher> &mesher);
 
-	Ref<TerrainMesherJobStep> get_jobs_step(const int index) const;
-	void set_jobs_step(const int index, const Ref<TerrainMesherJobStep> &step);
+	Ref<Terrain2DMesherJobStep> get_jobs_step(const int index) const;
+	void set_jobs_step(const int index, const Ref<Terrain2DMesherJobStep> &step);
 	void remove_jobs_step(const int index);
-	void add_jobs_step(const Ref<TerrainMesherJobStep> &step);
+	void add_jobs_step(const Ref<Terrain2DMesherJobStep> &step);
 	int get_jobs_step_count() const;
 
 	void phase_setup();
@@ -71,16 +71,16 @@ public:
 	void step_type_bake_texture();
 	void step_type_simplify_mesh();
 
-	TerrainTerrainJob();
-	~TerrainTerrainJob();
+	Terrain2DTerrain2DJob();
+	~Terrain2DTerrain2DJob();
 
 protected:
 	static void _bind_methods();
 
-	Ref<TerrainMesher> _mesher;
-	Ref<TerrainMesher> _liquid_mesher;
+	Ref<Terrain2DMesher> _mesher;
+	Ref<Terrain2DMesher> _liquid_mesher;
 
-	Vector<Ref<TerrainMesherJobStep> > _job_steps;
+	Vector<Ref<Terrain2DMesherJobStep> > _job_steps;
 	int _current_job_step;
 	int _current_mesh;
 

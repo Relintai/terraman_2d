@@ -37,27 +37,27 @@ SOFTWARE.
 #include "../default/terrain_2d_mesher_default.h"
 #include "../../world/default/terrain_2d_chunk_default.h"
 
-class TerrainMesherBlocky : public TerrainMesherDefault {
-	GDCLASS(TerrainMesherBlocky, TerrainMesherDefault);
+class Terrain2DMesherBlocky : public Terrain2DMesherDefault {
+	GDCLASS(Terrain2DMesherBlocky, Terrain2DMesherDefault);
 
 public:
 	bool get_always_add_colors() const;
 	void set_always_add_colors(const bool value);
 
-	void _add_chunk(Ref<TerrainChunk> p_chunk);
+	void _add_chunk(Ref<Terrain2DChunk> p_chunk);
 
-	void add_chunk_normal(Ref<TerrainChunkDefault> chunk);
+	void add_chunk_normal(Ref<Terrain2DChunkDefault> chunk);
 
-	void add_chunk_lod(Ref<TerrainChunkDefault> chunk);
-	void create_margin_zmin(Ref<TerrainChunkDefault> chunk);
-	void create_margin_zmax(Ref<TerrainChunkDefault> chunk);
-	void create_margin_xmin(Ref<TerrainChunkDefault> chunk);
-	void create_margin_xmax(Ref<TerrainChunkDefault> chunk);
-	void create_margin_corners(Ref<TerrainChunkDefault> chunk);
-	void create_face(Ref<TerrainChunkDefault> chunk, int dataxmin, int dataxmax, int datazmin, int datazmax);
+	void add_chunk_lod(Ref<Terrain2DChunkDefault> chunk);
+	void create_margin_zmin(Ref<Terrain2DChunkDefault> chunk);
+	void create_margin_zmax(Ref<Terrain2DChunkDefault> chunk);
+	void create_margin_xmin(Ref<Terrain2DChunkDefault> chunk);
+	void create_margin_xmax(Ref<Terrain2DChunkDefault> chunk);
+	void create_margin_corners(Ref<Terrain2DChunkDefault> chunk);
+	void create_face(Ref<Terrain2DChunkDefault> chunk, int dataxmin, int dataxmax, int datazmin, int datazmax);
 
-	TerrainMesherBlocky();
-	~TerrainMesherBlocky();
+	Terrain2DMesherBlocky();
+	~Terrain2DMesherBlocky();
 
 protected:
 	static void _bind_methods();

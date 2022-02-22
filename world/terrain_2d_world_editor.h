@@ -33,14 +33,14 @@ SOFTWARE.
 typedef class Transform3D Transform;
 #endif
 
-class TerrainWorld;
+class Terrain2DWorld;
 class SpatialEditorPlugin;
 
-class TerrainWorldEditor : public PanelContainer {
-	GDCLASS(TerrainWorldEditor, PanelContainer);
+class Terrain2DWorldEditor : public PanelContainer {
+	GDCLASS(Terrain2DWorldEditor, PanelContainer);
 
 public:
-	enum TerrainWorldEditorToolMode {
+	enum Terrain2DWorldEditorToolMode {
 		TOOL_MODE_ADD = 0,
 		TOOL_MODE_REMOVE,
 	};
@@ -52,12 +52,12 @@ public:
 	EditorPlugin::AfterGUIInput forward_spatial_input_event(Camera *p_camera, const Ref<InputEvent> &p_event);
 #endif
 
-	void edit(TerrainWorld *p_world);
+	void edit(Terrain2DWorld *p_world);
 	bool do_input_action(Camera *p_camera, const Point2 &p_point, bool p_click);
 
-	TerrainWorldEditor();
-	TerrainWorldEditor(EditorNode *p_editor);
-	~TerrainWorldEditor();
+	Terrain2DWorldEditor();
+	Terrain2DWorldEditor(EditorNode *p_editor);
+	~Terrain2DWorldEditor();
 
 	HBoxContainer *spatial_editor_hb;
 
@@ -75,8 +75,8 @@ private:
 
 	Ref<ButtonGroup> _tool_button_group;
 
-	TerrainWorldEditorToolMode _tool_mode;
-	TerrainWorld *_world;
+	Terrain2DWorldEditorToolMode _tool_mode;
+	Terrain2DWorld *_world;
 
 	HSlider *_isolevel_slider;
 
@@ -90,10 +90,10 @@ private:
 	int _channel_isolevel;
 };
 
-class TerrainWorldEditorPlugin : public EditorPlugin {
-	GDCLASS(TerrainWorldEditorPlugin, EditorPlugin);
+class Terrain2DWorldEditorPlugin : public EditorPlugin {
+	GDCLASS(Terrain2DWorldEditorPlugin, EditorPlugin);
 
-	TerrainWorldEditor *voxel_world_editor;
+	Terrain2DWorldEditor *voxel_world_editor;
 	EditorNode *editor;
 
 protected:
@@ -107,14 +107,14 @@ public:
 	EditorPlugin::AfterGUIInput forward_spatial_input_event(Camera *p_camera, const Ref<InputEvent> &p_event) { return voxel_world_editor->forward_spatial_input_event(p_camera, p_event); }
 	virtual EditorPlugin::AfterGUIInput forward_spatial_gui_input(int p_index, Camera *p_camera, const Ref<InputEvent> &p_event) { return voxel_world_editor->forward_spatial_input_event(p_camera, p_event); }
 #endif
-	virtual String get_name() const { return "TerrainWorldEditor"; }
+	virtual String get_name() const { return "Terrain2DWorldEditor"; }
 	bool has_main_screen() const { return false; }
 	virtual void edit(Object *p_object);
 	virtual bool handles(Object *p_object) const;
 	virtual void make_visible(bool p_visible);
 
-	TerrainWorldEditorPlugin(EditorNode *p_node);
-	~TerrainWorldEditorPlugin();
+	Terrain2DWorldEditorPlugin(EditorNode *p_node);
+	~Terrain2DWorldEditorPlugin();
 };
 
 #endif

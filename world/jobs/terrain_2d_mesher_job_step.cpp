@@ -22,54 +22,54 @@ SOFTWARE.
 
 #include "terrain_2d_mesher_job_step.h"
 
-const String TerrainMesherJobStep::BINDING_STRING_TERRAIN_TERRAIN_JOB_STEP_TYPE = "Normal,Normal LOD,Drop UV2,Merge Verts,Bake Texture,Simplify Mesh";
+const String Terrain2DMesherJobStep::BINDING_STRING_TERRAIN_TERRAIN_JOB_STEP_TYPE = "Normal,Normal LOD,Drop UV2,Merge Verts,Bake Texture,Simplify Mesh";
 
-TerrainMesherJobStep::TerrainMesherJobStepType TerrainMesherJobStep::get_job_type() const {
+Terrain2DMesherJobStep::Terrain2DMesherJobStepType Terrain2DMesherJobStep::get_job_type() const {
 	return _job_type;
 }
-void TerrainMesherJobStep::set_job_type(const TerrainMesherJobStep::TerrainMesherJobStepType value) {
+void Terrain2DMesherJobStep::set_job_type(const Terrain2DMesherJobStep::Terrain2DMesherJobStepType value) {
 	_job_type = value;
 }
 
-int TerrainMesherJobStep::get_lod_index() const {
+int Terrain2DMesherJobStep::get_lod_index() const {
 	return _lod_index;
 }
-void TerrainMesherJobStep::set_lod_index(const int value) {
+void Terrain2DMesherJobStep::set_lod_index(const int value) {
 	_lod_index = value;
 }
 
 #ifdef MESH_UTILS_PRESENT
-Ref<FastQuadraticMeshSimplifier> TerrainMesherJobStep::get_fqms() {
+Ref<FastQuadraticMeshSimplifier> Terrain2DMesherJobStep::get_fqms() {
 	return _fqms;
 }
-void TerrainMesherJobStep::set_fqms(const Ref<FastQuadraticMeshSimplifier> &val) {
+void Terrain2DMesherJobStep::set_fqms(const Ref<FastQuadraticMeshSimplifier> &val) {
 	_fqms = val;
 }
 
-float TerrainMesherJobStep::get_simplification_step_ratio() const {
+float Terrain2DMesherJobStep::get_simplification_step_ratio() const {
 	return _simplification_step_ratio;
 }
-void TerrainMesherJobStep::set_simplification_step_ratio(const float value) {
+void Terrain2DMesherJobStep::set_simplification_step_ratio(const float value) {
 	_simplification_step_ratio = value;
 }
 
-int TerrainMesherJobStep::get_simplification_steps() const {
+int Terrain2DMesherJobStep::get_simplification_steps() const {
 	return _simplification_steps;
 }
-void TerrainMesherJobStep::set_simplification_steps(const int value) {
+void Terrain2DMesherJobStep::set_simplification_steps(const int value) {
 	_simplification_steps = value;
 }
 
-float TerrainMesherJobStep::get_simplification_agressiveness() const {
+float Terrain2DMesherJobStep::get_simplification_agressiveness() const {
 	return _simplification_agressiveness;
 }
-void TerrainMesherJobStep::set_simplification_agressiveness(const float value) {
+void Terrain2DMesherJobStep::set_simplification_agressiveness(const float value) {
 	_simplification_agressiveness = value;
 }
 
 #endif
 
-TerrainMesherJobStep::TerrainMesherJobStep() {
+Terrain2DMesherJobStep::Terrain2DMesherJobStep() {
 	_job_type = TYPE_NORMAL;
 	_lod_index = 0;
 
@@ -80,36 +80,36 @@ TerrainMesherJobStep::TerrainMesherJobStep() {
 #endif
 }
 
-TerrainMesherJobStep::~TerrainMesherJobStep() {
+Terrain2DMesherJobStep::~Terrain2DMesherJobStep() {
 #ifdef MESH_UTILS_PRESENT
 	_fqms.unref();
 #endif
 }
 
-void TerrainMesherJobStep::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_job_type"), &TerrainMesherJobStep::get_job_type);
-	ClassDB::bind_method(D_METHOD("set_job_type", "value"), &TerrainMesherJobStep::set_job_type);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "job_type", PROPERTY_HINT_ENUM, TerrainMesherJobStep::BINDING_STRING_TERRAIN_TERRAIN_JOB_STEP_TYPE), "set_job_type", "get_job_type");
+void Terrain2DMesherJobStep::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("get_job_type"), &Terrain2DMesherJobStep::get_job_type);
+	ClassDB::bind_method(D_METHOD("set_job_type", "value"), &Terrain2DMesherJobStep::set_job_type);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "job_type", PROPERTY_HINT_ENUM, Terrain2DMesherJobStep::BINDING_STRING_TERRAIN_TERRAIN_JOB_STEP_TYPE), "set_job_type", "get_job_type");
 
-	ClassDB::bind_method(D_METHOD("get_lod_index"), &TerrainMesherJobStep::get_lod_index);
-	ClassDB::bind_method(D_METHOD("set_lod_index", "value"), &TerrainMesherJobStep::set_lod_index);
+	ClassDB::bind_method(D_METHOD("get_lod_index"), &Terrain2DMesherJobStep::get_lod_index);
+	ClassDB::bind_method(D_METHOD("set_lod_index", "value"), &Terrain2DMesherJobStep::set_lod_index);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "lod_index"), "set_lod_index", "get_lod_index");
 
 #ifdef MESH_UTILS_PRESENT
-	ClassDB::bind_method(D_METHOD("get_fqms"), &TerrainMesherJobStep::get_fqms);
-	ClassDB::bind_method(D_METHOD("set_fqms", "value"), &TerrainMesherJobStep::set_fqms);
+	ClassDB::bind_method(D_METHOD("get_fqms"), &Terrain2DMesherJobStep::get_fqms);
+	ClassDB::bind_method(D_METHOD("set_fqms", "value"), &Terrain2DMesherJobStep::set_fqms);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "fqms", PROPERTY_HINT_RESOURCE_TYPE, "FastQuadraticMeshSimplifier"), "set_fqms", "get_fqms");
 
-	ClassDB::bind_method(D_METHOD("get_simplification_step_ratio"), &TerrainMesherJobStep::get_simplification_step_ratio);
-	ClassDB::bind_method(D_METHOD("set_simplification_step_ratio", "value"), &TerrainMesherJobStep::set_simplification_step_ratio);
+	ClassDB::bind_method(D_METHOD("get_simplification_step_ratio"), &Terrain2DMesherJobStep::get_simplification_step_ratio);
+	ClassDB::bind_method(D_METHOD("set_simplification_step_ratio", "value"), &Terrain2DMesherJobStep::set_simplification_step_ratio);
 	ADD_PROPERTY(PropertyInfo(Variant::REAL, "simplification_step_ratio"), "set_simplification_step_ratio", "get_simplification_step_ratio");
 
-	ClassDB::bind_method(D_METHOD("get_simplification_steps"), &TerrainMesherJobStep::get_simplification_steps);
-	ClassDB::bind_method(D_METHOD("set_simplification_steps", "value"), &TerrainMesherJobStep::set_simplification_steps);
+	ClassDB::bind_method(D_METHOD("get_simplification_steps"), &Terrain2DMesherJobStep::get_simplification_steps);
+	ClassDB::bind_method(D_METHOD("set_simplification_steps", "value"), &Terrain2DMesherJobStep::set_simplification_steps);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "simplification_steps"), "set_simplification_steps", "get_simplification_steps");
 
-	ClassDB::bind_method(D_METHOD("get_simplification_agressiveness"), &TerrainMesherJobStep::get_simplification_agressiveness);
-	ClassDB::bind_method(D_METHOD("set_simplification_agressiveness", "value"), &TerrainMesherJobStep::set_simplification_agressiveness);
+	ClassDB::bind_method(D_METHOD("get_simplification_agressiveness"), &Terrain2DMesherJobStep::get_simplification_agressiveness);
+	ClassDB::bind_method(D_METHOD("set_simplification_agressiveness", "value"), &Terrain2DMesherJobStep::set_simplification_agressiveness);
 	ADD_PROPERTY(PropertyInfo(Variant::REAL, "simplification_agressiveness"), "set_simplification_agressiveness", "get_simplification_agressiveness");
 #endif
 

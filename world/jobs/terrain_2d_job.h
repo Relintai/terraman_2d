@@ -45,14 +45,14 @@ SOFTWARE.
 #define Texture Texture2D
 #endif
 
-class TerrainChunk;
+class Terrain2DChunk;
 
 #if THREAD_POOL_PRESENT
-class TerrainJob : public ThreadPoolJob {
-	GDCLASS(TerrainJob, ThreadPoolJob);
+class Terrain2DJob : public ThreadPoolJob {
+	GDCLASS(Terrain2DJob, ThreadPoolJob);
 #else
-class TerrainJob : public Reference {
-	GDCLASS(TerrainJob, Reference);
+class Terrain2DJob : public Reference {
+	GDCLASS(Terrain2DJob, Reference);
 #endif
 
 public:
@@ -66,9 +66,9 @@ public:
 
 public:
 	ActiveBuildPhaseType get_build_phase_type();
-	void set_build_phase_type(TerrainJob::ActiveBuildPhaseType build_phase_type);
+	void set_build_phase_type(Terrain2DJob::ActiveBuildPhaseType build_phase_type);
 
-	void set_chunk(const Ref<TerrainChunk> &chunk);
+	void set_chunk(const Ref<Terrain2DChunk> &chunk);
 
 	int get_phase();
 	void set_phase(const int phase);
@@ -97,8 +97,8 @@ public:
 
 	void chunk_exit_tree();
 
-	TerrainJob();
-	~TerrainJob();
+	Terrain2DJob();
+	~Terrain2DJob();
 
 protected:
 	static void _bind_methods();
@@ -107,7 +107,7 @@ protected:
 	bool _build_done;
 	int _phase;
 	bool _in_tree;
-	Ref<TerrainChunk> _chunk;
+	Ref<Terrain2DChunk> _chunk;
 
 public:
 #if !THREAD_POOL_PRESENT
@@ -150,6 +150,6 @@ private:
 #endif
 };
 
-VARIANT_ENUM_CAST(TerrainJob::ActiveBuildPhaseType);
+VARIANT_ENUM_CAST(Terrain2DJob::ActiveBuildPhaseType);
 
 #endif

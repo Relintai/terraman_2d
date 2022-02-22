@@ -31,14 +31,14 @@ SOFTWARE.
 #include "../jobs/terrain_2d_prop_job.h"
 #include "../jobs/terrain_2d_terrain_job.h"
 
-_FORCE_INLINE_ int TerrainWorldDefault::get_build_flags() const {
+_FORCE_INLINE_ int Terrain2DWorldDefault::get_build_flags() const {
 	return _build_flags;
 }
-_FORCE_INLINE_ void TerrainWorldDefault::set_build_flags(const int flags) {
+_FORCE_INLINE_ void Terrain2DWorldDefault::set_build_flags(const int flags) {
 	_build_flags = flags;
 
 	for (int i = 0; i < chunk_get_count(); ++i) {
-		Ref<TerrainChunkDefault> c = chunk_get_index(i);
+		Ref<Terrain2DChunkDefault> c = chunk_get_index(i);
 
 		if (!c.is_valid())
 			continue;
@@ -47,21 +47,21 @@ _FORCE_INLINE_ void TerrainWorldDefault::set_build_flags(const int flags) {
 	}
 }
 
-float TerrainWorldDefault::get_lod_update_interval() const {
+float Terrain2DWorldDefault::get_lod_update_interval() const {
 	return _lod_update_interval;
 }
-void TerrainWorldDefault::set_lod_update_interval(const float value) {
+void Terrain2DWorldDefault::set_lod_update_interval(const float value) {
 	_lod_update_interval = value;
 }
 
-int TerrainWorldDefault::get_num_lods() const {
+int Terrain2DWorldDefault::get_num_lods() const {
 	return _num_lods;
 }
-void TerrainWorldDefault::set_num_lods(const int value) {
+void Terrain2DWorldDefault::set_num_lods(const int value) {
 	_num_lods = value;
 }
 
-void TerrainWorldDefault::update_lods() {
+void Terrain2DWorldDefault::update_lods() {
 	if (!get_active()) {
 		return;
 	}
@@ -69,21 +69,21 @@ void TerrainWorldDefault::update_lods() {
 	call("_update_lods");
 }
 
-int TerrainWorldDefault::get_chunk_lod_first_falloff() const {
+int Terrain2DWorldDefault::get_chunk_lod_first_falloff() const {
 	return _chunk_lod_first_falloff;
 }
-void TerrainWorldDefault::set_chunk_lod_first_falloff(const int value) {
+void Terrain2DWorldDefault::set_chunk_lod_first_falloff(const int value) {
 	_chunk_lod_first_falloff = value;
 }
 
-int TerrainWorldDefault::get_chunk_lod_falloff() const {
+int Terrain2DWorldDefault::get_chunk_lod_falloff() const {
 	return _chunk_lod_falloff;
 }
-void TerrainWorldDefault::set_chunk_lod_falloff(const int value) {
+void Terrain2DWorldDefault::set_chunk_lod_falloff(const int value) {
 	_chunk_lod_falloff = value;
 }
 
-PoolColorArray TerrainWorldDefault::get_vertex_colors(const Transform &transform, const PoolVector3Array &vertices, const float base_light_value, const float ao_strength) {
+PoolColorArray Terrain2DWorldDefault::get_vertex_colors(const Transform &transform, const PoolVector3Array &vertices, const float base_light_value, const float ao_strength) {
 	PoolColorArray arr;
 	arr.resize(vertices.size());
 
@@ -107,16 +107,16 @@ PoolColorArray TerrainWorldDefault::get_vertex_colors(const Transform &transform
 			bz += get_chunk_size_z();
 		}
 
-		Ref<TerrainChunk> chunk = chunk_get(x, z);
+		Ref<Terrain2DChunk> chunk = chunk_get(x, z);
 
 		if (chunk.is_valid()) {
 			Color light = Color(
-					chunk->get_voxel(bx, bz, TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R) / 255.0,
-					chunk->get_voxel(bx, bz, TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G) / 255.0,
-					chunk->get_voxel(bx, bz, TerrainChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B) / 255.0);
+					chunk->get_voxel(bx, bz, Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R) / 255.0,
+					chunk->get_voxel(bx, bz, Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G) / 255.0,
+					chunk->get_voxel(bx, bz, Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B) / 255.0);
 
-			float ao = (chunk->get_voxel(bx, bz, TerrainChunkDefault::DEFAULT_CHANNEL_AO) / 255.0) * ao_strength;
-			float rao = chunk->get_voxel(bx, bz, TerrainChunkDefault::DEFAULT_CHANNEL_RANDOM_AO) / 255.0;
+			float ao = (chunk->get_voxel(bx, bz, Terrain2DChunkDefault::DEFAULT_CHANNEL_AO) / 255.0) * ao_strength;
+			float rao = chunk->get_voxel(bx, bz, Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO) / 255.0;
 
 			ao += rao;
 
@@ -141,7 +141,7 @@ PoolColorArray TerrainWorldDefault::get_vertex_colors(const Transform &transform
 	return arr;
 }
 
-void TerrainWorldDefault::_update_lods() {
+void Terrain2DWorldDefault::_update_lods() {
 	if (!get_player() || !INSTANCE_VALIDATE(get_player())) {
 		return;
 	}
@@ -155,7 +155,7 @@ void TerrainWorldDefault::_update_lods() {
 	int ppz = int(ppos.z / get_chunk_size_z() / get_voxel_scale());
 
 	for (int i = 0; i < chunk_get_count(); ++i) {
-		Ref<TerrainChunkDefault> c = chunk_get_index(i);
+		Ref<Terrain2DChunkDefault> c = chunk_get_index(i);
 
 		if (!c.is_valid())
 			continue;
@@ -175,43 +175,43 @@ void TerrainWorldDefault::_update_lods() {
 	}
 }
 
-Ref<TerrainChunk> TerrainWorldDefault::_create_chunk(int x, int z, Ref<TerrainChunk> chunk) {
+Ref<Terrain2DChunk> Terrain2DWorldDefault::_create_chunk(int x, int z, Ref<Terrain2DChunk> chunk) {
 	if (!chunk.is_valid()) {
-		chunk = Ref<TerrainChunk>(memnew(TerrainChunkDefault));
+		chunk = Ref<Terrain2DChunk>(memnew(Terrain2DChunkDefault));
 	}
 
 	if (chunk->job_get_count() == 0) {
-		Ref<TerrainTerrainJob> tj;
+		Ref<Terrain2DTerrain2DJob> tj;
 		tj.instance();
 
-		Ref<TerrainLightJob> lj;
+		Ref<Terrain2DLightJob> lj;
 		lj.instance();
 
-		Ref<TerrainPropJob> pj;
+		Ref<Terrain2DPropJob> pj;
 		pj.instance();
-		pj->set_prop_mesher(Ref<TerrainMesher>(memnew(TerrainMesherDefault)));
+		pj->set_prop_mesher(Ref<Terrain2DMesher>(memnew(Terrain2DMesherDefault)));
 
-		Ref<TerrainMesherJobStep> s;
+		Ref<Terrain2DMesherJobStep> s;
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_NORMAL);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL);
 		tj->add_jobs_step(s);
 
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_NORMAL_LOD);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL_LOD);
 		s->set_lod_index(1);
 		tj->add_jobs_step(s);
 
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_NORMAL_LOD);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL_LOD);
 		s->set_lod_index(2);
 		tj->add_jobs_step(s);
 
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_MERGE_VERTS);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_MERGE_VERTS);
 		tj->add_jobs_step(s);
 
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_BAKE_TEXTURE);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_BAKE_TEXTURE);
 		tj->add_jobs_step(s);
 
 		chunk->job_add(lj);
@@ -219,30 +219,30 @@ Ref<TerrainChunk> TerrainWorldDefault::_create_chunk(int x, int z, Ref<TerrainCh
 		chunk->job_add(pj);
 	}
 
-	Ref<TerrainChunkDefault> vcd = chunk;
+	Ref<Terrain2DChunkDefault> vcd = chunk;
 
 	if (vcd.is_valid()) {
 		vcd->set_build_flags(_build_flags);
 		vcd->set_lod_num(_num_lods);
 	}
 
-	return TerrainWorld::_create_chunk(x, z, chunk);
+	return Terrain2DWorld::_create_chunk(x, z, chunk);
 }
 
-void TerrainWorldDefault::_chunk_added(Ref<TerrainChunk> chunk) {
-	Ref<TerrainChunkDefault> c = chunk;
+void Terrain2DWorldDefault::_chunk_added(Ref<Terrain2DChunk> chunk) {
+	Ref<Terrain2DChunkDefault> c = chunk;
 
 	if (c.is_valid()) {
 		c->set_build_flags(_build_flags);
 	}
 }
 
-int TerrainWorldDefault::_get_channel_index_info(const TerrainWorld::ChannelTypeInfo channel_type) {
+int Terrain2DWorldDefault::_get_channel_index_info(const Terrain2DWorld::ChannelTypeInfo channel_type) {
 	switch (channel_type) {
 		case CHANNEL_TYPE_INFO_TYPE:
-			return TerrainChunkDefault::DEFAULT_CHANNEL_TYPE;
+			return Terrain2DChunkDefault::DEFAULT_CHANNEL_TYPE;
 		case CHANNEL_TYPE_INFO_ISOLEVEL:
-			return TerrainChunkDefault::DEFAULT_CHANNEL_ISOLEVEL;
+			return Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL;
 		case CHANNEL_TYPE_INFO_LIQUID_FLOW:
 			return -1;
 		default:
@@ -250,23 +250,23 @@ int TerrainWorldDefault::_get_channel_index_info(const TerrainWorld::ChannelType
 	}
 }
 
-TerrainWorldDefault::TerrainWorldDefault() {
+Terrain2DWorldDefault::Terrain2DWorldDefault() {
 	_chunk_lod_first_falloff = 2;
 	_chunk_lod_falloff = 2;
 	_lod_update_timer = 0;
 	_lod_update_interval = 0.5;
-	_build_flags = TerrainChunkDefault::BUILD_FLAG_CREATE_COLLIDER | TerrainChunkDefault::BUILD_FLAG_CREATE_LODS;
+	_build_flags = Terrain2DChunkDefault::BUILD_FLAG_CREATE_COLLIDER | Terrain2DChunkDefault::BUILD_FLAG_CREATE_LODS;
 	_num_lods = 4;
 
 	set_data_margin_start(1);
 	set_data_margin_end(1);
 }
 
-TerrainWorldDefault ::~TerrainWorldDefault() {
+Terrain2DWorldDefault ::~Terrain2DWorldDefault() {
 }
 
-void TerrainWorldDefault::_notification(int p_what) {
-	TerrainWorld::_notification(p_what);
+void Terrain2DWorldDefault::_notification(int p_what) {
+	Terrain2DWorld::_notification(p_what);
 
 	switch (p_what) {
 		case NOTIFICATION_ACTIVE_STATE_CHANGED: {
@@ -277,7 +277,7 @@ void TerrainWorldDefault::_notification(int p_what) {
 			bool active = get_active();
 
 			for (int i = 0; i < chunk_get_count(); ++i) {
-				Ref<TerrainChunk> chunk = chunk_get_index(i);
+				Ref<Terrain2DChunk> chunk = chunk_get_index(i);
 
 				if (chunk.is_valid()) {
 					chunk->set_visible(active);
@@ -294,12 +294,12 @@ void TerrainWorldDefault::_notification(int p_what) {
 }
 
 /*
-void TerrainWorldDefault::_notification(int p_what) {
-	TerrainWorld::_notification(p_what);
+void Terrain2DWorldDefault::_notification(int p_what) {
+	Terrain2DWorld::_notification(p_what);
 
 	switch (p_what) {
 		case NOTIFICATION_INTERNAL_PROCESS: {
-			if ((get_build_flags() & TerrainChunkDefault::BUILD_FLAG_CREATE_LODS) == 0)
+			if ((get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_CREATE_LODS) == 0)
 				return;
 
 			if (!get_player()) {
@@ -322,32 +322,32 @@ void TerrainWorldDefault::_notification(int p_what) {
 	}
 }*/
 
-void TerrainWorldDefault::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("_chunk_added", "chunk"), &TerrainWorldDefault::_chunk_added);
+void Terrain2DWorldDefault::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("_chunk_added", "chunk"), &Terrain2DWorldDefault::_chunk_added);
 
-	ClassDB::bind_method(D_METHOD("get_build_flags"), &TerrainWorldDefault::get_build_flags);
-	ClassDB::bind_method(D_METHOD("set_build_flags", "value"), &TerrainWorldDefault::set_build_flags);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "build_flags", PROPERTY_HINT_FLAGS, TerrainChunkDefault::BINDING_STRING_BUILD_FLAGS), "set_build_flags", "get_build_flags");
+	ClassDB::bind_method(D_METHOD("get_build_flags"), &Terrain2DWorldDefault::get_build_flags);
+	ClassDB::bind_method(D_METHOD("set_build_flags", "value"), &Terrain2DWorldDefault::set_build_flags);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "build_flags", PROPERTY_HINT_FLAGS, Terrain2DChunkDefault::BINDING_STRING_BUILD_FLAGS), "set_build_flags", "get_build_flags");
 
-	ClassDB::bind_method(D_METHOD("get_lod_update_interval"), &TerrainWorldDefault::get_lod_update_interval);
-	ClassDB::bind_method(D_METHOD("set_lod_update_interval", "value"), &TerrainWorldDefault::set_lod_update_interval);
+	ClassDB::bind_method(D_METHOD("get_lod_update_interval"), &Terrain2DWorldDefault::get_lod_update_interval);
+	ClassDB::bind_method(D_METHOD("set_lod_update_interval", "value"), &Terrain2DWorldDefault::set_lod_update_interval);
 	ADD_PROPERTY(PropertyInfo(Variant::REAL, "lod_update_interval"), "set_lod_update_interval", "get_lod_update_interval");
 
-	ClassDB::bind_method(D_METHOD("get_chunk_lod_first_falloff"), &TerrainWorldDefault::get_chunk_lod_first_falloff);
-	ClassDB::bind_method(D_METHOD("set_chunk_lod_first_falloff", "value"), &TerrainWorldDefault::set_chunk_lod_first_falloff);
+	ClassDB::bind_method(D_METHOD("get_chunk_lod_first_falloff"), &Terrain2DWorldDefault::get_chunk_lod_first_falloff);
+	ClassDB::bind_method(D_METHOD("set_chunk_lod_first_falloff", "value"), &Terrain2DWorldDefault::set_chunk_lod_first_falloff);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "chunk_lod_first_falloff"), "set_chunk_lod_first_falloff", "get_chunk_lod_first_falloff");
 
-	ClassDB::bind_method(D_METHOD("get_chunk_lod_falloff"), &TerrainWorldDefault::get_chunk_lod_falloff);
-	ClassDB::bind_method(D_METHOD("set_chunk_lod_falloff", "value"), &TerrainWorldDefault::set_chunk_lod_falloff);
+	ClassDB::bind_method(D_METHOD("get_chunk_lod_falloff"), &Terrain2DWorldDefault::get_chunk_lod_falloff);
+	ClassDB::bind_method(D_METHOD("set_chunk_lod_falloff", "value"), &Terrain2DWorldDefault::set_chunk_lod_falloff);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "chunk_lod_falloff"), "set_chunk_lod_falloff", "get_chunk_lod_falloff");
 
-	ClassDB::bind_method(D_METHOD("get_num_lods"), &TerrainWorldDefault::get_num_lods);
-	ClassDB::bind_method(D_METHOD("set_num_lods", "value"), &TerrainWorldDefault::set_num_lods);
+	ClassDB::bind_method(D_METHOD("get_num_lods"), &Terrain2DWorldDefault::get_num_lods);
+	ClassDB::bind_method(D_METHOD("set_num_lods", "value"), &Terrain2DWorldDefault::set_num_lods);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "num_lods"), "set_num_lods", "get_num_lods");
 
 	BIND_VMETHOD(MethodInfo("_update_lods"));
-	ClassDB::bind_method(D_METHOD("update_lods"), &TerrainWorldDefault::update_lods);
-	ClassDB::bind_method(D_METHOD("_update_lods"), &TerrainWorldDefault::_update_lods);
+	ClassDB::bind_method(D_METHOD("update_lods"), &Terrain2DWorldDefault::update_lods);
+	ClassDB::bind_method(D_METHOD("_update_lods"), &Terrain2DWorldDefault::_update_lods);
 
-	ClassDB::bind_method(D_METHOD("get_vertex_colors", "transform", "vertices", "base_light_value", "ao_strength"), &TerrainWorldDefault::get_vertex_colors, DEFVAL(0.45), DEFVAL(0.2));
+	ClassDB::bind_method(D_METHOD("get_vertex_colors", "transform", "vertices", "base_light_value", "ao_strength"), &Terrain2DWorldDefault::get_vertex_colors, DEFVAL(0.45), DEFVAL(0.2));
 }

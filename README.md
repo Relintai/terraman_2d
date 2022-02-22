@@ -118,7 +118,7 @@ If you implement your own jobs, when your job finishes call `next_job()`.
 
 This is the job that will generate vertex light based ao, random ao, and will bake your `TerraLight`s.
 
-### TerraTerrainJob
+### TerraTerrain2DJob
 
 This will generate your terrain collider and mesh (with lods) for you, using the meshers that you add into it.
 
@@ -151,7 +151,7 @@ This is done by `setup_chunk(shunk)` in `TerraWorld`.
         # We need to check whether or not we need to initialize jobs
         if chunk.job_get_count() == 0:
             # Setup a blocky (minecratf like) mesher job
-            var tj : TerraTerrainJob = TerraTerrainJob.new()
+            var tj : TerraTerrain2DJob = TerraTerrain2DJob.new()
 
             var s : TerraMesherJobStep = TerraMesherJobStep.new()
             s.job_type = TerraMesherJobStep.TYPE_NORMAL

@@ -40,8 +40,8 @@ SOFTWARE.
 
 #include "scene/resources/texture.h"
 
-class TerrainWorldArea : public Reference {
-	GDCLASS(TerrainWorldArea, Reference);
+class Terrain2DWorldArea : public Reference {
+	GDCLASS(Terrain2DWorldArea, Reference);
 
 public:
 	AABB get_aabb() const;
@@ -59,8 +59,8 @@ public:
 	int get_level() const;
 	void set_level(const int value);
 
-	TerrainWorldArea();
-	~TerrainWorldArea();
+	Terrain2DWorldArea();
+	~Terrain2DWorldArea();
 
 private:
 	static void _bind_methods();

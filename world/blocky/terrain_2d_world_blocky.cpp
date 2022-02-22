@@ -29,67 +29,67 @@ SOFTWARE.
 #include "../jobs/terrain_2d_prop_job.h"
 #include "../jobs/terrain_2d_terrain_job.h"
 
-Ref<TerrainChunk> TerrainWorldBlocky::_create_chunk(int x, int z, Ref<TerrainChunk> chunk) {
+Ref<Terrain2DChunk> Terrain2DWorldBlocky::_create_chunk(int x, int z, Ref<Terrain2DChunk> chunk) {
 	if (!chunk.is_valid()) {
-		chunk = Ref<TerrainChunk>(memnew(TerrainChunkBlocky));
+		chunk = Ref<Terrain2DChunk>(memnew(Terrain2DChunkBlocky));
 	}
 
 	if (chunk->job_get_count() == 0) {
-		Ref<TerrainTerrainJob> tj;
+		Ref<Terrain2DTerrain2DJob> tj;
 		tj.instance();
 
-		Ref<TerrainLightJob> lj;
+		Ref<Terrain2DLightJob> lj;
 		lj.instance();
 
-		Ref<TerrainMesherJobStep> s;
+		Ref<Terrain2DMesherJobStep> s;
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_NORMAL);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL);
 		tj->add_jobs_step(s);
 
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_NORMAL_LOD);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL_LOD);
 		s->set_lod_index(1);
 		tj->add_jobs_step(s);
 
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_NORMAL_LOD);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL_LOD);
 		s->set_lod_index(2);
 		tj->add_jobs_step(s);
 
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_MERGE_VERTS);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_MERGE_VERTS);
 		tj->add_jobs_step(s);
 
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_BAKE_TEXTURE);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_BAKE_TEXTURE);
 		tj->add_jobs_step(s);
 
-		tj->set_mesher(Ref<TerrainMesher>(memnew(TerrainMesherBlocky())));
+		tj->set_mesher(Ref<Terrain2DMesher>(memnew(Terrain2DMesherBlocky())));
 
-		Ref<TerrainMesherBlocky> liquid_mesher;
+		Ref<Terrain2DMesherBlocky> liquid_mesher;
 		liquid_mesher.instance();
-		liquid_mesher->set_channel_index_type(TerrainChunkDefault::DEFAULT_CHANNEL_LIQUID_TYPE);
-		liquid_mesher->set_channel_index_isolevel(TerrainChunkDefault::DEFAULT_CHANNEL_LIQUID_ISOLEVEL);
+		liquid_mesher->set_channel_index_type(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIQUID_TYPE);
+		liquid_mesher->set_channel_index_isolevel(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIQUID_ISOLEVEL);
 		tj->set_liquid_mesher(liquid_mesher);
 
-		Ref<TerrainPropJob> pj;
+		Ref<Terrain2DPropJob> pj;
 		pj.instance();
-		pj->set_prop_mesher(Ref<TerrainMesher>(memnew(TerrainMesherBlocky)));
+		pj->set_prop_mesher(Ref<Terrain2DMesher>(memnew(Terrain2DMesherBlocky)));
 
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_NORMAL);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_NORMAL);
 		pj->add_jobs_step(s);
 
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_MERGE_VERTS);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_MERGE_VERTS);
 		pj->add_jobs_step(s);
 
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_BAKE_TEXTURE);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_BAKE_TEXTURE);
 		pj->add_jobs_step(s);
 
 		s.instance();
-		s->set_job_type(TerrainMesherJobStep::TYPE_SIMPLIFY_MESH);
+		s->set_job_type(Terrain2DMesherJobStep::TYPE_SIMPLIFY_MESH);
 #ifdef MESH_UTILS_PRESENT
 		Ref<FastQuadraticMeshSimplifier> fqms;
 		fqms.instance();
@@ -103,16 +103,16 @@ Ref<TerrainChunk> TerrainWorldBlocky::_create_chunk(int x, int z, Ref<TerrainChu
 		chunk->job_add(pj);
 	}
 
-	return TerrainWorld::_create_chunk(x, z, chunk);
+	return Terrain2DWorld::_create_chunk(x, z, chunk);
 }
 
-TerrainWorldBlocky::TerrainWorldBlocky() {
+Terrain2DWorldBlocky::Terrain2DWorldBlocky() {
 	set_data_margin_start(1);
 	set_data_margin_end(1);
 }
 
-TerrainWorldBlocky ::~TerrainWorldBlocky() {
+Terrain2DWorldBlocky ::~Terrain2DWorldBlocky() {
 }
 
-void TerrainWorldBlocky::_bind_methods() {
+void Terrain2DWorldBlocky::_bind_methods() {
 }

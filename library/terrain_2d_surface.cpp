@@ -22,29 +22,29 @@ SOFTWARE.
 
 #include "terrain_2d_surface.h"
 
-int TerrainSurface::get_id() const {
+int Terrain2DSurface::get_id() const {
 	return _id;
 }
-void TerrainSurface::set_id(const int value) {
+void Terrain2DSurface::set_id(const int value) {
 	_id = value;
 }
 
-Rect2 TerrainSurface::get_rect(const TerrainSurfaceSides side) const {
+Rect2 Terrain2DSurface::get_rect(const Terrain2DSurfaceSides side) const {
 	return _rects[side];
 }
-void TerrainSurface::set_rect(const TerrainSurfaceSides side, const Rect2 &rect) {
+void Terrain2DSurface::set_rect(const Terrain2DSurfaceSides side, const Rect2 &rect) {
 	_rects[side] = rect;
 }
 
-Ref<TerrainLibrary> TerrainSurface::get_library() const {
-	return Ref<TerrainLibrary>(_library);
+Ref<Terrain2DLibrary> Terrain2DSurface::get_library() const {
+	return Ref<Terrain2DLibrary>(_library);
 }
 
-void TerrainSurface::set_library(Ref<TerrainLibrary> library) {
+void Terrain2DSurface::set_library(Ref<Terrain2DLibrary> library) {
 	_library = (*library);
 }
 
-_FORCE_INLINE_ Vector2 TerrainSurface::transform_uv(const TerrainSurfaceSides p_side, const Vector2 &p_uv) const {
+_FORCE_INLINE_ Vector2 Terrain2DSurface::transform_uv(const Terrain2DSurfaceSides p_side, const Vector2 &p_uv) const {
 	Vector2 uv = p_uv;
 
 	Rect2 r = _rects[p_side];
@@ -57,7 +57,7 @@ _FORCE_INLINE_ Vector2 TerrainSurface::transform_uv(const TerrainSurfaceSides p_
 	return uv;
 }
 
-_FORCE_INLINE_ Vector2 TerrainSurface::transform_uv_scaled(const TerrainSurfaceSides p_side, const Vector2 &p_uv, const int p_current_x, const int p_current_y, const int p_max) const {
+_FORCE_INLINE_ Vector2 Terrain2DSurface::transform_uv_scaled(const Terrain2DSurfaceSides p_side, const Vector2 &p_uv, const int p_current_x, const int p_current_y, const int p_max) const {
 	Vector2 uv = p_uv;
 
 	Rect2 r = _rects[p_side];
@@ -74,10 +74,10 @@ _FORCE_INLINE_ Vector2 TerrainSurface::transform_uv_scaled(const TerrainSurfaceS
 	return uv;
 }
 
-void TerrainSurface::refresh_rects() {
+void Terrain2DSurface::refresh_rects() {
 }
 
-TerrainSurface::TerrainSurface() {
+Terrain2DSurface::Terrain2DSurface() {
 	_id = 0;
 	_mesher_index = 0;
 	_transparent = false;
@@ -85,24 +85,24 @@ TerrainSurface::TerrainSurface() {
 	_library = NULL;
 }
 
-TerrainSurface::~TerrainSurface() {
+Terrain2DSurface::~Terrain2DSurface() {
 	_library = NULL;
 }
 
-void TerrainSurface::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_id"), &TerrainSurface::get_id);
-	ClassDB::bind_method(D_METHOD("set_id", "value"), &TerrainSurface::set_id);
+void Terrain2DSurface::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("get_id"), &Terrain2DSurface::get_id);
+	ClassDB::bind_method(D_METHOD("set_id", "value"), &Terrain2DSurface::set_id);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "id"), "set_id", "get_id");
 
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "voxel_name"), "set_name", "get_name");
 
-	ClassDB::bind_method(D_METHOD("get_rect", "side"), &TerrainSurface::get_rect);
-	ClassDB::bind_method(D_METHOD("set_rect", "side", "rect"), &TerrainSurface::set_rect);
+	ClassDB::bind_method(D_METHOD("get_rect", "side"), &Terrain2DSurface::get_rect);
+	ClassDB::bind_method(D_METHOD("set_rect", "side", "rect"), &Terrain2DSurface::set_rect);
 
-	ClassDB::bind_method(D_METHOD("transform_uv", "side", "uv"), &TerrainSurface::transform_uv);
-	ClassDB::bind_method(D_METHOD("transform_uv_scaled", "side", "uv", "p_current_x", "p_current_y", "max"), &TerrainSurface::transform_uv_scaled);
+	ClassDB::bind_method(D_METHOD("transform_uv", "side", "uv"), &Terrain2DSurface::transform_uv);
+	ClassDB::bind_method(D_METHOD("transform_uv_scaled", "side", "uv", "p_current_x", "p_current_y", "max"), &Terrain2DSurface::transform_uv_scaled);
 
-	ClassDB::bind_method(D_METHOD("refresh_rects"), &TerrainSurface::refresh_rects);
+	ClassDB::bind_method(D_METHOD("refresh_rects"), &Terrain2DSurface::refresh_rects);
 
 	BIND_ENUM_CONSTANT(TERRAIN_SIDE_TOP);
 	BIND_ENUM_CONSTANT(TERRAIN_SIDE_BOTTOM);

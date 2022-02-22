@@ -62,17 +62,17 @@ SOFTWARE.
 #define Texture Texture2D
 #endif
 
-class TerrainMaterialCache;
-class TerrainSurface;
-class TerrainMesher;
+class Terrain2DMaterialCache;
+class Terrain2DSurface;
+class Terrain2DMesher;
 class PackedScene;
-class TerrainChunk;
+class Terrain2DChunk;
 #ifdef PROPS_PRESENT
 class PropData;
 #endif
 
-class TerrainLibrary : public Resource {
-	GDCLASS(TerrainLibrary, Resource)
+class Terrain2DLibrary : public Resource {
+	GDCLASS(Terrain2DLibrary, Resource)
 
 public:
 	enum {
@@ -91,10 +91,10 @@ public:
 	Ref<Material> material_get(const int index);
 	Ref<Material> material_lod_get(const int index);
 
-	void material_cache_get_key(Ref<TerrainChunk> chunk);
-	virtual void _material_cache_get_key(Ref<TerrainChunk> chunk);
-	Ref<TerrainMaterialCache> material_cache_get(const int key);
-	virtual Ref<TerrainMaterialCache> _material_cache_get(const int key);
+	void material_cache_get_key(Ref<Terrain2DChunk> chunk);
+	virtual void _material_cache_get_key(Ref<Terrain2DChunk> chunk);
+	Ref<Terrain2DMaterialCache> material_cache_get(const int key);
+	virtual Ref<Terrain2DMaterialCache> _material_cache_get(const int key);
 	void material_cache_unref(const int key);
 	virtual void _material_cache_unref(const int key);
 
@@ -110,10 +110,10 @@ public:
 	Ref<Material> liquid_material_get(const int index);
 	Ref<Material> liquid_material_lod_get(const int index);
 
-	void liquid_material_cache_get_key(Ref<TerrainChunk> chunk);
-	virtual void _liquid_material_cache_get_key(Ref<TerrainChunk> chunk);
-	Ref<TerrainMaterialCache> liquid_material_cache_get(const int key);
-	virtual Ref<TerrainMaterialCache> _liquid_material_cache_get(const int key);
+	void liquid_material_cache_get_key(Ref<Terrain2DChunk> chunk);
+	virtual void _liquid_material_cache_get_key(Ref<Terrain2DChunk> chunk);
+	Ref<Terrain2DMaterialCache> liquid_material_cache_get(const int key);
+	virtual Ref<Terrain2DMaterialCache> _liquid_material_cache_get(const int key);
 	void liquid_material_cache_unref(const int key);
 	virtual void _liquid_material_cache_unref(const int key);
 
@@ -129,10 +129,10 @@ public:
 	Ref<Material> prop_material_get(const int index);
 	Ref<Material> prop_material_lod_get(const int index);
 
-	void prop_material_cache_get_key(Ref<TerrainChunk> chunk);
-	virtual void _prop_material_cache_get_key(Ref<TerrainChunk> chunk);
-	Ref<TerrainMaterialCache> prop_material_cache_get(const int key);
-	virtual Ref<TerrainMaterialCache> _prop_material_cache_get(const int key);
+	void prop_material_cache_get_key(Ref<Terrain2DChunk> chunk);
+	virtual void _prop_material_cache_get_key(Ref<Terrain2DChunk> chunk);
+	Ref<Terrain2DMaterialCache> prop_material_cache_get(const int key);
+	virtual Ref<Terrain2DMaterialCache> _prop_material_cache_get(const int key);
 	void prop_material_cache_unref(const int key);
 	virtual void _prop_material_cache_unref(const int key);
 
@@ -145,9 +145,9 @@ public:
 	Vector<Variant> prop_materials_get();
 	void prop_materials_set(const Vector<Variant> &materials);
 
-	virtual Ref<TerrainSurface> terra_surface_get(const int index);
-	virtual void terra_surface_add(Ref<TerrainSurface> value);
-	virtual void terra_surface_set(const int index, Ref<TerrainSurface> value);
+	virtual Ref<Terrain2DSurface> terra_surface_get(const int index);
+	virtual void terra_surface_add(Ref<Terrain2DSurface> value);
+	virtual void terra_surface_set(const int index, Ref<Terrain2DSurface> value);
 	virtual void terra_surface_remove(const int index);
 	virtual int terra_surface_get_num() const;
 	virtual void terra_surfaces_clear();
@@ -180,21 +180,21 @@ public:
 
 	GDVIRTUAL2(_setup_material_albedo, int, Ref<Texture>);
 
-	TMHGDVIRTUAL1(_material_cache_get_key, Ref<TerrainChunk>);
-	TMHGDVIRTUAL1R(Ref<TerrainMaterialCache>, _material_cache_get, int);
+	TMHGDVIRTUAL1(_material_cache_get_key, Ref<Terrain2DChunk>);
+	TMHGDVIRTUAL1R(Ref<Terrain2DMaterialCache>, _material_cache_get, int);
 	TMHGDVIRTUAL1(_material_cache_unref, int);
 
-	TMHGDVIRTUAL1(_liquid_material_cache_get_key, Ref<TerrainChunk>);
-	TMHGDVIRTUAL1R(Ref<TerrainMaterialCache>, _liquid_material_cache_get, int);
+	TMHGDVIRTUAL1(_liquid_material_cache_get_key, Ref<Terrain2DChunk>);
+	TMHGDVIRTUAL1R(Ref<Terrain2DMaterialCache>, _liquid_material_cache_get, int);
 	TMHGDVIRTUAL1(_liquid_material_cache_unref, int);
 
-	TMHGDVIRTUAL1(_prop_material_cache_get_key, Ref<TerrainChunk>);
-	TMHGDVIRTUAL1R(Ref<TerrainMaterialCache>, _prop_material_cache_get, int);
+	TMHGDVIRTUAL1(_prop_material_cache_get_key, Ref<Terrain2DChunk>);
+	TMHGDVIRTUAL1R(Ref<Terrain2DMaterialCache>, _prop_material_cache_get, int);
 	TMHGDVIRTUAL1(_prop_material_cache_unref, int);
 #endif
 
-	TerrainLibrary();
-	~TerrainLibrary();
+	Terrain2DLibrary();
+	~Terrain2DLibrary();
 
 protected:
 	static void _bind_methods();

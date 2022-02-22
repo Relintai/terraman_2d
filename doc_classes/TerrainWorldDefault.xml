@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="TerrainWorldDefault" inherits="TerrainWorld" version="3.5">
+<class name="Terrain2DWorldDefault" inherits="Terrain2DWorld" version="3.5">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -34,8 +34,8 @@
 		</member>
 		<member name="chunk_lod_first_falloff" type="int" setter="set_chunk_lod_first_falloff" getter="get_chunk_lod_first_falloff" default="2">
 		</member>
-		<member name="data_margin_end" type="int" setter="set_data_margin_end" getter="get_data_margin_end" overrides="TerrainWorld" default="1" />
-		<member name="data_margin_start" type="int" setter="set_data_margin_start" getter="get_data_margin_start" overrides="TerrainWorld" default="1" />
+		<member name="data_margin_end" type="int" setter="set_data_margin_end" getter="get_data_margin_end" overrides="Terrain2DWorld" default="1" />
+		<member name="data_margin_start" type="int" setter="set_data_margin_start" getter="get_data_margin_start" overrides="Terrain2DWorld" default="1" />
 		<member name="lod_update_interval" type="float" setter="set_lod_update_interval" getter="get_lod_update_interval" default="0.5">
 		</member>
 		<member name="num_lods" type="int" setter="set_num_lods" getter="get_num_lods" default="4">

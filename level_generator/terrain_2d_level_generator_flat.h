@@ -25,10 +25,10 @@ SOFTWARE.
 
 #include "terrain_2d_level_generator.h"
 
-class TerrainChunk;
+class Terrain2DChunk;
 
-class TerrainLevelGeneratorFlat : public TerrainLevelGenerator {
-	GDCLASS(TerrainLevelGeneratorFlat, TerrainLevelGenerator);
+class Terrain2DLevelGeneratorFlat : public Terrain2DLevelGenerator {
+	GDCLASS(Terrain2DLevelGeneratorFlat, Terrain2DLevelGenerator);
 
 public:
 	int get_floor_position() const;
@@ -37,10 +37,10 @@ public:
 	Dictionary get_channel_map();
 	void set_channel_map(const Dictionary &map);
 
-	virtual void _generate_chunk(Ref<TerrainChunk> chunk);
+	virtual void _generate_chunk(Ref<Terrain2DChunk> chunk);
 
-	TerrainLevelGeneratorFlat();
-	~TerrainLevelGeneratorFlat();
+	Terrain2DLevelGeneratorFlat();
+	~Terrain2DLevelGeneratorFlat();
 
 protected:
 	static void _bind_methods();

@@ -38,15 +38,15 @@ SOFTWARE.
 #include "../../../mesh_utils/fast_quadratic_mesh_simplifier.h"
 #endif
 
-class TerrainMesherJobStep : public Reference {
-	GDCLASS(TerrainMesherJobStep, Reference);
+class Terrain2DMesherJobStep : public Reference {
+	GDCLASS(Terrain2DMesherJobStep, Reference);
 
 public:
 	//todo add:
 	//type generate lighting,
 	//type skip (this would leave the mesh empty)
 	//type previous mesh (this would set the previous mesh's rid to the current lod level)
-	enum TerrainMesherJobStepType {
+	enum Terrain2DMesherJobStepType {
 		TYPE_NORMAL = 0,
 		TYPE_NORMAL_LOD,
 		TYPE_DROP_UV2,
@@ -58,8 +58,8 @@ public:
 
 	static const String BINDING_STRING_TERRAIN_TERRAIN_JOB_STEP_TYPE;
 
-	TerrainMesherJobStepType get_job_type() const;
-	void set_job_type(const TerrainMesherJobStepType value);
+	Terrain2DMesherJobStepType get_job_type() const;
+	void set_job_type(const Terrain2DMesherJobStepType value);
 
 	int get_lod_index() const;
 	void set_lod_index(const int value);
@@ -78,13 +78,13 @@ public:
 		void set_simplification_agressiveness(const float value);
 	#endif
 
-	TerrainMesherJobStep();
-	~TerrainMesherJobStep();
+	Terrain2DMesherJobStep();
+	~Terrain2DMesherJobStep();
 
 protected:
 	static void _bind_methods();
 
-	TerrainMesherJobStepType _job_type;
+	Terrain2DMesherJobStepType _job_type;
 	int _lod_index;
 
 	#ifdef MESH_UTILS_PRESENT
@@ -95,6 +95,6 @@ protected:
 	#endif
 };
 
-VARIANT_ENUM_CAST(TerrainMesherJobStep::TerrainMesherJobStepType);
+VARIANT_ENUM_CAST(Terrain2DMesherJobStep::Terrain2DMesherJobStepType);
 
 #endif

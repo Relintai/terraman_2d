@@ -47,81 +47,81 @@ SOFTWARE.
 #include "scene/3d/camera.h"
 #endif
 
-const String TerrainWorld::BINDING_STRING_CHANNEL_TYPE_INFO = "Type,Isolevel,Liquid,Liquid Level";
+const String Terrain2DWorld::BINDING_STRING_CHANNEL_TYPE_INFO = "Type,Isolevel,Liquid,Liquid Level";
 
-bool TerrainWorld::get_active() const {
+bool Terrain2DWorld::get_active() const {
 	return _active;
 }
-void TerrainWorld::set_active(const bool value) {
+void Terrain2DWorld::set_active(const bool value) {
 	_active = value;
 
 	notification(NOTIFICATION_ACTIVE_STATE_CHANGED);
 }
 
-bool TerrainWorld::get_editable() const {
+bool Terrain2DWorld::get_editable() const {
 	return _editable;
 }
-void TerrainWorld::set_editable(const bool value) {
+void Terrain2DWorld::set_editable(const bool value) {
 	_editable = value;
 }
 
-int TerrainWorld::get_chunk_size_x() const {
+int Terrain2DWorld::get_chunk_size_x() const {
 	return _chunk_size_x;
 }
-void TerrainWorld::set_chunk_size_x(const int value) {
+void Terrain2DWorld::set_chunk_size_x(const int value) {
 	_chunk_size_x = value;
 }
 
-int TerrainWorld::get_chunk_size_z() const {
+int Terrain2DWorld::get_chunk_size_z() const {
 	return _chunk_size_z;
 }
-void TerrainWorld::set_chunk_size_z(const int value) {
+void Terrain2DWorld::set_chunk_size_z(const int value) {
 	_chunk_size_z = value;
 }
 
-int TerrainWorld::get_data_margin_start() const {
+int Terrain2DWorld::get_data_margin_start() const {
 	return _data_margin_start;
 }
-void TerrainWorld::set_data_margin_start(const int value) {
+void Terrain2DWorld::set_data_margin_start(const int value) {
 	_data_margin_start = value;
 }
 
-int TerrainWorld::get_data_margin_end() const {
+int Terrain2DWorld::get_data_margin_end() const {
 	return _data_margin_end;
 }
-void TerrainWorld::set_data_margin_end(const int value) {
+void Terrain2DWorld::set_data_margin_end(const int value) {
 	_data_margin_end = value;
 }
 
-int TerrainWorld::get_current_seed() const {
+int Terrain2DWorld::get_current_seed() const {
 	return _current_seed;
 }
-void TerrainWorld::set_current_seed(const int value) {
+void Terrain2DWorld::set_current_seed(const int value) {
 	_current_seed = value;
 }
 
-_FORCE_INLINE_ float TerrainWorld::get_world_height() const {
+_FORCE_INLINE_ float Terrain2DWorld::get_world_height() const {
 	return _world_height;
 }
-void TerrainWorld::set_world_height(const float value) {
+void Terrain2DWorld::set_world_height(const float value) {
 	_world_height = value;
 }
 
-int TerrainWorld::get_max_concurrent_generations() {
+int Terrain2DWorld::get_max_concurrent_generations() {
 	return _max_concurrent_generations;
 }
-void TerrainWorld::set_max_concurrent_generations(const int value) {
+void Terrain2DWorld::set_max_concurrent_generations(const int value) {
 	_max_concurrent_generations = value;
 }
 
-Ref<TerrainLibrary> TerrainWorld::get_library() {
+Ref<Terrain2DLibrary> Terrain2DWorld::get_library() {
 	return _library;
 }
-void TerrainWorld::set_library(const Ref<TerrainLibrary> &library) {
+void Terrain2DWorld::set_library(const Ref<Terrain2DLibrary> &library) {
 	_library = library;
 
 	for (int i = 0; i < chunk_get_count(); ++i) {
-		Ref<TerrainChunk> c = chunk_get_index(i);
+		Ref<Terrain2DChunk> c = chunk_get_index(i);
 
 		if (!c.is_valid())
 			continue;
@@ -130,21 +130,21 @@ void TerrainWorld::set_library(const Ref<TerrainLibrary> &library) {
 	}
 }
 
-Ref<TerrainLevelGenerator> TerrainWorld::get_level_generator() const {
+Ref<Terrain2DLevelGenerator> Terrain2DWorld::get_level_generator() const {
 	return _level_generator;
 }
-void TerrainWorld::set_level_generator(const Ref<TerrainLevelGenerator> &level_generator) {
+void Terrain2DWorld::set_level_generator(const Ref<Terrain2DLevelGenerator> &level_generator) {
 	_level_generator = level_generator;
 }
 
-float TerrainWorld::get_voxel_scale() const {
+float Terrain2DWorld::get_voxel_scale() const {
 	return _voxel_scale;
 }
-void TerrainWorld::set_voxel_scale(const float value) {
+void Terrain2DWorld::set_voxel_scale(const float value) {
 	_voxel_scale = value;
 
 	for (int i = 0; i < chunk_get_count(); ++i) {
-		Ref<TerrainChunk> c = chunk_get_index(i);
+		Ref<Terrain2DChunk> c = chunk_get_index(i);
 
 		if (!c.is_valid())
 			continue;
@@ -153,62 +153,62 @@ void TerrainWorld::set_voxel_scale(const float value) {
 	}
 }
 
-int TerrainWorld::get_chunk_spawn_range() const {
+int Terrain2DWorld::get_chunk_spawn_range() const {
 	return _chunk_spawn_range;
 }
-void TerrainWorld::set_chunk_spawn_range(const int value) {
+void Terrain2DWorld::set_chunk_spawn_range(const int value) {
 	_chunk_spawn_range = value;
 }
 
-NodePath TerrainWorld::get_player_path() const {
+NodePath Terrain2DWorld::get_player_path() const {
 	return _player_path;
 }
 
-void TerrainWorld::set_player_path(const NodePath &player_path) {
+void Terrain2DWorld::set_player_path(const NodePath &player_path) {
 	_player_path = player_path;
 }
 
-Spatial *TerrainWorld::get_player() const {
+Spatial *Terrain2DWorld::get_player() const {
 	return _player;
 }
-void TerrainWorld::set_player(Spatial *player) {
+void Terrain2DWorld::set_player(Spatial *player) {
 	_player = player;
 }
-void TerrainWorld::set_player_bind(Node *player) {
+void Terrain2DWorld::set_player_bind(Node *player) {
 	set_player(Object::cast_to<Spatial>(player));
 }
 
-Ref<TerrainWorldArea> TerrainWorld::world_area_get(const int index) const {
-	ERR_FAIL_INDEX_V(index, _world_areas.size(), Ref<TerrainWorldArea>());
+Ref<Terrain2DWorldArea> Terrain2DWorld::world_area_get(const int index) const {
+	ERR_FAIL_INDEX_V(index, _world_areas.size(), Ref<Terrain2DWorldArea>());
 
 	return _world_areas.get(index);
 }
-void TerrainWorld::world_area_add(const Ref<TerrainWorldArea> &area) {
+void Terrain2DWorld::world_area_add(const Ref<Terrain2DWorldArea> &area) {
 	_world_areas.push_back(area);
 }
-void TerrainWorld::world_area_remove(const int index) {
+void Terrain2DWorld::world_area_remove(const int index) {
 	ERR_FAIL_INDEX(index, _world_areas.size());
 
 	_world_areas.VREMOVE(index);
 }
-void TerrainWorld::world_areas_clear() {
+void Terrain2DWorld::world_areas_clear() {
 	_world_areas.clear();
 }
-int TerrainWorld::world_area_get_count() const {
+int Terrain2DWorld::world_area_get_count() const {
 	return _world_areas.size();
 }
 
 //Terra Structures
 
-Ref<TerrainStructure> TerrainWorld::voxel_structure_get(const int index) const {
-	ERR_FAIL_INDEX_V(index, _voxel_structures.size(), Ref<TerrainStructure>());
+Ref<Terrain2DStructure> Terrain2DWorld::voxel_structure_get(const int index) const {
+	ERR_FAIL_INDEX_V(index, _voxel_structures.size(), Ref<Terrain2DStructure>());
 
 	return _voxel_structures.get(index);
 }
-void TerrainWorld::voxel_structure_add(const Ref<TerrainStructure> &structure) {
+void Terrain2DWorld::voxel_structure_add(const Ref<Terrain2DStructure> &structure) {
 	_voxel_structures.push_back(structure);
 }
-void TerrainWorld::voxel_structure_remove(const Ref<TerrainStructure> &structure) {
+void Terrain2DWorld::voxel_structure_remove(const Ref<Terrain2DStructure> &structure) {
 	if (!structure.is_valid())
 		return;
 
@@ -217,18 +217,18 @@ void TerrainWorld::voxel_structure_remove(const Ref<TerrainStructure> &structure
 	if (index != -1)
 		_voxel_structures.VREMOVE(index);
 }
-void TerrainWorld::voxel_structure_remove_index(const int index) {
+void Terrain2DWorld::voxel_structure_remove_index(const int index) {
 	ERR_FAIL_INDEX(index, _voxel_structures.size());
 
 	_voxel_structures.VREMOVE(index);
 }
-void TerrainWorld::voxel_structures_clear() {
+void Terrain2DWorld::voxel_structures_clear() {
 	_voxel_structures.clear();
 }
-int TerrainWorld::voxel_structure_get_count() const {
+int Terrain2DWorld::voxel_structure_get_count() const {
 	return _voxel_structures.size();
 }
-void TerrainWorld::voxel_structure_add_at_position(Ref<TerrainStructure> structure, const Vector3 &world_position) {
+void Terrain2DWorld::voxel_structure_add_at_position(Ref<Terrain2DStructure> structure, const Vector3 &world_position) {
 	ERR_FAIL_COND(!structure.is_valid());
 
 	structure->set_position_x(static_cast<int>(world_position.x / _voxel_scale));
@@ -238,20 +238,20 @@ void TerrainWorld::voxel_structure_add_at_position(Ref<TerrainStructure> structu
 	voxel_structure_add(structure);
 }
 
-Vector<Variant> TerrainWorld::voxel_structures_get() {
+Vector<Variant> Terrain2DWorld::voxel_structures_get() {
 	VARIANT_ARRAY_GET(_voxel_structures);
 }
-void TerrainWorld::voxel_structures_set(const Vector<Variant> &structures) {
+void Terrain2DWorld::voxel_structures_set(const Vector<Variant> &structures) {
 	voxel_structures_clear();
 
 	for (int i = 0; i < structures.size(); ++i) {
-		Ref<TerrainLight> structure = Ref<TerrainLight>(structures[i]);
+		Ref<Terrain2DLight> structure = Ref<Terrain2DLight>(structures[i]);
 
 		voxel_structure_add(structure);
 	}
 }
 
-void TerrainWorld::chunk_add(Ref<TerrainChunk> chunk, const int x, const int z) {
+void Terrain2DWorld::chunk_add(Ref<Terrain2DChunk> chunk, const int x, const int z) {
 	ERR_FAIL_COND(!chunk.is_valid());
 	ERR_FAIL_COND_MSG(chunk->get_voxel_world() != NULL && chunk->get_voxel_world() != this, "Chunk is already owned by an another world!");
 
@@ -278,25 +278,25 @@ void TerrainWorld::chunk_add(Ref<TerrainChunk> chunk, const int x, const int z) 
 
 	emit_signal("chunk_added", chunk);
 }
-bool TerrainWorld::chunk_has(const int x, const int z) const {
+bool Terrain2DWorld::chunk_has(const int x, const int z) const {
 	return _chunks.has(IntPos(x, z));
 }
-Ref<TerrainChunk> TerrainWorld::chunk_get(const int x, const int z) {
+Ref<Terrain2DChunk> Terrain2DWorld::chunk_get(const int x, const int z) {
 	IntPos pos(x, z);
 
 	if (_chunks.has(pos))
 		return _chunks.get(pos);
 
-	return Ref<TerrainChunk>();
+	return Ref<Terrain2DChunk>();
 }
-Ref<TerrainChunk> TerrainWorld::chunk_remove(const int x, const int z) {
+Ref<Terrain2DChunk> Terrain2DWorld::chunk_remove(const int x, const int z) {
 	IntPos pos(x, z);
 
 	if (!_chunks.has(pos)) {
 		return NULL;
 	}
 
-	Ref<TerrainChunk> chunk = _chunks.get(pos);
+	Ref<Terrain2DChunk> chunk = _chunks.get(pos);
 
 	chunk->exit_tree();
 
@@ -322,10 +322,10 @@ Ref<TerrainChunk> TerrainWorld::chunk_remove(const int x, const int z) {
 
 	return chunk;
 }
-Ref<TerrainChunk> TerrainWorld::chunk_remove_index(const int index) {
+Ref<Terrain2DChunk> Terrain2DWorld::chunk_remove_index(const int index) {
 	ERR_FAIL_INDEX_V(index, _chunks_vector.size(), NULL);
 
-	Ref<TerrainChunk> chunk = _chunks_vector.get(index);
+	Ref<Terrain2DChunk> chunk = _chunks_vector.get(index);
 	chunk->exit_tree();
 
 	_chunks_vector.VREMOVE(index);
@@ -344,18 +344,18 @@ Ref<TerrainChunk> TerrainWorld::chunk_remove_index(const int index) {
 	return chunk;
 }
 
-Ref<TerrainChunk> TerrainWorld::chunk_get_index(const int index) {
+Ref<Terrain2DChunk> Terrain2DWorld::chunk_get_index(const int index) {
 	ERR_FAIL_INDEX_V(index, _chunks_vector.size(), NULL);
 
 	return _chunks_vector.get(index);
 }
-int TerrainWorld::chunk_get_count() const {
+int Terrain2DWorld::chunk_get_count() const {
 	return _chunks_vector.size();
 }
 
-void TerrainWorld::chunks_clear() {
+void Terrain2DWorld::chunks_clear() {
 	for (int i = 0; i < _chunks_vector.size(); ++i) {
-		Ref<TerrainChunk> chunk = _chunks_vector.get(i);
+		Ref<Terrain2DChunk> chunk = _chunks_vector.get(i);
 
 		chunk->exit_tree();
 
@@ -367,7 +367,7 @@ void TerrainWorld::chunks_clear() {
 	_generation_queue.clear();
 
 	for (int i = 0; i < _generating.size(); ++i) {
-		Ref<TerrainChunk> chunk = _generating[i];
+		Ref<Terrain2DChunk> chunk = _generating[i];
 
 		if (chunk->get_is_generating()) {
 			chunk->cancel_build();
@@ -378,8 +378,8 @@ void TerrainWorld::chunks_clear() {
 	//_generating.clear();
 }
 
-Ref<TerrainChunk> TerrainWorld::chunk_get_or_create(int x, int z) {
-	Ref<TerrainChunk> chunk = chunk_get(x, z);
+Ref<Terrain2DChunk> Terrain2DWorld::chunk_get_or_create(int x, int z) {
+	Ref<Terrain2DChunk> chunk = chunk_get(x, z);
 
 	if (!chunk.is_valid()) {
 		chunk = chunk_create(x, z);
@@ -388,27 +388,27 @@ Ref<TerrainChunk> TerrainWorld::chunk_get_or_create(int x, int z) {
 	return chunk;
 }
 
-Ref<TerrainChunk> TerrainWorld::chunk_create(const int x, const int z) {
-	Ref<TerrainChunk> c;
-	GET_CALLP(Ref<TerrainChunk>, c, _create_chunk, x, z, Ref<TerrainChunk>());
+Ref<Terrain2DChunk> Terrain2DWorld::chunk_create(const int x, const int z) {
+	Ref<Terrain2DChunk> c;
+	GET_CALLP(Ref<Terrain2DChunk>, c, _create_chunk, x, z, Ref<Terrain2DChunk>());
 
 	generation_queue_add_to(c);
 
 	return c;
 }
 
-void TerrainWorld::chunk_setup(Ref<TerrainChunk> chunk) {
+void Terrain2DWorld::chunk_setup(Ref<Terrain2DChunk> chunk) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
 #if VERSION_MAJOR < 4
 	call("_create_chunk", chunk->get_position_x(), chunk->get_position_z(), chunk);
 #else
-	Ref<TerrainChunk> c;
+	Ref<Terrain2DChunk> c;
 	GDVIRTUAL_CALL(_create_chunk, chunk->get_position_x(), chunk->get_position_z(), chunk, c);
 #endif
 }
 
-Ref<TerrainChunk> TerrainWorld::_create_chunk(const int x, const int z, Ref<TerrainChunk> chunk) {
+Ref<Terrain2DChunk> Terrain2DWorld::_create_chunk(const int x, const int z, Ref<Terrain2DChunk> chunk) {
 	if (!chunk.is_valid()) {
 		chunk.INSTANCE();
 	}
@@ -437,7 +437,7 @@ Ref<TerrainChunk> TerrainWorld::_create_chunk(const int x, const int z, Ref<Terr
 	return chunk;
 }
 
-void TerrainWorld::chunk_generate(Ref<TerrainChunk> chunk) {
+void Terrain2DWorld::chunk_generate(Ref<Terrain2DChunk> chunk) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
 	if (has_method("_prepare_chunk_for_generation")) {
@@ -449,14 +449,14 @@ void TerrainWorld::chunk_generate(Ref<TerrainChunk> chunk) {
 	chunk->build();
 }
 
-Vector<Variant> TerrainWorld::chunks_get() {
+Vector<Variant> Terrain2DWorld::chunks_get() {
 	VARIANT_ARRAY_GET(_chunks_vector);
 }
 
-void TerrainWorld::chunks_set(const Vector<Variant> &chunks) {
+void Terrain2DWorld::chunks_set(const Vector<Variant> &chunks) {
 	if (is_inside_tree()) {
 		for (int i = 0; i < _chunks_vector.size(); ++i) {
-			Ref<TerrainChunk> chunk = Ref<TerrainChunk>(_chunks_vector[i]);
+			Ref<Terrain2DChunk> chunk = Ref<Terrain2DChunk>(_chunks_vector[i]);
 
 			if (chunks.find(chunk) == -1) {
 				chunk_remove_index(i);
@@ -477,7 +477,7 @@ void TerrainWorld::chunks_set(const Vector<Variant> &chunks) {
 
 		//add the difference
 		for (int i = 0; i < chunks.size(); ++i) {
-			Ref<TerrainChunk> chunk = Ref<TerrainChunk>(chunks[i]);
+			Ref<Terrain2DChunk> chunk = Ref<Terrain2DChunk>(chunks[i]);
 
 			if (!chunk.is_valid())
 				continue;
@@ -491,18 +491,18 @@ void TerrainWorld::chunks_set(const Vector<Variant> &chunks) {
 		_chunks_vector.clear();
 
 		for (int i = 0; i < chunks.size(); ++i) {
-			Ref<TerrainChunk> chunk = Ref<TerrainChunk>(chunks[i]);
+			Ref<Terrain2DChunk> chunk = Ref<Terrain2DChunk>(chunks[i]);
 
 			_chunks_vector.push_back(chunk);
 		}
 	}
 }
 
-int TerrainWorld::_get_channel_index_info(const TerrainWorld::ChannelTypeInfo channel_type) {
+int Terrain2DWorld::_get_channel_index_info(const Terrain2DWorld::ChannelTypeInfo channel_type) {
 	return -1;
 }
 
-void TerrainWorld::_set_voxel_with_tool(const bool mode_add, const Vector3 hit_position, const Vector3 hit_normal, const int selected_voxel, const int isolevel) {
+void Terrain2DWorld::_set_voxel_with_tool(const bool mode_add, const Vector3 hit_position, const Vector3 hit_normal, const int selected_voxel, const int isolevel) {
 	Vector3 pos;
 
 	if (mode_add) {
@@ -511,8 +511,8 @@ void TerrainWorld::_set_voxel_with_tool(const bool mode_add, const Vector3 hit_p
 		pos = (hit_position + (Vector3(0.1, 0.1, 0.1) * -hit_normal * get_voxel_scale()));
 	}
 
-	int channel_type = get_channel_index_info(TerrainWorld::CHANNEL_TYPE_INFO_TYPE);
-	int channel_isolevel = get_channel_index_info(TerrainWorld::CHANNEL_TYPE_INFO_ISOLEVEL);
+	int channel_type = get_channel_index_info(Terrain2DWorld::CHANNEL_TYPE_INFO_TYPE);
+	int channel_isolevel = get_channel_index_info(Terrain2DWorld::CHANNEL_TYPE_INFO_ISOLEVEL);
 
 	if (channel_isolevel == -1) {
 		set_voxel_at_world_position(pos, selected_voxel, channel_type);
@@ -522,7 +522,7 @@ void TerrainWorld::_set_voxel_with_tool(const bool mode_add, const Vector3 hit_p
 	}
 }
 
-bool TerrainWorld::can_chunk_do_build_step() {
+bool Terrain2DWorld::can_chunk_do_build_step() {
 	if (_max_frame_chunk_build_steps == 0) {
 		return true;
 	}
@@ -530,11 +530,11 @@ bool TerrainWorld::can_chunk_do_build_step() {
 	return _num_frame_chunk_build_steps++ < _max_frame_chunk_build_steps;
 }
 
-bool TerrainWorld::is_position_walkable(const Vector3 &p_pos) {
+bool Terrain2DWorld::is_position_walkable(const Vector3 &p_pos) {
 	int x = static_cast<int>(Math::floor(p_pos.x / (_chunk_size_x * _voxel_scale)));
 	int z = static_cast<int>(Math::floor(p_pos.z / (_chunk_size_z * _voxel_scale)));
 
-	Ref<TerrainChunk> c = chunk_get(x, z);
+	Ref<Terrain2DChunk> c = chunk_get(x, z);
 
 	if (!c.is_valid())
 		return false;
@@ -542,52 +542,52 @@ bool TerrainWorld::is_position_walkable(const Vector3 &p_pos) {
 	return !c->get_is_generating();
 }
 
-void TerrainWorld::on_chunk_mesh_generation_finished(Ref<TerrainChunk> p_chunk) {
+void Terrain2DWorld::on_chunk_mesh_generation_finished(Ref<Terrain2DChunk> p_chunk) {
 	call_deferred("emit_signal", "chunk_mesh_generation_finished", p_chunk);
 }
 
-void TerrainWorld::generation_queue_add_to(const Ref<TerrainChunk> &chunk) {
+void Terrain2DWorld::generation_queue_add_to(const Ref<Terrain2DChunk> &chunk) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
 	set_process_internal(true);
 
 	_generation_queue.push_back(chunk);
 }
-Ref<TerrainChunk> TerrainWorld::generation_queue_get_index(int index) {
+Ref<Terrain2DChunk> Terrain2DWorld::generation_queue_get_index(int index) {
 	ERR_FAIL_INDEX_V(index, _generation_queue.size(), NULL);
 
 	return _generation_queue.get(index);
 }
-void TerrainWorld::generation_queue_remove_index(int index) {
+void Terrain2DWorld::generation_queue_remove_index(int index) {
 	ERR_FAIL_INDEX(index, _generation_queue.size());
 
 	_generation_queue.VREMOVE(index);
 }
-int TerrainWorld::generation_queue_get_size() const {
+int Terrain2DWorld::generation_queue_get_size() const {
 	return _generation_queue.size();
 }
 
-void TerrainWorld::generation_add_to(const Ref<TerrainChunk> &chunk) {
+void Terrain2DWorld::generation_add_to(const Ref<Terrain2DChunk> &chunk) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
 	_generating.push_back(chunk);
 }
-Ref<TerrainChunk> TerrainWorld::generation_get_index(const int index) {
+Ref<Terrain2DChunk> Terrain2DWorld::generation_get_index(const int index) {
 	ERR_FAIL_INDEX_V(index, _generating.size(), NULL);
 
 	return _generating.get(index);
 }
-void TerrainWorld::generation_remove_index(const int index) {
+void Terrain2DWorld::generation_remove_index(const int index) {
 	ERR_FAIL_INDEX(index, _generating.size());
 
 	_generating.VREMOVE(index);
 }
-int TerrainWorld::generation_get_size() const {
+int Terrain2DWorld::generation_get_size() const {
 	return _generating.size();
 }
 
 #if PROPS_PRESENT
-void TerrainWorld::prop_add(Transform transform, const Ref<PropData> &prop, const bool apply_voxel_scale) {
+void Terrain2DWorld::prop_add(Transform transform, const Ref<PropData> &prop, const bool apply_voxel_scale) {
 	ERR_FAIL_COND(!prop.is_valid());
 
 	if (apply_voxel_scale) {
@@ -596,7 +596,7 @@ void TerrainWorld::prop_add(Transform transform, const Ref<PropData> &prop, cons
 
 	Vector3 wp;
 	wp = transform.xform(wp);
-	Ref<TerrainChunk> chunk = get_or_create_chunk_at_world_position(wp);
+	Ref<Terrain2DChunk> chunk = get_or_create_chunk_at_world_position(wp);
 
 	chunk->prop_add(transform, prop);
 
@@ -649,7 +649,7 @@ void TerrainWorld::prop_add(Transform transform, const Ref<PropData> &prop, cons
 		Ref<PropDataLight> light_data = entry;
 
 		if (light_data.is_valid()) {
-			Ref<TerrainLight> light;
+			Ref<Terrain2DLight> light;
 			light.INSTANCE();
 
 			light->set_world_position(wp.x / get_voxel_scale(), wp.y / get_voxel_scale(), wp.z / get_voxel_scale());
@@ -684,47 +684,47 @@ void TerrainWorld::prop_add(Transform transform, const Ref<PropData> &prop, cons
 #endif
 
 //Lights
-void TerrainWorld::light_add(const Ref<TerrainLight> &light) {
+void Terrain2DWorld::light_add(const Ref<Terrain2DLight> &light) {
 	_lights.push_back(light);
 
 	for (int i = 0; i < _chunks_vector.size(); ++i) {
-		Ref<TerrainChunk> chunk = _chunks_vector[i];
+		Ref<Terrain2DChunk> chunk = _chunks_vector[i];
 
 		if (chunk.is_valid()) {
 			chunk->world_light_added(light);
 		}
 	}
 }
-Ref<TerrainLight> TerrainWorld::light_get(const int index) {
-	ERR_FAIL_INDEX_V(index, _lights.size(), Ref<TerrainLight>());
+Ref<Terrain2DLight> Terrain2DWorld::light_get(const int index) {
+	ERR_FAIL_INDEX_V(index, _lights.size(), Ref<Terrain2DLight>());
 
 	return _lights.get(index);
 }
-void TerrainWorld::light_remove(const int index) {
+void Terrain2DWorld::light_remove(const int index) {
 	ERR_FAIL_INDEX(index, _lights.size());
 
-	Ref<TerrainLight> light = _lights[index];
+	Ref<Terrain2DLight> light = _lights[index];
 
 	for (int i = 0; i < _chunks_vector.size(); ++i) {
-		Ref<TerrainChunk> chunk = _chunks_vector[i];
+		Ref<Terrain2DChunk> chunk = _chunks_vector[i];
 
 		if (chunk.is_valid()) {
 			chunk->world_light_removed(light);
 		}
 	}
 }
-int TerrainWorld::light_get_count() const {
+int Terrain2DWorld::light_get_count() const {
 	return _lights.size();
 }
-void TerrainWorld::lights_clear() {
+void Terrain2DWorld::lights_clear() {
 	for (int i = 0; i < _lights.size(); ++i) {
-		Ref<TerrainLight> light = _lights[i];
+		Ref<Terrain2DLight> light = _lights[i];
 
 		if (!light.is_valid())
 			continue;
 
 		for (int j = 0; j < _chunks_vector.size(); ++j) {
-			Ref<TerrainChunk> chunk = _chunks_vector[j];
+			Ref<Terrain2DChunk> chunk = _chunks_vector[j];
 
 			if (chunk.is_valid()) {
 				chunk->world_light_removed(light);
@@ -735,20 +735,20 @@ void TerrainWorld::lights_clear() {
 	_lights.clear();
 }
 
-Vector<Variant> TerrainWorld::lights_get() {
+Vector<Variant> Terrain2DWorld::lights_get() {
 	VARIANT_ARRAY_GET(_lights);
 }
-void TerrainWorld::lights_set(const Vector<Variant> &chunks) {
+void Terrain2DWorld::lights_set(const Vector<Variant> &chunks) {
 	lights_clear();
 
 	for (int i = 0; i < chunks.size(); ++i) {
-		Ref<TerrainLight> light = Ref<TerrainLight>(chunks[i]);
+		Ref<Terrain2DLight> light = Ref<Terrain2DLight>(chunks[i]);
 
 		light_add(light);
 	}
 }
 
-uint8_t TerrainWorld::get_voxel_at_world_position(const Vector3 &world_position, const int channel_index) {
+uint8_t Terrain2DWorld::get_voxel_at_world_position(const Vector3 &world_position, const int channel_index) {
 	Vector3 pos = world_position / get_voxel_scale();
 
 	//Note: floor is needed to handle negative numbers properly
@@ -766,7 +766,7 @@ uint8_t TerrainWorld::get_voxel_at_world_position(const Vector3 &world_position,
 		bz += get_chunk_size_z();
 	}
 
-	Ref<TerrainChunk> chunk = chunk_get(x, z);
+	Ref<Terrain2DChunk> chunk = chunk_get(x, z);
 
 	if (chunk.is_valid())
 		return chunk->get_voxel(bx, bz, channel_index);
@@ -774,7 +774,7 @@ uint8_t TerrainWorld::get_voxel_at_world_position(const Vector3 &world_position,
 	return 0;
 }
 
-void TerrainWorld::set_voxel_at_world_position(const Vector3 &world_position, const uint8_t data, const int channel_index, const bool rebuild) {
+void Terrain2DWorld::set_voxel_at_world_position(const Vector3 &world_position, const uint8_t data, const int channel_index, const bool rebuild) {
 	Vector3 pos = world_position / get_voxel_scale();
 
 	//Note: floor is needed to handle negative numbers properly
@@ -794,7 +794,7 @@ void TerrainWorld::set_voxel_at_world_position(const Vector3 &world_position, co
 
 	if (get_data_margin_end() > 0) {
 		if (bx == 0) {
-			Ref<TerrainChunk> chunk = chunk_get_or_create(x - 1, z);
+			Ref<Terrain2DChunk> chunk = chunk_get_or_create(x - 1, z);
 			chunk->set_voxel(data, get_chunk_size_x(), bz, channel_index);
 
 			if (rebuild)
@@ -802,7 +802,7 @@ void TerrainWorld::set_voxel_at_world_position(const Vector3 &world_position, co
 		}
 
 		if (bz == 0) {
-			Ref<TerrainChunk> chunk = chunk_get_or_create(x, z - 1);
+			Ref<Terrain2DChunk> chunk = chunk_get_or_create(x, z - 1);
 			chunk->set_voxel(data, bx, get_chunk_size_z(), channel_index);
 
 			if (rebuild)
@@ -812,7 +812,7 @@ void TerrainWorld::set_voxel_at_world_position(const Vector3 &world_position, co
 
 	if (get_data_margin_start() > 0) {
 		if (bx == get_chunk_size_x() - 1) {
-			Ref<TerrainChunk> chunk = chunk_get_or_create(x + 1, z);
+			Ref<Terrain2DChunk> chunk = chunk_get_or_create(x + 1, z);
 			chunk->set_voxel(data, -1, bz, channel_index);
 
 			if (rebuild)
@@ -820,7 +820,7 @@ void TerrainWorld::set_voxel_at_world_position(const Vector3 &world_position, co
 		}
 
 		if (bz == get_chunk_size_z() - 1) {
-			Ref<TerrainChunk> chunk = chunk_get_or_create(x, z + 1);
+			Ref<Terrain2DChunk> chunk = chunk_get_or_create(x, z + 1);
 			chunk->set_voxel(data, bx, -1, channel_index);
 
 			if (rebuild)
@@ -828,14 +828,14 @@ void TerrainWorld::set_voxel_at_world_position(const Vector3 &world_position, co
 		}
 	}
 
-	Ref<TerrainChunk> chunk = chunk_get_or_create(x, z);
+	Ref<Terrain2DChunk> chunk = chunk_get_or_create(x, z);
 	chunk->set_voxel(data, bx, bz, channel_index);
 
 	if (rebuild)
 		chunk->build();
 }
 
-Ref<TerrainChunk> TerrainWorld::get_chunk_at_world_position(const Vector3 &world_position) {
+Ref<Terrain2DChunk> Terrain2DWorld::get_chunk_at_world_position(const Vector3 &world_position) {
 	Vector3 pos = world_position / get_voxel_scale();
 
 	//Note: floor is needed to handle negative numbers proiberly
@@ -844,7 +844,7 @@ Ref<TerrainChunk> TerrainWorld::get_chunk_at_world_position(const Vector3 &world
 
 	return chunk_get(x, z);
 }
-Ref<TerrainChunk> TerrainWorld::get_or_create_chunk_at_world_position(const Vector3 &world_position) {
+Ref<Terrain2DChunk> Terrain2DWorld::get_or_create_chunk_at_world_position(const Vector3 &world_position) {
 	Vector3 pos = world_position / get_voxel_scale();
 
 	//Note: floor is needed to handle negative numbers proiberly
@@ -854,15 +854,15 @@ Ref<TerrainChunk> TerrainWorld::get_or_create_chunk_at_world_position(const Vect
 	return chunk_get_or_create(x, z);
 }
 
-void TerrainWorld::set_voxel_with_tool(const bool mode_add, const Vector3 hit_position, const Vector3 hit_normal, const int selected_voxel, const int isolevel) {
+void Terrain2DWorld::set_voxel_with_tool(const bool mode_add, const Vector3 hit_position, const Vector3 hit_normal, const int selected_voxel, const int isolevel) {
 	CALL(_set_voxel_with_tool, mode_add, hit_position, hit_normal, selected_voxel, isolevel);
 }
 
-int TerrainWorld::get_channel_index_info(const TerrainWorld::ChannelTypeInfo channel_type) {
+int Terrain2DWorld::get_channel_index_info(const Terrain2DWorld::ChannelTypeInfo channel_type) {
 	RETURN_CALLP(int, _get_channel_index_info, channel_type);
 }
 
-Spatial *TerrainWorld::get_editor_camera() {
+Spatial *Terrain2DWorld::get_editor_camera() {
 #if TOOLS_ENABLED
 	SpatialEditor *se = SpatialEditor::get_singleton();
 
@@ -883,7 +883,7 @@ Spatial *TerrainWorld::get_editor_camera() {
 #endif
 }
 
-TerrainWorld::TerrainWorld() {
+Terrain2DWorld::Terrain2DWorld() {
 	_active = true;
 	_editable = false;
 
@@ -905,7 +905,7 @@ TerrainWorld::TerrainWorld() {
 	_num_frame_chunk_build_steps = 0;
 }
 
-TerrainWorld ::~TerrainWorld() {
+Terrain2DWorld ::~Terrain2DWorld() {
 	_chunks.clear();
 	_chunks_vector.clear();
 	_world_areas.clear();
@@ -922,14 +922,14 @@ TerrainWorld ::~TerrainWorld() {
 	_lights.clear();
 }
 
-void TerrainWorld::_generate_chunk(Ref<TerrainChunk> chunk) {
+void Terrain2DWorld::_generate_chunk(Ref<Terrain2DChunk> chunk) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
 	if (_level_generator.is_valid())
 		_level_generator->generate_chunk(chunk);
 
 	for (int i = 0; i < _voxel_structures.size(); ++i) {
-		Ref<TerrainStructure> structure = _voxel_structures.get(i);
+		Ref<Terrain2DStructure> structure = _voxel_structures.get(i);
 
 		if (!structure.is_valid())
 			continue;
@@ -943,7 +943,7 @@ void TerrainWorld::_generate_chunk(Ref<TerrainChunk> chunk) {
 	}
 }
 
-void TerrainWorld::_notification(int p_what) {
+void Terrain2DWorld::_notification(int p_what) {
 	switch (p_what) {
 		case NOTIFICATION_ENTER_TREE: {
 			set_player_bind(get_node_or_null(get_player_path()));
@@ -956,7 +956,7 @@ void TerrainWorld::_notification(int p_what) {
 				_library->refresh_rects();
 
 			for (int i = 0; i < _chunks_vector.size(); ++i) {
-				Ref<TerrainChunk> chunk = _chunks_vector[i];
+				Ref<Terrain2DChunk> chunk = _chunks_vector[i];
 
 				if (chunk.is_valid()) {
 					chunk_setup(chunk);
@@ -970,7 +970,7 @@ void TerrainWorld::_notification(int p_what) {
 			_num_frame_chunk_build_steps = 0;
 
 			for (int i = 0; i < _chunks_vector.size(); ++i) {
-				Ref<TerrainChunk> chunk = _chunks_vector[i];
+				Ref<Terrain2DChunk> chunk = _chunks_vector[i];
 
 				ERR_CONTINUE(!chunk.is_valid());
 
@@ -998,7 +998,7 @@ void TerrainWorld::_notification(int p_what) {
 			}
 
 			for (int i = 0; i < _generating.size(); ++i) {
-				Ref<TerrainChunk> chunk = _generating.get(i);
+				Ref<Terrain2DChunk> chunk = _generating.get(i);
 
 				if (!chunk.is_valid()) {
 					_generating.VREMOVE(i);
@@ -1026,7 +1026,7 @@ void TerrainWorld::_notification(int p_what) {
 				return;
 
 			while (_generating.size() < _max_concurrent_generations && _generation_queue.size() != 0) {
-				Ref<TerrainChunk> chunk = _generation_queue.get(0);
+				Ref<Terrain2DChunk> chunk = _generation_queue.get(0);
 				_generation_queue.VREMOVE(0);
 
 				ERR_FAIL_COND(!chunk.is_valid());
@@ -1039,7 +1039,7 @@ void TerrainWorld::_notification(int p_what) {
 		}
 		case NOTIFICATION_INTERNAL_PHYSICS_PROCESS: {
 			for (int i = 0; i < _chunks_vector.size(); ++i) {
-				Ref<TerrainChunk> chunk = _chunks_vector[i];
+				Ref<Terrain2DChunk> chunk = _chunks_vector[i];
 
 				ERR_CONTINUE(!chunk.is_valid());
 
@@ -1055,7 +1055,7 @@ void TerrainWorld::_notification(int p_what) {
 		}
 		case NOTIFICATION_EXIT_TREE: {
 			for (int i = 0; i < _chunks_vector.size(); ++i) {
-				Ref<TerrainChunk> chunk = _chunks_vector[i];
+				Ref<Terrain2DChunk> chunk = _chunks_vector[i];
 
 				if (chunk.is_valid()) {
 					if (chunk->get_voxel_world() == this) {
@@ -1068,7 +1068,7 @@ void TerrainWorld::_notification(int p_what) {
 		}
 		case NOTIFICATION_TRANSFORM_CHANGED: {
 			for (int i = 0; i < _chunks_vector.size(); ++i) {
-				Ref<TerrainChunk> chunk = _chunks_vector[i];
+				Ref<Terrain2DChunk> chunk = _chunks_vector[i];
 
 				if (chunk.is_valid()) {
 					chunk->world_transform_changed();
@@ -1079,128 +1079,128 @@ void TerrainWorld::_notification(int p_what) {
 	}
 }
 
-void TerrainWorld::_bind_methods() {
-	ADD_SIGNAL(MethodInfo("chunk_mesh_generation_finished", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerrainChunk")));
-	ADD_SIGNAL(MethodInfo("chunk_added", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerrainChunk")));
-	ADD_SIGNAL(MethodInfo("chunk_removed", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerrainChunk")));
+void Terrain2DWorld::_bind_methods() {
+	ADD_SIGNAL(MethodInfo("chunk_mesh_generation_finished", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
+	ADD_SIGNAL(MethodInfo("chunk_added", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
+	ADD_SIGNAL(MethodInfo("chunk_removed", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
 
-	ClassDB::bind_method(D_METHOD("get_active"), &TerrainWorld::get_active);
-	ClassDB::bind_method(D_METHOD("set_active", "value"), &TerrainWorld::set_active);
+	ClassDB::bind_method(D_METHOD("get_active"), &Terrain2DWorld::get_active);
+	ClassDB::bind_method(D_METHOD("set_active", "value"), &Terrain2DWorld::set_active);
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "active"), "set_active", "get_active");
 
-	ClassDB::bind_method(D_METHOD("get_editable"), &TerrainWorld::get_editable);
-	ClassDB::bind_method(D_METHOD("set_editable", "value"), &TerrainWorld::set_editable);
+	ClassDB::bind_method(D_METHOD("get_editable"), &Terrain2DWorld::get_editable);
+	ClassDB::bind_method(D_METHOD("set_editable", "value"), &Terrain2DWorld::set_editable);
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "editable"), "set_editable", "get_editable");
 
-	ClassDB::bind_method(D_METHOD("get_chunk_size_x"), &TerrainWorld::get_chunk_size_x);
-	ClassDB::bind_method(D_METHOD("set_chunk_size_x", "value"), &TerrainWorld::set_chunk_size_x);
+	ClassDB::bind_method(D_METHOD("get_chunk_size_x"), &Terrain2DWorld::get_chunk_size_x);
+	ClassDB::bind_method(D_METHOD("set_chunk_size_x", "value"), &Terrain2DWorld::set_chunk_size_x);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "chunk_size_x"), "set_chunk_size_x", "get_chunk_size_x");
 
-	ClassDB::bind_method(D_METHOD("get_chunk_size_z"), &TerrainWorld::get_chunk_size_z);
-	ClassDB::bind_method(D_METHOD("set_chunk_size_z", "value"), &TerrainWorld::set_chunk_size_z);
+	ClassDB::bind_method(D_METHOD("get_chunk_size_z"), &Terrain2DWorld::get_chunk_size_z);
+	ClassDB::bind_method(D_METHOD("set_chunk_size_z", "value"), &Terrain2DWorld::set_chunk_size_z);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "chunk_size_z"), "set_chunk_size_z", "get_chunk_size_z");
 
-	ClassDB::bind_method(D_METHOD("get_data_margin_start"), &TerrainWorld::get_data_margin_start);
-	ClassDB::bind_method(D_METHOD("set_data_margin_start", "value"), &TerrainWorld::set_data_margin_start);
+	ClassDB::bind_method(D_METHOD("get_data_margin_start"), &Terrain2DWorld::get_data_margin_start);
+	ClassDB::bind_method(D_METHOD("set_data_margin_start", "value"), &Terrain2DWorld::set_data_margin_start);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "data_margin_start"), "set_data_margin_start", "get_data_margin_start");
 
-	ClassDB::bind_method(D_METHOD("get_data_margin_end"), &TerrainWorld::get_data_margin_end);
-	ClassDB::bind_method(D_METHOD("set_data_margin_end", "value"), &TerrainWorld::set_data_margin_end);
+	ClassDB::bind_method(D_METHOD("get_data_margin_end"), &Terrain2DWorld::get_data_margin_end);
+	ClassDB::bind_method(D_METHOD("set_data_margin_end", "value"), &Terrain2DWorld::set_data_margin_end);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "data_margin_end"), "set_data_margin_end", "get_data_margin_end");
 
-	ClassDB::bind_method(D_METHOD("get_world_height"), &TerrainWorld::get_world_height);
-	ClassDB::bind_method(D_METHOD("set_world_height", "height"), &TerrainWorld::set_world_height);
+	ClassDB::bind_method(D_METHOD("get_world_height"), &Terrain2DWorld::get_world_height);
+	ClassDB::bind_method(D_METHOD("set_world_height", "height"), &Terrain2DWorld::set_world_height);
 	ADD_PROPERTY(PropertyInfo(Variant::REAL, "world_height"), "set_world_height", "get_world_height");
 
-	ClassDB::bind_method(D_METHOD("get_max_concurrent_generations"), &TerrainWorld::get_max_concurrent_generations);
-	ClassDB::bind_method(D_METHOD("set_max_concurrent_generations", "height"), &TerrainWorld::set_max_concurrent_generations);
+	ClassDB::bind_method(D_METHOD("get_max_concurrent_generations"), &Terrain2DWorld::get_max_concurrent_generations);
+	ClassDB::bind_method(D_METHOD("set_max_concurrent_generations", "height"), &Terrain2DWorld::set_max_concurrent_generations);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "max_concurrent_generations"), "set_max_concurrent_generations", "get_max_concurrent_generations");
 
-	ClassDB::bind_method(D_METHOD("get_current_seed"), &TerrainWorld::get_current_seed);
-	ClassDB::bind_method(D_METHOD("set_current_seed", "value"), &TerrainWorld::set_current_seed);
+	ClassDB::bind_method(D_METHOD("get_current_seed"), &Terrain2DWorld::get_current_seed);
+	ClassDB::bind_method(D_METHOD("set_current_seed", "value"), &Terrain2DWorld::set_current_seed);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "current_seed"), "set_current_seed", "get_current_seed");
 
-	ClassDB::bind_method(D_METHOD("get_library"), &TerrainWorld::get_library);
-	ClassDB::bind_method(D_METHOD("set_library", "library"), &TerrainWorld::set_library);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "TerrainLibrary"), "set_library", "get_library");
+	ClassDB::bind_method(D_METHOD("get_library"), &Terrain2DWorld::get_library);
+	ClassDB::bind_method(D_METHOD("set_library", "library"), &Terrain2DWorld::set_library);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DLibrary"), "set_library", "get_library");
 
-	ClassDB::bind_method(D_METHOD("get_level_generator"), &TerrainWorld::get_level_generator);
-	ClassDB::bind_method(D_METHOD("set_level_generator", "level_generator"), &TerrainWorld::set_level_generator);
-	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "level_generator", PROPERTY_HINT_RESOURCE_TYPE, "TerrainLevelGenerator"), "set_level_generator", "get_level_generator");
+	ClassDB::bind_method(D_METHOD("get_level_generator"), &Terrain2DWorld::get_level_generator);
+	ClassDB::bind_method(D_METHOD("set_level_generator", "level_generator"), &Terrain2DWorld::set_level_generator);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "level_generator", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DLevelGenerator"), "set_level_generator", "get_level_generator");
 
-	ClassDB::bind_method(D_METHOD("get_voxel_scale"), &TerrainWorld::get_voxel_scale);
-	ClassDB::bind_method(D_METHOD("set_voxel_scale", "value"), &TerrainWorld::set_voxel_scale);
+	ClassDB::bind_method(D_METHOD("get_voxel_scale"), &Terrain2DWorld::get_voxel_scale);
+	ClassDB::bind_method(D_METHOD("set_voxel_scale", "value"), &Terrain2DWorld::set_voxel_scale);
 	ADD_PROPERTY(PropertyInfo(Variant::REAL, "voxel_scale"), "set_voxel_scale", "get_voxel_scale");
 
-	ClassDB::bind_method(D_METHOD("get_chunk_spawn_range"), &TerrainWorld::get_chunk_spawn_range);
-	ClassDB::bind_method(D_METHOD("set_chunk_spawn_range", "value"), &TerrainWorld::set_chunk_spawn_range);
+	ClassDB::bind_method(D_METHOD("get_chunk_spawn_range"), &Terrain2DWorld::get_chunk_spawn_range);
+	ClassDB::bind_method(D_METHOD("set_chunk_spawn_range", "value"), &Terrain2DWorld::set_chunk_spawn_range);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "chunk_spawn_range"), "set_chunk_spawn_range", "get_chunk_spawn_range");
 
-	ClassDB::bind_method(D_METHOD("get_player_path"), &TerrainWorld::get_player_path);
-	ClassDB::bind_method(D_METHOD("set_player_path", "value"), &TerrainWorld::set_player_path);
+	ClassDB::bind_method(D_METHOD("get_player_path"), &Terrain2DWorld::get_player_path);
+	ClassDB::bind_method(D_METHOD("set_player_path", "value"), &Terrain2DWorld::set_player_path);
 	ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "player_path"), "set_player_path", "get_player_path");
 
-	ClassDB::bind_method(D_METHOD("get_player"), &TerrainWorld::get_player);
-	ClassDB::bind_method(D_METHOD("set_player", "player"), &TerrainWorld::set_player_bind);
+	ClassDB::bind_method(D_METHOD("get_player"), &Terrain2DWorld::get_player);
+	ClassDB::bind_method(D_METHOD("set_player", "player"), &Terrain2DWorld::set_player_bind);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "player", PROPERTY_HINT_RESOURCE_TYPE, "Spatial", 0), "set_player", "get_player");
 
-	ClassDB::bind_method(D_METHOD("world_area_get", "index"), &TerrainWorld::world_area_get);
-	ClassDB::bind_method(D_METHOD("world_area_add", "area"), &TerrainWorld::world_area_add);
-	ClassDB::bind_method(D_METHOD("world_area_remove", "index"), &TerrainWorld::world_area_remove);
-	ClassDB::bind_method(D_METHOD("world_areas_clear"), &TerrainWorld::world_areas_clear);
-	ClassDB::bind_method(D_METHOD("world_area_get_count"), &TerrainWorld::world_area_get_count);
+	ClassDB::bind_method(D_METHOD("world_area_get", "index"), &Terrain2DWorld::world_area_get);
+	ClassDB::bind_method(D_METHOD("world_area_add", "area"), &Terrain2DWorld::world_area_add);
+	ClassDB::bind_method(D_METHOD("world_area_remove", "index"), &Terrain2DWorld::world_area_remove);
+	ClassDB::bind_method(D_METHOD("world_areas_clear"), &Terrain2DWorld::world_areas_clear);
+	ClassDB::bind_method(D_METHOD("world_area_get_count"), &Terrain2DWorld::world_area_get_count);
 
-	ClassDB::bind_method(D_METHOD("voxel_structure_get", "index"), &TerrainWorld::voxel_structure_get);
-	ClassDB::bind_method(D_METHOD("voxel_structure_add", "structure"), &TerrainWorld::voxel_structure_add);
-	ClassDB::bind_method(D_METHOD("voxel_structure_remove", "structure"), &TerrainWorld::voxel_structure_remove);
-	ClassDB::bind_method(D_METHOD("voxel_structure_remove_index", "index"), &TerrainWorld::voxel_structure_remove_index);
-	ClassDB::bind_method(D_METHOD("voxel_structures_clear"), &TerrainWorld::voxel_structures_clear);
-	ClassDB::bind_method(D_METHOD("voxel_structure_get_count"), &TerrainWorld::voxel_structure_get_count);
-	ClassDB::bind_method(D_METHOD("voxel_structure_add_at_position", "structure", "world_position"), &TerrainWorld::voxel_structure_add_at_position);
+	ClassDB::bind_method(D_METHOD("voxel_structure_get", "index"), &Terrain2DWorld::voxel_structure_get);
+	ClassDB::bind_method(D_METHOD("voxel_structure_add", "structure"), &Terrain2DWorld::voxel_structure_add);
+	ClassDB::bind_method(D_METHOD("voxel_structure_remove", "structure"), &Terrain2DWorld::voxel_structure_remove);
+	ClassDB::bind_method(D_METHOD("voxel_structure_remove_index", "index"), &Terrain2DWorld::voxel_structure_remove_index);
+	ClassDB::bind_method(D_METHOD("voxel_structures_clear"), &Terrain2DWorld::voxel_structures_clear);
+	ClassDB::bind_method(D_METHOD("voxel_structure_get_count"), &Terrain2DWorld::voxel_structure_get_count);
+	ClassDB::bind_method(D_METHOD("voxel_structure_add_at_position", "structure", "world_position"), &Terrain2DWorld::voxel_structure_add_at_position);
 
-	ClassDB::bind_method(D_METHOD("voxel_structures_get"), &TerrainWorld::voxel_structures_get);
-	ClassDB::bind_method(D_METHOD("voxel_structures_set"), &TerrainWorld::voxel_structures_set);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "voxel_structures", PROPERTY_HINT_NONE, "17/17:TerrainStructure", PROPERTY_USAGE_DEFAULT, "TerrainStructure"), "voxel_structures_set", "voxel_structures_get");
+	ClassDB::bind_method(D_METHOD("voxel_structures_get"), &Terrain2DWorld::voxel_structures_get);
+	ClassDB::bind_method(D_METHOD("voxel_structures_set"), &Terrain2DWorld::voxel_structures_set);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "voxel_structures", PROPERTY_HINT_NONE, "17/17:Terrain2DStructure", PROPERTY_USAGE_DEFAULT, "Terrain2DStructure"), "voxel_structures_set", "voxel_structures_get");
 
 #if VERSION_MAJOR < 4
-	BIND_VMETHOD(MethodInfo("_chunk_added", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerrainChunk")));
+	BIND_VMETHOD(MethodInfo("_chunk_added", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
 #else
 	GDVIRTUAL_BIND(_chunk_added, "chunk");
 #endif
 
-	ClassDB::bind_method(D_METHOD("chunk_add", "chunk", "x", "z"), &TerrainWorld::chunk_add);
-	ClassDB::bind_method(D_METHOD("chunk_has", "x", "z"), &TerrainWorld::chunk_has);
-	ClassDB::bind_method(D_METHOD("chunk_get", "x", "z"), &TerrainWorld::chunk_get);
-	ClassDB::bind_method(D_METHOD("chunk_remove", "x", "z"), &TerrainWorld::chunk_remove);
-	ClassDB::bind_method(D_METHOD("chunk_remove_index", "index"), &TerrainWorld::chunk_remove_index);
+	ClassDB::bind_method(D_METHOD("chunk_add", "chunk", "x", "z"), &Terrain2DWorld::chunk_add);
+	ClassDB::bind_method(D_METHOD("chunk_has", "x", "z"), &Terrain2DWorld::chunk_has);
+	ClassDB::bind_method(D_METHOD("chunk_get", "x", "z"), &Terrain2DWorld::chunk_get);
+	ClassDB::bind_method(D_METHOD("chunk_remove", "x", "z"), &Terrain2DWorld::chunk_remove);
+	ClassDB::bind_method(D_METHOD("chunk_remove_index", "index"), &Terrain2DWorld::chunk_remove_index);
 
-	ClassDB::bind_method(D_METHOD("chunk_get_index", "index"), &TerrainWorld::chunk_get_index);
-	ClassDB::bind_method(D_METHOD("chunk_get_count"), &TerrainWorld::chunk_get_count);
+	ClassDB::bind_method(D_METHOD("chunk_get_index", "index"), &Terrain2DWorld::chunk_get_index);
+	ClassDB::bind_method(D_METHOD("chunk_get_count"), &Terrain2DWorld::chunk_get_count);
 
-	ClassDB::bind_method(D_METHOD("chunks_clear"), &TerrainWorld::chunks_clear);
+	ClassDB::bind_method(D_METHOD("chunks_clear"), &Terrain2DWorld::chunks_clear);
 
-	ClassDB::bind_method(D_METHOD("chunks_get"), &TerrainWorld::chunks_get);
-	ClassDB::bind_method(D_METHOD("chunks_set"), &TerrainWorld::chunks_set);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "chunks", PROPERTY_HINT_NONE, "17/17:TerrainChunk", PROPERTY_USAGE_DEFAULT, "TerrainChunk"), "chunks_set", "chunks_get");
+	ClassDB::bind_method(D_METHOD("chunks_get"), &Terrain2DWorld::chunks_get);
+	ClassDB::bind_method(D_METHOD("chunks_set"), &Terrain2DWorld::chunks_set);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "chunks", PROPERTY_HINT_NONE, "17/17:Terrain2DChunk", PROPERTY_USAGE_DEFAULT, "Terrain2DChunk"), "chunks_set", "chunks_get");
 
-	ClassDB::bind_method(D_METHOD("generation_queue_add_to", "chunk"), &TerrainWorld::generation_queue_add_to);
-	ClassDB::bind_method(D_METHOD("generation_queue_get_index", "index"), &TerrainWorld::generation_queue_get_index);
-	ClassDB::bind_method(D_METHOD("generation_queue_remove_index", "index"), &TerrainWorld::generation_queue_remove_index);
-	ClassDB::bind_method(D_METHOD("generation_queue_get_size"), &TerrainWorld::generation_queue_get_size);
+	ClassDB::bind_method(D_METHOD("generation_queue_add_to", "chunk"), &Terrain2DWorld::generation_queue_add_to);
+	ClassDB::bind_method(D_METHOD("generation_queue_get_index", "index"), &Terrain2DWorld::generation_queue_get_index);
+	ClassDB::bind_method(D_METHOD("generation_queue_remove_index", "index"), &Terrain2DWorld::generation_queue_remove_index);
+	ClassDB::bind_method(D_METHOD("generation_queue_get_size"), &Terrain2DWorld::generation_queue_get_size);
 
-	ClassDB::bind_method(D_METHOD("generation_add_to", "chunk"), &TerrainWorld::generation_add_to);
-	ClassDB::bind_method(D_METHOD("generation_get_index", "index"), &TerrainWorld::generation_get_index);
-	ClassDB::bind_method(D_METHOD("generation_remove_index", "index"), &TerrainWorld::generation_remove_index);
-	ClassDB::bind_method(D_METHOD("generation_get_size"), &TerrainWorld::generation_get_size);
+	ClassDB::bind_method(D_METHOD("generation_add_to", "chunk"), &Terrain2DWorld::generation_add_to);
+	ClassDB::bind_method(D_METHOD("generation_get_index", "index"), &Terrain2DWorld::generation_get_index);
+	ClassDB::bind_method(D_METHOD("generation_remove_index", "index"), &Terrain2DWorld::generation_remove_index);
+	ClassDB::bind_method(D_METHOD("generation_get_size"), &Terrain2DWorld::generation_get_size);
 
 	ADD_SIGNAL(MethodInfo("generation_finished"));
 
 #if VERSION_MAJOR < 4
 	BIND_VMETHOD(MethodInfo("_generation_finished"));
 
-	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "ret", PROPERTY_HINT_RESOURCE_TYPE, "TerrainChunk"), "_create_chunk", PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "z"), PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerrainChunk")));
-	BIND_VMETHOD(MethodInfo("_prepare_chunk_for_generation", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerrainChunk")));
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerrainChunk")));
+	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "ret", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk"), "_create_chunk", PropertyInfo(Variant::INT, "x"), PropertyInfo(Variant::INT, "z"), PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
+	BIND_VMETHOD(MethodInfo("_prepare_chunk_for_generation", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
 #else
 	GDVIRTUAL_BIND(_generation_finished);
 	GDVIRTUAL_BIND(_create_chunk, "chunk", "x", "z", "chunk", "ret");
@@ -1208,35 +1208,35 @@ void TerrainWorld::_bind_methods() {
 	GDVIRTUAL_BIND(_generate_chunk, "chunk");
 #endif
 
-	ClassDB::bind_method(D_METHOD("chunk_get_or_create", "x", "z"), &TerrainWorld::chunk_get_or_create);
-	ClassDB::bind_method(D_METHOD("chunk_create", "x", "z"), &TerrainWorld::chunk_create);
-	ClassDB::bind_method(D_METHOD("chunk_setup", "chunk"), &TerrainWorld::chunk_setup);
+	ClassDB::bind_method(D_METHOD("chunk_get_or_create", "x", "z"), &Terrain2DWorld::chunk_get_or_create);
+	ClassDB::bind_method(D_METHOD("chunk_create", "x", "z"), &Terrain2DWorld::chunk_create);
+	ClassDB::bind_method(D_METHOD("chunk_setup", "chunk"), &Terrain2DWorld::chunk_setup);
 
-	ClassDB::bind_method(D_METHOD("_create_chunk", "x", "z", "chunk"), &TerrainWorld::_create_chunk);
-	ClassDB::bind_method(D_METHOD("_generate_chunk", "chunk"), &TerrainWorld::_generate_chunk);
+	ClassDB::bind_method(D_METHOD("_create_chunk", "x", "z", "chunk"), &Terrain2DWorld::_create_chunk);
+	ClassDB::bind_method(D_METHOD("_generate_chunk", "chunk"), &Terrain2DWorld::_generate_chunk);
 
-	ClassDB::bind_method(D_METHOD("can_chunk_do_build_step"), &TerrainWorld::can_chunk_do_build_step);
-	ClassDB::bind_method(D_METHOD("is_position_walkable", "position"), &TerrainWorld::is_position_walkable);
-	ClassDB::bind_method(D_METHOD("on_chunk_mesh_generation_finished", "chunk"), &TerrainWorld::on_chunk_mesh_generation_finished);
+	ClassDB::bind_method(D_METHOD("can_chunk_do_build_step"), &Terrain2DWorld::can_chunk_do_build_step);
+	ClassDB::bind_method(D_METHOD("is_position_walkable", "position"), &Terrain2DWorld::is_position_walkable);
+	ClassDB::bind_method(D_METHOD("on_chunk_mesh_generation_finished", "chunk"), &Terrain2DWorld::on_chunk_mesh_generation_finished);
 
 #if PROPS_PRESENT
-	ClassDB::bind_method(D_METHOD("prop_add", "transform", "prop", "apply_voxel_scale"), &TerrainWorld::prop_add, DEFVAL(true));
+	ClassDB::bind_method(D_METHOD("prop_add", "transform", "prop", "apply_voxel_scale"), &Terrain2DWorld::prop_add, DEFVAL(true));
 #endif
 
 	//Lights
-	ClassDB::bind_method(D_METHOD("light_add", "light"), &TerrainWorld::light_add);
-	ClassDB::bind_method(D_METHOD("light_get", "index"), &TerrainWorld::light_get);
-	ClassDB::bind_method(D_METHOD("light_remove", "index"), &TerrainWorld::light_remove);
-	ClassDB::bind_method(D_METHOD("light_get_count"), &TerrainWorld::light_get_count);
-	ClassDB::bind_method(D_METHOD("lights_clear"), &TerrainWorld::lights_clear);
+	ClassDB::bind_method(D_METHOD("light_add", "light"), &Terrain2DWorld::light_add);
+	ClassDB::bind_method(D_METHOD("light_get", "index"), &Terrain2DWorld::light_get);
+	ClassDB::bind_method(D_METHOD("light_remove", "index"), &Terrain2DWorld::light_remove);
+	ClassDB::bind_method(D_METHOD("light_get_count"), &Terrain2DWorld::light_get_count);
+	ClassDB::bind_method(D_METHOD("lights_clear"), &Terrain2DWorld::lights_clear);
 
-	ClassDB::bind_method(D_METHOD("lights_get"), &TerrainWorld::lights_get);
-	ClassDB::bind_method(D_METHOD("lights_set", "chunks"), &TerrainWorld::lights_set);
+	ClassDB::bind_method(D_METHOD("lights_get"), &Terrain2DWorld::lights_get);
+	ClassDB::bind_method(D_METHOD("lights_set", "chunks"), &Terrain2DWorld::lights_set);
 
-	ClassDB::bind_method(D_METHOD("get_voxel_at_world_position", "world_position", "channel_index"), &TerrainWorld::get_voxel_at_world_position);
-	ClassDB::bind_method(D_METHOD("set_voxel_at_world_position", "world_position", "data", "channel_index", "rebuild"), &TerrainWorld::set_voxel_at_world_position, DEFVAL(true));
-	ClassDB::bind_method(D_METHOD("get_chunk_at_world_position", "world_position"), &TerrainWorld::get_chunk_at_world_position);
-	ClassDB::bind_method(D_METHOD("get_or_create_chunk_at_world_position", "world_position"), &TerrainWorld::get_or_create_chunk_at_world_position);
+	ClassDB::bind_method(D_METHOD("get_voxel_at_world_position", "world_position", "channel_index"), &Terrain2DWorld::get_voxel_at_world_position);
+	ClassDB::bind_method(D_METHOD("set_voxel_at_world_position", "world_position", "data", "channel_index", "rebuild"), &Terrain2DWorld::set_voxel_at_world_position, DEFVAL(true));
+	ClassDB::bind_method(D_METHOD("get_chunk_at_world_position", "world_position"), &Terrain2DWorld::get_chunk_at_world_position);
+	ClassDB::bind_method(D_METHOD("get_or_create_chunk_at_world_position", "world_position"), &Terrain2DWorld::get_or_create_chunk_at_world_position);
 
 #if VERSION_MAJOR < 4
 	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::INT, "ret"), "_get_channel_index_info", PropertyInfo(Variant::INT, "channel_type", PROPERTY_HINT_ENUM, BINDING_STRING_CHANNEL_TYPE_INFO)));
@@ -1244,10 +1244,10 @@ void TerrainWorld::_bind_methods() {
 	GDVIRTUAL_BIND(_get_channel_index_info, "channel_type", "ret");
 #endif
 
-	ClassDB::bind_method(D_METHOD("get_channel_index_info", "channel_type"), &TerrainWorld::get_channel_index_info);
-	ClassDB::bind_method(D_METHOD("_get_channel_index_info", "channel_type"), &TerrainWorld::_get_channel_index_info);
+	ClassDB::bind_method(D_METHOD("get_channel_index_info", "channel_type"), &Terrain2DWorld::get_channel_index_info);
+	ClassDB::bind_method(D_METHOD("_get_channel_index_info", "channel_type"), &Terrain2DWorld::_get_channel_index_info);
 
-	ClassDB::bind_method(D_METHOD("get_editor_camera"), &TerrainWorld::get_editor_camera);
+	ClassDB::bind_method(D_METHOD("get_editor_camera"), &Terrain2DWorld::get_editor_camera);
 
 #if VERSION_MAJOR < 4
 	BIND_VMETHOD(MethodInfo("_set_voxel_with_tool",
@@ -1260,8 +1260,8 @@ void TerrainWorld::_bind_methods() {
 	GDVIRTUAL_BIND(_set_voxel_with_tool, "mode_add", "hit_position", "hit_normal", "selected_voxel", "isolevel");
 #endif
 
-	ClassDB::bind_method(D_METHOD("set_voxel_with_tool", "mode_add", "hit_position", "hit_normal", "selected_voxel", "isolevel"), &TerrainWorld::set_voxel_with_tool);
-	ClassDB::bind_method(D_METHOD("_set_voxel_with_tool", "mode_add", "hit_position", "hit_normal", "selected_voxel", "isolevel"), &TerrainWorld::_set_voxel_with_tool);
+	ClassDB::bind_method(D_METHOD("set_voxel_with_tool", "mode_add", "hit_position", "hit_normal", "selected_voxel", "isolevel"), &Terrain2DWorld::set_voxel_with_tool);
+	ClassDB::bind_method(D_METHOD("_set_voxel_with_tool", "mode_add", "hit_position", "hit_normal", "selected_voxel", "isolevel"), &Terrain2DWorld::_set_voxel_with_tool);
 
 	BIND_ENUM_CONSTANT(CHANNEL_TYPE_INFO_TYPE);
 	BIND_ENUM_CONSTANT(CHANNEL_TYPE_INFO_ISOLEVEL);

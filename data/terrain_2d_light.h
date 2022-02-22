@@ -39,8 +39,8 @@ SOFTWARE.
 #endif
 
 
-class TerrainLight : public Reference {
-	GDCLASS(TerrainLight, Reference);
+class Terrain2DLight : public Reference {
+	GDCLASS(Terrain2DLight, Reference);
 
 public:
 	int get_world_position_x() const;
@@ -55,8 +55,8 @@ public:
 	float get_size() const;
 	void set_size(const float strength);
 
-	TerrainLight();
-	~TerrainLight();
+	Terrain2DLight();
+	~Terrain2DLight();
 
 private:
 	static void _bind_methods();

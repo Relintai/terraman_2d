@@ -24,30 +24,30 @@ SOFTWARE.
 
 #include "terrain_2d_library_simple.h"
 
-int TerrainSurfaceSimple::get_atlas_x(const TerrainSurfaceSides side) const {
+int Terrain2DSurfaceSimple::get_atlas_x(const Terrain2DSurfaceSides side) const {
 	int indx = (side * 2);
 
 	return _atlas_positions[indx];
 }
-void TerrainSurfaceSimple::set_atlas_x(const TerrainSurfaceSides side, int value) {
+void Terrain2DSurfaceSimple::set_atlas_x(const Terrain2DSurfaceSides side, int value) {
 	int indx = (side * 2);
 
 	_atlas_positions[indx] = value;
 }
 
-int TerrainSurfaceSimple::get_atlas_y(const TerrainSurfaceSides side) const {
+int Terrain2DSurfaceSimple::get_atlas_y(const Terrain2DSurfaceSides side) const {
 	int indx = (side * 2) + 1;
 
 	return _atlas_positions[indx];
 }
-void TerrainSurfaceSimple::set_atlas_y(const TerrainSurfaceSides side, int value) {
+void Terrain2DSurfaceSimple::set_atlas_y(const Terrain2DSurfaceSides side, int value) {
 	int indx = (side * 2) + 1;
 
 	_atlas_positions[indx] = value;
 }
 
-void TerrainSurfaceSimple::refresh_rects() {
-	TerrainLibrarySimple *lib = Object::cast_to<TerrainLibrarySimple>(_library);
+void Terrain2DSurfaceSimple::refresh_rects() {
+	Terrain2DLibrarySimple *lib = Object::cast_to<Terrain2DLibrarySimple>(_library);
 
 	ERR_FAIL_COND(lib == NULL);
 
@@ -67,21 +67,21 @@ void TerrainSurfaceSimple::refresh_rects() {
 	}
 }
 
-TerrainSurfaceSimple::TerrainSurfaceSimple() {
+Terrain2DSurfaceSimple::Terrain2DSurfaceSimple() {
 	for (int i = 0; i < TERRAIN_SIDES_ARRAY_SIZE; ++i) {
 		_atlas_positions[i] = 0;
 	}
 }
 
-TerrainSurfaceSimple::~TerrainSurfaceSimple() {
+Terrain2DSurfaceSimple::~Terrain2DSurfaceSimple() {
 }
 
-void TerrainSurfaceSimple::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_atlas_x", "side"), &TerrainSurfaceSimple::get_atlas_x);
-	ClassDB::bind_method(D_METHOD("set_atlas_x", "side", "value"), &TerrainSurfaceSimple::set_atlas_x);
+void Terrain2DSurfaceSimple::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("get_atlas_x", "side"), &Terrain2DSurfaceSimple::get_atlas_x);
+	ClassDB::bind_method(D_METHOD("set_atlas_x", "side", "value"), &Terrain2DSurfaceSimple::set_atlas_x);
 
-	ClassDB::bind_method(D_METHOD("get_atlas_y", "side"), &TerrainSurfaceSimple::get_atlas_y);
-	ClassDB::bind_method(D_METHOD("set_atlas_y", "side", "value"), &TerrainSurfaceSimple::set_atlas_y);
+	ClassDB::bind_method(D_METHOD("get_atlas_y", "side"), &Terrain2DSurfaceSimple::get_atlas_y);
+	ClassDB::bind_method(D_METHOD("set_atlas_y", "side", "value"), &Terrain2DSurfaceSimple::set_atlas_y);
 
 	ADD_PROPERTYI(PropertyInfo(Variant::INT, "top_atlas_x"), "set_atlas_x", "get_atlas_x", TERRAIN_SIDE_TOP);
 	ADD_PROPERTYI(PropertyInfo(Variant::INT, "top_atlas_y"), "set_atlas_y", "get_atlas_y", TERRAIN_SIDE_TOP);

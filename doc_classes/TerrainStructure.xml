@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="TerrainStructure" inherits="Resource" version="3.5">
+<class name="Terrain2DStructure" inherits="Resource" version="3.5">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -9,7 +9,7 @@
 	<methods>
 		<method name="_write_to_chunk" qualifiers="virtual">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
@@ -23,7 +23,7 @@
 		</method>
 		<method name="write_to_chunk">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>

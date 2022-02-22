@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="TerrainWorld" inherits="Navigation" version="3.5">
+<class name="Terrain2DWorld" inherits="Navigation" version="3.5">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -9,21 +9,21 @@
 	<methods>
 		<method name="_chunk_added" qualifiers="virtual">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
 		<method name="_create_chunk" qualifiers="virtual">
-			<return type="TerrainChunk" />
+			<return type="Terrain2DChunk" />
 			<argument index="0" name="x" type="int" />
 			<argument index="1" name="z" type="int" />
-			<argument index="2" name="chunk" type="TerrainChunk" />
+			<argument index="2" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
 		<method name="_generate_chunk" qualifiers="virtual">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
@@ -40,7 +40,7 @@
 		</method>
 		<method name="_prepare_chunk_for_generation" qualifiers="virtual">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
@@ -61,21 +61,21 @@
 		</method>
 		<method name="chunk_add">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<argument index="1" name="x" type="int" />
 			<argument index="2" name="z" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="chunk_create">
-			<return type="TerrainChunk" />
+			<return type="Terrain2DChunk" />
 			<argument index="0" name="x" type="int" />
 			<argument index="1" name="z" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="chunk_get">
-			<return type="TerrainChunk" />
+			<return type="Terrain2DChunk" />
 			<argument index="0" name="x" type="int" />
 			<argument index="1" name="z" type="int" />
 			<description>
@@ -87,13 +87,13 @@
 			</description>
 		</method>
 		<method name="chunk_get_index">
-			<return type="TerrainChunk" />
+			<return type="Terrain2DChunk" />
 			<argument index="0" name="index" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="chunk_get_or_create">
-			<return type="TerrainChunk" />
+			<return type="Terrain2DChunk" />
 			<argument index="0" name="x" type="int" />
 			<argument index="1" name="z" type="int" />
 			<description>
@@ -107,21 +107,21 @@
 			</description>
 		</method>
 		<method name="chunk_remove">
-			<return type="TerrainChunk" />
+			<return type="Terrain2DChunk" />
 			<argument index="0" name="x" type="int" />
 			<argument index="1" name="z" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="chunk_remove_index">
-			<return type="TerrainChunk" />
+			<return type="Terrain2DChunk" />
 			<argument index="0" name="index" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="chunk_setup">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
@@ -132,12 +132,12 @@
 		</method>
 		<method name="generation_add_to">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
 		<method name="generation_get_index">
-			<return type="TerrainChunk" />
+			<return type="Terrain2DChunk" />
 			<argument index="0" name="index" type="int" />
 			<description>
 			</description>
@@ -149,12 +149,12 @@
 		</method>
 		<method name="generation_queue_add_to">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
 		<method name="generation_queue_get_index">
-			<return type="TerrainChunk" />
+			<return type="Terrain2DChunk" />
 			<argument index="0" name="index" type="int" />
 			<description>
 			</description>
@@ -178,18 +178,18 @@
 		</method>
 		<method name="get_channel_index_info">
 			<return type="int" />
-			<argument index="0" name="channel_type" type="int" enum="TerrainWorld.ChannelTypeInfo" />
+			<argument index="0" name="channel_type" type="int" enum="Terrain2DWorld.ChannelTypeInfo" />
 			<description>
 			</description>
 		</method>
 		<method name="get_chunk_at_world_position">
-			<return type="TerrainChunk" />
+			<return type="Terrain2DChunk" />
 			<argument index="0" name="world_position" type="Vector3" />
 			<description>
 			</description>
 		</method>
 		<method name="get_or_create_chunk_at_world_position">
-			<return type="TerrainChunk" />
+			<return type="Terrain2DChunk" />
 			<argument index="0" name="world_position" type="Vector3" />
 			<description>
 			</description>
@@ -209,12 +209,12 @@
 		</method>
 		<method name="light_add">
 			<return type="void" />
-			<argument index="0" name="light" type="TerrainLight" />
+			<argument index="0" name="light" type="Terrain2DLight" />
 			<description>
 			</description>
 		</method>
 		<method name="light_get">
-			<return type="TerrainLight" />
+			<return type="Terrain2DLight" />
 			<argument index="0" name="index" type="int" />
 			<description>
 			</description>
@@ -248,7 +248,7 @@
 		</method>
 		<method name="on_chunk_mesh_generation_finished">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
@@ -281,19 +281,19 @@
 		</method>
 		<method name="voxel_structure_add">
 			<return type="void" />
-			<argument index="0" name="structure" type="TerrainStructure" />
+			<argument index="0" name="structure" type="Terrain2DStructure" />
 			<description>
 			</description>
 		</method>
 		<method name="voxel_structure_add_at_position">
 			<return type="void" />
-			<argument index="0" name="structure" type="TerrainStructure" />
+			<argument index="0" name="structure" type="Terrain2DStructure" />
 			<argument index="1" name="world_position" type="Vector3" />
 			<description>
 			</description>
 		</method>
 		<method name="voxel_structure_get" qualifiers="const">
-			<return type="TerrainStructure" />
+			<return type="Terrain2DStructure" />
 			<argument index="0" name="index" type="int" />
 			<description>
 			</description>
@@ -305,7 +305,7 @@
 		</method>
 		<method name="voxel_structure_remove">
 			<return type="void" />
-			<argument index="0" name="structure" type="TerrainStructure" />
+			<argument index="0" name="structure" type="Terrain2DStructure" />
 			<description>
 			</description>
 		</method>
@@ -322,12 +322,12 @@
 		</method>
 		<method name="world_area_add">
 			<return type="void" />
-			<argument index="0" name="area" type="TerrainWorldArea" />
+			<argument index="0" name="area" type="Terrain2DWorldArea" />
 			<description>
 			</description>
 		</method>
 		<method name="world_area_get" qualifiers="const">
-			<return type="TerrainWorldArea" />
+			<return type="Terrain2DWorldArea" />
 			<argument index="0" name="index" type="int" />
 			<description>
 			</description>
@@ -368,9 +368,9 @@
 		</member>
 		<member name="editable" type="bool" setter="set_editable" getter="get_editable" default="false">
 		</member>
-		<member name="level_generator" type="TerrainLevelGenerator" setter="set_level_generator" getter="get_level_generator">
+		<member name="level_generator" type="Terrain2DLevelGenerator" setter="set_level_generator" getter="get_level_generator">
 		</member>
-		<member name="library" type="TerrainLibrary" setter="set_library" getter="get_library">
+		<member name="library" type="Terrain2DLibrary" setter="set_library" getter="get_library">
 		</member>
 		<member name="max_concurrent_generations" type="int" setter="set_max_concurrent_generations" getter="get_max_concurrent_generations" default="3">
 		</member>
@@ -387,17 +387,17 @@
 	</members>
 	<signals>
 		<signal name="chunk_added">
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</signal>
 		<signal name="chunk_mesh_generation_finished">
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</signal>
 		<signal name="chunk_removed">
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</signal>

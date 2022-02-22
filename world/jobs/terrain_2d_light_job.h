@@ -25,18 +25,18 @@ SOFTWARE.
 
 #include "terrain_2d_job.h"
 
-class TerrainMesher;
+class Terrain2DMesher;
 
-class TerrainLightJob : public TerrainJob {
-	GDCLASS(TerrainLightJob, TerrainJob);
+class Terrain2DLightJob : public Terrain2DJob {
+	GDCLASS(Terrain2DLightJob, Terrain2DJob);
 
 public:
 	void phase_light();
 
 	void _execute_phase();
 
-	TerrainLightJob();
-	~TerrainLightJob();
+	Terrain2DLightJob();
+	~Terrain2DLightJob();
 
 protected:
 	static void _bind_methods();

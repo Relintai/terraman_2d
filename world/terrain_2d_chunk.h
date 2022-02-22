@@ -68,12 +68,12 @@ include_pool_vector
 #include "../library/terrain_2d_library.h"
 		; //hackfix for a clang format issue
 
-class TerrainJob;
-class TerrainWorld;
-class TerrainStructure;
+class Terrain2DJob;
+class Terrain2DWorld;
+class Terrain2DStructure;
 
-class TerrainChunk : public Resource {
-	GDCLASS(TerrainChunk, Resource);
+class Terrain2DChunk : public Resource {
+	GDCLASS(Terrain2DChunk, Resource);
 
 	_THREAD_SAFE_CLASS_
 
@@ -155,26 +155,26 @@ public:
 	bool prop_material_cache_key_has() const;
 	void prop_material_cache_key_has_set(const bool value);
 
-	Ref<TerrainLibrary> get_library();
-	void set_library(const Ref<TerrainLibrary> &value);
+	Ref<Terrain2DLibrary> get_library();
+	void set_library(const Ref<Terrain2DLibrary> &value);
 
 	float get_voxel_scale() const;
 	void set_voxel_scale(const float value);
 
-	TerrainWorld *get_voxel_world() const;
-	void set_voxel_world(TerrainWorld *world);
+	Terrain2DWorld *get_voxel_world() const;
+	void set_voxel_world(Terrain2DWorld *world);
 	void set_voxel_world_bind(Node *world);
 
 	//Jobs
-	Ref<TerrainJob> job_get(const int index) const;
-	void job_set(const int index, const Ref<TerrainJob> &job);
+	Ref<Terrain2DJob> job_get(const int index) const;
+	void job_set(const int index, const Ref<Terrain2DJob> &job);
 	void job_remove(const int index);
-	void job_add(const Ref<TerrainJob> &job);
+	void job_add(const Ref<Terrain2DJob> &job);
 	int job_get_count() const;
 
 	int job_get_current_index();
 	void job_next();
-	Ref<TerrainJob> job_get_current();
+	Ref<Terrain2DJob> job_get_current();
 
 	//Channels
 	void channel_setup();
@@ -209,13 +209,13 @@ public:
 	int get_data_size() const;
 
 	//Terra Structures
-	Ref<TerrainStructure> voxel_structure_get(const int index) const;
-	void voxel_structure_add(const Ref<TerrainStructure> &structure);
-	void voxel_structure_remove(const Ref<TerrainStructure> &structure);
+	Ref<Terrain2DStructure> voxel_structure_get(const int index) const;
+	void voxel_structure_add(const Ref<Terrain2DStructure> &structure);
+	void voxel_structure_remove(const Ref<Terrain2DStructure> &structure);
 	void voxel_structure_remove_index(const int index);
 	void voxel_structure_clear();
 	int voxel_structure_get_count() const;
-	void voxel_structure_add_at_position(Ref<TerrainStructure> structure, const Vector3 &world_position);
+	void voxel_structure_add_at_position(Ref<Terrain2DStructure> structure, const Vector3 &world_position);
 
 	Vector<Variant> voxel_structures_get();
 	void voxel_structures_set(const Vector<Variant> &structures);
@@ -230,7 +230,7 @@ public:
 
 	//light Baking
 	void bake_lights();
-	void bake_light(Ref<TerrainLight> light);
+	void bake_light(Ref<Terrain2DLight> light);
 	void clear_baked_lights();
 
 #if PROPS_PRESENT
@@ -295,8 +295,8 @@ public:
 	void physics_process(const float delta);
 	void world_transform_changed();
 	void visibility_changed(const bool visible);
-	void world_light_added(const Ref<TerrainLight> &light);
-	void world_light_removed(const Ref<TerrainLight> &light);
+	void world_light_added(const Ref<Terrain2DLight> &light);
+	void world_light_removed(const Ref<Terrain2DLight> &light);
 	void generation_process(const float delta);
 	void generation_physics_process(const float delta);
 
@@ -309,8 +309,8 @@ public:
 
 	bool is_safe_to_delete();
 
-	TerrainChunk();
-	~TerrainChunk();
+	Terrain2DChunk();
+	~Terrain2DChunk();
 
 protected:
 	virtual void _enter_tree();
@@ -365,7 +365,7 @@ protected:
 
 	bool _is_in_tree;
 
-	TerrainWorld *_voxel_world;
+	Terrain2DWorld *_voxel_world;
 
 	int _position_x;
 	int _position_z;
@@ -395,11 +395,11 @@ protected:
 	float _voxel_scale;
 
 	int _current_job;
-	Vector<Ref<TerrainJob>> _jobs;
+	Vector<Ref<Terrain2DJob>> _jobs;
 
-	Ref<TerrainLibrary> _library;
+	Ref<Terrain2DLibrary> _library;
 
-	Vector<Ref<TerrainStructure>> _voxel_structures;
+	Vector<Ref<Terrain2DStructure>> _voxel_structures;
 
 #if PROPS_PRESENT
 	Vector<PropDataStore> _props;

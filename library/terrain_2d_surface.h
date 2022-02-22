@@ -41,10 +41,10 @@ SOFTWARE.
 
 #include "terrain_2d_library.h"
 
-class TerrainLibrary;
+class Terrain2DLibrary;
 
-class TerrainSurface : public Resource {
-	GDCLASS(TerrainSurface, Resource)
+class Terrain2DSurface : public Resource {
+	GDCLASS(Terrain2DSurface, Resource)
 
 public:
 	/*
@@ -62,7 +62,7 @@ public:
 	/ z+ I ---I/
 	*/
 
-	enum TerrainSurfaceSides {
+	enum Terrain2DSurfaceSides {
 		TERRAIN_SIDE_TOP = 0,
 		TERRAIN_SIDE_BOTTOM = 1,
 		TERRAIN_SIDE_SIDE = 2,
@@ -76,24 +76,24 @@ public:
 	int get_id() const;
 	void set_id(const int value);
 
-	Rect2 get_rect(const TerrainSurfaceSides side) const;
-	void set_rect(const TerrainSurfaceSides side, const Rect2 &rect);
+	Rect2 get_rect(const Terrain2DSurfaceSides side) const;
+	void set_rect(const Terrain2DSurfaceSides side, const Rect2 &rect);
 
-	Ref<TerrainLibrary> get_library() const;
-	void set_library(Ref<TerrainLibrary> library);
+	Ref<Terrain2DLibrary> get_library() const;
+	void set_library(Ref<Terrain2DLibrary> library);
 
-	Vector2 transform_uv(const TerrainSurfaceSides p_side, const Vector2 &p_uv) const;
-	Vector2 transform_uv_scaled(const TerrainSurfaceSides p_side, const Vector2 &p_uv, const int p_current_x, const int p_current_y, const int p_max) const;
+	Vector2 transform_uv(const Terrain2DSurfaceSides p_side, const Vector2 &p_uv) const;
+	Vector2 transform_uv_scaled(const Terrain2DSurfaceSides p_side, const Vector2 &p_uv, const int p_current_x, const int p_current_y, const int p_max) const;
 
 	virtual void refresh_rects();
 
-	TerrainSurface();
-	~TerrainSurface();
+	Terrain2DSurface();
+	~Terrain2DSurface();
 
 protected:
 	static void _bind_methods();
 
-	TerrainLibrary *_library;
+	Terrain2DLibrary *_library;
 
 	int _id;
 	int _mesher_index;
@@ -102,6 +102,6 @@ protected:
 	Rect2 _rects[TERRAIN_SIDES_COUNT];
 };
 
-VARIANT_ENUM_CAST(TerrainSurface::TerrainSurfaceSides);
+VARIANT_ENUM_CAST(Terrain2DSurface::Terrain2DSurfaceSides);
 
 #endif

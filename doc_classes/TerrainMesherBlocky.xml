@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="TerrainMesherBlocky" inherits="TerrainMesherDefault" version="3.5">
+<class name="Terrain2DMesherBlocky" inherits="Terrain2DMesherDefault" version="3.5">
 	<brief_description>
 	</brief_description>
 	<description>

@@ -25,15 +25,15 @@ SOFTWARE.
 
 #include "../default/terrain_2d_world_default.h"
 
-class TerrainWorldBlocky : public TerrainWorldDefault {
-	GDCLASS(TerrainWorldBlocky, TerrainWorldDefault);
+class Terrain2DWorldBlocky : public Terrain2DWorldDefault {
+	GDCLASS(Terrain2DWorldBlocky, Terrain2DWorldDefault);
 
 public:
-	TerrainWorldBlocky();
-	~TerrainWorldBlocky();
+	Terrain2DWorldBlocky();
+	~Terrain2DWorldBlocky();
 
 protected:
-	Ref<TerrainChunk> _create_chunk(int x, int z, Ref<TerrainChunk> p_chunk);
+	Ref<Terrain2DChunk> _create_chunk(int x, int z, Ref<Terrain2DChunk> p_chunk);
 
 	static void _bind_methods();
 };

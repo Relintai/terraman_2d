@@ -42,25 +42,25 @@ SOFTWARE.
 
 #include "core/os/mutex.h"
 
-class TerrainSurfaceSimple;
-class TerrainMesher;
+class Terrain2DSurfaceSimple;
+class Terrain2DMesher;
 class PackedScene;
-class TerrainMaterialCachePCM;
+class Terrain2DMaterialCachePCM;
 class TexturePacker;
 
 //pcm = per chunk material
-class TerrainLibraryMergerPCM : public TerrainLibrary {
-	GDCLASS(TerrainLibraryMergerPCM, TerrainLibrary);
+class Terrain2DLibraryMergerPCM : public Terrain2DLibrary {
+	GDCLASS(Terrain2DLibraryMergerPCM, Terrain2DLibrary);
 
 public:
 	bool _supports_caching();
 
-	void _material_cache_get_key(Ref<TerrainChunk> chunk);
-	Ref<TerrainMaterialCache> _material_cache_get(const int key);
+	void _material_cache_get_key(Ref<Terrain2DChunk> chunk);
+	Ref<Terrain2DMaterialCache> _material_cache_get(const int key);
 	void _material_cache_unref(const int key);
 
-	void _prop_material_cache_get_key(Ref<TerrainChunk> chunk);
-	Ref<TerrainMaterialCache> _prop_material_cache_get(const int key);
+	void _prop_material_cache_get_key(Ref<Terrain2DChunk> chunk);
+	Ref<Terrain2DMaterialCache> _prop_material_cache_get(const int key);
 	void _prop_material_cache_unref(const int key);
 
 	int get_texture_flags() const;
@@ -78,9 +78,9 @@ public:
 	int get_margin() const;
 	void set_margin(const int margin);
 
-	Ref<TerrainSurface> terra_surface_get(const int index);
-	void terra_surface_add(Ref<TerrainSurface> value);
-	void terra_surface_set(const int index, Ref<TerrainSurface> value);
+	Ref<Terrain2DSurface> terra_surface_get(const int index);
+	void terra_surface_add(Ref<Terrain2DSurface> value);
+	void terra_surface_set(const int index, Ref<Terrain2DSurface> value);
 	void terra_surface_remove(const int index);
 	int terra_surface_get_num() const;
 	void terra_surfaces_clear();
@@ -109,8 +109,8 @@ public:
 
 	void _setup_material_albedo(const int material_index, const Ref<Texture> &texture);
 
-	TerrainLibraryMergerPCM();
-	~TerrainLibraryMergerPCM();
+	Terrain2DLibraryMergerPCM();
+	~Terrain2DLibraryMergerPCM();
 
 protected:
 #ifdef PROPS_PRESENT
@@ -119,10 +119,10 @@ protected:
 
 	static void _bind_methods();
 
-	Map<int, Ref<TerrainMaterialCachePCM> > _material_cache;
-	Map<int, Ref<TerrainMaterialCachePCM> > _prop_material_cache;
+	Map<int, Ref<Terrain2DMaterialCachePCM> > _material_cache;
+	Map<int, Ref<Terrain2DMaterialCachePCM> > _prop_material_cache;
 
-	Vector<Ref<TerrainSurfaceMerger> > _terra_surfaces;
+	Vector<Ref<Terrain2DSurfaceMerger> > _terra_surfaces;
 #ifdef PROPS_PRESENT
 	Vector<Ref<PropData> > _props;
 #endif

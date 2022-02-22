@@ -42,12 +42,12 @@ SOFTWARE.
 #include "core/message_queue.h"
 #include "terrain_2d_material_cache_pcm.h"
 
-bool TerrainLibraryMergerPCM::_supports_caching() {
+bool Terrain2DLibraryMergerPCM::_supports_caching() {
 	return true;
 }
 
-void TerrainLibraryMergerPCM::_material_cache_get_key(Ref<TerrainChunk> chunk) {
-	uint8_t *ch = chunk->channel_get(TerrainChunkDefault::DEFAULT_CHANNEL_TYPE);
+void Terrain2DLibraryMergerPCM::_material_cache_get_key(Ref<Terrain2DChunk> chunk) {
+	uint8_t *ch = chunk->channel_get(Terrain2DChunkDefault::DEFAULT_CHANNEL_TYPE);
 
 	if (!ch) {
 		chunk->material_cache_key_set(0);
@@ -81,7 +81,7 @@ void TerrainLibraryMergerPCM::_material_cache_get_key(Ref<TerrainChunk> chunk) {
 		}
 	}
 
-	uint8_t *liquid_ch = chunk->channel_get(TerrainChunkDefault::DEFAULT_CHANNEL_LIQUID_TYPE);
+	uint8_t *liquid_ch = chunk->channel_get(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIQUID_TYPE);
 
 	if (liquid_ch) {
 		for (uint32_t i = 0; i < size; ++i) {
@@ -129,7 +129,7 @@ void TerrainLibraryMergerPCM::_material_cache_get_key(Ref<TerrainChunk> chunk) {
 	_material_cache_mutex.lock();
 
 	if (_material_cache.has(hash)) {
-		Ref<TerrainMaterialCachePCM> cc = _material_cache[hash];
+		Ref<Terrain2DMaterialCachePCM> cc = _material_cache[hash];
 
 		if (cc.is_valid()) {
 			cc->inc_ref_count();
@@ -142,7 +142,7 @@ void TerrainLibraryMergerPCM::_material_cache_get_key(Ref<TerrainChunk> chunk) {
 
 	//print_error("New cache: " + hstr);
 
-	Ref<TerrainMaterialCachePCM> cache;
+	Ref<Terrain2DMaterialCachePCM> cache;
 	cache.instance();
 	cache->inc_ref_count();
 
@@ -159,14 +159,14 @@ void TerrainLibraryMergerPCM::_material_cache_get_key(Ref<TerrainChunk> chunk) {
 			continue;
 		}
 
-		Ref<TerrainSurfaceMerger> ms = _terra_surfaces[s];
+		Ref<Terrain2DSurfaceMerger> ms = _terra_surfaces[s];
 
 		if (!ms.is_valid()) {
 			continue;
 		}
 
-		Ref<TerrainSurfaceMerger> nms = ms->duplicate();
-		nms->set_library(Ref<TerrainLibraryMergerPCM>(this));
+		Ref<Terrain2DSurfaceMerger> nms = ms->duplicate();
+		nms->set_library(Ref<Terrain2DLibraryMergerPCM>(this));
 		nms->set_id(s);
 
 		cache->surface_add(nms);
@@ -193,19 +193,19 @@ void TerrainLibraryMergerPCM::_material_cache_get_key(Ref<TerrainChunk> chunk) {
 	cache->refresh_rects();
 }
 
-Ref<TerrainMaterialCache> TerrainLibraryMergerPCM::_material_cache_get(const int key) {
+Ref<Terrain2DMaterialCache> Terrain2DLibraryMergerPCM::_material_cache_get(const int key) {
 	_material_cache_mutex.lock();
 
-	ERR_FAIL_COND_V(!_material_cache.has(key), Ref<TerrainMaterialCache>());
+	ERR_FAIL_COND_V(!_material_cache.has(key), Ref<Terrain2DMaterialCache>());
 
-	Ref<TerrainMaterialCache> c = _material_cache[key];
+	Ref<Terrain2DMaterialCache> c = _material_cache[key];
 
 	_material_cache_mutex.unlock();
 
 	return c;
 }
 
-void TerrainLibraryMergerPCM::_material_cache_unref(const int key) {
+void Terrain2DLibraryMergerPCM::_material_cache_unref(const int key) {
 	if (_material_cache_mutex.try_lock() != OK) {
 		// If we don't get the lock try again later
 		// This is needed, because when duplicating materials the VisualServer apparently
@@ -223,7 +223,7 @@ void TerrainLibraryMergerPCM::_material_cache_unref(const int key) {
 		return;
 	}
 
-	Ref<TerrainMaterialCachePCM> cc = _material_cache[key];
+	Ref<Terrain2DMaterialCachePCM> cc = _material_cache[key];
 
 	if (!cc.is_valid()) {
 		return;
@@ -238,7 +238,7 @@ void TerrainLibraryMergerPCM::_material_cache_unref(const int key) {
 	_material_cache_mutex.unlock();
 }
 
-void TerrainLibraryMergerPCM::_prop_material_cache_get_key(Ref<TerrainChunk> chunk) {
+void Terrain2DLibraryMergerPCM::_prop_material_cache_get_key(Ref<Terrain2DChunk> chunk) {
 	Vector<uint64_t> props;
 
 	/*
@@ -315,7 +315,7 @@ void TerrainLibraryMergerPCM::_prop_material_cache_get_key(Ref<TerrainChunk> chu
 	_prop_material_cache_mutex.lock();
 
 	if (_prop_material_cache.has(hash)) {
-		Ref<TerrainMaterialCachePCM> cc = _prop_material_cache[hash];
+		Ref<Terrain2DMaterialCachePCM> cc = _prop_material_cache[hash];
 
 		if (cc.is_valid()) {
 			cc->inc_ref_count();
@@ -328,7 +328,7 @@ void TerrainLibraryMergerPCM::_prop_material_cache_get_key(Ref<TerrainChunk> chu
 
 	//print_error("New prop cache: " + hstr);
 
-	Ref<TerrainMaterialCachePCM> cache;
+	Ref<Terrain2DMaterialCachePCM> cache;
 	cache.instance();
 	cache->inc_ref_count();
 
@@ -381,18 +381,18 @@ void TerrainLibraryMergerPCM::_prop_material_cache_get_key(Ref<TerrainChunk> chu
 	//this will generate the atlases
 	cache->refresh_rects();
 }
-Ref<TerrainMaterialCache> TerrainLibraryMergerPCM::_prop_material_cache_get(const int key) {
+Ref<Terrain2DMaterialCache> Terrain2DLibraryMergerPCM::_prop_material_cache_get(const int key) {
 	_prop_material_cache_mutex.lock();
 
-	ERR_FAIL_COND_V(!_prop_material_cache.has(key), Ref<TerrainMaterialCache>());
+	ERR_FAIL_COND_V(!_prop_material_cache.has(key), Ref<Terrain2DMaterialCache>());
 
-	Ref<TerrainMaterialCache> c = _prop_material_cache[key];
+	Ref<Terrain2DMaterialCache> c = _prop_material_cache[key];
 
 	_prop_material_cache_mutex.unlock();
 
 	return c;
 }
-void TerrainLibraryMergerPCM::_prop_material_cache_unref(const int key) {
+void Terrain2DLibraryMergerPCM::_prop_material_cache_unref(const int key) {
 	if (_prop_material_cache_mutex.try_lock() != OK) {
 		// If we don't get the lock try again later
 		// This is needed, because when duplicating materials the VisualServer apparently
@@ -410,7 +410,7 @@ void TerrainLibraryMergerPCM::_prop_material_cache_unref(const int key) {
 		return;
 	}
 
-	Ref<TerrainMaterialCachePCM> cc = _prop_material_cache[key];
+	Ref<Terrain2DMaterialCachePCM> cc = _prop_material_cache[key];
 
 	if (!cc.is_valid()) {
 		return;
@@ -425,63 +425,63 @@ void TerrainLibraryMergerPCM::_prop_material_cache_unref(const int key) {
 	_prop_material_cache_mutex.unlock();
 }
 
-int TerrainLibraryMergerPCM::get_texture_flags() const {
+int Terrain2DLibraryMergerPCM::get_texture_flags() const {
 	return _packer->get_texture_flags();
 }
-void TerrainLibraryMergerPCM::set_texture_flags(const int flags) {
+void Terrain2DLibraryMergerPCM::set_texture_flags(const int flags) {
 	_packer->set_texture_flags(flags);
 	_prop_packer->set_texture_flags(flags);
 }
 
-int TerrainLibraryMergerPCM::get_max_atlas_size() const {
+int Terrain2DLibraryMergerPCM::get_max_atlas_size() const {
 	return _packer->get_max_atlas_size();
 }
-void TerrainLibraryMergerPCM::set_max_atlas_size(const int size) {
+void Terrain2DLibraryMergerPCM::set_max_atlas_size(const int size) {
 	_packer->set_max_atlas_size(size);
 	_prop_packer->set_max_atlas_size(size);
 }
 
-bool TerrainLibraryMergerPCM::get_keep_original_atlases() const {
+bool Terrain2DLibraryMergerPCM::get_keep_original_atlases() const {
 	return _packer->get_keep_original_atlases();
 }
-void TerrainLibraryMergerPCM::set_keep_original_atlases(const bool value) {
+void Terrain2DLibraryMergerPCM::set_keep_original_atlases(const bool value) {
 	_packer->set_keep_original_atlases(value);
 	_prop_packer->set_keep_original_atlases(value);
 }
 
-Color TerrainLibraryMergerPCM::get_background_color() const {
+Color Terrain2DLibraryMergerPCM::get_background_color() const {
 	return _packer->get_background_color();
 }
-void TerrainLibraryMergerPCM::set_background_color(const Color &color) {
+void Terrain2DLibraryMergerPCM::set_background_color(const Color &color) {
 	_packer->set_background_color(color);
 	_prop_packer->set_background_color(color);
 }
 
-int TerrainLibraryMergerPCM::get_margin() const {
+int Terrain2DLibraryMergerPCM::get_margin() const {
 	return _packer->get_margin();
 }
-void TerrainLibraryMergerPCM::set_margin(const int margin) {
+void Terrain2DLibraryMergerPCM::set_margin(const int margin) {
 	_packer->set_margin(margin);
 	_prop_packer->set_margin(margin);
 }
 
 //Surfaces
-Ref<TerrainSurface> TerrainLibraryMergerPCM::terra_surface_get(const int index) {
-	ERR_FAIL_INDEX_V(index, _terra_surfaces.size(), Ref<TerrainSurface>(NULL));
+Ref<Terrain2DSurface> Terrain2DLibraryMergerPCM::terra_surface_get(const int index) {
+	ERR_FAIL_INDEX_V(index, _terra_surfaces.size(), Ref<Terrain2DSurface>(NULL));
 
 	return _terra_surfaces[index];
 }
 
-void TerrainLibraryMergerPCM::terra_surface_add(Ref<TerrainSurface> value) {
+void Terrain2DLibraryMergerPCM::terra_surface_add(Ref<Terrain2DSurface> value) {
 	ERR_FAIL_COND(!value.is_valid());
 
-	value->set_library(Ref<TerrainLibraryMergerPCM>(this));
+	value->set_library(Ref<Terrain2DLibraryMergerPCM>(this));
 	value->set_id(_terra_surfaces.size());
 
 	_terra_surfaces.push_back(value);
 }
 
-void TerrainLibraryMergerPCM::terra_surface_set(const int index, Ref<TerrainSurface> value) {
+void Terrain2DLibraryMergerPCM::terra_surface_set(const int index, Ref<Terrain2DSurface> value) {
 	ERR_FAIL_COND(index < 0);
 
 	if (_terra_surfaces.size() < index) {
@@ -489,29 +489,29 @@ void TerrainLibraryMergerPCM::terra_surface_set(const int index, Ref<TerrainSurf
 	}
 
 	if (_terra_surfaces[index].is_valid()) {
-		_terra_surfaces.get(index)->set_library(Ref<TerrainLibraryMergerPCM>(NULL));
+		_terra_surfaces.get(index)->set_library(Ref<Terrain2DLibraryMergerPCM>(NULL));
 	}
 
 	if (value.is_valid()) {
-		value->set_library(Ref<TerrainLibraryMergerPCM>(this));
+		value->set_library(Ref<Terrain2DLibraryMergerPCM>(this));
 
 		_terra_surfaces.set(index, value);
 	}
 }
 
-void TerrainLibraryMergerPCM::terra_surface_remove(const int index) {
+void Terrain2DLibraryMergerPCM::terra_surface_remove(const int index) {
 	_terra_surfaces.remove(index);
 }
 
-int TerrainLibraryMergerPCM::terra_surface_get_num() const {
+int Terrain2DLibraryMergerPCM::terra_surface_get_num() const {
 	return _terra_surfaces.size();
 }
 
-void TerrainLibraryMergerPCM::terra_surfaces_clear() {
+void Terrain2DLibraryMergerPCM::terra_surfaces_clear() {
 	_packer->clear();
 
 	for (int i = 0; i < _terra_surfaces.size(); i++) {
-		Ref<TerrainSurfaceMerger> surface = _terra_surfaces[i];
+		Ref<Terrain2DSurfaceMerger> surface = _terra_surfaces[i];
 
 		if (surface.is_valid()) {
 			surface->set_library(NULL);
@@ -521,18 +521,18 @@ void TerrainLibraryMergerPCM::terra_surfaces_clear() {
 	_terra_surfaces.clear();
 }
 
-Vector<Variant> TerrainLibraryMergerPCM::get_terra_surfaces() {
+Vector<Variant> Terrain2DLibraryMergerPCM::get_terra_surfaces() {
 	VARIANT_ARRAY_GET(_terra_surfaces);
 }
 
-void TerrainLibraryMergerPCM::set_terra_surfaces(const Vector<Variant> &surfaces) {
+void Terrain2DLibraryMergerPCM::set_terra_surfaces(const Vector<Variant> &surfaces) {
 	_terra_surfaces.clear();
 
 	for (int i = 0; i < surfaces.size(); i++) {
-		Ref<TerrainSurfaceMerger> surface = Ref<TerrainSurfaceMerger>(surfaces[i]);
+		Ref<Terrain2DSurfaceMerger> surface = Ref<Terrain2DSurfaceMerger>(surfaces[i]);
 
 		if (surface.is_valid()) {
-			surface->set_library(Ref<TerrainLibraryMergerPCM>(this));
+			surface->set_library(Ref<Terrain2DLibraryMergerPCM>(this));
 		}
 
 		_terra_surfaces.push_back(surface);
@@ -540,43 +540,43 @@ void TerrainLibraryMergerPCM::set_terra_surfaces(const Vector<Variant> &surfaces
 }
 
 #ifdef PROPS_PRESENT
-Ref<PropData> TerrainLibraryMergerPCM::get_prop(const int index) {
+Ref<PropData> Terrain2DLibraryMergerPCM::get_prop(const int index) {
 	ERR_FAIL_INDEX_V(index, _props.size(), Ref<PropData>());
 
 	return _props[index];
 }
-void TerrainLibraryMergerPCM::add_prop(Ref<PropData> value) {
+void Terrain2DLibraryMergerPCM::add_prop(Ref<PropData> value) {
 	_props.push_back(value);
 }
-bool TerrainLibraryMergerPCM::has_prop(const Ref<PropData> &value) const {
+bool Terrain2DLibraryMergerPCM::has_prop(const Ref<PropData> &value) const {
 	return _props.find(value) != -1;
 }
-void TerrainLibraryMergerPCM::set_prop(const int index, const Ref<PropData> &value) {
+void Terrain2DLibraryMergerPCM::set_prop(const int index, const Ref<PropData> &value) {
 	ERR_FAIL_INDEX(index, _props.size());
 
 	_props.write[index] = value;
 }
-void TerrainLibraryMergerPCM::remove_prop(const int index) {
+void Terrain2DLibraryMergerPCM::remove_prop(const int index) {
 	ERR_FAIL_INDEX(index, _props.size());
 
 	_props.remove(index);
 }
-int TerrainLibraryMergerPCM::get_num_props() const {
+int Terrain2DLibraryMergerPCM::get_num_props() const {
 	return _props.size();
 }
-void TerrainLibraryMergerPCM::clear_props() {
+void Terrain2DLibraryMergerPCM::clear_props() {
 	_props.clear();
 }
 
-Vector<Variant> TerrainLibraryMergerPCM::get_props() {
+Vector<Variant> Terrain2DLibraryMergerPCM::get_props() {
 	VARIANT_ARRAY_GET(_props);
 }
 
-void TerrainLibraryMergerPCM::set_props(const Vector<Variant> &props) {
+void Terrain2DLibraryMergerPCM::set_props(const Vector<Variant> &props) {
 	VARIANT_ARRAY_SET(props, _props, PropData);
 }
 
-Rect2 TerrainLibraryMergerPCM::get_prop_uv_rect(const Ref<Texture> &texture) {
+Rect2 Terrain2DLibraryMergerPCM::get_prop_uv_rect(const Ref<Texture> &texture) {
 	if (!texture.is_valid()) {
 		return Rect2(0, 0, 1, 1);
 	}
@@ -610,28 +610,28 @@ Rect2 TerrainLibraryMergerPCM::get_prop_uv_rect(const Ref<Texture> &texture) {
 	return region;
 }
 
-Ref<TexturePacker> TerrainLibraryMergerPCM::get_prop_packer() {
+Ref<TexturePacker> Terrain2DLibraryMergerPCM::get_prop_packer() {
 	return _prop_packer;
 }
 #endif
 
-void TerrainLibraryMergerPCM::refresh_rects() {
+void Terrain2DLibraryMergerPCM::refresh_rects() {
 	bool texture_added = false;
 	for (int i = 0; i < _terra_surfaces.size(); i++) {
-		Ref<TerrainSurfaceMerger> surface = Ref<TerrainSurfaceMerger>(_terra_surfaces[i]);
+		Ref<Terrain2DSurfaceMerger> surface = Ref<Terrain2DSurfaceMerger>(_terra_surfaces[i]);
 
 		if (surface.is_valid()) {
-			for (int j = 0; j < TerrainSurface::TERRAIN_SIDES_COUNT; ++j) {
-				Ref<Texture> tex = surface->get_texture(static_cast<TerrainSurface::TerrainSurfaceSides>(j));
+			for (int j = 0; j < Terrain2DSurface::TERRAIN_SIDES_COUNT; ++j) {
+				Ref<Texture> tex = surface->get_texture(static_cast<Terrain2DSurface::Terrain2DSurfaceSides>(j));
 
 				if (!tex.is_valid())
 					continue;
 
 				if (!_packer->contains_texture(tex)) {
 					texture_added = true;
-					surface->set_region(static_cast<TerrainSurface::TerrainSurfaceSides>(j), _packer->add_texture(tex));
+					surface->set_region(static_cast<Terrain2DSurface::Terrain2DSurfaceSides>(j), _packer->add_texture(tex));
 				} else {
-					surface->set_region(static_cast<TerrainSurface::TerrainSurfaceSides>(j), _packer->get_texture(tex));
+					surface->set_region(static_cast<Terrain2DSurface::Terrain2DSurfaceSides>(j), _packer->get_texture(tex));
 				}
 			}
 		}
@@ -673,7 +673,7 @@ void TerrainLibraryMergerPCM::refresh_rects() {
 #endif
 
 	for (int i = 0; i < _terra_surfaces.size(); i++) {
-		Ref<TerrainSurfaceMerger> surface = _terra_surfaces[i];
+		Ref<Terrain2DSurfaceMerger> surface = _terra_surfaces[i];
 
 		if (surface.is_valid()) {
 			surface->refresh_rects();
@@ -683,7 +683,7 @@ void TerrainLibraryMergerPCM::refresh_rects() {
 	set_initialized(true);
 }
 
-void TerrainLibraryMergerPCM::_setup_material_albedo(const int material_index, const Ref<Texture> &texture) {
+void Terrain2DLibraryMergerPCM::_setup_material_albedo(const int material_index, const Ref<Texture> &texture) {
 	Ref<SpatialMaterial> mat;
 
 	int count = 0;
@@ -752,7 +752,7 @@ void TerrainLibraryMergerPCM::_setup_material_albedo(const int material_index, c
 	}
 }
 
-TerrainLibraryMergerPCM::TerrainLibraryMergerPCM() {
+Terrain2DLibraryMergerPCM::Terrain2DLibraryMergerPCM() {
 	_packer.instance();
 
 #if GODOT4
@@ -778,12 +778,12 @@ TerrainLibraryMergerPCM::TerrainLibraryMergerPCM() {
 	_prop_packer->set_margin(0);
 }
 
-TerrainLibraryMergerPCM::~TerrainLibraryMergerPCM() {
+Terrain2DLibraryMergerPCM::~Terrain2DLibraryMergerPCM() {
 	for (int i = 0; i < _terra_surfaces.size(); ++i) {
-		Ref<TerrainSurface> surface = _terra_surfaces[i];
+		Ref<Terrain2DSurface> surface = _terra_surfaces[i];
 
 		if (surface.is_valid()) {
-			surface->set_library(Ref<TerrainLibraryMergerPCM>());
+			surface->set_library(Ref<Terrain2DLibraryMergerPCM>());
 		}
 	}
 
@@ -797,7 +797,7 @@ TerrainLibraryMergerPCM::~TerrainLibraryMergerPCM() {
 }
 
 #ifdef PROPS_PRESENT
-bool TerrainLibraryMergerPCM::process_prop_textures(Ref<PropData> prop) {
+bool Terrain2DLibraryMergerPCM::process_prop_textures(Ref<PropData> prop) {
 	if (!prop.is_valid()) {
 		return false;
 	}
@@ -831,40 +831,40 @@ bool TerrainLibraryMergerPCM::process_prop_textures(Ref<PropData> prop) {
 }
 #endif
 
-void TerrainLibraryMergerPCM::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_texture_flags"), &TerrainLibraryMergerPCM::get_texture_flags);
-	ClassDB::bind_method(D_METHOD("set_texture_flags", "flags"), &TerrainLibraryMergerPCM::set_texture_flags);
+void Terrain2DLibraryMergerPCM::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("get_texture_flags"), &Terrain2DLibraryMergerPCM::get_texture_flags);
+	ClassDB::bind_method(D_METHOD("set_texture_flags", "flags"), &Terrain2DLibraryMergerPCM::set_texture_flags);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "texture_flags", PROPERTY_HINT_FLAGS, "Mipmaps,Repeat,Filter,Anisotropic Linear,Convert to Linear,Mirrored Repeat,Video Surface"), "set_texture_flags", "get_texture_flags");
 
-	ClassDB::bind_method(D_METHOD("get_max_atlas_size"), &TerrainLibraryMergerPCM::get_max_atlas_size);
-	ClassDB::bind_method(D_METHOD("set_max_atlas_size", "size"), &TerrainLibraryMergerPCM::set_max_atlas_size);
+	ClassDB::bind_method(D_METHOD("get_max_atlas_size"), &Terrain2DLibraryMergerPCM::get_max_atlas_size);
+	ClassDB::bind_method(D_METHOD("set_max_atlas_size", "size"), &Terrain2DLibraryMergerPCM::set_max_atlas_size);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "max_atlas_size"), "set_max_atlas_size", "get_max_atlas_size");
 
-	ClassDB::bind_method(D_METHOD("get_keep_original_atlases"), &TerrainLibraryMergerPCM::get_keep_original_atlases);
-	ClassDB::bind_method(D_METHOD("set_keep_original_atlases", "value"), &TerrainLibraryMergerPCM::set_keep_original_atlases);
+	ClassDB::bind_method(D_METHOD("get_keep_original_atlases"), &Terrain2DLibraryMergerPCM::get_keep_original_atlases);
+	ClassDB::bind_method(D_METHOD("set_keep_original_atlases", "value"), &Terrain2DLibraryMergerPCM::set_keep_original_atlases);
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "keep_original_atlases"), "set_keep_original_atlases", "get_keep_original_atlases");
 
-	ClassDB::bind_method(D_METHOD("get_background_color"), &TerrainLibraryMergerPCM::get_background_color);
-	ClassDB::bind_method(D_METHOD("set_background_color", "color"), &TerrainLibraryMergerPCM::set_background_color);
+	ClassDB::bind_method(D_METHOD("get_background_color"), &Terrain2DLibraryMergerPCM::get_background_color);
+	ClassDB::bind_method(D_METHOD("set_background_color", "color"), &Terrain2DLibraryMergerPCM::set_background_color);
 	ADD_PROPERTY(PropertyInfo(Variant::COLOR, "background_color"), "set_background_color", "get_background_color");
 
-	ClassDB::bind_method(D_METHOD("get_margin"), &TerrainLibraryMergerPCM::get_margin);
-	ClassDB::bind_method(D_METHOD("set_margin", "size"), &TerrainLibraryMergerPCM::set_margin);
+	ClassDB::bind_method(D_METHOD("get_margin"), &Terrain2DLibraryMergerPCM::get_margin);
+	ClassDB::bind_method(D_METHOD("set_margin", "size"), &Terrain2DLibraryMergerPCM::set_margin);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "margin"), "set_margin", "get_margin");
 
-	ClassDB::bind_method(D_METHOD("get_terra_surfaces"), &TerrainLibraryMergerPCM::get_terra_surfaces);
-	ClassDB::bind_method(D_METHOD("set_terra_surfaces"), &TerrainLibraryMergerPCM::set_terra_surfaces);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "terra_surfaces", PROPERTY_HINT_NONE, "17/17:TerrainSurfaceMerger", PROPERTY_USAGE_DEFAULT, "TerrainSurfaceMerger"), "set_terra_surfaces", "get_terra_surfaces");
+	ClassDB::bind_method(D_METHOD("get_terra_surfaces"), &Terrain2DLibraryMergerPCM::get_terra_surfaces);
+	ClassDB::bind_method(D_METHOD("set_terra_surfaces"), &Terrain2DLibraryMergerPCM::set_terra_surfaces);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "terra_surfaces", PROPERTY_HINT_NONE, "17/17:Terrain2DSurfaceMerger", PROPERTY_USAGE_DEFAULT, "Terrain2DSurfaceMerger"), "set_terra_surfaces", "get_terra_surfaces");
 
 #ifdef PROPS_PRESENT
-	ClassDB::bind_method(D_METHOD("get_props"), &TerrainLibraryMergerPCM::get_props);
-	ClassDB::bind_method(D_METHOD("set_props"), &TerrainLibraryMergerPCM::set_props);
+	ClassDB::bind_method(D_METHOD("get_props"), &Terrain2DLibraryMergerPCM::get_props);
+	ClassDB::bind_method(D_METHOD("set_props"), &Terrain2DLibraryMergerPCM::set_props);
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "props", PROPERTY_HINT_NONE, "17/17:PropData", PROPERTY_USAGE_DEFAULT, "PropData"), "set_props", "get_props");
 
-	ClassDB::bind_method(D_METHOD("get_prop_uv_rect", "texture"), &TerrainLibraryMergerPCM::get_prop_uv_rect);
+	ClassDB::bind_method(D_METHOD("get_prop_uv_rect", "texture"), &Terrain2DLibraryMergerPCM::get_prop_uv_rect);
 
-	ClassDB::bind_method(D_METHOD("get_prop_packer"), &TerrainLibraryMergerPCM::get_prop_packer);
+	ClassDB::bind_method(D_METHOD("get_prop_packer"), &Terrain2DLibraryMergerPCM::get_prop_packer);
 #endif
 
-	ClassDB::bind_method(D_METHOD("_setup_material_albedo", "material_index", "texture"), &TerrainLibraryMergerPCM::_setup_material_albedo);
+	ClassDB::bind_method(D_METHOD("_setup_material_albedo", "material_index", "texture"), &Terrain2DLibraryMergerPCM::_setup_material_albedo);
 }

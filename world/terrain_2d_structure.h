@@ -40,8 +40,8 @@ include_pool_vector
 #include "core/math/aabb.h"
 #include "terrain_2d_chunk.h"
 
-		class TerrainStructure : public Resource {
-	GDCLASS(TerrainStructure, Resource);
+		class Terrain2DStructure : public Resource {
+	GDCLASS(Terrain2DStructure, Resource);
 
 public:
 	bool get_use_aabb() const;
@@ -61,14 +61,14 @@ public:
 
 	void set_position(const int x, const int y, const int z);
 
-	void write_to_chunk(Ref<TerrainChunk> chunk);
+	void write_to_chunk(Ref<Terrain2DChunk> chunk);
 
 #if VERSION_MAJOR >= 4
-	GDVIRTUAL1(_write_to_chunk, Ref<TerrainChunk>);
+	GDVIRTUAL1(_write_to_chunk, Ref<Terrain2DChunk>);
 #endif
 
-	TerrainStructure();
-	~TerrainStructure();
+	Terrain2DStructure();
+	~Terrain2DStructure();
 
 protected:
 	static void _bind_methods();

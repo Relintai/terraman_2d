@@ -31,16 +31,16 @@ SOFTWARE.
 #include "core/resource.h"
 #endif
 
-class TerrainChunk;
+class Terrain2DChunk;
 
-class TerrainLevelGenerator : public Resource {
-	GDCLASS(TerrainLevelGenerator, Resource);
+class Terrain2DLevelGenerator : public Resource {
+	GDCLASS(Terrain2DLevelGenerator, Resource);
 
 public:
-	void generate_chunk(Ref<TerrainChunk> chunk);
+	void generate_chunk(Ref<Terrain2DChunk> chunk);
 
-	TerrainLevelGenerator();
-	~TerrainLevelGenerator();
+	Terrain2DLevelGenerator();
+	~Terrain2DLevelGenerator();
 
 protected:
 	static void _bind_methods();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="TerrainLibrary" inherits="Resource" version="3.5">
+<class name="Terrain2DLibrary" inherits="Resource" version="3.5">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -8,14 +8,14 @@
 	</tutorials>
 	<methods>
 		<method name="_liquid_material_cache_get" qualifiers="virtual">
-			<return type="TerrainMaterialCache" />
+			<return type="Terrain2DMaterialCache" />
 			<argument index="0" name="key" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="_liquid_material_cache_get_key" qualifiers="virtual">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
@@ -26,14 +26,14 @@
 			</description>
 		</method>
 		<method name="_material_cache_get" qualifiers="virtual">
-			<return type="TerrainMaterialCache" />
+			<return type="Terrain2DMaterialCache" />
 			<argument index="0" name="key" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="_material_cache_get_key" qualifiers="virtual">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
@@ -44,14 +44,14 @@
 			</description>
 		</method>
 		<method name="_prop_material_cache_get" qualifiers="virtual">
-			<return type="TerrainMaterialCache" />
+			<return type="Terrain2DMaterialCache" />
 			<argument index="0" name="key" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="_prop_material_cache_get_key" qualifiers="virtual">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
@@ -80,14 +80,14 @@
 			</description>
 		</method>
 		<method name="liquid_material_cache_get">
-			<return type="TerrainMaterialCache" />
+			<return type="Terrain2DMaterialCache" />
 			<argument index="0" name="key" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="liquid_material_cache_get_key">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
@@ -139,14 +139,14 @@
 			</description>
 		</method>
 		<method name="material_cache_get">
-			<return type="TerrainMaterialCache" />
+			<return type="Terrain2DMaterialCache" />
 			<argument index="0" name="key" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="material_cache_get_key">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
@@ -221,14 +221,14 @@
 			</description>
 		</method>
 		<method name="prop_material_cache_get">
-			<return type="TerrainMaterialCache" />
+			<return type="Terrain2DMaterialCache" />
 			<argument index="0" name="key" type="int" />
 			<description>
 			</description>
 		</method>
 		<method name="prop_material_cache_get_key">
 			<return type="void" />
-			<argument index="0" name="chunk" type="TerrainChunk" />
+			<argument index="0" name="chunk" type="Terrain2DChunk" />
 			<description>
 			</description>
 		</method>
@@ -345,12 +345,12 @@
 		</method>
 		<method name="terra_surface_add">
 			<return type="void" />
-			<argument index="0" name="value" type="TerrainSurface" />
+			<argument index="0" name="value" type="Terrain2DSurface" />
 			<description>
 			</description>
 		</method>
 		<method name="terra_surface_get">
-			<return type="TerrainSurface" />
+			<return type="Terrain2DSurface" />
 			<argument index="0" name="index" type="int" />
 			<description>
 			</description>
@@ -369,7 +369,7 @@
 		<method name="terra_surface_set">
 			<return type="void" />
 			<argument index="0" name="index" type="int" />
-			<argument index="1" name="surface" type="TerrainSurface" />
+			<argument index="1" name="surface" type="Terrain2DSurface" />
 			<description>
 			</description>
 		</method>

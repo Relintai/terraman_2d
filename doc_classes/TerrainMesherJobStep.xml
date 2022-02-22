@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<class name="TerrainMesherJobStep" inherits="Reference" version="3.5">
+<class name="Terrain2DMesherJobStep" inherits="Reference" version="3.5">
 	<brief_description>
 	</brief_description>
 	<description>
@@ -11,7 +11,7 @@
 	<members>
 		<member name="fqms" type="FastQuadraticMeshSimplifier" setter="set_fqms" getter="get_fqms">
 		</member>
-		<member name="job_type" type="int" setter="set_job_type" getter="get_job_type" enum="TerrainMesherJobStep.TerrainMesherJobStepType" default="0">
+		<member name="job_type" type="int" setter="set_job_type" getter="get_job_type" enum="Terrain2DMesherJobStep.Terrain2DMesherJobStepType" default="0">
 		</member>
 		<member name="lod_index" type="int" setter="set_lod_index" getter="get_lod_index" default="0">
 		</member>
@@ -23,19 +23,19 @@
 		</member>
 	</members>
 	<constants>
-		<constant name="TYPE_NORMAL" value="0" enum="TerrainMesherJobStepType">
+		<constant name="TYPE_NORMAL" value="0" enum="Terrain2DMesherJobStepType">
 		</constant>
-		<constant name="TYPE_NORMAL_LOD" value="1" enum="TerrainMesherJobStepType">
+		<constant name="TYPE_NORMAL_LOD" value="1" enum="Terrain2DMesherJobStepType">
 		</constant>
-		<constant name="TYPE_DROP_UV2" value="2" enum="TerrainMesherJobStepType">
+		<constant name="TYPE_DROP_UV2" value="2" enum="Terrain2DMesherJobStepType">
 		</constant>
-		<constant name="TYPE_MERGE_VERTS" value="3" enum="TerrainMesherJobStepType">
+		<constant name="TYPE_MERGE_VERTS" value="3" enum="Terrain2DMesherJobStepType">
 		</constant>
-		<constant name="TYPE_BAKE_TEXTURE" value="4" enum="TerrainMesherJobStepType">
+		<constant name="TYPE_BAKE_TEXTURE" value="4" enum="Terrain2DMesherJobStepType">
 		</constant>
-		<constant name="TYPE_SIMPLIFY_MESH" value="5" enum="TerrainMesherJobStepType">
+		<constant name="TYPE_SIMPLIFY_MESH" value="5" enum="Terrain2DMesherJobStepType">
 		</constant>
-		<constant name="TYPE_OTHER" value="6" enum="TerrainMesherJobStepType">
+		<constant name="TYPE_OTHER" value="6" enum="Terrain2DMesherJobStepType">
 		</constant>
 	</constants>
 </class>

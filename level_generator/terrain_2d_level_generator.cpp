@@ -24,20 +24,20 @@ SOFTWARE.
 
 #include "../world/terrain_2d_chunk.h"
 
-void TerrainLevelGenerator::generate_chunk(Ref<TerrainChunk> chunk) {
+void Terrain2DLevelGenerator::generate_chunk(Ref<Terrain2DChunk> chunk) {
 	if (has_method("_generate_chunk")) {
 		call("_generate_chunk", chunk);
 	}
 }
 
-TerrainLevelGenerator::TerrainLevelGenerator() {
+Terrain2DLevelGenerator::Terrain2DLevelGenerator() {
 }
 
-TerrainLevelGenerator::~TerrainLevelGenerator() {
+Terrain2DLevelGenerator::~Terrain2DLevelGenerator() {
 }
 
-void TerrainLevelGenerator::_bind_methods() {
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "TerrainChunk")));
+void Terrain2DLevelGenerator::_bind_methods() {
+	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
 
-	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &TerrainLevelGenerator::generate_chunk);
+	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Terrain2DLevelGenerator::generate_chunk);
 }

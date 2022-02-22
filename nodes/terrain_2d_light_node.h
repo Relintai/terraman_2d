@@ -35,15 +35,15 @@ SOFTWARE.
 
 #include "core/math/vector3.h"
 
-class TerrainLightNode : public Spatial {
-	GDCLASS(TerrainLightNode, Spatial);
+class Terrain2DLightNode : public Spatial {
+	GDCLASS(Terrain2DLightNode, Spatial);
 	OBJ_CATEGORY("Props");
 
 public:
 	//make it turn into a normal light if voxelman isn't present?
 
-	TerrainLightNode();
-	~TerrainLightNode();
+	Terrain2DLightNode();
+	~Terrain2DLightNode();
 
 protected:
 	static void _bind_methods();

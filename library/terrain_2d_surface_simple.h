@@ -25,20 +25,20 @@ SOFTWARE.
 
 #include "terrain_2d_surface.h"
 
-class TerrainSurfaceSimple : public TerrainSurface {
-	GDCLASS(TerrainSurfaceSimple, TerrainSurface)
+class Terrain2DSurfaceSimple : public Terrain2DSurface {
+	GDCLASS(Terrain2DSurfaceSimple, Terrain2DSurface)
 
 public:
-	int get_atlas_x(const TerrainSurfaceSides side) const;
-	void set_atlas_x(const TerrainSurfaceSides side, int value);
+	int get_atlas_x(const Terrain2DSurfaceSides side) const;
+	void set_atlas_x(const Terrain2DSurfaceSides side, int value);
 
-	int get_atlas_y(const TerrainSurfaceSides side) const;
-	void set_atlas_y(const TerrainSurfaceSides side, int value);
+	int get_atlas_y(const Terrain2DSurfaceSides side) const;
+	void set_atlas_y(const Terrain2DSurfaceSides side, int value);
 
 	void refresh_rects();
 
-	TerrainSurfaceSimple();
-	~TerrainSurfaceSimple();
+	Terrain2DSurfaceSimple();
+	~Terrain2DSurfaceSimple();
 
 protected:
 	static void _bind_methods();
