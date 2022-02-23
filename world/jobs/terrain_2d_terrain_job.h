@@ -67,8 +67,8 @@ protected:
 	Ref<Terrain2DMesher> _mesher;
 	Ref<Terrain2DMesher> _liquid_mesher;
 
-	PoolVector<Vector3> temp_arr_collider;
-	PoolVector<Vector3> temp_arr_collider_liquid;
+	PoolVector<Vector2> temp_arr_collider;
+	PoolVector<Vector2> temp_arr_collider_liquid;
 	Array temp_mesh_arr;
 };
 

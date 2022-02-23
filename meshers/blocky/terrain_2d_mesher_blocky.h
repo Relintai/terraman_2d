@@ -48,14 +48,6 @@ public:
 
 	void add_chunk_normal(Ref<Terrain2DChunkDefault> chunk);
 
-	void add_chunk_lod(Ref<Terrain2DChunkDefault> chunk);
-	void create_margin_zmin(Ref<Terrain2DChunkDefault> chunk);
-	void create_margin_zmax(Ref<Terrain2DChunkDefault> chunk);
-	void create_margin_xmin(Ref<Terrain2DChunkDefault> chunk);
-	void create_margin_xmax(Ref<Terrain2DChunkDefault> chunk);
-	void create_margin_corners(Ref<Terrain2DChunkDefault> chunk);
-	void create_face(Ref<Terrain2DChunkDefault> chunk, int dataxmin, int dataxmax, int datazmin, int datazmax);
-
 	Terrain2DMesherBlocky();
 	~Terrain2DMesherBlocky();
 

@@ -588,6 +588,8 @@ int Terrain2DWorld::generation_get_size() const {
 
 #if PROPS_2D_PRESENT
 void Terrain2DWorld::prop_add(Transform transform, const Ref<Prop2DData> &prop, const bool apply_voxel_scale) {
+	//TODO
+	/*
 	ERR_FAIL_COND(!prop.is_valid());
 
 	if (apply_voxel_scale) {
@@ -652,7 +654,7 @@ void Terrain2DWorld::prop_add(Transform transform, const Ref<Prop2DData> &prop, 
 			Ref<Terrain2DLight> light;
 			light.INSTANCE();
 
-			light->set_world_position(wp.x / get_voxel_scale(), wp.y / get_voxel_scale(), wp.z / get_voxel_scale());
+			light->set_world_position(wp.x / get_voxel_scale(), wp.y / get_voxel_scale());
 			light->set_color(light_data->get_light_color());
 			light->set_size(light_data->get_light_size());
 
@@ -680,6 +682,8 @@ void Terrain2DWorld::prop_add(Transform transform, const Ref<Prop2DData> &prop, 
 		}
 #endif
 	}
+
+	*/
 }
 #endif
 

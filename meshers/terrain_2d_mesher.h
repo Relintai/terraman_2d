@@ -69,13 +69,9 @@ public:
 	const double PI = 3.141592653589793238463;
 
 	struct Vertex {
-		Vector3 vertex;
+		Vector2 vertex;
 		Color color;
-		Vector3 normal; // normal, binormal, tangent
-		Vector3 binormal;
-		Vector3 tangent;
 		Vector2 uv;
-		Vector2 uv2;
 		Vector<int> bones;
 		Vector<float> weights;
 
@@ -99,9 +95,6 @@ public:
 public:
 	int get_channel_index_type() const;
 	void set_channel_index_type(const int value);
-
-	int get_channel_index_isolevel() const;
-	void set_channel_index_isolevel(const int value);
 
 	int get_mesher_index() const;
 	void set_mesher_index(const int value);
@@ -139,8 +132,8 @@ public:
 
 #ifdef MESH_DATA_RESOURCE_PRESENT
 	void add_mesh_data_resource(Ref<MeshDataResource> mesh, const Vector3 position = Vector3(0, 0, 0), const Vector3 rotation = Vector3(0, 0, 0), const Vector3 scale = Vector3(1.0, 1.0, 1.0), const Rect2 uv_rect = Rect2(0, 0, 1, 1));
-	void add_mesh_data_resource_transform(Ref<MeshDataResource> mesh, const Transform transform, const Rect2 uv_rect = Rect2(0, 0, 1, 1));
-	void add_mesh_data_resource_transform_colored(Ref<MeshDataResource> mesh, const Transform transform, const PoolColorArray &colors, const Rect2 uv_rect = Rect2(0, 0, 1, 1));
+	void add_mesh_data_resource_transform(Ref<MeshDataResource> mesh, const Transform2D transform, const Rect2 uv_rect = Rect2(0, 0, 1, 1));
+	void add_mesh_data_resource_transform_colored(Ref<MeshDataResource> mesh, const Transform2D transform, const PoolColorArray &colors, const Rect2 uv_rect = Rect2(0, 0, 1, 1));
 #endif
 
 	void add_mesher(const Ref<Terrain2DMesher> &mesher);
@@ -149,28 +142,22 @@ public:
 	void bake_colors(Ref<Terrain2DChunk> chunk);
 	void bake_liquid_colors(Ref<Terrain2DChunk> chunk);
 
-	PoolVector<Vector3> build_collider() const;
+	PoolVector<Vector2> build_collider() const;
 
 	void bake_lights(MeshInstance *node, Vector<Ref<Terrain2DLight>> &lights);
 
 	Array build_mesh();
 	void build_mesh_into(RID mesh);
 
-	void generate_normals(bool p_flip = false);
 	void remove_doubles();
 	void remove_doubles_hashed();
 
-	PoolVector<Vector3> get_vertices() const;
-	void set_vertices(const PoolVector<Vector3> &values);
+	PoolVector<Vector2> get_vertices() const;
+	void set_vertices(const PoolVector<Vector2> &values);
 	int get_vertex_count() const;
-	Vector3 get_vertex(const int idx) const;
+	Vector2 get_vertex(const int idx) const;
 	void remove_vertex(const int idx);
-	void add_vertex(const Vector3 &vertex);
-
-	PoolVector<Vector3> get_normals() const;
-	void set_normals(const PoolVector<Vector3> &values);
-	Vector3 get_normal(const int idx) const;
-	void add_normal(const Vector3 &normal);
+	void add_vertex(const Vector2 &vertex);
 
 	PoolVector<Color> get_colors() const;
 	void set_colors(const PoolVector<Color> &values);
@@ -181,11 +168,6 @@ public:
 	void set_uvs(const PoolVector<Vector2> &values);
 	Vector2 get_uv(const int idx) const;
 	void add_uv(const Vector2 &vector);
-
-	PoolVector<Vector2> get_uv2s() const;
-	void set_uv2s(const PoolVector<Vector2> &values);
-	Vector2 get_uv2(const int idx) const;
-	void add_uv2(const Vector2 &vector);
 
 	PoolVector<int> get_indices() const;
 	void set_indices(const PoolVector<int> &values);
@@ -209,7 +191,6 @@ protected:
 	static void _bind_methods();
 
 	int _channel_index_type;
-	int _channel_index_isolevel;
 
 	int _mesher_index;
 
@@ -223,12 +204,9 @@ protected:
 	PoolVector<int> _indices;
 
 	Color _last_color;
-	Vector3 _last_normal;
 	Vector2 _last_uv;
-	Vector2 _last_uv2;
 	Vector<int> _last_bones;
 	Vector<float> _last_weights;
-	Plane _last_tangent;
 
 	Ref<Terrain2DLibrary> _library;
 	Ref<Material> _material;

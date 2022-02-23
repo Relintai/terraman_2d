@@ -55,7 +55,7 @@ protected:
 
 	Ref<Terrain2DMesher> _prop_mesher;
 
-	PoolVector<Vector3> temp_arr_collider;
+	PoolVector<Vector2> temp_arr_collider;
 	Array temp_mesh_arr;
 };
 

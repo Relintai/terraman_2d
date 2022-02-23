@@ -64,6 +64,8 @@ include_pool_vector
 #define Texture Texture2D
 #endif
 
+#include "scene/resources/shape_2d.h"
+
 #include "../library/terrain_2d_surface.h"
 #include "../library/terrain_2d_library.h"
 		; //hackfix for a clang format issue
@@ -234,17 +236,17 @@ public:
 	void clear_baked_lights();
 
 #if PROPS_2D_PRESENT
-	void prop_add(const Transform &tarnsform, const Ref<Prop2DData> &prop);
+	void prop_add(const Transform2D &tarnsform, const Ref<Prop2DData> &prop);
 	Ref<Prop2DData> prop_get(const int index);
-	Transform prop_get_tarnsform(const int index);
+	Transform2D prop_get_tarnsform(const int index);
 	int prop_get_count() const;
 	void prop_remove(const int index);
 	void props_clear();
 #endif
 
 #if MESH_DATA_RESOURCE_PRESENT
-	int mesh_data_resource_addv(const Vector3 &local_data_pos, const Ref<MeshDataResource> &mesh, const Ref<Texture> &texture = Ref<Texture>(), const Color &color = Color(1, 1, 1, 1), const bool apply_voxel_scale = true);
-	int mesh_data_resource_add(const Transform &local_transform, const Ref<MeshDataResource> &mesh, const Ref<Texture> &texture = Ref<Texture>(), const Color &color = Color(1, 1, 1, 1), const bool apply_voxel_scale = true);
+	int mesh_data_resource_addv(const Vector2 &local_data_pos, const Ref<MeshDataResource> &mesh, const Ref<Texture> &texture = Ref<Texture>(), const Color &color = Color(1, 1, 1, 1), const bool apply_voxel_scale = true);
+	int mesh_data_resource_add(const Transform2D &local_transform, const Ref<MeshDataResource> &mesh, const Ref<Texture> &texture = Ref<Texture>(), const Color &color = Color(1, 1, 1, 1), const bool apply_voxel_scale = true);
 
 	Ref<MeshDataResource> mesh_data_resource_get(const int index);
 	void mesh_data_resource_set(const int index, const Ref<MeshDataResource> &mesh);
@@ -258,8 +260,8 @@ public:
 	Rect2 mesh_data_resource_get_uv_rect(const int index);
 	void mesh_data_resource_set_uv_rect(const int index, const Rect2 &uv_rect);
 
-	Transform mesh_data_resource_get_transform(const int index);
-	void mesh_data_resource_set_transform(const int index, const Transform &transform);
+	Transform2D mesh_data_resource_get_transform(const int index);
+	void mesh_data_resource_set_transform(const int index, const Transform2D &transform);
 
 	bool mesh_data_resource_get_is_inside(const int index);
 	void mesh_data_resource_set_is_inside(const int index, const bool inside);
@@ -270,13 +272,13 @@ public:
 #endif
 
 	//Colliders
-	int collider_add(const Transform &local_transform, const Ref<Shape> &shape, const RID &shape_rid = RID(), const RID &body = RID());
+	int collider_add(const Transform2D &local_transform, const Ref<Shape2D> &shape, const RID &shape_rid = RID(), const RID &body = RID());
 
-	Transform collider_get_transform(const int index);
-	void collider_set_transform(const int index, const Transform &transform);
+	Transform2D collider_get_transform(const int index);
+	void collider_set_transform(const int index, const Transform2D &transform);
 
-	Ref<Shape> collider_get_shape(const int index);
-	void collider_set_shape(const int index, const Ref<Shape> &shape);
+	Ref<Shape2D> collider_get_shape(const int index);
+	void collider_set_shape(const int index, const Ref<Shape2D> &shape);
 
 	RID collider_get_shape_rid(const int index);
 	void collider_set_shape_rid(const int index, const RID &rid);
@@ -321,7 +323,7 @@ protected:
 protected:
 #if PROPS_2D_PRESENT
 	struct Prop2DDataStore {
-		Transform transform;
+		Transform2D transform;
 		Ref<Prop2DData> prop;
 	};
 #endif
@@ -332,15 +334,15 @@ protected:
 		Ref<Texture> texture;
 		Color color;
 		Rect2 uv_rect;
-		Transform transform;
+		Transform2D transform;
 		bool is_inside;
 	};
 #endif
 
 	struct ColliderBody {
-		Transform transform;
+		Transform2D transform;
 		RID body;
-		Ref<Shape> shape;
+		Ref<Shape2D> shape;
 		RID shape_rid;
 	};
 

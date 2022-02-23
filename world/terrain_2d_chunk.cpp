@@ -720,7 +720,7 @@ void Terrain2DChunk::clear_baked_lights() {
 }
 
 #if PROPS_2D_PRESENT
-void Terrain2DChunk::prop_add(const Transform &tarnsform, const Ref<Prop2DData> &prop) {
+void Terrain2DChunk::prop_add(const Transform2D &tarnsform, const Ref<Prop2DData> &prop) {
 	ERR_FAIL_COND(!prop.is_valid());
 
 	Prop2DDataStore s;
@@ -734,8 +734,8 @@ Ref<Prop2DData> Terrain2DChunk::prop_get(int index) {
 
 	return _props.get(index).prop;
 }
-Transform Terrain2DChunk::prop_get_tarnsform(const int index) {
-	ERR_FAIL_INDEX_V(index, _props.size(), Transform());
+Transform2D Terrain2DChunk::prop_get_tarnsform(const int index) {
+	ERR_FAIL_INDEX_V(index, _props.size(), Transform2D());
 
 	return _props.get(index).transform;
 }
@@ -753,47 +753,57 @@ void Terrain2DChunk::props_clear() {
 #endif
 
 #if MESH_DATA_RESOURCE_PRESENT
-int Terrain2DChunk::mesh_data_resource_addv(const Vector3 &local_data_pos, const Ref<MeshDataResource> &mesh, const Ref<Texture> &texture, const Color &color, const bool apply_voxel_scale) {
-	ERR_FAIL_COND_V(!mesh.is_valid(), 0);
+int Terrain2DChunk::mesh_data_resource_addv(const Vector2 &local_data_pos, const Ref<MeshDataResource> &mesh, const Ref<Texture> &texture, const Color &color, const bool apply_voxel_scale) {
+	//TODO
+	/*
 
-	int index = _mesh_data_resources.size();
+		ERR_FAIL_COND_V(!mesh.is_valid(), 0);
 
-	MeshDataResourceEntry e;
+		int index = _mesh_data_resources.size();
 
-	if (apply_voxel_scale) {
-		e.transform = Transform(Basis().scaled(Vector3(_voxel_scale, _voxel_scale, _voxel_scale)));
-		e.transform.origin = local_data_pos * _voxel_scale;
-	} else {
-		e.transform.origin = local_data_pos;
-	}
+		MeshDataResourceEntry e;
 
-	e.mesh = mesh;
-	e.texture = texture;
-	e.color = color;
+		if (apply_voxel_scale) {
+			e.transform = Transform(Basis().scaled(Vector3(_voxel_scale, _voxel_scale, _voxel_scale)));
+			e.transform.origin = local_data_pos * _voxel_scale;
+		} else {
+			e.transform.origin = local_data_pos;
+		}
 
-	AABB aabb = AABB(Vector3(), get_world_size());
-	AABB mesh_aabb = e.transform.xform(mesh->get_aabb());
-	e.is_inside = aabb.encloses(mesh_aabb);
+		e.mesh = mesh;
+		e.texture = texture;
+		e.color = color;
 
-#if PROPS_2D_PRESENT
-	if (get_library().is_valid() && texture.is_valid()) {
-		e.uv_rect = get_library()->get_prop_uv_rect(texture);
-	} else {
+		AABB aabb = AABB(Vector3(), get_world_size());
+		AABB mesh_aabb = e.transform.xform(mesh->get_aabb());
+		e.is_inside = aabb.encloses(mesh_aabb);
+
+	#if PROPS_2D_PRESENT
+		if (get_library().is_valid() && texture.is_valid()) {
+			e.uv_rect = get_library()->get_prop_uv_rect(texture);
+		} else {
+			e.uv_rect = Rect2(0, 0, 1, 1);
+		}
+	#else
 		e.uv_rect = Rect2(0, 0, 1, 1);
-	}
-#else
-	e.uv_rect = Rect2(0, 0, 1, 1);
-#endif
+	#endif
 
-	_mesh_data_resources.push_back(e);
+		_mesh_data_resources.push_back(e);
 
-	if (has_method("_mesh_data_resource_added"))
-		call("_mesh_data_resource_added", index);
+		if (has_method("_mesh_data_resource_added"))
+			call("_mesh_data_resource_added", index);
 
-	return index;
+		return index;
+
+		*/
+
+	return 0;
 }
 
-int Terrain2DChunk::mesh_data_resource_add(const Transform &local_transform, const Ref<MeshDataResource> &mesh, const Ref<Texture> &texture, const Color &color, const bool apply_voxel_scale) {
+int Terrain2DChunk::mesh_data_resource_add(const Transform2D &local_transform, const Ref<MeshDataResource> &mesh, const Ref<Texture> &texture, const Color &color, const bool apply_voxel_scale) {
+	//TODO
+
+	/*
 	ERR_FAIL_COND_V(!mesh.is_valid(), 0);
 
 	int index = _mesh_data_resources.size();
@@ -830,6 +840,9 @@ int Terrain2DChunk::mesh_data_resource_add(const Transform &local_transform, con
 		call("_mesh_data_resource_added", index);
 
 	return index;
+	*/
+
+	return 0;
 }
 
 Ref<MeshDataResource> Terrain2DChunk::mesh_data_resource_get(const int index) {
@@ -875,12 +888,12 @@ void Terrain2DChunk::mesh_data_resource_set_uv_rect(const int index, const Rect2
 	_mesh_data_resources.write[index].uv_rect = uv_rect;
 }
 
-Transform Terrain2DChunk::mesh_data_resource_get_transform(const int index) {
-	ERR_FAIL_INDEX_V(index, _mesh_data_resources.size(), Transform());
+Transform2D Terrain2DChunk::mesh_data_resource_get_transform(const int index) {
+	ERR_FAIL_INDEX_V(index, _mesh_data_resources.size(), Transform2D());
 
 	return _mesh_data_resources.write[index].transform;
 }
-void Terrain2DChunk::mesh_data_resource_set_transform(const int index, const Transform &transform) {
+void Terrain2DChunk::mesh_data_resource_set_transform(const int index, const Transform2D &transform) {
 	ERR_FAIL_INDEX(index, _mesh_data_resources.size());
 
 	_mesh_data_resources.write[index].transform = transform;
@@ -911,7 +924,7 @@ void Terrain2DChunk::mesh_data_resource_clear() {
 
 #endif
 
-int Terrain2DChunk::collider_add(const Transform &local_transform, const Ref<Shape> &shape, const RID &shape_rid, const RID &body) {
+int Terrain2DChunk::collider_add(const Transform2D &local_transform, const Ref<Shape2D> &shape, const RID &shape_rid, const RID &body) {
 	ERR_FAIL_COND_V(!shape.is_valid() && shape_rid == RID(), 0);
 
 	int index = _colliders.size();
@@ -927,24 +940,24 @@ int Terrain2DChunk::collider_add(const Transform &local_transform, const Ref<Sha
 	return index;
 }
 
-Transform Terrain2DChunk::collider_get_transform(const int index) {
-	ERR_FAIL_INDEX_V(index, _colliders.size(), Transform());
+Transform2D Terrain2DChunk::collider_get_transform(const int index) {
+	ERR_FAIL_INDEX_V(index, _colliders.size(), Transform2D());
 
 	return _colliders[index].transform;
 }
-void Terrain2DChunk::collider_set_transform(const int index, const Transform &transform) {
+void Terrain2DChunk::collider_set_transform(const int index, const Transform2D &transform) {
 	ERR_FAIL_INDEX(index, _colliders.size());
 
 	_colliders.write[index].transform = transform;
 }
 
-Ref<Shape> Terrain2DChunk::collider_get_shape(const int index) {
-	ERR_FAIL_INDEX_V(index, _colliders.size(), Ref<Shape>());
+Ref<Shape2D> Terrain2DChunk::collider_get_shape(const int index) {
+	ERR_FAIL_INDEX_V(index, _colliders.size(), Ref<Shape2D>());
 
 	return _colliders[index].shape;
 }
 
-void Terrain2DChunk::collider_set_shape(const int index, const Ref<Shape> &shape) {
+void Terrain2DChunk::collider_set_shape(const int index, const Ref<Shape2D> &shape) {
 	ERR_FAIL_INDEX(index, _colliders.size());
 
 	_colliders.write[index].shape = shape;
@@ -1130,7 +1143,7 @@ Terrain2DChunk::~Terrain2DChunk() {
 	}
 
 	for (int i = 0; i < _colliders.size(); ++i) {
-		PhysicsServer::get_singleton()->free(_colliders[i].body);
+		//PhysicsServer::get_singleton()->free(_colliders[i].body);
 	}
 
 	_colliders.clear();

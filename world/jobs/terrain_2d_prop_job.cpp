@@ -60,6 +60,8 @@ void Terrain2DProp2DJob::phase_physics_process() {
 	chunk->colliders_clear();
 
 #ifdef MESH_DATA_RESOURCE_PRESENT
+//TODO
+/*
 	for (int i = 0; i < chunk->mesh_data_resource_get_count(); ++i) {
 		Ref<MeshDataResource> mdr = chunk->mesh_data_resource_get(i);
 
@@ -95,6 +97,7 @@ void Terrain2DProp2DJob::phase_physics_process() {
 			chunk->collider_add(transform, shape, shape->get_rid(), body);
 		}
 	}
+	*/
 #endif
 
 #if TOOLS_ENABLED
@@ -147,6 +150,8 @@ void Terrain2DProp2DJob::phase_prop() {
 	}
 
 	if (should_do()) {
+		//TODO
+		/*
 		if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
 			Terrain2DWorldDefault *world = Object::cast_to<Terrain2DWorldDefault>(chunk->get_voxel_world());
 
@@ -178,6 +183,7 @@ void Terrain2DProp2DJob::phase_prop() {
 				}
 			}
 		}
+		*/
 	}
 
 	if (get_prop_mesher()->get_vertex_count() == 0) {

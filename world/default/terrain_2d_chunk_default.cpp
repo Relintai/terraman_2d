@@ -367,6 +367,7 @@ void Terrain2DChunkDefault::meshes_free(const int mesh_index) {
 }
 
 void Terrain2DChunkDefault::colliders_create(const int mesh_index, const int layer_mask) {
+	/*
 	ERR_FAIL_COND(_voxel_world == NULL);
 	ERR_FAIL_COND(PhysicsServer::get_singleton()->is_flushing_queries());
 	//ERR_FAIL_COND(!get_voxel_world()->is_inside_tree());
@@ -400,8 +401,12 @@ void Terrain2DChunkDefault::colliders_create(const int mesh_index, const int lay
 	m[MESH_TYPE_INDEX_SHAPE] = shape_rid;
 
 	_rids[mesh_index] = m;
+	*/
+
+//todo
 }
 void Terrain2DChunkDefault::colliders_create_area(const int mesh_index, const int layer_mask) {
+	/*
 	ERR_FAIL_COND(_voxel_world == NULL);
 	ERR_FAIL_COND(PhysicsServer::get_singleton()->is_flushing_queries());
 
@@ -440,6 +445,7 @@ void Terrain2DChunkDefault::colliders_create_area(const int mesh_index, const in
 	m[MESH_TYPE_INDEX_SHAPE] = shape_rid;
 
 	_rids[mesh_index] = m;
+	*/
 }
 
 void Terrain2DChunkDefault::colliders_free(const int mesh_index) {
@@ -452,13 +458,13 @@ void Terrain2DChunkDefault::colliders_free(const int mesh_index) {
 	if (m.has(MESH_TYPE_INDEX_SHAPE)) {
 		RID r = m[MESH_TYPE_INDEX_SHAPE];
 
-		PhysicsServer::get_singleton()->free(r);
+		//PhysicsServer::get_singleton()->free(r);
 	}
 
 	if (m.has(MESH_TYPE_INDEX_BODY)) {
 		RID r = m[MESH_TYPE_INDEX_BODY];
 
-		PhysicsServer::get_singleton()->free(r);
+		//PhysicsServer::get_singleton()->free(r);
 	}
 
 	m.erase(MESH_TYPE_INDEX_SHAPE);
@@ -502,20 +508,22 @@ void Terrain2DChunkDefault::update_transforms() {
 		if (d.has(MESH_TYPE_INDEX_BODY)) {
 			RID rid = d[MESH_TYPE_INDEX_BODY];
 
-			if (rid != empty_rid)
-				PhysicsServer::get_singleton()->body_set_state(rid, PhysicsServer::BODY_STATE_TRANSFORM, t);
+			if (rid != empty_rid) {
+				//PhysicsServer::get_singleton()->body_set_state(rid, PhysicsServer::BODY_STATE_TRANSFORM, t);
+			}
 		}
 
 		if (d.has(MESH_TYPE_INDEX_AREA)) {
 			RID rid = d[MESH_TYPE_INDEX_AREA];
 
-			if (rid != empty_rid)
-				PhysicsServer::get_singleton()->area_set_shape_transform(rid, 0, t);
+			if (rid != empty_rid) {
+				//PhysicsServer::get_singleton()->area_set_shape_transform(rid, 0, t);
+			}
 		}
 	}
 
 	for (int i = 0; i < collider_get_count(); ++i) {
-		PhysicsServer::get_singleton()->body_set_state(collider_get_body(i), PhysicsServer::BODY_STATE_TRANSFORM, get_transform() * collider_get_transform(i));
+		//PhysicsServer::get_singleton()->body_set_state(collider_get_body(i), PhysicsServer::BODY_STATE_TRANSFORM, get_transform() * collider_get_transform(i));
 	}
 
 	if (_debug_mesh_instance != RID()) {
@@ -644,23 +652,23 @@ void Terrain2DChunkDefault::draw_debug_voxels(int max, Color color) {
 	int64_t sx = static_cast<int64_t>(_size_x);
 	int64_t sz = static_cast<int64_t>(_size_z);
 
-		for (int z = 0; z < sz; ++z) {
-			for (int x = 0; x < sx; ++x) {
-				int type = get_voxel(x, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_TYPE);
+	for (int z = 0; z < sz; ++z) {
+		for (int x = 0; x < sx; ++x) {
+			int type = get_voxel(x, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_TYPE);
 
-				if (type == 0) {
-					continue;
-				}
+			if (type == 0) {
+				continue;
+			}
 
-				draw_cross_voxels_fill(Vector3(x, 0, z), 1);
+			draw_cross_voxels_fill(Vector3(x, 0, z), 1);
 
-				++a;
+			++a;
 
-				if (a > max) {
-					break;
-				}
+			if (a > max) {
+				break;
 			}
 		}
+	}
 
 	debug_mesh_send();
 }
@@ -678,7 +686,7 @@ void Terrain2DChunkDefault::draw_debug_voxel_lights() {
 		Ref<Terrain2DLight> v = _lights[i];
 
 		int pos_x = v->get_world_position_x() - (_size_x * _position_x);
-		int pos_z = v->get_world_position_z() - (_size_z * _position_z);
+		int pos_z = v->get_world_position_y() - (_size_z * _position_z);
 
 		draw_cross_voxels_fill(Vector3(pos_x, 0, pos_z), 1.0);
 	}
@@ -692,14 +700,15 @@ void Terrain2DChunkDefault::draw_debug_mdr_colliders() {
 	}
 
 	for (int i = 0; i < collider_get_count(); ++i) {
-		Ref<Shape> shape = collider_get_shape(i);
+		Ref<Shape2D> shape = collider_get_shape(i);
 
 		if (!shape.is_valid())
 			continue;
 
-		Transform t = collider_get_transform(i);
+		Transform2D t = collider_get_transform(i);
 
-		shape->add_vertices_to_array(_debug_mesh_array, t);
+		//shape->add_vertices_to_array(_debug_mesh_array, t);
+		//draw
 	}
 }
 
@@ -759,13 +768,11 @@ void Terrain2DChunkDefault::_bake_light(Ref<Terrain2DLight> light) {
 	int size = light->get_size();
 
 	int local_x = light->get_world_position_x() - (_position_x * _size_x);
-	int local_y = light->get_world_position_y();
-	int local_z = light->get_world_position_z() - (_position_z * _size_z);
+	int local_z = light->get_world_position_y() - (_position_z * _size_z);
 
 	ERR_FAIL_COND(size < 0);
 
 	int64_t dsx = static_cast<int64_t>(_data_size_x);
-	int64_t dsy = static_cast<int64_t>(_world_height);
 	int64_t dsz = static_cast<int64_t>(_data_size_z);
 
 	uint8_t *channel_color_r = channel_get(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
@@ -774,51 +781,45 @@ void Terrain2DChunkDefault::_bake_light(Ref<Terrain2DLight> light) {
 
 	ERR_FAIL_COND(channel_color_r == NULL || channel_color_g == NULL || channel_color_b == NULL);
 
-	for (int y = local_y - size; y <= local_y + size; ++y) {
-		if (y < 0 || y >= dsy)
+	for (int z = local_z - size; z <= local_z + size; ++z) {
+		if (z < 0 || z >= dsz)
 			continue;
 
-		for (int z = local_z - size; z <= local_z + size; ++z) {
-			if (z < 0 || z >= dsz)
+		for (int x = local_x - size; x <= local_x + size; ++x) {
+			if (x < 0 || x >= dsx)
 				continue;
 
-			for (int x = local_x - size; x <= local_x + size; ++x) {
-				if (x < 0 || x >= dsx)
-					continue;
+			int lx = x - local_x;
+			int lz = z - local_z;
 
-				int lx = x - local_x;
-				int ly = y - local_y;
-				int lz = z - local_z;
+			float str = size - (((float)lx * lx + lz * lz));
+			str /= size;
 
-				float str = size - (((float)lx * lx + ly * ly + lz * lz));
-				str /= size;
+			if (str < 0)
+				continue;
 
-				if (str < 0)
-					continue;
+			int index = get_data_index(x, z);
 
-				int index = get_data_index(x, z);
+			int r = color.r * str * 255.0;
+			int g = color.g * str * 255.0;
+			int b = color.b * str * 255.0;
 
-				int r = color.r * str * 255.0;
-				int g = color.g * str * 255.0;
-				int b = color.b * str * 255.0;
+			r += channel_color_r[index];
+			g += channel_color_g[index];
+			b += channel_color_b[index];
 
-				r += channel_color_r[index];
-				g += channel_color_g[index];
-				b += channel_color_b[index];
+			if (r > 255)
+				r = 255;
 
-				if (r > 255)
-					r = 255;
+			if (g > 255)
+				g = 255;
 
-				if (g > 255)
-					g = 255;
+			if (b > 255)
+				b = 255;
 
-				if (b > 255)
-					b = 255;
-
-				channel_color_r[index] = r;
-				channel_color_g[index] = g;
-				channel_color_b[index] = b;
-			}
+			channel_color_r[index] = r;
+			channel_color_g[index] = g;
+			channel_color_b[index] = b;
 		}
 	}
 }

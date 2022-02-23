@@ -28,16 +28,12 @@ _FORCE_INLINE_ int Terrain2DLight::get_world_position_x() const {
 _FORCE_INLINE_ int Terrain2DLight::get_world_position_y() const {
 	return _world_position_y;
 }
-_FORCE_INLINE_ int Terrain2DLight::get_world_position_z() const {
-	return _world_position_z;
+Vector2 Terrain2DLight::get_world_position() {
+	return Vector2(_world_position_x, _world_position_y);
 }
-Vector3 Terrain2DLight::get_world_position() {
-	return Vector3(_world_position_x, _world_position_y, _world_position_z);
-}
-void Terrain2DLight::set_world_position(const int x, const int y, const int z) {
+void Terrain2DLight::set_world_position(const int x, const int y) {
 	_world_position_x = x;
 	_world_position_y = y;
-	_world_position_z = z;
 }
 
 _FORCE_INLINE_ Color Terrain2DLight::get_color() const {
@@ -56,6 +52,8 @@ void Terrain2DLight::set_size(const float size) {
 
 Terrain2DLight::Terrain2DLight() {
 	_size = 0;
+	_world_position_x = 0;
+	_world_position_y = 0;
 }
 
 Terrain2DLight::~Terrain2DLight() {
@@ -64,8 +62,7 @@ Terrain2DLight::~Terrain2DLight() {
 void Terrain2DLight::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_world_position_x"), &Terrain2DLight::get_world_position_x);
 	ClassDB::bind_method(D_METHOD("get_world_position_y"), &Terrain2DLight::get_world_position_y);
-	ClassDB::bind_method(D_METHOD("get_world_position_z"), &Terrain2DLight::get_world_position_z);
-	ClassDB::bind_method(D_METHOD("set_world_position", "x", "y", "z"), &Terrain2DLight::set_world_position);
+	ClassDB::bind_method(D_METHOD("set_world_position", "x", "y"), &Terrain2DLight::set_world_position);
 
 	ClassDB::bind_method(D_METHOD("get_color"), &Terrain2DLight::get_color);
 	ClassDB::bind_method(D_METHOD("set_color"), &Terrain2DLight::set_color);

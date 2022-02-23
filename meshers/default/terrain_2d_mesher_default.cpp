@@ -61,13 +61,13 @@ void Terrain2DMesherDefault::_bake_colors(Ref<Terrain2DChunk> chunk) {
 
 	for (int i = 0; i < _vertices.size(); ++i) {
 		Vertex vertex = _vertices[i];
-		Vector3 vert = vertex.vertex;
+		Vector2 vert = vertex.vertex;
 
 		unsigned int x = (unsigned int)(vert.x / _voxel_scale);
-		unsigned int z = (unsigned int)(vert.z / _voxel_scale);
+		unsigned int y = (unsigned int)(vert.y / _voxel_scale);
 
-		if (chunk->validate_data_position(x, z)) {
-			int indx = chunk->get_data_index(x, z);
+		if (chunk->validate_data_position(x, y)) {
+			int indx = chunk->get_data_index(x, y);
 
 			Color light = Color(
 					channel_color_r[indx] / 255.0,
@@ -122,19 +122,19 @@ void Terrain2DMesherDefault::_bake_liquid_colors(Ref<Terrain2DChunk> chunk) {
 
 	for (int i = 0; i < _vertices.size(); ++i) {
 		Vertex vertex = _vertices[i];
-		Vector3 vert = vertex.vertex;
+		Vector2 vert = vertex.vertex;
 
 		//Is this needed?
-		if (vert.x < 0 || vert.y < 0 || vert.z < 0) {
+		if (vert.x < 0 || vert.y < 0) {
 			continue;
 		}
 
 		unsigned int x = (unsigned int)(vert.x / _voxel_scale);
 		//unsigned int y = (unsigned int)(vert.y / _voxel_scale);
-		unsigned int z = (unsigned int)(vert.z / _voxel_scale);
+		unsigned int y = (unsigned int)(vert.y / _voxel_scale);
 
-		if (chunk->validate_data_position(x, z)) {
-			int indx = chunk->get_data_index(x, z);
+		if (chunk->validate_data_position(x, y)) {
+			int indx = chunk->get_data_index(x, y);
 
 			Color light = Color(
 					channel_color_r[indx] / 255.0,
