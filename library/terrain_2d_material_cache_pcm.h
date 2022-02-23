@@ -70,6 +70,8 @@ public:
 
 	void refresh_rects();
 
+	Ref<Texture> texture_get_merged();
+
 	void _setup_material_albedo(Ref<Texture> texture);
 
 	Terrain2DMaterialCachePCM();
@@ -79,6 +81,7 @@ protected:
 	static void _bind_methods();
 
 	Ref<TexturePacker> _packer;
+	Ref<Texture> _merged_texture;
 };
 
 #endif

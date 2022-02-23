@@ -184,12 +184,6 @@ void Terrain2DTerrain2DJob::phase_physics_process() {
 				chunk->colliders_create(Terrain2DChunkDefault::MESH_INDEX_LIQUID);
 			}
 		}
-		/*
-			else {
-				if (!has_meshes(MESH_INDEX_LIQUID, MESH_TYPE_INDEX_AREA)) {
-					create_colliders_area(MESH_INDEX_LIQUID);
-				}
-			}*/
 
 		PhysicsServer::get_singleton()->shape_set_data(chunk->mesh_rid_get(Terrain2DChunkDefault::MESH_INDEX_LIQUID, Terrain2DChunkDefault::MESH_TYPE_INDEX_SHAPE), temp_arr_collider_liquid);
 
@@ -211,14 +205,6 @@ void Terrain2DTerrain2DJob::phase_terrain_mesh() {
 	}
 
 	if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
-		//if (should_do()) {
-		//	_mesher->bake_colors(_chunk);
-
-		//	if (should_return()) {
-		//		return;
-		//	}
-		//}
-
 		if (should_do()) {
 			if (_liquid_mesher.is_valid()) {
 				_liquid_mesher->bake_colors(_chunk);
@@ -295,7 +281,6 @@ void Terrain2DTerrain2DJob::phase_terrain_mesh() {
 			}
 		}
 
-		//	if (should_do()) {
 		VS::get_singleton()->mesh_add_surface_from_arrays(mesh_rid, VisualServer::PRIMITIVE_TRIANGLES, temp_mesh_arr);
 	}
 

@@ -141,9 +141,9 @@ void Terrain2DMaterialCachePCM::refresh_rects() {
 
 		ERR_FAIL_COND(_packer->get_texture_count() == 0);
 
-		Ref<Texture> tex = _packer->get_generated_texture(0);
+		_merged_texture = _packer->get_generated_texture(0);
 
-		setup_material_albedo(tex);
+		setup_material_albedo(_merged_texture);
 	}
 
 	for (int i = 0; i < _surfaces.size(); i++) {
@@ -155,6 +155,10 @@ void Terrain2DMaterialCachePCM::refresh_rects() {
 	}
 
 	_initialized = true;
+}
+
+Ref<Texture> Terrain2DMaterialCachePCM::texture_get_merged() {
+	return _merged_texture;
 }
 
 void Terrain2DMaterialCachePCM::_setup_material_albedo(Ref<Texture> texture) {

@@ -142,8 +142,21 @@ Ref<AtlasTexture> Terrain2DMaterialCache::additional_texture_get_atlas(const int
 Ref<AtlasTexture> Terrain2DMaterialCache::additional_texture_get_atlas_tex(const Ref<Texture> &texture) {
 	return Ref<AtlasTexture>();
 }
+Rect2 Terrain2DMaterialCache::additional_texture_get_rect(const Ref<Texture> &texture) {
+	Ref<AtlasTexture> at = additional_texture_get_atlas_tex(texture);
+
+	if (!at.is_valid()) {
+		return Rect2();
+	}
+
+	return at->get_region();
+}
 Rect2 Terrain2DMaterialCache::additional_texture_get_uv_rect(const Ref<Texture> &texture) {
 	return Rect2(0, 0, 1, 1);
+}
+
+Ref<Texture> Terrain2DMaterialCache::texture_get_merged() {
+	return Ref<Texture>();
 }
 
 #ifdef PROPS_2D_PRESENT
@@ -263,7 +276,10 @@ void Terrain2DMaterialCache::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("additional_texture_get", "index"), &Terrain2DMaterialCache::additional_texture_get);
 	ClassDB::bind_method(D_METHOD("additional_texture_get_atlas", "index"), &Terrain2DMaterialCache::additional_texture_get_atlas);
 	ClassDB::bind_method(D_METHOD("additional_texture_get_atlas_tex", "index"), &Terrain2DMaterialCache::additional_texture_get_atlas_tex);
+	ClassDB::bind_method(D_METHOD("additional_texture_get_rect", "texture"), &Terrain2DMaterialCache::additional_texture_get_rect);
 	ClassDB::bind_method(D_METHOD("additional_texture_get_uv_rect", "texture"), &Terrain2DMaterialCache::additional_texture_get_uv_rect);
+
+	ClassDB::bind_method(D_METHOD("texture_get_merged"), &Terrain2DMaterialCache::texture_get_merged);
 
 #ifdef PROPS_2D_PRESENT
 	ClassDB::bind_method(D_METHOD("prop_add_textures", "prop"), &Terrain2DMaterialCache::prop_add_textures);

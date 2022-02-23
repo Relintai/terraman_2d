@@ -75,7 +75,13 @@ public:
 	virtual Ref<Texture> additional_texture_get(const int index);
 	virtual Ref<AtlasTexture> additional_texture_get_atlas(const int index);
 	virtual Ref<AtlasTexture> additional_texture_get_atlas_tex(const Ref<Texture> &texture);
+	virtual Rect2 additional_texture_get_rect(const Ref<Texture> &texture);
 	virtual Rect2 additional_texture_get_uv_rect(const Ref<Texture> &texture);
+
+	//todo rename to get texture, and make it a property.
+	//mergers set it themselves
+	//Also do it for props
+	virtual Ref<Texture> texture_get_merged();
 
 #ifdef PROPS_2D_PRESENT
 	void prop_add_textures(const Ref<Prop2DData> &prop);
