@@ -310,14 +310,14 @@ void Terrain2DChunkDefault::meshes_create(const int mesh_index, const int mesh_c
 	for (int i = 0; i < mesh_count; ++i) {
 		RID mesh_instance_rid = VS::get_singleton()->instance_create();
 
-		if (get_voxel_world()->GET_WORLD().is_valid())
-			VS::get_singleton()->instance_set_scenario(mesh_instance_rid, get_voxel_world()->GET_WORLD()->get_scenario());
+		//if (get_voxel_world()->get_world_2d().is_valid())
+		//	VS::get_singleton()->instance_set_scenario(mesh_instance_rid, get_voxel_world()->get_world_2d()->get_scenario());
 
 		RID mesh_rid = VS::get_singleton()->mesh_create();
 
 		VS::get_singleton()->instance_set_base(mesh_instance_rid, mesh_rid);
 
-		VS::get_singleton()->instance_set_transform(mesh_instance_rid, get_transform());
+		//VS::get_singleton()->instance_set_transform(mesh_instance_rid, get_transform());
 
 		if (i != 0)
 			VS::get_singleton()->instance_set_visible(mesh_instance_rid, false);
@@ -480,7 +480,7 @@ void Terrain2DChunkDefault::free_index(const int mesh_index) {
 
 void Terrain2DChunkDefault::update_transforms() {
 	RID empty_rid;
-	Transform t = get_transform();
+	//Transform t = get_transform();
 
 	List<Variant> keys;
 
@@ -500,8 +500,8 @@ void Terrain2DChunkDefault::update_transforms() {
 			for (int i = 0; i < arr.size(); ++i) {
 				RID rid = arr[i];
 
-				if (rid != empty_rid)
-					VS::get_singleton()->instance_set_transform(rid, get_transform());
+			//	if (rid != empty_rid)
+			//		VS::get_singleton()->instance_set_transform(rid, get_transform());
 			}
 		}
 
@@ -526,9 +526,9 @@ void Terrain2DChunkDefault::update_transforms() {
 		//PhysicsServer::get_singleton()->body_set_state(collider_get_body(i), PhysicsServer::BODY_STATE_TRANSFORM, get_transform() * collider_get_transform(i));
 	}
 
-	if (_debug_mesh_instance != RID()) {
-		VS::get_singleton()->instance_set_transform(_debug_mesh_instance, get_transform());
-	}
+	//if (_debug_mesh_instance != RID()) {
+	//	VS::get_singleton()->instance_set_transform(_debug_mesh_instance, get_transform());
+	//}
 }
 
 //Lights
@@ -549,11 +549,11 @@ void Terrain2DChunkDefault::debug_mesh_allocate() {
 	if (_debug_mesh_instance == RID()) {
 		_debug_mesh_instance = VisualServer::get_singleton()->instance_create();
 
-		if (get_voxel_world()->GET_WORLD().is_valid())
-			VS::get_singleton()->instance_set_scenario(_debug_mesh_instance, get_voxel_world()->GET_WORLD()->get_scenario());
+		//if (get_voxel_world()->GET_WORLD().is_valid())
+		//	VS::get_singleton()->instance_set_scenario(_debug_mesh_instance, get_voxel_world()->GET_WORLD()->get_scenario());
 
 		VS::get_singleton()->instance_set_base(_debug_mesh_instance, _debug_mesh_rid);
-		VS::get_singleton()->instance_set_transform(_debug_mesh_instance, get_transform());
+		//VS::get_singleton()->instance_set_transform(_debug_mesh_instance, get_transform());
 		VS::get_singleton()->instance_set_visible(_debug_mesh_instance, true);
 	}
 }

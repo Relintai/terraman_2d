@@ -168,14 +168,14 @@ void Terrain2DWorld::set_player_path(const NodePath &player_path) {
 	_player_path = player_path;
 }
 
-Spatial *Terrain2DWorld::get_player() const {
+Node2D *Terrain2DWorld::get_player() const {
 	return _player;
 }
-void Terrain2DWorld::set_player(Spatial *player) {
+void Terrain2DWorld::set_player(Node2D *player) {
 	_player = player;
 }
 void Terrain2DWorld::set_player_bind(Node *player) {
-	set_player(Object::cast_to<Spatial>(player));
+	set_player(Object::cast_to<Node2D>(player));
 }
 
 Ref<Terrain2DWorldArea> Terrain2DWorld::world_area_get(const int index) const {
@@ -866,27 +866,6 @@ int Terrain2DWorld::get_channel_index_info(const Terrain2DWorld::ChannelTypeInfo
 	RETURN_CALLP(int, _get_channel_index_info, channel_type);
 }
 
-Spatial *Terrain2DWorld::get_editor_camera() {
-#if TOOLS_ENABLED
-	SpatialEditor *se = SpatialEditor::get_singleton();
-
-	if (!se) {
-		return nullptr;
-	}
-
-	SpatialEditorViewport *wp = se->get_editor_viewport(0);
-
-	if (!wp) {
-		return nullptr;
-	}
-
-	return wp->get_camera();
-
-#else
-	return nullptr;
-#endif
-}
-
 Terrain2DWorld::Terrain2DWorld() {
 	_active = true;
 	_editable = false;
@@ -1250,8 +1229,6 @@ void Terrain2DWorld::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_channel_index_info", "channel_type"), &Terrain2DWorld::get_channel_index_info);
 	ClassDB::bind_method(D_METHOD("_get_channel_index_info", "channel_type"), &Terrain2DWorld::_get_channel_index_info);
-
-	ClassDB::bind_method(D_METHOD("get_editor_camera"), &Terrain2DWorld::get_editor_camera);
 
 #if VERSION_MAJOR < 4
 	BIND_VMETHOD(MethodInfo("_set_voxel_with_tool",

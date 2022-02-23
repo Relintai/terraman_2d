@@ -113,7 +113,6 @@ typedef class RenderingServer VS;
 #define INSTANCE_VALIDATE(var) var
 #define CONNECT(sig, obj, target_method_class, method) connect(sig, callable_mp(obj, &target_method_class::method))
 #define DISCONNECT(sig, obj, target_method_class, method) disconnect(sig, callable_mp(obj, &target_method_class::method))
-#define GET_WORLD get_world_3d
 #define INSTANCE instantiate
 #define VREMOVE remove_at
 
@@ -164,7 +163,6 @@ typedef class RenderingServer VS;
 #define INSTANCE_VALIDATE(var) ObjectDB::instance_validate(var)
 #define CONNECT(sig, obj, target_method_class, method) connect(sig, obj, #method)
 #define DISCONNECT(sig, obj, target_method_class, method) disconnect(sig, obj, #method)
-#define GET_WORLD get_world
 #define INSTANCE instance
 #define VREMOVE remove
 

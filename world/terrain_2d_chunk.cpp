@@ -1039,24 +1039,24 @@ void Terrain2DChunk::generation_physics_process(const float delta) {
 	call("_generation_physics_process", delta);
 }
 
-Transform Terrain2DChunk::get_transform() const {
+Transform2D Terrain2DChunk::get_transform() const {
 	return _transform;
 }
-void Terrain2DChunk::set_transform(const Transform &transform) {
+void Terrain2DChunk::set_transform(const Transform2D &transform) {
 	_transform = transform;
 }
 
-Transform Terrain2DChunk::get_global_transform() const {
-	ERR_FAIL_COND_V(!get_voxel_world(), Transform());
+Transform2D Terrain2DChunk::get_global_transform() const {
+	ERR_FAIL_COND_V(!get_voxel_world(), Transform2D());
 
 	return get_voxel_world()->get_global_transform() * _transform;
 }
 
-Vector3 Terrain2DChunk::to_local(Vector3 p_global) const {
+Vector2 Terrain2DChunk::to_local(Vector2 p_global) const {
 	return get_global_transform().affine_inverse().xform(p_global);
 }
 
-Vector3 Terrain2DChunk::to_global(Vector3 p_local) const {
+Vector2 Terrain2DChunk::to_global(Vector2 p_local) const {
 	return get_global_transform().xform(p_local);
 }
 
@@ -1241,13 +1241,14 @@ void Terrain2DChunk::_generation_physics_process(const float delta) {
 }
 
 void Terrain2DChunk::_world_transform_changed() {
-	Transform wt;
+	Transform2D wt;
 
 	if (_voxel_world != NULL) {
 		wt = _voxel_world->get_transform();
 	}
 
-	set_transform(wt * Transform(Basis(), Vector3(_position_x * static_cast<int>(_size_x) * _voxel_scale, 0, _position_z * static_cast<int>(_size_z) * _voxel_scale)));
+	//TODO
+	//set_transform(wt * Transform(Basis(), Vector3(_position_x * static_cast<int>(_size_x) * _voxel_scale, 0, _position_z * static_cast<int>(_size_z) * _voxel_scale)));
 }
 
 /*

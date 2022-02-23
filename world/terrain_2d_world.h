@@ -35,7 +35,7 @@ SOFTWARE.
 
 #include "../defines.h"
 
-#include navigation_h
+#include "scene/2d/navigation_2d.h"
 
 #include "../areas/terrain_2d_world_area.h"
 #include "../level_generator/terrain_2d_level_generator.h"
@@ -51,8 +51,8 @@ class Terrain2DStructure;
 class Terrain2DChunk;
 class Prop2DData;
 
-class Terrain2DWorld : public Navigation {
-	GDCLASS(Terrain2DWorld, Navigation);
+class Terrain2DWorld : public Navigation2D {
+	GDCLASS(Terrain2DWorld, Navigation2D);
 
 public:
 	enum ChannelTypeInfo {
@@ -110,8 +110,8 @@ public:
 	NodePath get_player_path() const;
 	void set_player_path(const NodePath &player_path);
 
-	Spatial *get_player() const;
-	void set_player(Spatial *player);
+	Node2D *get_player() const;
+	void set_player(Node2D *player);
 	void set_player_bind(Node *player);
 
 	//World Areas
@@ -191,8 +191,6 @@ public:
 	void set_voxel_with_tool(const bool mode_add, const Vector3 hit_position, const Vector3 hit_normal, const int selected_voxel, const int isolevel);
 
 	int get_channel_index_info(const ChannelTypeInfo channel_type);
-
-	Spatial *get_editor_camera();
 
 #if VERSION_MAJOR >= 4
 	GDVIRTUAL1(_chunk_added, Ref<Terrain2DChunk>);
@@ -276,7 +274,7 @@ private:
 	Vector<Ref<Terrain2DStructure>> _voxel_structures;
 
 	NodePath _player_path;
-	Spatial *_player;
+	Node2D *_player;
 
 	int _max_concurrent_generations;
 	Vector<Ref<Terrain2DChunk>> _generation_queue;

@@ -302,12 +302,12 @@ public:
 	void generation_process(const float delta);
 	void generation_physics_process(const float delta);
 
-	Transform get_transform() const;
-	void set_transform(const Transform &transform);
+	Transform2D get_transform() const;
+	void set_transform(const Transform2D &transform);
 
-	Transform get_global_transform() const;
-	Vector3 to_local(Vector3 p_global) const;
-	Vector3 to_global(Vector3 p_local) const;
+	Transform2D get_global_transform() const;
+	Vector2 to_local(Vector2 p_global) const;
+	Vector2 to_global(Vector2 p_local) const;
 
 	bool is_safe_to_delete();
 
@@ -413,7 +413,7 @@ protected:
 
 	Vector<ColliderBody> _colliders;
 
-	Transform _transform;
+	Transform2D _transform;
 
 	bool _abort_build;
 	bool _queued_generation;

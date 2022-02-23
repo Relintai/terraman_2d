@@ -142,6 +142,7 @@ PoolColorArray Terrain2DWorldDefault::get_vertex_colors(const Transform &transfo
 }
 
 void Terrain2DWorldDefault::_update_lods() {
+	/*
 	if (!get_player() || !INSTANCE_VALIDATE(get_player())) {
 		return;
 	}
@@ -149,7 +150,7 @@ void Terrain2DWorldDefault::_update_lods() {
 	if (_num_lods <= 1)
 		return;
 
-	Vector3 ppos = get_player()->get_transform().origin;
+	Vector2 ppos = get_player()->get_transform().get_origin();
 
 	int ppx = int(ppos.x / get_chunk_size_x() / get_voxel_scale());
 	int ppz = int(ppos.z / get_chunk_size_z() / get_voxel_scale());
@@ -173,6 +174,7 @@ void Terrain2DWorldDefault::_update_lods() {
 		if (c->get_current_lod_level() != mr)
 			c->set_current_lod_level(mr);
 	}
+	*/
 }
 
 Ref<Terrain2DChunk> Terrain2DWorldDefault::_create_chunk(int x, int z, Ref<Terrain2DChunk> chunk) {

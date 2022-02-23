@@ -104,6 +104,7 @@ EditorPlugin::AfterGUIInput Terrain2DWorldEditor::forward_spatial_input_event(Ca
 #endif
 
 bool Terrain2DWorldEditor::do_input_action(Camera *p_camera, const Point2 &p_point, bool p_click) {
+	/*
 	if (!spatial_editor || !_world || !_world->is_inside_world())
 		return false;
 
@@ -115,7 +116,7 @@ bool Terrain2DWorldEditor::do_input_action(Camera *p_camera, const Point2 &p_poi
 	from = local_xform.xform(from);
 	to = local_xform.xform(to);
 
-	PhysicsDirectSpaceState *ss = _world->GET_WORLD()->get_direct_space_state();
+	PhysicsDirectSpaceState *ss = _world->get_world_2d()->get_direct_space_state();
 
 	PhysicsDirectSpaceState::RayResult res;
 
@@ -144,7 +145,7 @@ bool Terrain2DWorldEditor::do_input_action(Camera *p_camera, const Point2 &p_poi
 
 		return true;
 	}
-
+*/
 	return false;
 }
 
