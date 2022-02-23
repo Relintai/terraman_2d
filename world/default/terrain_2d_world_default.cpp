@@ -219,7 +219,7 @@ int Terrain2DWorldDefault::_get_channel_index_info(const Terrain2DWorld::Channel
 		case CHANNEL_TYPE_INFO_TYPE:
 			return Terrain2DChunkDefault::DEFAULT_CHANNEL_TYPE;
 		case CHANNEL_TYPE_INFO_ISOLEVEL:
-			return Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL;
+			return -1;
 		case CHANNEL_TYPE_INFO_LIQUID_FLOW:
 			return -1;
 		default:

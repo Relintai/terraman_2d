@@ -103,41 +103,6 @@ void Terrain2DJob::physics_process(const float delta) {
 
 //Data Management functions
 void Terrain2DJob::generate_ao() {
-	ERR_FAIL_COND(!_chunk.is_valid());
-
-	int data_size_x = _chunk->get_data_size_x();
-	int data_size_z = _chunk->get_data_size_z();
-
-	ERR_FAIL_COND(data_size_x == 0 || data_size_z == 0);
-
-	int margin_start = _chunk->get_margin_start();
-	int margin_end = _chunk->get_margin_end();
-
-	int ssize_x = _chunk->get_size_x();
-	int ssize_z = _chunk->get_size_z();
-
-	int size_x = ssize_x + margin_end;
-	int size_z = ssize_z + margin_end;
-
-	for (int z = margin_start - 1; z < size_z - 1; ++z) {
-		for (int x = margin_start - 1; x < size_x - 1; ++x) {
-			int current = _chunk->get_voxel(x, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
-
-			int sum = _chunk->get_voxel(x + 1, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
-			sum += _chunk->get_voxel(x - 1, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
-			sum += _chunk->get_voxel(x, z + 1, Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
-			sum += _chunk->get_voxel(x, z - 1, Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL);
-
-			sum /= 6;
-
-			sum -= current;
-
-			if (sum < 0)
-				sum = 0;
-
-			_chunk->set_voxel(sum, x, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_AO);
-		}
-	}
 }
 
 void Terrain2DJob::generate_random_ao(int seed, int octaves, int period, float persistence, float scale_factor) {
@@ -163,7 +128,7 @@ void Terrain2DJob::generate_random_ao(int seed, int octaves, int period, float p
 	for (int x = -margin_start; x < size_x + margin_end; ++x) {
 		for (int z = -margin_start; z < size_z + margin_end; ++z) {
 
-			float val = noise->get_noise_3d(x + (position_x * size_x), 0, z + (position_z * size_z));
+			float val = noise->get_noise_2d(x + (position_x * size_x), z + (position_z * size_z));
 
 			val *= scale_factor;
 

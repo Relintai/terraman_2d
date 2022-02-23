@@ -652,7 +652,7 @@ void Terrain2DChunkDefault::draw_debug_voxels(int max, Color color) {
 					continue;
 				}
 
-				draw_cross_voxels_fill(Vector3(x, get_voxel(x, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL), z), get_voxel(x, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_ISOLEVEL) / 255.0 * get_voxel_scale() * 2.0);
+				draw_cross_voxels_fill(Vector3(x, 0, z), 1);
 
 				++a;
 
@@ -970,9 +970,7 @@ void Terrain2DChunkDefault::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("_finalize_build"), &Terrain2DChunkDefault::_finalize_build);
 
 	BIND_ENUM_CONSTANT(DEFAULT_CHANNEL_TYPE);
-	BIND_ENUM_CONSTANT(DEFAULT_CHANNEL_ISOLEVEL);
 	BIND_ENUM_CONSTANT(DEFAULT_CHANNEL_LIQUID_TYPE);
-	BIND_ENUM_CONSTANT(DEFAULT_CHANNEL_LIQUID_ISOLEVEL);
 	BIND_ENUM_CONSTANT(DEFAULT_CHANNEL_LIGHT_COLOR_R);
 	BIND_ENUM_CONSTANT(DEFAULT_CHANNEL_LIGHT_COLOR_G);
 	BIND_ENUM_CONSTANT(DEFAULT_CHANNEL_LIGHT_COLOR_B);

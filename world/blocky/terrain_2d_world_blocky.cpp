@@ -46,7 +46,6 @@ Ref<Terrain2DChunk> Terrain2DWorldBlocky::_create_chunk(int x, int z, Ref<Terrai
 		Ref<Terrain2DMesherBlocky> liquid_mesher;
 		liquid_mesher.instance();
 		liquid_mesher->set_channel_index_type(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIQUID_TYPE);
-		liquid_mesher->set_channel_index_isolevel(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIQUID_ISOLEVEL);
 		tj->set_liquid_mesher(liquid_mesher);
 
 		Ref<Terrain2DProp2DJob> pj;
