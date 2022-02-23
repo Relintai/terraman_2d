@@ -82,7 +82,6 @@ public:
 
 	enum {
 		MESH_TYPE_INDEX_MESH = 0,
-		MESH_TYPE_INDEX_MESH_INSTANCE,
 		MESH_TYPE_INDEX_SHAPE,
 		MESH_TYPE_INDEX_BODY,
 		MESH_TYPE_INDEX_AREA,
@@ -107,13 +106,6 @@ public:
 	//add dirty flags
 	bool get_lights_dirty() const;
 	void set_lights_dirty(const bool value);
-
-	//Lod
-	int get_lod_num() const;
-	void set_lod_num(const int value);
-
-	int get_current_lod_level() const;
-	void set_current_lod_level(const int value);
 
 	//Meshes
 	Dictionary mesh_rids_get();
@@ -186,8 +178,6 @@ public:
 
 protected:
 	virtual void _channel_setup();
-
-	virtual void _visibility_changed(bool visible);
 
 	virtual void _exit_tree();
 	virtual void _world_transform_changed();

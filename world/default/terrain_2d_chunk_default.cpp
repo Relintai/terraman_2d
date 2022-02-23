@@ -55,48 +55,6 @@ void Terrain2DChunkDefault::set_lights_dirty(const bool value) {
 	_lights_dirty = value;
 }
 
-int Terrain2DChunkDefault::get_lod_num() const {
-	return _lod_num;
-}
-void Terrain2DChunkDefault::set_lod_num(const int value) {
-	_lod_num = value;
-}
-
-int Terrain2DChunkDefault::get_current_lod_level() const {
-	return _current_lod_level;
-}
-void Terrain2DChunkDefault::set_current_lod_level(const int value) {
-	_current_lod_level = value;
-
-	if ((_build_flags & BUILD_FLAG_CREATE_LODS) == 0)
-		return;
-
-	if (_current_lod_level < 0)
-		_current_lod_level = 0;
-
-	int lod_num = mesh_rid_get_count(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_MESH_INSTANCE);
-
-	if (_current_lod_level > lod_num)
-		_current_lod_level = lod_num;
-
-	for (int i = 0; i < lod_num; ++i) {
-		bool vis = false;
-
-		if (i == _current_lod_level)
-			vis = true;
-
-		RID rid = mesh_rid_get_index(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_MESH_INSTANCE, i);
-
-		if (rid != RID())
-			VisualServer::get_singleton()->instance_set_visible(rid, vis);
-
-		rid = mesh_rid_get_index(MESH_INDEX_PROP, MESH_TYPE_INDEX_MESH_INSTANCE, i);
-
-		if (rid != RID())
-			VisualServer::get_singleton()->instance_set_visible(rid, vis);
-	}
-}
-
 void Terrain2DChunkDefault::emit_build_finished() {
 	emit_signal("mesh_generation_finished", this);
 
@@ -302,32 +260,17 @@ void Terrain2DChunkDefault::meshes_create(const int mesh_index, const int mesh_c
 	Dictionary m = _rids[mesh_index];
 
 	ERR_FAIL_COND(m.has(MESH_TYPE_INDEX_MESH));
-	ERR_FAIL_COND(m.has(MESH_TYPE_INDEX_MESH_INSTANCE));
 
 	Array am;
 	Array ami;
 
 	for (int i = 0; i < mesh_count; ++i) {
-		RID mesh_instance_rid = VS::get_singleton()->instance_create();
-
-		//if (get_voxel_world()->get_world_2d().is_valid())
-		//	VS::get_singleton()->instance_set_scenario(mesh_instance_rid, get_voxel_world()->get_world_2d()->get_scenario());
-
 		RID mesh_rid = VS::get_singleton()->mesh_create();
 
-		VS::get_singleton()->instance_set_base(mesh_instance_rid, mesh_rid);
-
-		//VS::get_singleton()->instance_set_transform(mesh_instance_rid, get_transform());
-
-		if (i != 0)
-			VS::get_singleton()->instance_set_visible(mesh_instance_rid, false);
-
 		am.push_back(mesh_rid);
-		ami.push_back(mesh_instance_rid);
 	}
 
 	m[MESH_TYPE_INDEX_MESH] = am;
-	m[MESH_TYPE_INDEX_MESH_INSTANCE] = ami;
 
 	_rids[mesh_index] = m;
 }
@@ -350,20 +293,7 @@ void Terrain2DChunkDefault::meshes_free(const int mesh_index) {
 		}
 	}
 
-	if (m.has(MESH_TYPE_INDEX_MESH_INSTANCE)) {
-		Array a = m[MESH_TYPE_INDEX_MESH_INSTANCE];
-
-		for (int i = 0; i < a.size(); ++i) {
-			RID r = a[i];
-
-			if (r != rid) {
-				VS::get_singleton()->free(r);
-			}
-		}
-	}
-
 	m.erase(MESH_TYPE_INDEX_MESH);
-	m.erase(MESH_TYPE_INDEX_MESH_INSTANCE);
 }
 
 void Terrain2DChunkDefault::colliders_create(const int mesh_index, const int layer_mask) {
@@ -493,17 +423,6 @@ void Terrain2DChunkDefault::update_transforms() {
 			continue;
 
 		Dictionary d = _rids[v];
-
-		if (d.has(MESH_TYPE_INDEX_MESH_INSTANCE)) {
-			Array arr = d[MESH_TYPE_INDEX_MESH_INSTANCE];
-
-			for (int i = 0; i < arr.size(); ++i) {
-				RID rid = arr[i];
-
-			//	if (rid != empty_rid)
-			//		VS::get_singleton()->instance_set_transform(rid, get_transform());
-			}
-		}
 
 		if (d.has(MESH_TYPE_INDEX_BODY)) {
 			RID rid = d[MESH_TYPE_INDEX_BODY];
@@ -712,32 +631,6 @@ void Terrain2DChunkDefault::draw_debug_mdr_colliders() {
 	}
 }
 
-void Terrain2DChunkDefault::_visibility_changed(bool visible) {
-	if (visible) {
-		set_current_lod_level(_current_lod_level);
-		return;
-	}
-
-	int lod_num = mesh_rid_get_count(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_MESH_INSTANCE);
-
-	for (int i = 0; i < lod_num; ++i) {
-		RID rid = mesh_rid_get_index(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_MESH_INSTANCE, i);
-
-		if (rid != RID())
-			VisualServer::get_singleton()->instance_set_visible(rid, false);
-
-		rid = mesh_rid_get_index(MESH_INDEX_LIQUID, MESH_TYPE_INDEX_MESH_INSTANCE, i);
-
-		if (rid != RID())
-			VisualServer::get_singleton()->instance_set_visible(rid, false);
-
-		rid = mesh_rid_get_index(MESH_INDEX_PROP, MESH_TYPE_INDEX_MESH_INSTANCE, i);
-
-		if (rid != RID())
-			VisualServer::get_singleton()->instance_set_visible(rid, false);
-	}
-}
-
 void Terrain2DChunkDefault::_exit_tree() {
 	Terrain2DChunk::_exit_tree();
 
@@ -856,9 +749,8 @@ void Terrain2DChunkDefault::_finalize_build() {
 	}
 #endif
 
-	set_current_lod_level(get_current_lod_level());
-
 	call_deferred("update_transforms");
+	//call_deferred("update");
 }
 
 Terrain2DChunkDefault::Terrain2DChunkDefault() {
@@ -895,14 +787,6 @@ void Terrain2DChunkDefault::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_lights_dirty"), &Terrain2DChunkDefault::get_lights_dirty);
 	ClassDB::bind_method(D_METHOD("set_lights_dirty", "value"), &Terrain2DChunkDefault::set_lights_dirty);
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "lights_dirty", PROPERTY_HINT_NONE, "", 0), "set_lights_dirty", "get_lights_dirty");
-
-	ClassDB::bind_method(D_METHOD("get_lod_num"), &Terrain2DChunkDefault::get_lod_num);
-	ClassDB::bind_method(D_METHOD("set_lod_num"), &Terrain2DChunkDefault::set_lod_num);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "lod_num", PROPERTY_HINT_NONE, "", 0), "set_lod_num", "get_lod_num");
-
-	ClassDB::bind_method(D_METHOD("get_current_lod_level"), &Terrain2DChunkDefault::get_current_lod_level);
-	ClassDB::bind_method(D_METHOD("set_current_lod_level"), &Terrain2DChunkDefault::set_current_lod_level);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "current_lod_level"), "set_current_lod_level", "get_current_lod_level");
 
 	//Meshes
 	ClassDB::bind_method(D_METHOD("get_mesh_rids"), &Terrain2DChunkDefault::mesh_rids_get);
@@ -957,9 +841,7 @@ void Terrain2DChunkDefault::_bind_methods() {
 
 	//virtuals
 	ClassDB::bind_method(D_METHOD("_channel_setup"), &Terrain2DChunkDefault::_channel_setup);
-
-	ClassDB::bind_method(D_METHOD("_visibility_changed", "visible"), &Terrain2DChunkDefault::_visibility_changed);
-
+	
 	//lights
 	ClassDB::bind_method(D_METHOD("_bake_lights"), &Terrain2DChunkDefault::_bake_lights);
 	ClassDB::bind_method(D_METHOD("_bake_light", "light"), &Terrain2DChunkDefault::_bake_light);
@@ -985,7 +867,6 @@ void Terrain2DChunkDefault::_bind_methods() {
 	BIND_CONSTANT(MESH_INDEX_CLUTTER);
 
 	BIND_CONSTANT(MESH_TYPE_INDEX_MESH);
-	BIND_CONSTANT(MESH_TYPE_INDEX_MESH_INSTANCE);
 	BIND_CONSTANT(MESH_TYPE_INDEX_SHAPE);
 	BIND_CONSTANT(MESH_TYPE_INDEX_BODY);
 
