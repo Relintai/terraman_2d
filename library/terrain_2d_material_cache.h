@@ -56,16 +56,8 @@ public:
 	void inc_ref_count();
 	void dec_ref_count();
 
-	Ref<Material> material_get(const int index);
-	Ref<Material> material_lod_get(const int index);
-	void material_add(const Ref<Material> &value);
-	void material_set(const int index, const Ref<Material> &value);
-	void material_remove(const int index);
-	int material_get_num() const;
-	void materials_clear();
-
-	Vector<Variant> materials_get();
-	void materials_set(const Vector<Variant> &materials);
+	Ref<Material> material_get();
+	void material_set(const Ref<Material> &value);
 
 	virtual Ref<Terrain2DSurface> surface_get(const int index);
 	virtual Ref<Terrain2DSurface> surface_id_get(const int id);
@@ -107,7 +99,7 @@ protected:
 	bool _initialized;
 
 	Vector<Ref<Terrain2DSurface>> _surfaces;
-	Vector<Ref<Material>> _materials;
+	Ref<Material> _material;
 	Vector<Ref<Texture>> _additional_textures;
 
 	int _ref_count;

@@ -297,14 +297,6 @@ void Terrain2DTerrain2DJob::phase_terrain_mesh() {
 
 		//	if (should_do()) {
 		VS::get_singleton()->mesh_add_surface_from_arrays(mesh_rid, VisualServer::PRIMITIVE_TRIANGLES, temp_mesh_arr);
-
-		if (chunk->get_library()->liquid_material_lod_get(0).is_valid())
-			VS::get_singleton()->mesh_surface_set_material(mesh_rid, 0, chunk->get_library()->liquid_material_lod_get(0)->get_rid());
-
-		//	if (should_return()) {
-		//		return;
-		//	}
-		//}
 	}
 
 	reset_stages();
@@ -389,18 +381,6 @@ void Terrain2DTerrain2DJob::step_type_normal() {
 	RID mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, 0);
 
 	VS::get_singleton()->mesh_add_surface_from_arrays(mesh_rid, VisualServer::PRIMITIVE_TRIANGLES, temp_mesh_arr);
-
-	Ref<Material> lmat;
-
-	if (chunk->material_cache_key_has()) {
-		lmat = chunk->get_library()->material_cache_get(_chunk->material_cache_key_get())->material_lod_get(0);
-	} else {
-		lmat = chunk->get_library()->material_lod_get(0);
-	}
-
-	if (lmat.is_valid()) {
-		VisualServer::get_singleton()->mesh_surface_set_material(mesh_rid, 0, lmat->get_rid());
-	}
 }
 
 Terrain2DTerrain2DJob::Terrain2DTerrain2DJob() {

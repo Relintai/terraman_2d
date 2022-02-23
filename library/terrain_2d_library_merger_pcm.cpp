@@ -172,16 +172,9 @@ void Terrain2DLibraryMergerPCM::_material_cache_get_key(Ref<Terrain2DChunk> chun
 		cache->surface_add(nms);
 	}
 
-	for (int i = 0; i < _materials.size(); ++i) {
-		Ref<Material> m = _materials[i];
-
-		if (!m.is_valid()) {
-			continue;
-		}
-
-		Ref<Material> nm = m->duplicate();
-
-		cache->material_add(nm);
+	if (_material.is_valid()) {
+		Ref<Material> nm = _material->duplicate();
+		cache->material_set(nm);
 	}
 
 	_material_cache[hash] = cache;
@@ -338,16 +331,10 @@ void Terrain2DLibraryMergerPCM::_prop_material_cache_get_key(Ref<Terrain2DChunk>
 	cache->set_background_color(get_background_color());
 	cache->set_margin(get_margin());
 
-	for (int i = 0; i < _prop_materials.size(); ++i) {
-		Ref<Material> m = _prop_materials[i];
+	if (_prop_material.is_valid()) {
+		Ref<Material> nm = _prop_material->duplicate();
 
-		if (!m.is_valid()) {
-			continue;
-		}
-
-		Ref<Material> nm = m->duplicate();
-
-		cache->material_add(nm);
+		cache->material_set(nm);
 	}
 
 	/*
@@ -684,71 +671,22 @@ void Terrain2DLibraryMergerPCM::refresh_rects() {
 }
 
 void Terrain2DLibraryMergerPCM::_setup_material_albedo(const int material_index, const Ref<Texture> &texture) {
-	Ref<SpatialMaterial> mat;
-
-	int count = 0;
+	Ref<ShaderMaterial> shmat;
 
 	switch (material_index) {
 		case MATERIAL_INDEX_TERRAIN:
-			count = material_get_num();
+			shmat = material_get();
 			break;
 		case MATERIAL_INDEX_LIQUID:
-			count = liquid_material_get_num();
+			shmat = liquid_material_get();
 			break;
 		case MATERIAL_INDEX_PROP:
-			count = prop_material_get_num();
+			shmat = prop_material_get();
 			break;
 	}
 
-	for (int i = 0; i < count; ++i) {
-		switch (material_index) {
-			case MATERIAL_INDEX_TERRAIN:
-				mat = material_get(i);
-				break;
-			case MATERIAL_INDEX_LIQUID:
-				mat = liquid_material_get(i);
-				break;
-			case MATERIAL_INDEX_PROP:
-				mat = prop_material_get(i);
-				break;
-		}
-
-		Ref<SpatialMaterial> spmat;
-
-		switch (material_index) {
-			case MATERIAL_INDEX_TERRAIN:
-				spmat = material_get(i);
-				break;
-			case MATERIAL_INDEX_LIQUID:
-				spmat = liquid_material_get(i);
-				break;
-			case MATERIAL_INDEX_PROP:
-				spmat = prop_material_get(i);
-				break;
-		}
-
-		if (spmat.is_valid()) {
-			spmat->set_texture(SpatialMaterial::TEXTURE_ALBEDO, texture);
-			return;
-		}
-
-		Ref<ShaderMaterial> shmat;
-
-		switch (material_index) {
-			case MATERIAL_INDEX_TERRAIN:
-				shmat = material_get(i);
-				break;
-			case MATERIAL_INDEX_LIQUID:
-				shmat = liquid_material_get(i);
-				break;
-			case MATERIAL_INDEX_PROP:
-				shmat = prop_material_get(i);
-				break;
-		}
-
-		if (shmat.is_valid()) {
-			shmat->set_shader_param("texture_albedo", texture);
-		}
+	if (shmat.is_valid()) {
+		shmat->set_shader_param("texture_albedo", texture);
 	}
 }
 

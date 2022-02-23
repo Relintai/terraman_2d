@@ -160,25 +160,6 @@ bool Terrain2DLibrary::_supports_caching() {
 }
 
 //Materials
-Ref<Material> Terrain2DLibrary::material_get(const int index) {
-	ERR_FAIL_INDEX_V(index, _materials.size(), Ref<Material>());
-
-	return _materials[index];
-}
-
-Ref<Material> Terrain2DLibrary::material_lod_get(const int index) {
-	ERR_FAIL_COND_V_MSG(_materials.size() == 0, Ref<Material>(), "Error! You should to add at least one material to Terrain2DLibrary! (By default it will use up to 5. See VoxelWorldDefault::_create_chunk().)");
-
-	if (index < 0) {
-		return _materials[0];
-	}
-
-	if (index >= _materials.size()) {
-		return _materials[_materials.size() - 1];
-	}
-
-	return _materials[index];
-}
 
 void Terrain2DLibrary::material_cache_get_key(Ref<Terrain2DChunk> chunk) {
 	CALL(_material_cache_get_key, chunk);
@@ -201,65 +182,15 @@ void Terrain2DLibrary::material_cache_unref(const int key) {
 void Terrain2DLibrary::_material_cache_unref(const int key) {
 }
 
-void Terrain2DLibrary::material_add(const Ref<Material> &value) {
-	ERR_FAIL_COND(!value.is_valid());
-
-	_materials.push_back(value);
+Ref<Material> Terrain2DLibrary::material_get() {
+	return _material;
 }
 
-void Terrain2DLibrary::material_set(const int index, const Ref<Material> &value) {
-	ERR_FAIL_INDEX(index, _materials.size());
-
-	_materials.set(index, value);
-}
-
-void Terrain2DLibrary::material_remove(const int index) {
-	_materials.VREMOVE(index);
-}
-
-int Terrain2DLibrary::material_get_num() const {
-	return _materials.size();
-}
-
-void Terrain2DLibrary::materials_clear() {
-	_materials.clear();
-}
-
-Vector<Variant> Terrain2DLibrary::materials_get() {
-	VARIANT_ARRAY_GET(_materials);
-}
-
-void Terrain2DLibrary::materials_set(const Vector<Variant> &materials) {
-	_materials.clear();
-
-	for (int i = 0; i < materials.size(); i++) {
-		Ref<Material> material = Ref<Material>(materials[i]);
-
-		_materials.push_back(material);
-	}
+void Terrain2DLibrary::material_set(const Ref<Material> &value) {
+	_material = value;
 }
 
 //Liquid Materials
-Ref<Material> Terrain2DLibrary::liquid_material_get(const int index) {
-	ERR_FAIL_INDEX_V(index, _liquid_materials.size(), Ref<Material>());
-
-	return _liquid_materials[index];
-}
-
-Ref<Material> Terrain2DLibrary::liquid_material_lod_get(const int index) {
-	ERR_FAIL_COND_V_MSG(_liquid_materials.size() == 0, Ref<Material>(), "Error! You should to add at least one liquid to Terrain2DLibrary! (By default it will use up to 5. See VoxelWorldDefault::_create_chunk().)");
-
-	if (index < 0) {
-		return _liquid_materials[0];
-	}
-
-	if (index >= _liquid_materials.size()) {
-		return _liquid_materials[_liquid_materials.size() - 1];
-	}
-
-	return _liquid_materials[index];
-}
-
 void Terrain2DLibrary::liquid_material_cache_get_key(Ref<Terrain2DChunk> chunk) {
 	CALL(_liquid_material_cache_get_key, chunk);
 }
@@ -281,64 +212,15 @@ void Terrain2DLibrary::liquid_material_cache_unref(const int key) {
 void Terrain2DLibrary::_liquid_material_cache_unref(const int key) {
 }
 
-void Terrain2DLibrary::liquid_material_add(const Ref<Material> &value) {
-	ERR_FAIL_COND(!value.is_valid());
-
-	_liquid_materials.push_back(value);
+Ref<Material> Terrain2DLibrary::liquid_material_get() {
+	return _liquid_material;
 }
 
-void Terrain2DLibrary::liquid_material_set(const int index, const Ref<Material> &value) {
-	ERR_FAIL_INDEX(index, _liquid_materials.size());
-
-	_liquid_materials.set(index, value);
-}
-
-void Terrain2DLibrary::liquid_material_remove(const int index) {
-	_liquid_materials.VREMOVE(index);
-}
-
-int Terrain2DLibrary::liquid_material_get_num() const {
-	return _liquid_materials.size();
-}
-
-void Terrain2DLibrary::liquid_materials_clear() {
-	_liquid_materials.clear();
-}
-
-Vector<Variant> Terrain2DLibrary::liquid_materials_get() {
-	VARIANT_ARRAY_GET(_liquid_materials);
-}
-
-void Terrain2DLibrary::liquid_materials_set(const Vector<Variant> &materials) {
-	_liquid_materials.clear();
-
-	for (int i = 0; i < materials.size(); i++) {
-		Ref<Material> material = Ref<Material>(materials[i]);
-
-		_liquid_materials.push_back(material);
-	}
+void Terrain2DLibrary::liquid_material_set(const Ref<Material> &value) {
+	_liquid_material = value;
 }
 
 //Prop2D Materials
-Ref<Material> Terrain2DLibrary::prop_material_get(const int index) {
-	ERR_FAIL_INDEX_V(index, _prop_materials.size(), Ref<Material>());
-
-	return _prop_materials[index];
-}
-
-Ref<Material> Terrain2DLibrary::prop_material_lod_get(const int index) {
-	ERR_FAIL_COND_V_MSG(_prop_materials.size() == 0, Ref<Material>(), "Error! You should to add at least one prop material to Terrain2DLibrary! (By default it will use up to 5. See VoxelWorldDefault::_create_chunk().)");
-
-	if (index < 0) {
-		return _prop_materials[0];
-	}
-
-	if (index >= _prop_materials.size()) {
-		return _prop_materials[_prop_materials.size() - 1];
-	}
-
-	return _prop_materials[index];
-}
 
 void Terrain2DLibrary::prop_material_cache_get_key(Ref<Terrain2DChunk> chunk) {
 	CALL(_prop_material_cache_get_key, chunk);
@@ -361,36 +243,12 @@ void Terrain2DLibrary::prop_material_cache_unref(const int key) {
 void Terrain2DLibrary::_prop_material_cache_unref(const int key) {
 }
 
-void Terrain2DLibrary::prop_material_add(const Ref<Material> &value) {
-	ERR_FAIL_COND(!value.is_valid());
-
-	_prop_materials.push_back(value);
+Ref<Material> Terrain2DLibrary::prop_material_get() {
+	return _prop_material;
 }
 
-void Terrain2DLibrary::prop_material_set(const int index, const Ref<Material> &value) {
-	ERR_FAIL_INDEX(index, _prop_materials.size());
-
-	_prop_materials.set(index, value);
-}
-
-void Terrain2DLibrary::prop_material_remove(const int index) {
-	_prop_materials.VREMOVE(index);
-}
-
-int Terrain2DLibrary::prop_material_get_num() const {
-	return _prop_materials.size();
-}
-
-void Terrain2DLibrary::prop_materials_clear() {
-	_prop_materials.clear();
-}
-
-Vector<Variant> Terrain2DLibrary::prop_materials_get() {
-	VARIANT_ARRAY_GET(_prop_materials);
-}
-
-void Terrain2DLibrary::prop_materials_set(const Vector<Variant> &materials) {
-	VARIANT_ARRAY_SET(materials, _prop_materials, Material);
+void Terrain2DLibrary::prop_material_set(const Ref<Material> &value) {
+	_prop_material = value;
 }
 
 //Surfaces
@@ -464,9 +322,9 @@ Terrain2DLibrary::Terrain2DLibrary() {
 }
 
 Terrain2DLibrary::~Terrain2DLibrary() {
-	_materials.clear();
-	_liquid_materials.clear();
-	_prop_materials.clear();
+	_material.unref();
+	_liquid_material.unref();
+	_prop_material.unref();
 }
 
 #if VERSION_MAJOR >= 4
@@ -513,9 +371,6 @@ void Terrain2DLibrary::_bind_methods() {
 	GDVIRTUAL_BIND(_material_cache_unref, "key");
 #endif
 
-	ClassDB::bind_method(D_METHOD("material_get", "index"), &Terrain2DLibrary::material_get);
-	ClassDB::bind_method(D_METHOD("material_lod_get", "index"), &Terrain2DLibrary::material_lod_get);
-
 	ClassDB::bind_method(D_METHOD("material_cache_get_key", "chunk"), &Terrain2DLibrary::material_cache_get_key);
 	ClassDB::bind_method(D_METHOD("_material_cache_get_key", "chunk"), &Terrain2DLibrary::_material_cache_get_key);
 	ClassDB::bind_method(D_METHOD("material_cache_get", "key"), &Terrain2DLibrary::material_cache_get);
@@ -523,15 +378,9 @@ void Terrain2DLibrary::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("material_cache_unref", "key"), &Terrain2DLibrary::material_cache_unref);
 	ClassDB::bind_method(D_METHOD("_material_cache_unref", "key"), &Terrain2DLibrary::_material_cache_unref);
 
-	ClassDB::bind_method(D_METHOD("material_add", "value"), &Terrain2DLibrary::material_add);
-	ClassDB::bind_method(D_METHOD("material_set", "index", "value"), &Terrain2DLibrary::material_set);
-	ClassDB::bind_method(D_METHOD("material_remove", "index"), &Terrain2DLibrary::material_remove);
-	ClassDB::bind_method(D_METHOD("material_get_num"), &Terrain2DLibrary::material_get_num);
-	ClassDB::bind_method(D_METHOD("materials_clear"), &Terrain2DLibrary::materials_clear);
-
-	ClassDB::bind_method(D_METHOD("materials_get"), &Terrain2DLibrary::materials_get);
-	ClassDB::bind_method(D_METHOD("materials_set"), &Terrain2DLibrary::materials_set);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "materials", PROPERTY_HINT_NONE, "17/17:Material", PROPERTY_USAGE_DEFAULT, "Material"), "materials_set", "materials_get");
+	ClassDB::bind_method(D_METHOD("material_get"), &Terrain2DLibrary::material_get);
+	ClassDB::bind_method(D_METHOD("material_set", "value"), &Terrain2DLibrary::material_set);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "material_set", "material_get");
 
 #if VERSION_MAJOR < 4
 	BIND_VMETHOD(MethodInfo("_liquid_material_cache_get_key", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
@@ -543,9 +392,6 @@ void Terrain2DLibrary::_bind_methods() {
 	GDVIRTUAL_BIND(_liquid_material_cache_unref, "key");
 #endif
 
-	ClassDB::bind_method(D_METHOD("liquid_material_get", "index"), &Terrain2DLibrary::liquid_material_get);
-	ClassDB::bind_method(D_METHOD("liquid_material_lod_get", "index"), &Terrain2DLibrary::liquid_material_lod_get);
-
 	ClassDB::bind_method(D_METHOD("liquid_material_cache_get_key", "chunk"), &Terrain2DLibrary::liquid_material_cache_get_key);
 	ClassDB::bind_method(D_METHOD("_liquid_material_cache_get_key", "chunk"), &Terrain2DLibrary::_liquid_material_cache_get_key);
 	ClassDB::bind_method(D_METHOD("liquid_material_cache_get", "key"), &Terrain2DLibrary::liquid_material_cache_get);
@@ -553,15 +399,9 @@ void Terrain2DLibrary::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("liquid_material_cache_unref", "key"), &Terrain2DLibrary::liquid_material_cache_unref);
 	ClassDB::bind_method(D_METHOD("_liquid_material_cache_unref", "key"), &Terrain2DLibrary::_liquid_material_cache_unref);
 
-	ClassDB::bind_method(D_METHOD("liquid_material_add", "value"), &Terrain2DLibrary::liquid_material_add);
-	ClassDB::bind_method(D_METHOD("liquid_material_set", "index", "value"), &Terrain2DLibrary::liquid_material_set);
-	ClassDB::bind_method(D_METHOD("liquid_material_remove", "index"), &Terrain2DLibrary::liquid_material_remove);
-	ClassDB::bind_method(D_METHOD("liquid_material_get_num"), &Terrain2DLibrary::liquid_material_get_num);
-	ClassDB::bind_method(D_METHOD("liquid_materials_clear"), &Terrain2DLibrary::liquid_materials_clear);
-
-	ClassDB::bind_method(D_METHOD("liquid_materials_get"), &Terrain2DLibrary::liquid_materials_get);
-	ClassDB::bind_method(D_METHOD("liquid_materials_set"), &Terrain2DLibrary::liquid_materials_set);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "liquid_materials", PROPERTY_HINT_NONE, "17/17:Material", PROPERTY_USAGE_DEFAULT, "Material"), "liquid_materials_set", "liquid_materials_get");
+	ClassDB::bind_method(D_METHOD("liquid_material_get"), &Terrain2DLibrary::liquid_material_get);
+	ClassDB::bind_method(D_METHOD("liquid_material_set", "value"), &Terrain2DLibrary::liquid_material_set);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "liquid_material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "liquid_material_set", "liquid_material_get");
 
 #if VERSION_MAJOR < 4
 	BIND_VMETHOD(MethodInfo("_prop_material_cache_get_key", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
@@ -573,9 +413,6 @@ void Terrain2DLibrary::_bind_methods() {
 	GDVIRTUAL_BIND(_prop_material_cache_unref, "key");
 #endif
 
-	ClassDB::bind_method(D_METHOD("prop_material_get", "index"), &Terrain2DLibrary::prop_material_get);
-	ClassDB::bind_method(D_METHOD("prop_material_lod_get", "index"), &Terrain2DLibrary::prop_material_lod_get);
-
 	ClassDB::bind_method(D_METHOD("prop_material_cache_get_key", "chunk"), &Terrain2DLibrary::prop_material_cache_get_key);
 	ClassDB::bind_method(D_METHOD("_prop_material_cache_get_key", "chunk"), &Terrain2DLibrary::_prop_material_cache_get_key);
 	ClassDB::bind_method(D_METHOD("prop_material_cache_get", "key"), &Terrain2DLibrary::prop_material_cache_get);
@@ -583,15 +420,9 @@ void Terrain2DLibrary::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("prop_material_cache_unref", "key"), &Terrain2DLibrary::prop_material_cache_unref);
 	ClassDB::bind_method(D_METHOD("_prop_material_cache_unref", "key"), &Terrain2DLibrary::_prop_material_cache_unref);
 
-	ClassDB::bind_method(D_METHOD("prop_material_add", "value"), &Terrain2DLibrary::prop_material_add);
-	ClassDB::bind_method(D_METHOD("prop_material_set", "index", "value"), &Terrain2DLibrary::prop_material_set);
-	ClassDB::bind_method(D_METHOD("prop_material_remove", "index"), &Terrain2DLibrary::prop_material_remove);
-	ClassDB::bind_method(D_METHOD("prop_material_get_num"), &Terrain2DLibrary::prop_material_get_num);
-	ClassDB::bind_method(D_METHOD("prop_materials_clear"), &Terrain2DLibrary::prop_materials_clear);
-
-	ClassDB::bind_method(D_METHOD("prop_materials_get"), &Terrain2DLibrary::prop_materials_get);
-	ClassDB::bind_method(D_METHOD("prop_materials_set"), &Terrain2DLibrary::prop_materials_set);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "prop_materials", PROPERTY_HINT_NONE, "17/17:Material", PROPERTY_USAGE_DEFAULT, "Material"), "prop_materials_set", "prop_materials_get");
+	ClassDB::bind_method(D_METHOD("prop_material_get"), &Terrain2DLibrary::prop_material_get);
+	ClassDB::bind_method(D_METHOD("prop_material_set" "value"), &Terrain2DLibrary::prop_material_set);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "prop_material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "prop_material_set", "prop_material_get");
 
 	ClassDB::bind_method(D_METHOD("terra_surface_get", "index"), &Terrain2DLibrary::terra_surface_get);
 	ClassDB::bind_method(D_METHOD("terra_surface_add", "value"), &Terrain2DLibrary::terra_surface_add);

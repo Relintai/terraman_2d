@@ -158,23 +158,12 @@ void Terrain2DMaterialCachePCM::refresh_rects() {
 }
 
 void Terrain2DMaterialCachePCM::_setup_material_albedo(Ref<Texture> texture) {
-	int count = material_get_num();
+	Ref<Material> m = material_get();
 
-	for (int i = 0; i < count; ++i) {
-		Ref<Material> m = material_get(i);
+	Ref<ShaderMaterial> shmat = m;
 
-		Ref<SpatialMaterial> spmat = m;
-
-		if (spmat.is_valid()) {
-			spmat->set_texture(SpatialMaterial::TEXTURE_ALBEDO, texture);
-			return;
-		}
-
-		Ref<ShaderMaterial> shmat = m;
-
-		if (shmat.is_valid()) {
-			shmat->set_shader_param("texture_albedo", texture);
-		}
+	if (shmat.is_valid()) {
+		shmat->set_shader_param("texture_albedo", texture);
 	}
 }
 

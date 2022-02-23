@@ -252,9 +252,6 @@ void Terrain2DMesher::build_mesh_into(RID mesh) {
 	Array arr = build_mesh();
 
 	VS::get_singleton()->mesh_add_surface_from_arrays(mesh, VisualServer::PRIMITIVE_TRIANGLES, arr);
-
-	if (_material.is_valid())
-		VS::get_singleton()->mesh_surface_set_material(mesh, 0, _library->material_lod_get(0)->get_rid());
 }
 
 void Terrain2DMesher::remove_doubles() {

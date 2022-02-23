@@ -88,9 +88,6 @@ public:
 	bool supports_caching();
 	virtual bool _supports_caching();
 
-	Ref<Material> material_get(const int index);
-	Ref<Material> material_lod_get(const int index);
-
 	void material_cache_get_key(Ref<Terrain2DChunk> chunk);
 	virtual void _material_cache_get_key(Ref<Terrain2DChunk> chunk);
 	Ref<Terrain2DMaterialCache> material_cache_get(const int key);
@@ -98,17 +95,8 @@ public:
 	void material_cache_unref(const int key);
 	virtual void _material_cache_unref(const int key);
 
-	void material_add(const Ref<Material> &value);
-	void material_set(const int index, const Ref<Material> &value);
-	void material_remove(const int index);
-	int material_get_num() const;
-	void materials_clear();
-
-	Vector<Variant> materials_get();
-	void materials_set(const Vector<Variant> &materials);
-
-	Ref<Material> liquid_material_get(const int index);
-	Ref<Material> liquid_material_lod_get(const int index);
+	Ref<Material> material_get();
+	void material_set(const Ref<Material> &value);
 
 	void liquid_material_cache_get_key(Ref<Terrain2DChunk> chunk);
 	virtual void _liquid_material_cache_get_key(Ref<Terrain2DChunk> chunk);
@@ -117,17 +105,8 @@ public:
 	void liquid_material_cache_unref(const int key);
 	virtual void _liquid_material_cache_unref(const int key);
 
-	void liquid_material_add(const Ref<Material> &value);
-	void liquid_material_set(const int index, const Ref<Material> &value);
-	void liquid_material_remove(const int index);
-	int liquid_material_get_num() const;
-	void liquid_materials_clear();
-
-	Vector<Variant> liquid_materials_get();
-	void liquid_materials_set(const Vector<Variant> &materials);
-
-	Ref<Material> prop_material_get(const int index);
-	Ref<Material> prop_material_lod_get(const int index);
+	Ref<Material> liquid_material_get();
+	void liquid_material_set(const Ref<Material> &value);
 
 	void prop_material_cache_get_key(Ref<Terrain2DChunk> chunk);
 	virtual void _prop_material_cache_get_key(Ref<Terrain2DChunk> chunk);
@@ -136,14 +115,8 @@ public:
 	void prop_material_cache_unref(const int key);
 	virtual void _prop_material_cache_unref(const int key);
 
-	void prop_material_add(const Ref<Material> &value);
-	void prop_material_set(const int index, const Ref<Material> &value);
-	void prop_material_remove(const int index);
-	int prop_material_get_num() const;
-	void prop_materials_clear();
-
-	Vector<Variant> prop_materials_get();
-	void prop_materials_set(const Vector<Variant> &materials);
+	Ref<Material> prop_material_get();
+	void prop_material_set(const Ref<Material> &value);
 
 	virtual Ref<Terrain2DSurface> terra_surface_get(const int index);
 	virtual void terra_surface_add(Ref<Terrain2DSurface> value);
@@ -200,9 +173,9 @@ protected:
 	static void _bind_methods();
 
 	bool _initialized;
-	Vector<Ref<Material>> _materials;
-	Vector<Ref<Material>> _liquid_materials;
-	Vector<Ref<Material>> _prop_materials;
+	Ref<Material> _material;
+	Ref<Material> _liquid_material;
+	Ref<Material> _prop_material;
 };
 
 #endif // TERRAIN_2D_LIBRARY_H

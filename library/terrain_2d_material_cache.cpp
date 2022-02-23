@@ -54,62 +54,12 @@ void Terrain2DMaterialCache::dec_ref_count() {
 }
 
 //Materials
-Ref<Material> Terrain2DMaterialCache::material_get(const int index) {
-	ERR_FAIL_INDEX_V(index, _materials.size(), Ref<Material>(NULL));
-
-	return _materials[index];
+Ref<Material> Terrain2DMaterialCache::material_get() {
+	return _material;
 }
 
-Ref<Material> Terrain2DMaterialCache::material_lod_get(const int index) {
-	ERR_FAIL_COND_V(_materials.size() == 0, Ref<Material>(NULL));
-
-	if (index < 0) {
-		return _materials[0];
-	}
-
-	if (index >= _materials.size()) {
-		return _materials[_materials.size() - 1];
-	}
-
-	return _materials[index];
-}
-
-void Terrain2DMaterialCache::material_add(const Ref<Material> &value) {
-	ERR_FAIL_COND(!value.is_valid());
-
-	_materials.push_back(value);
-}
-
-void Terrain2DMaterialCache::material_set(const int index, const Ref<Material> &value) {
-	ERR_FAIL_INDEX(index, _materials.size());
-
-	_materials.set(index, value);
-}
-
-void Terrain2DMaterialCache::material_remove(const int index) {
-	_materials.VREMOVE(index);
-}
-
-int Terrain2DMaterialCache::material_get_num() const {
-	return _materials.size();
-}
-
-void Terrain2DMaterialCache::materials_clear() {
-	_materials.clear();
-}
-
-Vector<Variant> Terrain2DMaterialCache::materials_get() {
-	VARIANT_ARRAY_GET(_materials);
-}
-
-void Terrain2DMaterialCache::materials_set(const Vector<Variant> &materials) {
-	_materials.clear();
-
-	for (int i = 0; i < materials.size(); i++) {
-		Ref<Material> material = Ref<Material>(materials[i]);
-
-		_materials.push_back(material);
-	}
+void Terrain2DMaterialCache::material_set(const Ref<Material> &value) {
+	_material = value;
 }
 
 //Surfaces
@@ -271,7 +221,7 @@ Terrain2DMaterialCache::Terrain2DMaterialCache() {
 }
 
 Terrain2DMaterialCache::~Terrain2DMaterialCache() {
-	_materials.clear();
+	_material.unref();
 	_surfaces.clear();
 }
 
@@ -292,17 +242,9 @@ void Terrain2DMaterialCache::_bind_methods() {
 	GDVIRTUAL_BIND(_setup_material_albedo, "texture");
 #endif
 
-	ClassDB::bind_method(D_METHOD("material_get", "index"), &Terrain2DMaterialCache::material_get);
-	ClassDB::bind_method(D_METHOD("material_lod_get", "index"), &Terrain2DMaterialCache::material_lod_get);
-	ClassDB::bind_method(D_METHOD("material_add", "value"), &Terrain2DMaterialCache::material_add);
-	ClassDB::bind_method(D_METHOD("material_set", "index", "value"), &Terrain2DMaterialCache::material_set);
-	ClassDB::bind_method(D_METHOD("material_remove", "index"), &Terrain2DMaterialCache::material_remove);
-	ClassDB::bind_method(D_METHOD("material_get_num"), &Terrain2DMaterialCache::material_get_num);
-	ClassDB::bind_method(D_METHOD("materials_clear"), &Terrain2DMaterialCache::materials_clear);
-
-	ClassDB::bind_method(D_METHOD("materials_get"), &Terrain2DMaterialCache::materials_get);
-	ClassDB::bind_method(D_METHOD("materials_set"), &Terrain2DMaterialCache::materials_set);
-	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "materials", PROPERTY_HINT_NONE, "17/17:Material", PROPERTY_USAGE_DEFAULT, "Material"), "materials_set", "materials_get");
+	ClassDB::bind_method(D_METHOD("material_get"), &Terrain2DMaterialCache::material_get);
+	ClassDB::bind_method(D_METHOD("material_set", "value"), &Terrain2DMaterialCache::material_set);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "material_set", "material_get");
 
 	ClassDB::bind_method(D_METHOD("surface_get", "index"), &Terrain2DMaterialCache::surface_get);
 	ClassDB::bind_method(D_METHOD("surface_id_get", "index"), &Terrain2DMaterialCache::surface_id_get);
