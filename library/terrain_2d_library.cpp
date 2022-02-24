@@ -456,9 +456,7 @@ void Terrain2DLibrary::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("_prop_material_cache_unref", "key"), &Terrain2DLibrary::_prop_material_cache_unref);
 
 	ClassDB::bind_method(D_METHOD("prop_material_get"), &Terrain2DLibrary::prop_material_get);
-	ClassDB::bind_method(D_METHOD("prop_material_set"
-								  "value"),
-			&Terrain2DLibrary::prop_material_set);
+	ClassDB::bind_method(D_METHOD("prop_material_set", "value"), &Terrain2DLibrary::prop_material_set);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "prop_material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "prop_material_set", "prop_material_get");
 
 	ClassDB::bind_method(D_METHOD("terra_surface_get", "index"), &Terrain2DLibrary::terra_surface_get);
