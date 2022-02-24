@@ -170,7 +170,7 @@ void Terrain2DMesherDefault::_bake_liquid_colors(Ref<Terrain2DChunk> chunk) {
 }
 
 Terrain2DMesherDefault::Terrain2DMesherDefault() {
-	_build_flags = Terrain2DChunkDefault::BUILD_FLAG_CREATE_COLLIDER | Terrain2DChunkDefault::BUILD_FLAG_CREATE_LODS;
+	_build_flags = Terrain2DChunkDefault::BUILD_FLAG_CREATE_COLLIDER;
 
 	_format = VisualServer::ARRAY_FORMAT_NORMAL | VisualServer::ARRAY_FORMAT_TEX_UV;
 }

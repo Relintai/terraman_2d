@@ -159,7 +159,7 @@ int Terrain2DWorldDefault::_get_channel_index_info(const Terrain2DWorld::Channel
 }
 
 Terrain2DWorldDefault::Terrain2DWorldDefault() {
-	_build_flags = Terrain2DChunkDefault::BUILD_FLAG_CREATE_COLLIDER | Terrain2DChunkDefault::BUILD_FLAG_CREATE_LODS;
+	_build_flags = Terrain2DChunkDefault::BUILD_FLAG_CREATE_COLLIDER;
 
 	set_data_margin_start(1);
 	set_data_margin_end(1);
@@ -198,9 +198,6 @@ void Terrain2DWorldDefault::_notification(int p_what) {
 
 	switch (p_what) {
 		case NOTIFICATION_INTERNAL_PROCESS: {
-			if ((get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_CREATE_LODS) == 0)
-				return;
-
 			if (!get_player()) {
 				return;
 			}

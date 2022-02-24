@@ -39,7 +39,7 @@ SOFTWARE.
 #include "../jobs/terrain_2d_prop_job.h"
 #include "../jobs/terrain_2d_terrain_job.h"
 
-const String Terrain2DChunkDefault::BINDING_STRING_BUILD_FLAGS = "Use Isolevel,Use Lighting,Use AO,Use RAO,Generate AO,Generate RAO,Bake Lights,Create Collider,Create Lods";
+const String Terrain2DChunkDefault::BINDING_STRING_BUILD_FLAGS = "Use Lighting,Use AO,Use RAO,Generate AO,Generate RAO,Bake Lights,Create Collider";
 
 _FORCE_INLINE_ int Terrain2DChunkDefault::get_build_flags() const {
 	return _build_flags;
@@ -828,7 +828,7 @@ Terrain2DChunkDefault::Terrain2DChunkDefault() {
 
 	_enabled = true;
 
-	_build_flags = BUILD_FLAG_CREATE_COLLIDER | BUILD_FLAG_CREATE_LODS;
+	_build_flags = BUILD_FLAG_CREATE_COLLIDER;
 }
 
 Terrain2DChunkDefault::~Terrain2DChunkDefault() {
@@ -942,7 +942,6 @@ void Terrain2DChunkDefault::_bind_methods() {
 	BIND_CONSTANT(MESH_TYPE_INDEX_AREA);
 	BIND_CONSTANT(MESH_TYPE_INDEX_TEXTURE_RID);
 
-	BIND_ENUM_CONSTANT(BUILD_FLAG_USE_ISOLEVEL);
 	BIND_ENUM_CONSTANT(BUILD_FLAG_USE_LIGHTING);
 	BIND_ENUM_CONSTANT(BUILD_FLAG_USE_AO);
 	BIND_ENUM_CONSTANT(BUILD_FLAG_USE_RAO);
@@ -950,5 +949,4 @@ void Terrain2DChunkDefault::_bind_methods() {
 	BIND_ENUM_CONSTANT(BUILD_FLAG_AUTO_GENERATE_RAO);
 	BIND_ENUM_CONSTANT(BUILD_FLAG_BAKE_LIGHTS);
 	BIND_ENUM_CONSTANT(BUILD_FLAG_CREATE_COLLIDER);
-	BIND_ENUM_CONSTANT(BUILD_FLAG_CREATE_LODS);
 }
