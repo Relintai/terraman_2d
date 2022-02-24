@@ -88,6 +88,15 @@ public:
 	bool supports_caching();
 	virtual bool _supports_caching();
 
+	Ref<Texture> texture_get();
+	void texture_set(const Ref<Texture> &value);
+
+	Ref<Texture> liquid_texture_get();
+	void liquid_texture_set(const Ref<Texture> &value);
+
+	Ref<Texture> prop_texture_get();
+	void prop_texture_set(const Ref<Texture> &value);
+
 	void material_cache_get_key(Ref<Terrain2DChunk> chunk);
 	virtual void _material_cache_get_key(Ref<Terrain2DChunk> chunk);
 	Ref<Terrain2DMaterialCache> material_cache_get(const int key);
@@ -173,6 +182,11 @@ protected:
 	static void _bind_methods();
 
 	bool _initialized;
+
+	Ref<Texture> _texture;
+	Ref<Texture> _liquid_texture;
+	Ref<Texture> _prop_texture;
+
 	Ref<Material> _material;
 	Ref<Material> _liquid_material;
 	Ref<Material> _prop_material;

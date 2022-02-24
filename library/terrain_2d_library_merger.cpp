@@ -256,6 +256,9 @@ void Terrain2DLibraryMerger::refresh_rects() {
 
 		Ref<Texture> tex = _packer->get_generated_texture(0);
 
+		texture_set(tex);
+		liquid_texture_set(tex);
+
 		setup_material_albedo(MATERIAL_INDEX_TERRAIN, tex);
 		setup_material_albedo(MATERIAL_INDEX_LIQUID, tex);
 	}
@@ -279,6 +282,8 @@ void Terrain2DLibraryMerger::refresh_rects() {
 		//ERR_FAIL_COND(_prop_packer->get_texture_count() == 0);
 
 		Ref<Texture> tex = _prop_packer->get_generated_texture(0);
+
+		prop_texture_set(tex);
 
 		setup_material_albedo(MATERIAL_INDEX_PROP, tex);
 	}

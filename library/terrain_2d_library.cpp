@@ -159,6 +159,29 @@ bool Terrain2DLibrary::_supports_caching() {
 	return false;
 }
 
+//Textures
+
+Ref<Texture> Terrain2DLibrary::texture_get() {
+	return _texture;
+}
+void Terrain2DLibrary::texture_set(const Ref<Texture> &value) {
+	_texture = value;
+}
+
+Ref<Texture> Terrain2DLibrary::liquid_texture_get() {
+	return _liquid_texture;
+}
+void Terrain2DLibrary::liquid_texture_set(const Ref<Texture> &value) {
+	_liquid_texture = value;
+}
+
+Ref<Texture> Terrain2DLibrary::prop_texture_get() {
+	return _prop_texture;
+}
+void Terrain2DLibrary::prop_texture_set(const Ref<Texture> &value) {
+	_prop_texture = value;
+}
+
 //Materials
 
 void Terrain2DLibrary::material_cache_get_key(Ref<Terrain2DChunk> chunk) {
@@ -355,6 +378,18 @@ void Terrain2DLibrary::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("_supports_caching"), &Terrain2DLibrary::_supports_caching);
 	ClassDB::bind_method(D_METHOD("supports_caching"), &Terrain2DLibrary::supports_caching);
 
+	ClassDB::bind_method(D_METHOD("texture_get"), &Terrain2DLibrary::texture_get);
+	ClassDB::bind_method(D_METHOD("texture_set", "value"), &Terrain2DLibrary::texture_set);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture"), "texture_set", "texture_get");
+
+	ClassDB::bind_method(D_METHOD("liquid_texture_get"), &Terrain2DLibrary::liquid_texture_get);
+	ClassDB::bind_method(D_METHOD("liquid_texture_set", "value"), &Terrain2DLibrary::liquid_texture_set);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "liquid_texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture"), "liquid_texture_set", "liquid_texture_get");
+
+	ClassDB::bind_method(D_METHOD("prop_texture_get"), &Terrain2DLibrary::prop_texture_get);
+	ClassDB::bind_method(D_METHOD("prop_texture_set", "value"), &Terrain2DLibrary::prop_texture_set);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "prop_texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture"), "prop_texture_set", "prop_texture_get");
+
 #if VERSION_MAJOR < 4
 	BIND_VMETHOD(MethodInfo("_setup_material_albedo", PropertyInfo(Variant::INT, "material_index"), PropertyInfo(Variant::OBJECT, "texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture")));
 #else
@@ -421,7 +456,9 @@ void Terrain2DLibrary::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("_prop_material_cache_unref", "key"), &Terrain2DLibrary::_prop_material_cache_unref);
 
 	ClassDB::bind_method(D_METHOD("prop_material_get"), &Terrain2DLibrary::prop_material_get);
-	ClassDB::bind_method(D_METHOD("prop_material_set" "value"), &Terrain2DLibrary::prop_material_set);
+	ClassDB::bind_method(D_METHOD("prop_material_set"
+								  "value"),
+			&Terrain2DLibrary::prop_material_set);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "prop_material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "prop_material_set", "prop_material_get");
 
 	ClassDB::bind_method(D_METHOD("terra_surface_get", "index"), &Terrain2DLibrary::terra_surface_get);
