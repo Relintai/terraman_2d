@@ -73,11 +73,11 @@ void Terrain2DSurfaceMerger::refresh_rects() {
 }
 
 Terrain2DSurfaceMerger::Terrain2DSurfaceMerger() {
-	_region.unref();
-	_texture.unref();
 }
 
 Terrain2DSurfaceMerger::~Terrain2DSurfaceMerger() {
+	_region.unref();
+	_texture.unref();
 }
 
 void Terrain2DSurfaceMerger::_bind_methods() {
