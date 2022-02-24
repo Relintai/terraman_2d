@@ -70,6 +70,28 @@ include_pool_vector
 #include "../library/terrain_2d_surface.h"
 		; //hackfix for a clang format issue
 
+//debug meshes update
+//cell size x, y
+//voxel scale remove (= cell size)
+//light ppu -> max(cell_size.x, cell_zise.y)
+//Props->ppu -> cell size
+//mesh gen-> dont scale images, put exact sized meshes, but on the grid
+//Add custom mesh transform
+//world height remove
+//create lods and use isolevel build flag remove
+
+//chunk marbgin dfefaul = 1 ok
+//reimplement colliders
+// add colliders where tile is missing, but has neighbours
+//Add pivot support to surfaces
+//Remove faces from the surfaces, shoul donly have one.
+//Scale RAO to the cell size
+
+//Reimplement props
+
+//Add wall layer (normal types, but gets a different mesh) ? -> TiledWalls are probably better, and they do this if props are fixed
+//Also if they are not merged they can be hidden one by one (even automatically)
+
 class Terrain2DJob;
 class Terrain2DWorld;
 class Terrain2DStructure;
