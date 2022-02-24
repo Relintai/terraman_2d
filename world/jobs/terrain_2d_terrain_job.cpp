@@ -78,42 +78,43 @@ void Terrain2DTerrain2DJob::phase_library_setup() {
 	if (lib->supports_caching()) {
 		if (!_chunk->material_cache_key_has()) {
 			lib->material_cache_get_key(_chunk);
-		} else {
-			Ref<Terrain2DMaterialCache> cache = lib->material_cache_get(_chunk->material_cache_key_get());
+		}
 
-			if (!cache.is_valid()) {
-				//Try a fallback texture
-				Ref<Terrain2DChunkDefault> cd = _chunk;
+		Ref<Terrain2DMaterialCache> cache = lib->material_cache_get(_chunk->material_cache_key_get());
 
-				if (cd.is_valid()) {
-					Ref<Texture> tex = lib->texture_get();
-
-					if (tex.is_valid()) {
-						cd->mesh_rid_set(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_TEXTURE_RID, tex->get_rid());
-					}
-				}
-
-				next_phase();
-				return;
-			}
-
-			//Note: without threadpool and threading none of this can happen, as cache will get initialized the first time a thread requests it!
-			while (!cache->get_initialized()) {
-				//Means it's currently merging the atlases on a different thread.
-				//Let's just wait
-				OS::get_singleton()->delay_usec(100);
-			}
-
+		if (!cache.is_valid()) {
+			//Try a fallback texture
 			Ref<Terrain2DChunkDefault> cd = _chunk;
 
 			if (cd.is_valid()) {
-				Ref<Texture> tex = cache->texture_get_merged();
+				Ref<Texture> tex = lib->texture_get();
 
 				if (tex.is_valid()) {
 					cd->mesh_rid_set(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_TEXTURE_RID, tex->get_rid());
 				}
 			}
+
+			next_phase();
+			return;
 		}
+
+		//Note: without threadpool and threading none of this can happen, as cache will get initialized the first time a thread requests it!
+		while (!cache->get_initialized()) {
+			//Means it's currently merging the atlases on a different thread.
+			//Let's just wait
+			OS::get_singleton()->delay_usec(100);
+		}
+
+		Ref<Terrain2DChunkDefault> cd = _chunk;
+
+		if (cd.is_valid()) {
+			Ref<Texture> tex = cache->texture_get_merged();
+
+			if (tex.is_valid()) {
+				cd->mesh_rid_set(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_TEXTURE_RID, tex->get_rid());
+			}
+		}
+
 	} else {
 		Ref<Terrain2DChunkDefault> cd = _chunk;
 
