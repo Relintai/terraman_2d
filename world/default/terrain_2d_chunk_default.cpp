@@ -531,7 +531,7 @@ void Terrain2DChunkDefault::debug_mesh_clear() {
 void Terrain2DChunkDefault::debug_mesh_array_clear() {
 	_debug_mesh_array.resize(0);
 }
-void Terrain2DChunkDefault::debug_mesh_add_vertices_to(const PoolVector3Array &arr) {
+void Terrain2DChunkDefault::debug_mesh_add_vertices_to(const PoolVector2Array &arr) {
 	_debug_mesh_array.append_array(arr);
 
 	if (_debug_mesh_array.size() % 2 == 1) {
@@ -560,36 +560,32 @@ void Terrain2DChunkDefault::debug_mesh_send() {
 	debug_mesh_array_clear();
 }
 
-void Terrain2DChunkDefault::draw_cross_voxels(Vector3 pos) {
-	pos *= get_cell_size_x();
+void Terrain2DChunkDefault::draw_cross_voxels(Vector2 pos) {
+	pos.x *= get_cell_size_x();
+	pos.y *= get_cell_size_x();
 
 	int size = _debug_mesh_array.size();
 	_debug_mesh_array.resize(_debug_mesh_array.size() + 6);
 
-	_debug_mesh_array.set(size, pos + Vector3(0, 0, -0.2));
-	_debug_mesh_array.set(size + 1, pos + Vector3(0, 0, 0.2));
+	_debug_mesh_array.set(size, pos + Vector2(0, -0.2 * _cell_size_y));
+	_debug_mesh_array.set(size + 1, pos + Vector2(0, 0.2 * _cell_size_y));
 
-	_debug_mesh_array.set(size + 2, pos + Vector3(0, -0.2, 0));
-	_debug_mesh_array.set(size + 3, pos + Vector3(0, 0.2, 0));
-
-	_debug_mesh_array.set(size + 4, pos + Vector3(-0.2, 0, 0));
-	_debug_mesh_array.set(size + 5, pos + Vector3(0.2, 0, 0));
+	_debug_mesh_array.set(size + 4, pos + Vector2(-0.2 * _cell_size_x, 0));
+	_debug_mesh_array.set(size + 5, pos + Vector2(0.2 * _cell_size_x, 0));
 }
 
-void Terrain2DChunkDefault::draw_cross_voxels_fill(Vector3 pos, float fill) {
-	pos *= get_cell_size_x();
+void Terrain2DChunkDefault::draw_cross_voxels_fill(Vector2 pos, float fill) {
+	pos.x *= get_cell_size_x();
+	pos.y *= get_cell_size_x();
 
 	int size = _debug_mesh_array.size();
 	_debug_mesh_array.resize(_debug_mesh_array.size() + 6);
 
-	_debug_mesh_array.set(size, pos + Vector3(0, 0, -0.2 * fill));
-	_debug_mesh_array.set(size + 1, pos + Vector3(0, 0, 0.2 * fill));
+	_debug_mesh_array.set(size, pos + Vector2(0, -0.2 * fill * _cell_size_y));
+	_debug_mesh_array.set(size + 1, pos + Vector2(0, 0.2 * fill * _cell_size_y));
 
-	_debug_mesh_array.set(size + 2, pos + Vector3(0, -0.2 * fill, 0));
-	_debug_mesh_array.set(size + 3, pos + Vector3(0, 0.2 * fill, 0));
-
-	_debug_mesh_array.set(size + 4, pos + Vector3(-0.2 * fill, 0, 0));
-	_debug_mesh_array.set(size + 5, pos + Vector3(0.2 * fill, 0, 0));
+	_debug_mesh_array.set(size + 4, pos + Vector2(-0.2 * fill * _cell_size_x, 0));
+	_debug_mesh_array.set(size + 5, pos + Vector2(0.2 * fill * _cell_size_x, 0));
 }
 
 void Terrain2DChunkDefault::draw_debug_voxels(int max, Color color) {
@@ -604,17 +600,17 @@ void Terrain2DChunkDefault::draw_debug_voxels(int max, Color color) {
 	int a = 0;
 
 	int64_t sx = static_cast<int64_t>(_size_x);
-	int64_t sz = static_cast<int64_t>(_size_z);
+	int64_t sy = static_cast<int64_t>(_size_y);
 
-	for (int z = 0; z < sz; ++z) {
+	for (int y = 0; y < sy; ++y) {
 		for (int x = 0; x < sx; ++x) {
-			int type = get_voxel(x, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_TYPE);
+			int type = get_voxel(x, y, Terrain2DChunkDefault::DEFAULT_CHANNEL_TYPE);
 
 			if (type == 0) {
 				continue;
 			}
 
-			draw_cross_voxels_fill(Vector3(x, 0, z), 1);
+			draw_cross_voxels_fill(Vector2(x, y), 1);
 
 			++a;
 
@@ -640,9 +636,9 @@ void Terrain2DChunkDefault::draw_debug_voxel_lights() {
 		Ref<Terrain2DLight> v = _lights[i];
 
 		int pos_x = v->get_world_position_x() - (_size_x * _position_x);
-		int pos_z = v->get_world_position_y() - (_size_z * _position_z);
+		int pos_y = v->get_world_position_y() - (_size_y * _position_y);
 
-		draw_cross_voxels_fill(Vector3(pos_x, 0, pos_z), 1.0);
+		draw_cross_voxels_fill(Vector2(pos_x, pos_y), 1.0);
 	}
 
 	debug_mesh_send();
@@ -735,12 +731,12 @@ void Terrain2DChunkDefault::_bake_light(Ref<Terrain2DLight> light) {
 	int size = light->get_size();
 
 	int local_x = light->get_world_position_x() - (_position_x * _size_x);
-	int local_z = light->get_world_position_y() - (_position_z * _size_z);
+	int local_y = light->get_world_position_y() - (_position_y * _size_y);
 
 	ERR_FAIL_COND(size < 0);
 
 	int64_t dsx = static_cast<int64_t>(_data_size_x);
-	int64_t dsz = static_cast<int64_t>(_data_size_z);
+	int64_t dsy = static_cast<int64_t>(_data_size_y);
 
 	uint8_t *channel_color_r = channel_get(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R);
 	uint8_t *channel_color_g = channel_get(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G);
@@ -748,8 +744,8 @@ void Terrain2DChunkDefault::_bake_light(Ref<Terrain2DLight> light) {
 
 	ERR_FAIL_COND(channel_color_r == NULL || channel_color_g == NULL || channel_color_b == NULL);
 
-	for (int z = local_z - size; z <= local_z + size; ++z) {
-		if (z < 0 || z >= dsz)
+	for (int y = local_y - size; y <= local_y + size; ++y) {
+		if (y < 0 || y >= dsy)
 			continue;
 
 		for (int x = local_x - size; x <= local_x + size; ++x) {
@@ -757,15 +753,15 @@ void Terrain2DChunkDefault::_bake_light(Ref<Terrain2DLight> light) {
 				continue;
 
 			int lx = x - local_x;
-			int lz = z - local_z;
+			int ly = y - local_y;
 
-			float str = size - (((float)lx * lx + lz * lz));
+			float str = size - (((float)lx * lx + ly * ly));
 			str /= size;
 
 			if (str < 0)
 				continue;
 
-			int index = get_data_index(x, z);
+			int index = get_data_index(x, y);
 
 			int r = color.r * str * 255.0;
 			int g = color.g * str * 255.0;
@@ -831,9 +827,6 @@ Terrain2DChunkDefault::Terrain2DChunkDefault() {
 	_abort_build = false;
 
 	_enabled = true;
-
-	_lod_num = 3;
-	_current_lod_level = 0;
 
 	_build_flags = BUILD_FLAG_CREATE_COLLIDER | BUILD_FLAG_CREATE_LODS;
 }

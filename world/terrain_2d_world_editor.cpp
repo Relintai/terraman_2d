@@ -341,13 +341,14 @@ void Terrain2DWorldEditor::_on_insert_block_at_camera_button_pressed() {
 
 	Vector3 pos = cam->get_transform().origin;
 	selected_voxel = _selected_type + 1;
-
+/*
 	if (_channel_isolevel == -1) {
 		_world->set_voxel_at_world_position(pos, selected_voxel, channel);
 	} else {
 		_world->set_voxel_at_world_position(pos, selected_voxel, channel, false);
 		_world->set_voxel_at_world_position(pos, _current_isolevel, _channel_isolevel);
 	}
+	*/
 }
 
 void Terrain2DWorldEditor::_on_isolevel_slider_value_changed(float value) {

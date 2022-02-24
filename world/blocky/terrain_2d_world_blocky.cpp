@@ -29,7 +29,7 @@ SOFTWARE.
 #include "../jobs/terrain_2d_prop_job.h"
 #include "../jobs/terrain_2d_terrain_job.h"
 
-Ref<Terrain2DChunk> Terrain2DWorldBlocky::_create_chunk(int x, int z, Ref<Terrain2DChunk> chunk) {
+Ref<Terrain2DChunk> Terrain2DWorldBlocky::_create_chunk(int x, int y, Ref<Terrain2DChunk> chunk) {
 	if (!chunk.is_valid()) {
 		chunk = Ref<Terrain2DChunk>(memnew(Terrain2DChunkBlocky));
 	}
@@ -57,7 +57,7 @@ Ref<Terrain2DChunk> Terrain2DWorldBlocky::_create_chunk(int x, int z, Ref<Terrai
 		chunk->job_add(pj);
 	}
 
-	return Terrain2DWorld::_create_chunk(x, z, chunk);
+	return Terrain2DWorld::_create_chunk(x, y, chunk);
 }
 
 Terrain2DWorldBlocky::Terrain2DWorldBlocky() {

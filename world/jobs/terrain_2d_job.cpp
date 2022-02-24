@@ -112,10 +112,10 @@ void Terrain2DJob::generate_random_ao(int seed, int octaves, int period, float p
 	int margin_end = _chunk->get_margin_end();
 
 	int size_x = _chunk->get_size_x();
-	int size_z = _chunk->get_size_z();
+	int size_y = _chunk->get_size_y();
 
 	int position_x = _chunk->get_position_x();
-	int position_z = _chunk->get_position_z();
+	int position_y = _chunk->get_position_y();
 
 	Ref<OpenSimplexNoise> noise;
 	noise.instance();
@@ -126,9 +126,9 @@ void Terrain2DJob::generate_random_ao(int seed, int octaves, int period, float p
 	noise->set_persistence(persistence);
 
 	for (int x = -margin_start; x < size_x + margin_end; ++x) {
-		for (int z = -margin_start; z < size_z + margin_end; ++z) {
+		for (int y = -margin_start; y < size_y + margin_end; ++y) {
 
-			float val = noise->get_noise_2d(x + (position_x * size_x), z + (position_z * size_z));
+			float val = noise->get_noise_2d(x + (position_x * size_x), y + (position_y * size_y));
 
 			val *= scale_factor;
 
@@ -138,7 +138,7 @@ void Terrain2DJob::generate_random_ao(int seed, int octaves, int period, float p
 			if (val < 0)
 				val = -val;
 
-			_chunk->set_voxel(int(val * 255.0), x, z, Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
+			_chunk->set_voxel(int(val * 255.0), x, y, Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO);
 		}
 	}
 }

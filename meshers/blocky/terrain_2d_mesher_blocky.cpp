@@ -49,7 +49,7 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 	//		chunk->generate_ao();
 
 	int x_size = chunk->get_size_x();
-	int z_size = chunk->get_size_z();
+	int y_size = chunk->get_size_y();
 	int cell_size_x = get_cell_size_x();
 	int cell_size_y = get_cell_size_y();
 
@@ -91,13 +91,13 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 
 	int margin_start = chunk->get_margin_start();
 	//z_size + margin_start is fine, x, and z are in data space.
-	for (int z = margin_start; z < z_size + margin_start; ++z) {
+	for (int y = margin_start; y < y_size + margin_start; ++y) {
 		for (int x = margin_start; x < x_size + margin_start; ++x) {
 			int indexes[4] = {
-				chunk->get_data_index(x + 1, z),
-				chunk->get_data_index(x, z),
-				chunk->get_data_index(x, z + 1),
-				chunk->get_data_index(x + 1, z + 1)
+				chunk->get_data_index(x + 1, y),
+				chunk->get_data_index(x, y),
+				chunk->get_data_index(x, y + 1),
+				chunk->get_data_index(x + 1, y + 1)
 			};
 
 			uint8_t type = channel_type[indexes[0]];
@@ -154,16 +154,16 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 			add_indices(vc + 0);
 
 			Vector2 uvs[] = {
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), y % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), y % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), y % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), y % get_texture_scale(), get_texture_scale())
 			};
 
 			int xx = (x + 1) * cell_size_x;
 			int xx1 = x * cell_size_x;
-			int yy = z * cell_size_y;
-			int yy1 = (z + 1) * cell_size_y;
+			int yy = y * cell_size_y;
+			int yy1 = (y + 1) * cell_size_y;
 
 			Vector2 verts[] = {
 				Vector2(xx1, yy),

@@ -71,13 +71,10 @@ include_pool_vector
 		; //hackfix for a clang format issue
 
 //debug meshes update
-//cell size x, y
-//voxel scale remove (= cell size)
 //light ppu -> max(cell_size.x, cell_zise.y)
 //Props->ppu -> cell size
 //mesh gen-> dont scale images, put exact sized meshes, but on the grid Also pivots (just a vector2 offset should work)
 //Add custom mesh transform
-//world height remove
 //create lods and use isolevel build flag remove
 
 //chunk marbgin dfefaul = 1 ok
@@ -135,27 +132,27 @@ public:
 
 	int get_position_x() const;
 	void set_position_x(const int value);
-	int get_position_z() const;
-	void set_position_z(const int value);
+	int get_position_y() const;
+	void set_position_y(const int value);
 
 	int get_size_x() const;
-	int get_size_z() const;
+	int get_size_y() const;
 	void set_size_x(const int value);
-	void set_size_z(const int value);
+	void set_size_y(const int value);
 
 	int get_data_size_x() const;
-	int get_data_size_z() const;
+	int get_data_size_y() const;
 	void set_data_size_x(const int value);
-	void set_data_size_z(const int value);
+	void set_data_size_y(const int value);
 
 	Vector2 get_position() const;
-	Vector3 get_size() const;
+	Vector2 get_size() const;
 
 	Vector2 get_world_position() const;
-	Vector3 get_world_size() const;
-	AABB get_world_aabb() const;
+	Vector2 get_world_size() const;
+	Rect2 get_world_rect() const;
 
-	void set_position(const int x, const int z);
+	void set_position(const int x, const int y);
 
 	int get_margin_start() const;
 	int get_margin_end() const;
@@ -207,12 +204,12 @@ public:
 	//Channels
 	void channel_setup();
 
-	void set_size(const int size_x, const int size_z, const int margin_start = 0, const int margin_end = 0);
+	void set_size(const int size_x, const int size_y, const int margin_start = 0, const int margin_end = 0);
 
-	bool validate_data_position(const int x, const int z) const;
+	bool validate_data_position(const int x, const int y) const;
 
-	uint8_t get_voxel(const int p_x, const int p_z, const int p_index) const;
-	void set_voxel(const uint8_t p_value, const int p_x, const int p_z, const int p_index);
+	uint8_t get_voxel(const int p_x, const int p_y, const int p_index) const;
+	void set_voxel(const uint8_t p_value, const int p_x, const int p_y, const int p_index);
 
 	int channel_get_count() const;
 	void channel_set_count(const int count);
@@ -232,8 +229,8 @@ public:
 	PoolByteArray channel_get_compressed(const int channel_index) const;
 	void channel_set_compressed(const int channel_index, const PoolByteArray &data);
 
-	int get_index(const int x, const int z) const;
-	int get_data_index(const int x, const int z) const;
+	int get_index(const int x, const int y) const;
+	int get_data_index(const int x, const int y) const;
 	int get_data_size() const;
 
 	//Terra Structures
@@ -243,7 +240,7 @@ public:
 	void voxel_structure_remove_index(const int index);
 	void voxel_structure_clear();
 	int voxel_structure_get_count() const;
-	void voxel_structure_add_at_position(Ref<Terrain2DStructure> structure, const Vector3 &world_position);
+	void voxel_structure_add_at_position(Ref<Terrain2DStructure> structure, const Vector2 &world_position);
 
 	Vector<Variant> voxel_structures_get();
 	void voxel_structures_set(const Vector<Variant> &structures);
@@ -271,8 +268,8 @@ public:
 #endif
 
 #if MESH_DATA_RESOURCE_PRESENT
-	int mesh_data_resource_addv(const Vector2 &local_data_pos, const Ref<MeshDataResource> &mesh, const Ref<Texture> &texture = Ref<Texture>(), const Color &color = Color(1, 1, 1, 1), const bool apply_voxel_scale = true);
-	int mesh_data_resource_add(const Transform2D &local_transform, const Ref<MeshDataResource> &mesh, const Ref<Texture> &texture = Ref<Texture>(), const Color &color = Color(1, 1, 1, 1), const bool apply_voxel_scale = true);
+	int mesh_data_resource_addv(const Vector2 &local_data_pos, const Ref<MeshDataResource> &mesh, const Ref<Texture> &texture = Ref<Texture>(), const Color &color = Color(1, 1, 1, 1), const bool apply_scale = true);
+	int mesh_data_resource_add(const Transform2D &local_transform, const Ref<MeshDataResource> &mesh, const Ref<Texture> &texture = Ref<Texture>(), const Color &color = Color(1, 1, 1, 1), const bool apply_scale = true);
 
 	Ref<MeshDataResource> mesh_data_resource_get(const int index);
 	void mesh_data_resource_set(const int index, const Ref<MeshDataResource> &mesh);
@@ -401,13 +398,13 @@ protected:
 	Terrain2DWorld *_voxel_world;
 
 	int _position_x;
-	int _position_z;
+	int _position_y;
 
 	int _size_x;
-	int _size_z;
+	int _size_y;
 
 	int _data_size_x;
-	int _data_size_z;
+	int _data_size_y;
 
 	int _margin_start;
 	int _margin_end;

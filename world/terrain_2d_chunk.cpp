@@ -94,65 +94,65 @@ _FORCE_INLINE_ int Terrain2DChunk::get_position_x() const {
 void Terrain2DChunk::set_position_x(const int value) {
 	_position_x = value;
 }
-_FORCE_INLINE_ int Terrain2DChunk::get_position_z() const {
-	return _position_z;
+_FORCE_INLINE_ int Terrain2DChunk::get_position_y() const {
+	return _position_y;
 }
-void Terrain2DChunk::set_position_z(const int value) {
-	_position_z = value;
+void Terrain2DChunk::set_position_y(const int value) {
+	_position_y = value;
 }
 
 _FORCE_INLINE_ Vector2 Terrain2DChunk::get_position() const {
-	return Vector2(_position_x, _position_z);
+	return Vector2(_position_x, _position_y);
 }
 _FORCE_INLINE_ Vector2 Terrain2DChunk::get_world_position() const {
-	return Vector2(_position_x * _size_x * _cell_size_x, _position_z * _size_z * _cell_size_y);
+	return Vector2(_position_x * _size_x * _cell_size_x, _position_y * _size_y * _cell_size_y);
 }
 
-_FORCE_INLINE_ Vector3 Terrain2DChunk::get_world_size() const {
-	return Vector3(_size_x * _cell_size_x, 0, _size_z * _cell_size_y);
+_FORCE_INLINE_ Vector2 Terrain2DChunk::get_world_size() const {
+	return Vector2(_size_x * _cell_size_x, _size_y * _cell_size_y);
 }
 
-_FORCE_INLINE_ AABB Terrain2DChunk::get_world_aabb() const {
+_FORCE_INLINE_ Rect2 Terrain2DChunk::get_world_rect() const {
 	Vector2 v = get_world_position();
 
-	return AABB(Vector3(v.x, 0, v.y), get_world_size());
+	return Rect2(Vector2(v.x, v.y), get_world_size());
 }
 
 _FORCE_INLINE_ int Terrain2DChunk::get_size_x() const {
 	return _size_x;
 }
-_FORCE_INLINE_ int Terrain2DChunk::get_size_z() const {
-	return _size_z;
+_FORCE_INLINE_ int Terrain2DChunk::get_size_y() const {
+	return _size_y;
 }
 
 _FORCE_INLINE_ void Terrain2DChunk::set_size_x(const int value) {
 	_size_x = value;
 }
-_FORCE_INLINE_ void Terrain2DChunk::set_size_z(const int value) {
-	_size_z = value;
+_FORCE_INLINE_ void Terrain2DChunk::set_size_y(const int value) {
+	_size_y = value;
 }
 
-_FORCE_INLINE_ Vector3 Terrain2DChunk::get_size() const {
-	return Vector3(_size_x, 0, _size_z);
+_FORCE_INLINE_ Vector2 Terrain2DChunk::get_size() const {
+	return Vector2(_size_x, _size_y);
 }
 
 _FORCE_INLINE_ int Terrain2DChunk::get_data_size_x() const {
 	return _data_size_x;
 }
-_FORCE_INLINE_ int Terrain2DChunk::get_data_size_z() const {
-	return _data_size_z;
+_FORCE_INLINE_ int Terrain2DChunk::get_data_size_y() const {
+	return _data_size_y;
 }
 
 _FORCE_INLINE_ void Terrain2DChunk::set_data_size_x(const int value) {
 	_data_size_x = value;
 }
-_FORCE_INLINE_ void Terrain2DChunk::set_data_size_z(const int value) {
-	_data_size_z = value;
+_FORCE_INLINE_ void Terrain2DChunk::set_data_size_y(const int value) {
+	_data_size_y = value;
 }
 
-void Terrain2DChunk::set_position(const int x, const int z) {
+void Terrain2DChunk::set_position(const int x, const int y) {
 	_position_x = x;
-	_position_z = z;
+	_position_y = y;
 }
 
 _FORCE_INLINE_ int Terrain2DChunk::get_margin_start() const {
@@ -320,16 +320,16 @@ void Terrain2DChunk::channel_setup() {
 	call("_channel_setup");
 }
 
-void Terrain2DChunk::set_size(const int size_x, const int size_z, const int margin_start, const int margin_end) {
-	if (_size_x == size_x && _size_z == size_z && _margin_start == margin_start && _margin_end == margin_end) {
+void Terrain2DChunk::set_size(const int size_x, const int size_y, const int margin_start, const int margin_end) {
+	if (_size_x == size_x && _size_y == size_y && _margin_start == margin_start && _margin_end == margin_end) {
 		return;
 	}
 
 	_size_x = size_x;
-	_size_z = size_z;
+	_size_y = size_y;
 
 	_data_size_x = size_x + margin_start + margin_end;
-	_data_size_z = size_z + margin_start + margin_end;
+	_data_size_y = size_y + margin_start + margin_end;
 
 	_margin_start = margin_start;
 	_margin_end = margin_end;
@@ -347,34 +347,34 @@ void Terrain2DChunk::set_size(const int size_x, const int size_z, const int marg
 	channel_setup();
 }
 
-bool Terrain2DChunk::validate_data_position(const int x, const int z) const {
-	return x < _data_size_x && z < _data_size_z;
+bool Terrain2DChunk::validate_data_position(const int x, const int y) const {
+	return x < _data_size_x && y < _data_size_y;
 }
 
-uint8_t Terrain2DChunk::get_voxel(const int p_x, const int p_z, const int p_channel_index) const {
+uint8_t Terrain2DChunk::get_voxel(const int p_x, const int p_y, const int p_channel_index) const {
 	int x = p_x + _margin_start;
-	int z = p_z + _margin_start;
+	int y = p_y + _margin_start;
 
 	ERR_FAIL_INDEX_V(p_channel_index, _channels.size(), 0);
-	ERR_FAIL_COND_V_MSG(!validate_data_position(x, z), 0, "Error, index out of range! " + String::num(x) + " " + String::num(z));
+	ERR_FAIL_COND_V_MSG(!validate_data_position(x, y), 0, "Error, index out of range! " + String::num(x) + " " + String::num(y));
 
 	uint8_t *ch = _channels.get(p_channel_index);
 
 	if (!ch)
 		return 0;
 
-	return ch[get_data_index(x, z)];
+	return ch[get_data_index(x, y)];
 }
-void Terrain2DChunk::set_voxel(const uint8_t p_value, const int p_x, const int p_z, const int p_channel_index) {
+void Terrain2DChunk::set_voxel(const uint8_t p_value, const int p_x, const int p_y, const int p_channel_index) {
 	int x = p_x + _margin_start;
-	int z = p_z + _margin_start;
+	int y = p_y + _margin_start;
 
 	ERR_FAIL_INDEX(p_channel_index, _channels.size());
-	ERR_FAIL_COND_MSG(!validate_data_position(x, z), "Error, index out of range! " + String::num(x) + " " + String::num(z));
+	ERR_FAIL_COND_MSG(!validate_data_position(x, y), "Error, index out of range! " + String::num(x) + " " + String::num(y));
 
 	uint8_t *ch = channel_get_valid(p_channel_index);
 
-	ch[get_data_index(x, z)] = p_value;
+	ch[get_data_index(x, y)] = p_value;
 }
 
 int Terrain2DChunk::channel_get_count() const {
@@ -424,7 +424,7 @@ void Terrain2DChunk::channel_allocate(const int channel_index, const uint8_t def
 	if (_channels[channel_index] != NULL)
 		return;
 
-	uint32_t size = _data_size_x * _data_size_z;
+	uint32_t size = _data_size_x * _data_size_y;
 
 	uint8_t *ch = memnew_arr(uint8_t, size);
 	memset(ch, default_value, size);
@@ -481,7 +481,7 @@ uint8_t *Terrain2DChunk::channel_get_valid(const int channel_index, const uint8_
 PoolByteArray Terrain2DChunk::channel_get_array(const int channel_index) const {
 	PoolByteArray arr;
 
-	uint32_t size = _data_size_x * _data_size_z;
+	uint32_t size = _data_size_x * _data_size_y;
 
 	if (channel_index >= _channels.size())
 		return arr;
@@ -524,7 +524,7 @@ void Terrain2DChunk::channel_set_array(const int channel_index, const PoolByteAr
 PoolByteArray Terrain2DChunk::channel_get_compressed(const int channel_index) const {
 	PoolByteArray arr;
 
-	int size = _data_size_x * _data_size_z;
+	int size = _data_size_x * _data_size_y;
 
 	if (channel_index >= _channels.size())
 		return arr;
@@ -554,7 +554,7 @@ void Terrain2DChunk::channel_set_compressed(const int channel_index, const PoolB
 	if (data.size() == 0)
 		return;
 
-	int size = _data_size_x * _data_size_z;
+	int size = _data_size_x * _data_size_y;
 
 	if (_channels.size() <= channel_index)
 		channel_set_count(channel_index + 1);
@@ -586,16 +586,16 @@ void Terrain2DChunk::channel_set_compressed(const int channel_index, const PoolB
 #endif
 }
 
-_FORCE_INLINE_ int Terrain2DChunk::get_index(const int x, const int z) const {
-	return ((x + _margin_start) + _data_size_x * (z + _margin_start));
+_FORCE_INLINE_ int Terrain2DChunk::get_index(const int x, const int y) const {
+	return ((x + _margin_start) + _data_size_x * (y + _margin_start));
 }
 
-_FORCE_INLINE_ int Terrain2DChunk::get_data_index(const int x, const int z) const {
-	return (x + _data_size_x * z);
+_FORCE_INLINE_ int Terrain2DChunk::get_data_index(const int x, const int y) const {
+	return (x + _data_size_x * y);
 }
 
 _FORCE_INLINE_ int Terrain2DChunk::get_data_size() const {
-	return _data_size_x * _data_size_z;
+	return _data_size_x * _data_size_y;
 }
 
 //Terra Structures
@@ -628,7 +628,7 @@ void Terrain2DChunk::voxel_structure_clear() {
 int Terrain2DChunk::voxel_structure_get_count() const {
 	return _voxel_structures.size();
 }
-void Terrain2DChunk::voxel_structure_add_at_position(Ref<Terrain2DStructure> structure, const Vector3 &world_position) {
+void Terrain2DChunk::voxel_structure_add_at_position(Ref<Terrain2DStructure> structure, const Vector2 &world_position) {
 	ERR_FAIL_COND(!structure.is_valid());
 
 	structure->set_position_x(static_cast<int>(world_position.x / _cell_size_x));
@@ -1093,13 +1093,13 @@ Terrain2DChunk::Terrain2DChunk() {
 	_voxel_world = NULL;
 
 	_position_x = 0;
-	_position_z = 0;
+	_position_y = 0;
 
 	_size_x = 0;
-	_size_z = 0;
+	_size_y = 0;
 
 	_data_size_x = 0;
-	_data_size_z = 0;
+	_data_size_y = 0;
 
 	_margin_start = 0;
 	_margin_end = 0;
@@ -1247,7 +1247,7 @@ void Terrain2DChunk::_generation_physics_process(const float delta) {
 
 void Terrain2DChunk::_world_transform_changed() {
 	Transform2D t;
-	t.set_origin( Vector2(_position_x * static_cast<int>(_size_x) * _cell_size_x, _position_z * static_cast<int>(_size_z) * _cell_size_y));
+	t.set_origin( Vector2(_position_x * static_cast<int>(_size_x) * _cell_size_x, _position_y * static_cast<int>(_size_y) * _cell_size_y));
 
 	set_transform(t);
 
@@ -1355,7 +1355,7 @@ void Terrain2DChunk::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_transform"), &Terrain2DChunk::get_transform);
 	ClassDB::bind_method(D_METHOD("set_transform", "value"), &Terrain2DChunk::set_transform);
-	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM, "transform"), "set_transform", "get_transform");
+	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM2D, "transform"), "set_transform", "get_transform");
 
 	ClassDB::bind_method(D_METHOD("get_visible"), &Terrain2DChunk::get_visible);
 	ClassDB::bind_method(D_METHOD("set_visible", "value"), &Terrain2DChunk::set_visible);
@@ -1379,32 +1379,32 @@ void Terrain2DChunk::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_position_x", "value"), &Terrain2DChunk::set_position_x);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "position_x"), "set_position_x", "get_position_x");
 
-	ClassDB::bind_method(D_METHOD("get_position_z"), &Terrain2DChunk::get_position_z);
-	ClassDB::bind_method(D_METHOD("set_position_z", "value"), &Terrain2DChunk::set_position_z);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "position_z"), "set_position_z", "get_position_z");
+	ClassDB::bind_method(D_METHOD("get_position_y"), &Terrain2DChunk::get_position_y);
+	ClassDB::bind_method(D_METHOD("set_position_y", "value"), &Terrain2DChunk::set_position_y);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "position_y"), "set_position_y", "get_position_y");
 
 	ClassDB::bind_method(D_METHOD("get_size_x"), &Terrain2DChunk::get_size_x);
 	ClassDB::bind_method(D_METHOD("set_size_x"), &Terrain2DChunk::set_size_x);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "size_x"), "set_size_x", "get_size_x");
 
-	ClassDB::bind_method(D_METHOD("get_size_z"), &Terrain2DChunk::get_size_z);
-	ClassDB::bind_method(D_METHOD("set_size_z"), &Terrain2DChunk::set_size_z);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "size_z"), "set_size_z", "get_size_z");
+	ClassDB::bind_method(D_METHOD("get_size_y"), &Terrain2DChunk::get_size_y);
+	ClassDB::bind_method(D_METHOD("set_size_y"), &Terrain2DChunk::set_size_y);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "size_y"), "set_size_y", "get_size_y");
 
 	ClassDB::bind_method(D_METHOD("get_data_size_x"), &Terrain2DChunk::get_data_size_x);
 	ClassDB::bind_method(D_METHOD("set_data_size_x"), &Terrain2DChunk::set_data_size_x);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "data_size_x"), "set_data_size_x", "get_data_size_x");
 
-	ClassDB::bind_method(D_METHOD("get_data_size_z"), &Terrain2DChunk::get_data_size_z);
-	ClassDB::bind_method(D_METHOD("set_data_size_z"), &Terrain2DChunk::set_data_size_z);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "data_size_z"), "set_data_size_z", "get_data_size_z");
+	ClassDB::bind_method(D_METHOD("get_data_size_y"), &Terrain2DChunk::get_data_size_y);
+	ClassDB::bind_method(D_METHOD("set_data_size_y"), &Terrain2DChunk::set_data_size_y);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "data_size_y"), "set_data_size_y", "get_data_size_y");
 
 	ClassDB::bind_method(D_METHOD("get_position"), &Terrain2DChunk::get_position);
 	ClassDB::bind_method(D_METHOD("set_position", "x", "z"), &Terrain2DChunk::set_position);
 
 	ClassDB::bind_method(D_METHOD("get_world_position"), &Terrain2DChunk::get_world_position);
 	ClassDB::bind_method(D_METHOD("get_world_size"), &Terrain2DChunk::get_world_size);
-	ClassDB::bind_method(D_METHOD("get_world_aabb"), &Terrain2DChunk::get_world_aabb);
+	ClassDB::bind_method(D_METHOD("get_world_rect"), &Terrain2DChunk::get_world_rect);
 
 	ClassDB::bind_method(D_METHOD("get_margin_start"), &Terrain2DChunk::get_margin_start);
 	ClassDB::bind_method(D_METHOD("set_margin_start"), &Terrain2DChunk::set_margin_start);
@@ -1467,12 +1467,12 @@ void Terrain2DChunk::_bind_methods() {
 	//Terra Data
 	ClassDB::bind_method(D_METHOD("channel_setup"), &Terrain2DChunk::channel_setup);
 
-	ClassDB::bind_method(D_METHOD("set_size", "size_x", "size_z", "margin_start", "margin_end"), &Terrain2DChunk::set_size, DEFVAL(0), DEFVAL(0));
+	ClassDB::bind_method(D_METHOD("set_size", "size_x", "size_y", "margin_start", "margin_end"), &Terrain2DChunk::set_size, DEFVAL(0), DEFVAL(0));
 
-	ClassDB::bind_method(D_METHOD("validate_data_position", "x", "z"), &Terrain2DChunk::validate_data_position);
+	ClassDB::bind_method(D_METHOD("validate_data_position", "x", "y"), &Terrain2DChunk::validate_data_position);
 
-	ClassDB::bind_method(D_METHOD("get_voxel", "x", "z", "index"), &Terrain2DChunk::get_voxel);
-	ClassDB::bind_method(D_METHOD("set_voxel", "value", "x", "z", "index"), &Terrain2DChunk::set_voxel);
+	ClassDB::bind_method(D_METHOD("get_voxel", "x", "y", "index"), &Terrain2DChunk::get_voxel);
+	ClassDB::bind_method(D_METHOD("set_voxel", "value", "x", "y", "index"), &Terrain2DChunk::set_voxel);
 
 	ClassDB::bind_method(D_METHOD("channel_get_count"), &Terrain2DChunk::channel_get_count);
 	ClassDB::bind_method(D_METHOD("channel_set_count", "count"), &Terrain2DChunk::channel_set_count);
@@ -1490,8 +1490,8 @@ void Terrain2DChunk::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("channel_get_compressed", "index"), &Terrain2DChunk::channel_get_compressed);
 	ClassDB::bind_method(D_METHOD("channel_set_compressed", "index", "array"), &Terrain2DChunk::channel_set_compressed);
 
-	ClassDB::bind_method(D_METHOD("get_index", "x", "z"), &Terrain2DChunk::get_index);
-	ClassDB::bind_method(D_METHOD("get_data_index", "x", "z"), &Terrain2DChunk::get_data_index);
+	ClassDB::bind_method(D_METHOD("get_index", "x", "y"), &Terrain2DChunk::get_index);
+	ClassDB::bind_method(D_METHOD("get_data_index", "x", "y"), &Terrain2DChunk::get_data_index);
 	ClassDB::bind_method(D_METHOD("get_data_size"), &Terrain2DChunk::get_data_size);
 
 	ClassDB::bind_method(D_METHOD("voxel_structure_get", "index"), &Terrain2DChunk::voxel_structure_get);

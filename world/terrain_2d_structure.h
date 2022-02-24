@@ -37,18 +37,18 @@ SOFTWARE.
 
 #include pool_vector_h
 include_pool_vector
-#include "core/math/aabb.h"
+#include "core/math/rect2.h"
 #include "terrain_2d_chunk.h"
 
 		class Terrain2DStructure : public Resource {
 	GDCLASS(Terrain2DStructure, Resource);
 
 public:
-	bool get_use_aabb() const;
-	void set_use_aabb(const bool value);
+	bool get_use_rect() const;
+	void set_use_rect(const bool value);
 
-	AABB get_chunk_aabb() const;
-	void set_chunk_aabb(const AABB &value);
+	Rect2 get_chunk_rect() const;
+	void set_chunk_rect(const Rect2 &value);
 
 	int get_position_x() const;
 	void set_position_x(const int value);
@@ -56,10 +56,7 @@ public:
 	int get_position_y() const;
 	void set_position_y(const int value);
 
-	int get_position_z() const;
-	void set_position_z(const int value);
-
-	void set_position(const int x, const int y, const int z);
+	void set_position(const int x, const int y);
 
 	void write_to_chunk(Ref<Terrain2DChunk> chunk);
 
@@ -74,12 +71,11 @@ protected:
 	static void _bind_methods();
 
 private:
-	bool _use_aabb;
-	AABB _chunk_aabb;
+	bool _use_rect;
+	Rect2 _chunk_rect;
 
 	int _position_x;
 	int _position_y;
-	int _position_z;
 };
 
 #endif

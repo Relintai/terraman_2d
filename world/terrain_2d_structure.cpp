@@ -22,18 +22,18 @@ SOFTWARE.
 
 #include "terrain_2d_structure.h"
 
-bool Terrain2DStructure::get_use_aabb() const {
-	return _use_aabb;
+bool Terrain2DStructure::get_use_rect() const {
+	return _use_rect;
 }
-void Terrain2DStructure::set_use_aabb(const bool value) {
-	_use_aabb = value;
+void Terrain2DStructure::set_use_rect(const bool value) {
+	_use_rect = value;
 }
 
-AABB Terrain2DStructure::get_chunk_aabb() const {
-	return _chunk_aabb;
+Rect2 Terrain2DStructure::get_chunk_rect() const {
+	return _chunk_rect;
 }
-void Terrain2DStructure::set_chunk_aabb(const AABB &value) {
-	_chunk_aabb = value;
+void Terrain2DStructure::set_chunk_rect(const Rect2 &value) {
+	_chunk_rect = value;
 }
 
 int Terrain2DStructure::get_position_x() const {
@@ -50,17 +50,9 @@ void Terrain2DStructure::set_position_y(const int value) {
 	_position_y = value;
 }
 
-int Terrain2DStructure::get_position_z() const {
-	return _position_z;
-}
-void Terrain2DStructure::set_position_z(const int value) {
-	_position_z = value;
-}
-
-void Terrain2DStructure::set_position(const int x, const int y, const int z) {
+void Terrain2DStructure::set_position(const int x, const int y) {
 	_position_x = x;
 	_position_y = y;
-	_position_z = z;
 }
 
 void Terrain2DStructure::write_to_chunk(Ref<Terrain2DChunk> chunk) {
@@ -72,10 +64,9 @@ void Terrain2DStructure::write_to_chunk(Ref<Terrain2DChunk> chunk) {
 }
 
 Terrain2DStructure::Terrain2DStructure() {
-	_use_aabb = true;
+	_use_rect = true;
 	_position_x = 0;
 	_position_y = 0;
-	_position_z = 0;
 }
 
 Terrain2DStructure::~Terrain2DStructure() {
@@ -88,13 +79,13 @@ void Terrain2DStructure::_bind_methods() {
 	GDVIRTUAL_BIND(_write_to_chunk, "chunk");
 #endif
 
-	ClassDB::bind_method(D_METHOD("get_use_aabb"), &Terrain2DStructure::get_use_aabb);
-	ClassDB::bind_method(D_METHOD("set_use_aabb", "value"), &Terrain2DStructure::set_use_aabb);
-	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "use_aabb"), "set_use_aabb", "get_use_aabb");
+	ClassDB::bind_method(D_METHOD("get_use_rect"), &Terrain2DStructure::get_use_rect);
+	ClassDB::bind_method(D_METHOD("set_use_rect", "value"), &Terrain2DStructure::set_use_rect);
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "use_rect"), "set_use_rect", "get_use_rect");
 
-	ClassDB::bind_method(D_METHOD("get_chunk_aabb"), &Terrain2DStructure::get_chunk_aabb);
-	ClassDB::bind_method(D_METHOD("set_chunk_aabb", "value"), &Terrain2DStructure::set_chunk_aabb);
-	ADD_PROPERTY(PropertyInfo(Variant::AABB, "chunk_aabb"), "set_chunk_aabb", "get_chunk_aabb");
+	ClassDB::bind_method(D_METHOD("get_chunk_rect"), &Terrain2DStructure::get_chunk_rect);
+	ClassDB::bind_method(D_METHOD("set_chunk_rect", "value"), &Terrain2DStructure::set_chunk_rect);
+	ADD_PROPERTY(PropertyInfo(Variant::RECT2, "chunk_rect"), "set_chunk_rect", "get_chunk_rect");
 
 	ClassDB::bind_method(D_METHOD("get_position_x"), &Terrain2DStructure::get_position_x);
 	ClassDB::bind_method(D_METHOD("set_position_x", "value"), &Terrain2DStructure::set_position_x);
@@ -104,11 +95,7 @@ void Terrain2DStructure::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_position_y", "value"), &Terrain2DStructure::set_position_y);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "position_y"), "set_position_y", "get_position_y");
 
-	ClassDB::bind_method(D_METHOD("get_position_z"), &Terrain2DStructure::get_position_z);
-	ClassDB::bind_method(D_METHOD("set_position_z", "value"), &Terrain2DStructure::set_position_z);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "position_z"), "set_position_z", "get_position_z");
-
-	ClassDB::bind_method(D_METHOD("set_position", "x", "y", "z"), &Terrain2DStructure::set_position);
+	ClassDB::bind_method(D_METHOD("set_position", "x", "y"), &Terrain2DStructure::set_position);
 
 	ClassDB::bind_method(D_METHOD("write_to_chunk", "chunk"), &Terrain2DStructure::write_to_chunk);
 }

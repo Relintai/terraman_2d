@@ -77,8 +77,8 @@ public:
 	int get_chunk_size_x() const;
 	void set_chunk_size_x(const int value);
 
-	int get_chunk_size_z() const;
-	void set_chunk_size_z(const int value);
+	int get_chunk_size_y() const;
+	void set_chunk_size_y(const int value);
 
 	int get_data_margin_start() const;
 	void set_data_margin_start(const int value);
@@ -134,10 +134,10 @@ public:
 	void voxel_structures_set(const Vector<Variant> &structures);
 
 	//Chunks
-	void chunk_add(Ref<Terrain2DChunk> chunk, const int x, const int z);
-	bool chunk_has(const int x, const int z) const;
-	Ref<Terrain2DChunk> chunk_get(const int x, const int z);
-	Ref<Terrain2DChunk> chunk_remove(const int x, const int z);
+	void chunk_add(Ref<Terrain2DChunk> chunk, const int x, const int y);
+	bool chunk_has(const int x, const int y) const;
+	Ref<Terrain2DChunk> chunk_get(const int x, const int y);
+	Ref<Terrain2DChunk> chunk_remove(const int x, const int y);
 	Ref<Terrain2DChunk> chunk_remove_index(const int index);
 	Ref<Terrain2DChunk> chunk_get_index(const int index);
 
@@ -145,8 +145,8 @@ public:
 
 	void chunks_clear();
 
-	Ref<Terrain2DChunk> chunk_get_or_create(const int x, const int z);
-	Ref<Terrain2DChunk> chunk_create(const int x, const int z);
+	Ref<Terrain2DChunk> chunk_get_or_create(const int x, const int y);
+	Ref<Terrain2DChunk> chunk_create(const int x, const int y);
 	void chunk_setup(Ref<Terrain2DChunk> chunk);
 
 	void chunk_generate(Ref<Terrain2DChunk> chunk);
@@ -155,7 +155,7 @@ public:
 	void chunks_set(const Vector<Variant> &chunks);
 
 	bool can_chunk_do_build_step();
-	bool is_position_walkable(const Vector3 &p_pos);
+	bool is_position_walkable(const Vector2 &p_pos);
 
 	void on_chunk_mesh_generation_finished(Ref<Terrain2DChunk> p_chunk);
 
@@ -170,7 +170,7 @@ public:
 	int generation_get_size() const;
 
 #if PROPS_2D_PRESENT
-	void prop_add(Transform transform, const Ref<Prop2DData> &prop, const bool apply_voxel_scale = true);
+	void prop_add(Transform transform, const Ref<Prop2DData> &prop, const bool apply_scale = true);
 #endif
 
 	//Lights
@@ -184,11 +184,11 @@ public:
 	void lights_set(const Vector<Variant> &chunks);
 
 	//Helpers
-	uint8_t get_voxel_at_world_position(const Vector3 &world_position, const int channel_index);
-	void set_voxel_at_world_position(const Vector3 &world_position, const uint8_t data, const int channel_index, const bool rebuild = true);
-	Ref<Terrain2DChunk> get_chunk_at_world_position(const Vector3 &world_position);
-	Ref<Terrain2DChunk> get_or_create_chunk_at_world_position(const Vector3 &world_position);
-	void set_voxel_with_tool(const bool mode_add, const Vector3 hit_position, const Vector3 hit_normal, const int selected_voxel, const int isolevel);
+	uint8_t get_voxel_at_world_position(const Vector2 &world_position, const int channel_index);
+	void set_voxel_at_world_position(const Vector2 &world_position, const uint8_t data, const int channel_index, const bool rebuild = true);
+	Ref<Terrain2DChunk> get_chunk_at_world_position(const Vector2 &world_position);
+	Ref<Terrain2DChunk> get_or_create_chunk_at_world_position(const Vector2 &world_position);
+	void set_voxel_with_tool(const bool mode_add, const Vector2 hit_position, const int selected_voxel, const int isolevel);
 
 	int get_channel_index_info(const ChannelTypeInfo channel_type);
 
@@ -212,9 +212,9 @@ public:
 protected:
 	virtual void _draw();
 	virtual void _generate_chunk(Ref<Terrain2DChunk> chunk);
-	virtual Ref<Terrain2DChunk> _create_chunk(int x, int z, Ref<Terrain2DChunk> p_chunk);
+	virtual Ref<Terrain2DChunk> _create_chunk(int x, int y, Ref<Terrain2DChunk> p_chunk);
 	virtual int _get_channel_index_info(const ChannelTypeInfo channel_type);
-	virtual void _set_voxel_with_tool(const bool mode_add, const Vector3 hit_position, const Vector3 hit_normal, const int selected_voxel, const int isolevel);
+	virtual void _set_voxel_with_tool(const bool mode_add, const Vector2 hit_position, const int selected_voxel, const int isolevel);
 
 	virtual void _notification(int p_what);
 	static void _bind_methods();
@@ -223,21 +223,20 @@ public:
 	struct IntPos {
 		int x;
 		int y;
-		int z;
 
 		IntPos() {
 			x = 0;
-			z = 0;
+			y = 0;
 		}
 
-		IntPos(int p_x, int p_z) {
+		IntPos(int p_x, int p_y) {
 			x = p_x;
-			z = p_z;
+			y = p_y;
 		}
 
 		IntPos(const Vector2 &p) {
 			x = p.x;
-			z = p.y;
+			y = p.y;
 		}
 	};
 
@@ -245,7 +244,7 @@ public:
 		static _FORCE_INLINE_ uint32_t hash(const IntPos &v) {
 			uint32_t hash = hash_djb2_one_32(v.x);
 			hash = hash_djb2_one_32(v.x, hash);
-			return hash_djb2_one_32(v.z, hash);
+			return hash_djb2_one_32(v.y, hash);
 		}
 	};
 
@@ -256,7 +255,7 @@ private:
 	bool _is_priority_generation;
 
 	int _chunk_size_x;
-	int _chunk_size_z;
+	int _chunk_size_y;
 	int _current_seed;
 	int _data_margin_start;
 	int _data_margin_end;
@@ -287,7 +286,7 @@ private:
 };
 
 _FORCE_INLINE_ bool operator==(const Terrain2DWorld::IntPos &a, const Terrain2DWorld::IntPos &b) {
-	return a.x == b.x && a.z == b.z;
+	return a.x == b.x && a.y == b.y;
 }
 
 VARIANT_ENUM_CAST(Terrain2DWorld::ChannelTypeInfo);

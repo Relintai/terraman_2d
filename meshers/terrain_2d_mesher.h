@@ -96,17 +96,11 @@ public:
 	int get_channel_index_type() const;
 	void set_channel_index_type(const int value);
 
-	int get_mesher_index() const;
-	void set_mesher_index(const int value);
-
 	int get_format() const;
 	void set_format(const int value);
 
 	int get_texture_scale() const;
 	void set_texture_scale(const int value);
-
-	int get_lod_index() const;
-	void set_lod_index(const int value);
 
 	Ref<Terrain2DLibrary> get_library();
 	void set_library(const Ref<Terrain2DLibrary> &library);
@@ -194,14 +188,9 @@ protected:
 	static void _bind_methods();
 
 	int _channel_index_type;
-
-	int _mesher_index;
-
 	int _format;
 
 	int _texture_scale;
-
-	int _lod_index;
 
 	PoolVector<Vertex> _vertices;
 	PoolVector<int> _indices;

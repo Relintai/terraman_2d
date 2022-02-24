@@ -47,42 +47,42 @@ _FORCE_INLINE_ void Terrain2DWorldDefault::set_build_flags(const int flags) {
 	}
 }
 
-PoolColorArray Terrain2DWorldDefault::get_vertex_colors(const Transform &transform, const PoolVector3Array &vertices, const float base_light_value, const float ao_strength) {
+PoolColorArray Terrain2DWorldDefault::get_vertex_colors(const Transform2D &transform, const PoolVector2Array &vertices, const float base_light_value, const float ao_strength) {
 	PoolColorArray arr;
 	arr.resize(vertices.size());
 
 	for (int i = 0; i < vertices.size(); ++i) {
-		Vector3 v = transform.xform(vertices[i]);
+		Vector2 v = transform.xform(vertices[i]);
 
-		Vector3 pos = v;
+		Vector2 pos = v;
 		v.x /= get_cell_size_x();
-		v.z /= get_cell_size_y();
+		v.y /= get_cell_size_y();
 
 		//Note: floor is needed to handle negative numbers proiberly
 		int x = static_cast<int>(Math::floor(pos.x / get_chunk_size_x()));
-		int z = static_cast<int>(Math::floor(pos.z / get_chunk_size_z()));
+		int y = static_cast<int>(Math::floor(pos.y / get_chunk_size_y()));
 
 		int bx = static_cast<int>(Math::floor(pos.x)) % get_chunk_size_x();
-		int bz = static_cast<int>(Math::floor(pos.z)) % get_chunk_size_z();
+		int by = static_cast<int>(Math::floor(pos.y)) % get_chunk_size_y();
 
 		if (bx < 0) {
 			bx += get_chunk_size_x();
 		}
 
-		if (bz < 0) {
-			bz += get_chunk_size_z();
+		if (by < 0) {
+			by += get_chunk_size_y();
 		}
 
-		Ref<Terrain2DChunk> chunk = chunk_get(x, z);
+		Ref<Terrain2DChunk> chunk = chunk_get(x, y);
 
 		if (chunk.is_valid()) {
 			Color light = Color(
-					chunk->get_voxel(bx, bz, Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R) / 255.0,
-					chunk->get_voxel(bx, bz, Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G) / 255.0,
-					chunk->get_voxel(bx, bz, Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B) / 255.0);
+					chunk->get_voxel(bx, by, Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_R) / 255.0,
+					chunk->get_voxel(bx, by, Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_G) / 255.0,
+					chunk->get_voxel(bx, by, Terrain2DChunkDefault::DEFAULT_CHANNEL_LIGHT_COLOR_B) / 255.0);
 
-			float ao = (chunk->get_voxel(bx, bz, Terrain2DChunkDefault::DEFAULT_CHANNEL_AO) / 255.0) * ao_strength;
-			float rao = chunk->get_voxel(bx, bz, Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO) / 255.0;
+			float ao = (chunk->get_voxel(bx, by, Terrain2DChunkDefault::DEFAULT_CHANNEL_AO) / 255.0) * ao_strength;
+			float rao = chunk->get_voxel(bx, by, Terrain2DChunkDefault::DEFAULT_CHANNEL_RANDOM_AO) / 255.0;
 
 			ao += rao;
 
@@ -107,7 +107,7 @@ PoolColorArray Terrain2DWorldDefault::get_vertex_colors(const Transform &transfo
 	return arr;
 }
 
-Ref<Terrain2DChunk> Terrain2DWorldDefault::_create_chunk(int x, int z, Ref<Terrain2DChunk> chunk) {
+Ref<Terrain2DChunk> Terrain2DWorldDefault::_create_chunk(int x, int y, Ref<Terrain2DChunk> chunk) {
 	if (!chunk.is_valid()) {
 		chunk = Ref<Terrain2DChunk>(memnew(Terrain2DChunkDefault));
 	}
@@ -134,7 +134,7 @@ Ref<Terrain2DChunk> Terrain2DWorldDefault::_create_chunk(int x, int z, Ref<Terra
 		vcd->set_build_flags(_build_flags);
 	}
 
-	return Terrain2DWorld::_create_chunk(x, z, chunk);
+	return Terrain2DWorld::_create_chunk(x, y, chunk);
 }
 
 void Terrain2DWorldDefault::_chunk_added(Ref<Terrain2DChunk> chunk) {

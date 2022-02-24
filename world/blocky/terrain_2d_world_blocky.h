@@ -33,7 +33,7 @@ public:
 	~Terrain2DWorldBlocky();
 
 protected:
-	Ref<Terrain2DChunk> _create_chunk(int x, int z, Ref<Terrain2DChunk> p_chunk);
+	Ref<Terrain2DChunk> _create_chunk(int x, int y, Ref<Terrain2DChunk> p_chunk);
 
 	static void _bind_methods();
 };

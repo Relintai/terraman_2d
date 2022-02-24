@@ -130,7 +130,6 @@ void Terrain2DMesherDefault::_bake_liquid_colors(Ref<Terrain2DChunk> chunk) {
 		}
 
 		unsigned int x = (unsigned int)(vert.x / _cell_size_x);
-		//unsigned int y = (unsigned int)(vert.y / _voxel_scale);
 		unsigned int y = (unsigned int)(vert.y / _cell_size_y);
 
 		if (chunk->validate_data_position(x, y)) {
