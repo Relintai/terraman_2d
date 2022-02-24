@@ -686,6 +686,8 @@ void Terrain2DChunkDefault::_draw() {
 		return;
 	}
 
+	VisualServer::get_singleton()->canvas_item_clear(get_canvas_item());
+
 	Terrain2DWorld *world = get_voxel_world();
 
 	ERR_FAIL_COND(!world);
@@ -696,7 +698,7 @@ void Terrain2DChunkDefault::_draw() {
 		RID terrain_texture_rid = mesh_rid_get(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_TEXTURE_RID);
 
 		//Note: the transform parameter is not implemented in gles2
-		VisualServer::get_singleton()->canvas_item_add_mesh(world->get_canvas_item(), terrain_mesh_rid, Transform2D(), Color(1, 1, 1, 1), terrain_texture_rid, RID());
+		VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(), terrain_mesh_rid, Transform2D(), Color(1, 1, 1, 1), terrain_texture_rid, RID());
 	}
 
 	RID liquid_mesh_rid = mesh_rid_get(MESH_INDEX_LIQUID, MESH_TYPE_INDEX_MESH);
@@ -705,7 +707,7 @@ void Terrain2DChunkDefault::_draw() {
 		RID liquid_texture_rid = mesh_rid_get(MESH_INDEX_LIQUID, MESH_TYPE_INDEX_TEXTURE_RID);
 
 		//Note: the transform parameter is not implemented in gles2
-		VisualServer::get_singleton()->canvas_item_add_mesh(world->get_canvas_item(), liquid_mesh_rid, Transform2D(), Color(1, 1, 1, 1), liquid_texture_rid, RID());
+		VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(), liquid_mesh_rid, Transform2D(), Color(1, 1, 1, 1), liquid_texture_rid, RID());
 	}
 
 	RID prop_mesh_rid = mesh_rid_get(MESH_INDEX_PROP, MESH_TYPE_INDEX_MESH);
@@ -714,7 +716,7 @@ void Terrain2DChunkDefault::_draw() {
 		RID prop_texture_rid = mesh_rid_get(MESH_INDEX_PROP, MESH_TYPE_INDEX_TEXTURE_RID);
 
 		//Note: the transform parameter is not implemented in gles2
-		VisualServer::get_singleton()->canvas_item_add_mesh(world->get_canvas_item(), prop_mesh_rid, Transform2D(), Color(1, 1, 1, 1), prop_texture_rid, RID());
+		VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(), prop_mesh_rid, Transform2D(), Color(1, 1, 1, 1), prop_texture_rid, RID());
 	}
 }
 

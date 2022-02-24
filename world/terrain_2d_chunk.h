@@ -66,8 +66,8 @@ include_pool_vector
 
 #include "scene/resources/shape_2d.h"
 
-#include "../library/terrain_2d_surface.h"
 #include "../library/terrain_2d_library.h"
+#include "../library/terrain_2d_surface.h"
 		; //hackfix for a clang format issue
 
 class Terrain2DJob;
@@ -312,6 +312,10 @@ public:
 
 	bool is_safe_to_delete();
 
+	_FORCE_INLINE_ RID get_canvas_item() const {
+		return _canvas_item;
+	}
+
 	Terrain2DChunk();
 	~Terrain2DChunk();
 
@@ -418,6 +422,8 @@ protected:
 
 	bool _abort_build;
 	bool _queued_generation;
+
+	RID _canvas_item;
 };
 
 #endif

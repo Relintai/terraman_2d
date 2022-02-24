@@ -239,12 +239,7 @@ void Terrain2DChunk::set_voxel_world(Terrain2DWorld *world) {
 	_voxel_world = world;
 }
 void Terrain2DChunk::set_voxel_world_bind(Node *world) {
-	if (world == NULL) {
-		_voxel_world = NULL;
-		return;
-	}
-
-	_voxel_world = Object::cast_to<Terrain2DWorld>(world);
+	set_voxel_world(Object::cast_to<Terrain2DWorld>(world));
 }
 
 Ref<Terrain2DJob> Terrain2DChunk::job_get(int index) const {
@@ -1123,9 +1118,13 @@ Terrain2DChunk::Terrain2DChunk() {
 	_world_height = 256;
 
 	_queued_generation = false;
+
+	_canvas_item = VisualServer::get_singleton()->canvas_item_create();
 }
 
 Terrain2DChunk::~Terrain2DChunk() {
+	VisualServer::get_singleton()->free(_canvas_item);
+
 	if (_library.is_valid()) {
 		_library.unref();
 	}
@@ -1156,6 +1155,10 @@ Terrain2DChunk::~Terrain2DChunk() {
 }
 
 void Terrain2DChunk::_enter_tree() {
+	if (_voxel_world) {
+		VisualServer::get_singleton()->canvas_item_set_parent(get_canvas_item(), get_voxel_world()->get_canvas_item());
+	}
+
 	for (int i = 0; i < _jobs.size(); ++i) {
 		Ref<Terrain2DJob> j = _jobs[i];
 
@@ -1249,6 +1252,8 @@ void Terrain2DChunk::_world_transform_changed() {
 	t.set_origin( Vector2(_position_x * static_cast<int>(_size_x) * _voxel_scale, _position_z * static_cast<int>(_size_z) * _voxel_scale));
 
 	set_transform(t);
+
+	VisualServer::get_singleton()->canvas_item_set_transform(get_canvas_item(), t);
 }
 
 /*
