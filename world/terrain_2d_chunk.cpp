@@ -109,7 +109,7 @@ _FORCE_INLINE_ Vector2 Terrain2DChunk::get_world_position() const {
 }
 
 _FORCE_INLINE_ Vector3 Terrain2DChunk::get_world_size() const {
-	return Vector3(_size_x * _voxel_scale, _world_height * _voxel_scale, _size_z * _voxel_scale);
+	return Vector3(_size_x * _voxel_scale, 0, _size_z * _voxel_scale);
 }
 
 _FORCE_INLINE_ AABB Terrain2DChunk::get_world_aabb() const {
@@ -133,7 +133,7 @@ _FORCE_INLINE_ void Terrain2DChunk::set_size_z(const int value) {
 }
 
 _FORCE_INLINE_ Vector3 Terrain2DChunk::get_size() const {
-	return Vector3(_size_x, _world_height, _size_z);
+	return Vector3(_size_x, 0, _size_z);
 }
 
 _FORCE_INLINE_ int Terrain2DChunk::get_data_size_x() const {
@@ -148,13 +148,6 @@ _FORCE_INLINE_ void Terrain2DChunk::set_data_size_x(const int value) {
 }
 _FORCE_INLINE_ void Terrain2DChunk::set_data_size_z(const int value) {
 	_data_size_z = value;
-}
-
-_FORCE_INLINE_ float Terrain2DChunk::get_world_height() const {
-	return _world_height;
-}
-void Terrain2DChunk::set_world_height(const float value) {
-	_world_height = value;
 }
 
 void Terrain2DChunk::set_position(const int x, const int z) {
@@ -1115,8 +1108,6 @@ Terrain2DChunk::Terrain2DChunk() {
 
 	_current_job = -1;
 
-	_world_height = 256;
-
 	_queued_generation = false;
 
 	_canvas_item = VisualServer::get_singleton()->canvas_item_create();
@@ -1400,10 +1391,6 @@ void Terrain2DChunk::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_data_size_z"), &Terrain2DChunk::get_data_size_z);
 	ClassDB::bind_method(D_METHOD("set_data_size_z"), &Terrain2DChunk::set_data_size_z);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "data_size_z"), "set_data_size_z", "get_data_size_z");
-
-	ClassDB::bind_method(D_METHOD("get_world_height"), &Terrain2DChunk::get_world_height);
-	ClassDB::bind_method(D_METHOD("set_world_height", "height"), &Terrain2DChunk::set_world_height);
-	ADD_PROPERTY(PropertyInfo(Variant::REAL, "world_height"), "set_world_height", "get_world_height");
 
 	ClassDB::bind_method(D_METHOD("get_position"), &Terrain2DChunk::get_position);
 	ClassDB::bind_method(D_METHOD("set_position", "x", "z"), &Terrain2DChunk::set_position);

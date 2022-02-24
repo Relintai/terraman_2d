@@ -75,7 +75,7 @@ include_pool_vector
 //voxel scale remove (= cell size)
 //light ppu -> max(cell_size.x, cell_zise.y)
 //Props->ppu -> cell size
-//mesh gen-> dont scale images, put exact sized meshes, but on the grid
+//mesh gen-> dont scale images, put exact sized meshes, but on the grid Also pivots (just a vector2 offset should work)
 //Add custom mesh transform
 //world height remove
 //create lods and use isolevel build flag remove
@@ -91,6 +91,10 @@ include_pool_vector
 
 //Add wall layer (normal types, but gets a different mesh) ? -> TiledWalls are probably better, and they do this if props are fixed
 //Also if they are not merged they can be hidden one by one (even automatically)
+
+//mdi2d
+//sprite -> convert to mdi2d
+//meshinstance2d->mdi2d
 
 class Terrain2DJob;
 class Terrain2DWorld;
@@ -143,9 +147,6 @@ public:
 	int get_data_size_z() const;
 	void set_data_size_x(const int value);
 	void set_data_size_z(const int value);
-
-	float get_world_height() const;
-	void set_world_height(const float value);
 
 	Vector2 get_position() const;
 	Vector3 get_size() const;
@@ -416,8 +417,6 @@ protected:
 
 	int _prop_material_cache_key;
 	bool _prop_material_cache_key_has;
-
-	float _world_height;
 
 	Vector<uint8_t *> _channels;
 

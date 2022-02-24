@@ -100,13 +100,6 @@ void Terrain2DWorld::set_current_seed(const int value) {
 	_current_seed = value;
 }
 
-_FORCE_INLINE_ float Terrain2DWorld::get_world_height() const {
-	return _world_height;
-}
-void Terrain2DWorld::set_world_height(const float value) {
-	_world_height = value;
-}
-
 int Terrain2DWorld::get_max_concurrent_generations() {
 	return _max_concurrent_generations;
 }
@@ -428,7 +421,6 @@ Ref<Terrain2DChunk> Terrain2DWorld::_create_chunk(const int x, const int z, Ref<
 	chunk->set_voxel_world(this);
 
 	chunk->set_position(x, z);
-	chunk->set_world_height(_world_height);
 	chunk->set_library(_library);
 	chunk->set_voxel_scale(_voxel_scale);
 	chunk->set_size(_chunk_size_x, _chunk_size_z, _data_margin_start, _data_margin_end);
@@ -884,7 +876,6 @@ Terrain2DWorld::Terrain2DWorld() {
 	_current_seed = 0;
 	_data_margin_start = 0;
 	_data_margin_end = 0;
-	_world_height = 256;
 
 	_voxel_scale = 1;
 	_chunk_spawn_range = 4;
@@ -1118,10 +1109,6 @@ void Terrain2DWorld::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_data_margin_end"), &Terrain2DWorld::get_data_margin_end);
 	ClassDB::bind_method(D_METHOD("set_data_margin_end", "value"), &Terrain2DWorld::set_data_margin_end);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "data_margin_end"), "set_data_margin_end", "get_data_margin_end");
-
-	ClassDB::bind_method(D_METHOD("get_world_height"), &Terrain2DWorld::get_world_height);
-	ClassDB::bind_method(D_METHOD("set_world_height", "height"), &Terrain2DWorld::set_world_height);
-	ADD_PROPERTY(PropertyInfo(Variant::REAL, "world_height"), "set_world_height", "get_world_height");
 
 	ClassDB::bind_method(D_METHOD("get_max_concurrent_generations"), &Terrain2DWorld::get_max_concurrent_generations);
 	ClassDB::bind_method(D_METHOD("set_max_concurrent_generations", "height"), &Terrain2DWorld::set_max_concurrent_generations);

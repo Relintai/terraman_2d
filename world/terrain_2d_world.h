@@ -89,9 +89,6 @@ public:
 	int get_current_seed() const;
 	void set_current_seed(const int value);
 
-	float get_world_height() const;
-	void set_world_height(const float value);
-
 	int get_max_concurrent_generations();
 	void set_max_concurrent_generations(const int value);
 
@@ -260,7 +257,6 @@ private:
 	int _current_seed;
 	int _data_margin_start;
 	int _data_margin_end;
-	float _world_height;
 
 	Ref<Terrain2DLibrary> _library;
 	Ref<Terrain2DLevelGenerator> _level_generator;
