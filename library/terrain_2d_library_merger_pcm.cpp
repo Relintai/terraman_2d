@@ -564,6 +564,7 @@ void Terrain2DLibraryMergerPCM::set_props(const Vector<Variant> &props) {
 }
 
 Rect2 Terrain2DLibraryMergerPCM::get_prop_uv_rect(const Ref<Texture> &texture) {
+	/*
 	if (!texture.is_valid()) {
 		return Rect2(0, 0, 1, 1);
 	}
@@ -593,8 +594,8 @@ Rect2 Terrain2DLibraryMergerPCM::get_prop_uv_rect(const Ref<Texture> &texture) {
 
 	region.position = Size2(region.position.x / w, region.position.y / h);
 	region.size = Size2(region.size.x / w, region.size.y / h);
-
-	return region;
+*/
+	return Rect2();
 }
 
 Ref<TexturePacker> Terrain2DLibraryMergerPCM::get_prop_packer() {
@@ -603,6 +604,7 @@ Ref<TexturePacker> Terrain2DLibraryMergerPCM::get_prop_packer() {
 #endif
 
 void Terrain2DLibraryMergerPCM::refresh_rects() {
+	/*
 	bool texture_added = false;
 	for (int i = 0; i < _terra_surfaces.size(); i++) {
 		Ref<Terrain2DSurfaceMerger> surface = Ref<Terrain2DSurfaceMerger>(_terra_surfaces[i]);
@@ -666,11 +668,12 @@ void Terrain2DLibraryMergerPCM::refresh_rects() {
 			surface->refresh_rects();
 		}
 	}
-
+*/
 	set_initialized(true);
 }
 
 void Terrain2DLibraryMergerPCM::_setup_material_albedo(const int material_index, const Ref<Texture> &texture) {
+	/*
 	Ref<ShaderMaterial> shmat;
 
 	switch (material_index) {
@@ -687,7 +690,7 @@ void Terrain2DLibraryMergerPCM::_setup_material_albedo(const int material_index,
 
 	if (shmat.is_valid()) {
 		shmat->set_shader_param("texture_albedo", texture);
-	}
+	}*/
 }
 
 Terrain2DLibraryMergerPCM::Terrain2DLibraryMergerPCM() {
@@ -736,6 +739,7 @@ Terrain2DLibraryMergerPCM::~Terrain2DLibraryMergerPCM() {
 
 #ifdef PROPS_2D_PRESENT
 bool Terrain2DLibraryMergerPCM::process_prop_textures(Ref<Prop2DData> prop) {
+	/*
 	if (!prop.is_valid()) {
 		return false;
 	}
@@ -766,6 +770,8 @@ bool Terrain2DLibraryMergerPCM::process_prop_textures(Ref<Prop2DData> prop) {
 	}
 
 	return texture_added;
+	*/
+	return false;
 }
 #endif
 
