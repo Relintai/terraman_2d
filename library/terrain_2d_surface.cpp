@@ -29,11 +29,11 @@ void Terrain2DSurface::set_id(const int value) {
 	_id = value;
 }
 
-Rect2 Terrain2DSurface::get_rect(const Terrain2DSurfaceSides side) const {
-	return _rects[side];
+Rect2 Terrain2DSurface::get_rect() const {
+	return _rect;
 }
-void Terrain2DSurface::set_rect(const Terrain2DSurfaceSides side, const Rect2 &rect) {
-	_rects[side] = rect;
+void Terrain2DSurface::set_rect(const Rect2 &rect) {
+	_rect = rect;
 }
 
 Ref<Terrain2DLibrary> Terrain2DSurface::get_library() const {
@@ -44,10 +44,10 @@ void Terrain2DSurface::set_library(Ref<Terrain2DLibrary> library) {
 	_library = (*library);
 }
 
-_FORCE_INLINE_ Vector2 Terrain2DSurface::transform_uv(const Terrain2DSurfaceSides p_side, const Vector2 &p_uv) const {
+_FORCE_INLINE_ Vector2 Terrain2DSurface::transform_uv(const Vector2 &p_uv) const {
 	Vector2 uv = p_uv;
 
-	Rect2 r = _rects[p_side];
+	Rect2 r = _rect;
 
 	uv.x *= r.size.x;
 	uv.y *= r.size.y;
@@ -57,10 +57,10 @@ _FORCE_INLINE_ Vector2 Terrain2DSurface::transform_uv(const Terrain2DSurfaceSide
 	return uv;
 }
 
-_FORCE_INLINE_ Vector2 Terrain2DSurface::transform_uv_scaled(const Terrain2DSurfaceSides p_side, const Vector2 &p_uv, const int p_current_x, const int p_current_y, const int p_max) const {
+_FORCE_INLINE_ Vector2 Terrain2DSurface::transform_uv_scaled(const Vector2 &p_uv, const int p_current_x, const int p_current_y, const int p_max) const {
 	Vector2 uv = p_uv;
 
-	Rect2 r = _rects[p_side];
+	Rect2 r = _rect;
 
 	float sizex = r.size.x / static_cast<float>(p_max);
 	float sizey = r.size.x / static_cast<float>(p_max);
@@ -96,17 +96,11 @@ void Terrain2DSurface::_bind_methods() {
 
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "voxel_name"), "set_name", "get_name");
 
-	ClassDB::bind_method(D_METHOD("get_rect", "side"), &Terrain2DSurface::get_rect);
-	ClassDB::bind_method(D_METHOD("set_rect", "side", "rect"), &Terrain2DSurface::set_rect);
+	ClassDB::bind_method(D_METHOD("get_rect"), &Terrain2DSurface::get_rect);
+	ClassDB::bind_method(D_METHOD("set_rect", "rect"), &Terrain2DSurface::set_rect);
 
-	ClassDB::bind_method(D_METHOD("transform_uv", "side", "uv"), &Terrain2DSurface::transform_uv);
-	ClassDB::bind_method(D_METHOD("transform_uv_scaled", "side", "uv", "p_current_x", "p_current_y", "max"), &Terrain2DSurface::transform_uv_scaled);
+	ClassDB::bind_method(D_METHOD("transform_uv", "uv"), &Terrain2DSurface::transform_uv);
+	ClassDB::bind_method(D_METHOD("transform_uv_scaled", "uv", "p_current_x", "p_current_y", "max"), &Terrain2DSurface::transform_uv_scaled);
 
 	ClassDB::bind_method(D_METHOD("refresh_rects"), &Terrain2DSurface::refresh_rects);
-
-	BIND_ENUM_CONSTANT(TERRAIN_2D_SIDE_TOP);
-	BIND_ENUM_CONSTANT(TERRAIN_2D_SIDE_BOTTOM);
-	BIND_ENUM_CONSTANT(TERRAIN_2D_SIDE_SIDE);
-
-	BIND_CONSTANT(TERRAIN_2D_SIDES_COUNT);
 }

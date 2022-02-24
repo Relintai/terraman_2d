@@ -154,10 +154,10 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 			add_indices(vc + 0);
 
 			Vector2 uvs[] = {
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 0), x % get_texture_scale(), y % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 0), x % get_texture_scale(), y % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(0, 1), x % get_texture_scale(), y % get_texture_scale(), get_texture_scale()),
-				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), y % get_texture_scale(), get_texture_scale())
+				surface->transform_uv_scaled(Vector2(1, 0), x % get_texture_scale(), y % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Vector2(0, 0), x % get_texture_scale(), y % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Vector2(0, 1), x % get_texture_scale(), y % get_texture_scale(), get_texture_scale()),
+				surface->transform_uv_scaled(Vector2(1, 1), x % get_texture_scale(), y % get_texture_scale(), get_texture_scale())
 			};
 
 			int xx = (x + 1) * cell_size_x;

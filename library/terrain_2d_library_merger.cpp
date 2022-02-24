@@ -233,18 +233,16 @@ void Terrain2DLibraryMerger::refresh_rects() {
 		Ref<Terrain2DSurfaceMerger> surface = Ref<Terrain2DSurfaceMerger>(_terra_surfaces[i]);
 
 		if (surface.is_valid()) {
-			for (int j = 0; j < Terrain2DSurface::TERRAIN_2D_SIDES_COUNT; ++j) {
-				Ref<Texture> tex = surface->get_texture(static_cast<Terrain2DSurface::Terrain2DSurfaceSides>(j));
+			Ref<Texture> tex = surface->get_texture();
 
-				if (!tex.is_valid())
-					continue;
+			if (!tex.is_valid())
+				continue;
 
-				if (!_packer->contains_texture(tex)) {
-					texture_added = true;
-					surface->set_region(static_cast<Terrain2DSurface::Terrain2DSurfaceSides>(j), _packer->add_texture(tex));
-				} else {
-					surface->set_region(static_cast<Terrain2DSurface::Terrain2DSurfaceSides>(j), _packer->get_texture(tex));
-				}
+			if (!_packer->contains_texture(tex)) {
+				texture_added = true;
+				surface->set_region(_packer->add_texture(tex));
+			} else {
+				surface->set_region(_packer->get_texture(tex));
 			}
 		}
 	}

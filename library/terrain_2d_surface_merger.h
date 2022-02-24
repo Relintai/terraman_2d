@@ -39,11 +39,11 @@ class Terrain2DSurfaceMerger : public Terrain2DSurface {
 	GDCLASS(Terrain2DSurfaceMerger, Terrain2DSurface)
 
 public:
-	Ref<AtlasTexture> get_region(const Terrain2DSurfaceSides side);
-	void set_region(const Terrain2DSurfaceSides side, const Ref<AtlasTexture> &texture);
+	Ref<AtlasTexture> get_region();
+	void set_region(const Ref<AtlasTexture> &texture);
 
-	Ref<Texture> get_texture(const Terrain2DSurfaceSides side);
-	void set_texture(const Terrain2DSurfaceSides side, const Ref<Texture> &texture);
+	Ref<Texture> get_texture();
+	void set_texture(const Ref<Texture> &texture);
 
 	void refresh_rects();
 
@@ -54,8 +54,8 @@ protected:
 	static void _bind_methods();
 
 private:
-	Ref<AtlasTexture> _regions[TERRAIN_2D_SIDES_COUNT];
-	Ref<Texture> _textures[TERRAIN_2D_SIDES_COUNT];
+	Ref<AtlasTexture> _region;
+	Ref<Texture> _texture;
 };
 
 #endif

@@ -47,43 +47,17 @@ class Terrain2DSurface : public Resource {
 	GDCLASS(Terrain2DSurface, Resource)
 
 public:
-	/*
-	   _____
-	 /_____/I
-	I     I I  <- BACK
-	I  F  I I
-	I_____I/
-
-
-	    I y 
-	    I        I
-	    O----- x I B
-	  /  I F  I /
-	/ z+ I ---I/
-	*/
-
-	enum Terrain2DSurfaceSides {
-		TERRAIN_2D_SIDE_TOP = 0,
-		TERRAIN_2D_SIDE_BOTTOM = 1,
-		TERRAIN_2D_SIDE_SIDE = 2,
-	};
-
-	enum {
-		TERRAIN_2D_SIDES_COUNT = 3,
-		TERRAIN_2D_SIDES_ARRAY_SIZE = TERRAIN_2D_SIDES_COUNT * 2,
-	};
-
 	int get_id() const;
 	void set_id(const int value);
 
-	Rect2 get_rect(const Terrain2DSurfaceSides side) const;
-	void set_rect(const Terrain2DSurfaceSides side, const Rect2 &rect);
+	Rect2 get_rect() const;
+	void set_rect(const Rect2 &rect);
 
 	Ref<Terrain2DLibrary> get_library() const;
 	void set_library(Ref<Terrain2DLibrary> library);
 
-	Vector2 transform_uv(const Terrain2DSurfaceSides p_side, const Vector2 &p_uv) const;
-	Vector2 transform_uv_scaled(const Terrain2DSurfaceSides p_side, const Vector2 &p_uv, const int p_current_x, const int p_current_y, const int p_max) const;
+	Vector2 transform_uv(const Vector2 &p_uv) const;
+	Vector2 transform_uv_scaled(const Vector2 &p_uv, const int p_current_x, const int p_current_y, const int p_max) const;
 
 	virtual void refresh_rects();
 
@@ -99,9 +73,7 @@ protected:
 	int _mesher_index;
 	bool _transparent;
 	bool _liquid;
-	Rect2 _rects[TERRAIN_2D_SIDES_COUNT];
+	Rect2 _rect;
 };
-
-VARIANT_ENUM_CAST(Terrain2DSurface::Terrain2DSurfaceSides);
 
 #endif

@@ -29,11 +29,11 @@ class Terrain2DSurfaceSimple : public Terrain2DSurface {
 	GDCLASS(Terrain2DSurfaceSimple, Terrain2DSurface)
 
 public:
-	int get_atlas_x(const Terrain2DSurfaceSides side) const;
-	void set_atlas_x(const Terrain2DSurfaceSides side, int value);
+	int get_atlas_x() const;
+	void set_atlas_x(int value);
 
-	int get_atlas_y(const Terrain2DSurfaceSides side) const;
-	void set_atlas_y(const Terrain2DSurfaceSides side, int value);
+	int get_atlas_y() const;
+	void set_atlas_y(int value);
 
 	void refresh_rects();
 
@@ -44,7 +44,8 @@ protected:
 	static void _bind_methods();
 
 private:
-	int _atlas_positions[TERRAIN_2D_SIDES_ARRAY_SIZE];
+	int _atlas_position_x;
+	int _atlas_position_y;
 };
 
 #endif

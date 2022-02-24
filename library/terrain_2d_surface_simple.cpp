@@ -24,26 +24,18 @@ SOFTWARE.
 
 #include "terrain_2d_library_simple.h"
 
-int Terrain2DSurfaceSimple::get_atlas_x(const Terrain2DSurfaceSides side) const {
-	int indx = (side * 2);
-
-	return _atlas_positions[indx];
+int Terrain2DSurfaceSimple::get_atlas_x() const {
+	return _atlas_position_x;
 }
-void Terrain2DSurfaceSimple::set_atlas_x(const Terrain2DSurfaceSides side, int value) {
-	int indx = (side * 2);
-
-	_atlas_positions[indx] = value;
+void Terrain2DSurfaceSimple::set_atlas_x(int value) {
+	_atlas_position_x = value;
 }
 
-int Terrain2DSurfaceSimple::get_atlas_y(const Terrain2DSurfaceSides side) const {
-	int indx = (side * 2) + 1;
-
-	return _atlas_positions[indx];
+int Terrain2DSurfaceSimple::get_atlas_y() const {
+	return _atlas_position_y;
 }
-void Terrain2DSurfaceSimple::set_atlas_y(const Terrain2DSurfaceSides side, int value) {
-	int indx = (side * 2) + 1;
-
-	_atlas_positions[indx] = value;
+void Terrain2DSurfaceSimple::set_atlas_y(int value) {
+	_atlas_position_y = value;
 }
 
 void Terrain2DSurfaceSimple::refresh_rects() {
@@ -51,44 +43,34 @@ void Terrain2DSurfaceSimple::refresh_rects() {
 
 	ERR_FAIL_COND(lib == NULL);
 
-	for (int i = 0; i < TERRAIN_2D_SIDES_COUNT; ++i) {
-		float culomn = 1.0 / static_cast<float>(lib->get_atlas_columns());
-		float row = 1.0 / static_cast<float>(lib->get_atlas_rows());
+	float culomn = 1.0 / static_cast<float>(lib->get_atlas_columns());
+	float row = 1.0 / static_cast<float>(lib->get_atlas_rows());
 
-		Rect2 r;
+	Rect2 r;
 
-		r.position.x = _atlas_positions[i * 2] * culomn;
-		r.position.y = _atlas_positions[i * 2 + 1] * row;
+	r.position.x = _atlas_position_x * culomn;
+	r.position.y = _atlas_position_y * row;
 
-		r.size.x = culomn;
-		r.size.y = row;
+	r.size.x = culomn;
+	r.size.y = row;
 
-		_rects[i] = r;
-	}
+	_rect = r;
 }
 
 Terrain2DSurfaceSimple::Terrain2DSurfaceSimple() {
-	for (int i = 0; i < TERRAIN_2D_SIDES_ARRAY_SIZE; ++i) {
-		_atlas_positions[i] = 0;
-	}
+	_atlas_position_x = 0;
+	_atlas_position_y = 0;
 }
 
 Terrain2DSurfaceSimple::~Terrain2DSurfaceSimple() {
 }
 
 void Terrain2DSurfaceSimple::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("get_atlas_x", "side"), &Terrain2DSurfaceSimple::get_atlas_x);
-	ClassDB::bind_method(D_METHOD("set_atlas_x", "side", "value"), &Terrain2DSurfaceSimple::set_atlas_x);
+	ClassDB::bind_method(D_METHOD("get_atlas_x"), &Terrain2DSurfaceSimple::get_atlas_x);
+	ClassDB::bind_method(D_METHOD("set_atlas_x", "value"), &Terrain2DSurfaceSimple::set_atlas_x);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "atlas_x"), "set_atlas_x", "get_atlas_x");
 
-	ClassDB::bind_method(D_METHOD("get_atlas_y", "side"), &Terrain2DSurfaceSimple::get_atlas_y);
-	ClassDB::bind_method(D_METHOD("set_atlas_y", "side", "value"), &Terrain2DSurfaceSimple::set_atlas_y);
-
-	ADD_PROPERTYI(PropertyInfo(Variant::INT, "top_atlas_x"), "set_atlas_x", "get_atlas_x", TERRAIN_2D_SIDE_TOP);
-	ADD_PROPERTYI(PropertyInfo(Variant::INT, "top_atlas_y"), "set_atlas_y", "get_atlas_y", TERRAIN_2D_SIDE_TOP);
-
-	ADD_PROPERTYI(PropertyInfo(Variant::INT, "bottom_atlas_x"), "set_atlas_x", "get_atlas_x", TERRAIN_2D_SIDE_BOTTOM);
-	ADD_PROPERTYI(PropertyInfo(Variant::INT, "bottom_atlas_y"), "set_atlas_y", "get_atlas_y", TERRAIN_2D_SIDE_BOTTOM);
-
-	ADD_PROPERTYI(PropertyInfo(Variant::INT, "side_atlas_x"), "set_atlas_x", "get_atlas_x", TERRAIN_2D_SIDE_SIDE);
-	ADD_PROPERTYI(PropertyInfo(Variant::INT, "side_atlas_y"), "set_atlas_y", "get_atlas_y", TERRAIN_2D_SIDE_SIDE);
+	ClassDB::bind_method(D_METHOD("get_atlas_y"), &Terrain2DSurfaceSimple::get_atlas_y);
+	ClassDB::bind_method(D_METHOD("set_atlas_y", "value"), &Terrain2DSurfaceSimple::set_atlas_y);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "atlas_y"), "set_atlas_y", "get_atlas_y");
 }
