@@ -166,6 +166,7 @@ void Terrain2DTerrain2DJob::phase_collider() {
 }
 
 void Terrain2DTerrain2DJob::phase_physics_process() {
+	/*
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
 
 	if (temp_arr_collider.size() != 0) {
@@ -189,7 +190,7 @@ void Terrain2DTerrain2DJob::phase_physics_process() {
 
 		temp_arr_collider_liquid.resize(0);
 	}
-
+*/
 	set_build_phase_type(BUILD_PHASE_TYPE_NORMAL);
 	reset_stages();
 	next_phase();

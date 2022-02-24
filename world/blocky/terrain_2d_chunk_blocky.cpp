@@ -36,8 +36,4 @@ void Terrain2DChunkBlocky::_setup_channels() {
 
 void Terrain2DChunkBlocky::_bind_methods() {
 	ADD_PROPERTYI(PropertyInfo(Variant::POOL_BYTE_ARRAY, "data_channel"), "channel_set_compressed", "channel_get_compressed", 0);
-	ADD_PROPERTYI(PropertyInfo(Variant::POOL_BYTE_ARRAY, "isolevel_channel"), "channel_set_compressed", "channel_get_compressed", 1);
-
-	//ClassDB::bind_method(D_METHOD("get_channel_compressed", "channel_index"), &Terrain2DChunk::get_channel_compressed);
-	//ClassDB::bind_method(D_METHOD("set_channel_compressed", "channel_index", "array"), &Terrain2DChunk::set_channel_compressed);
 }

@@ -50,6 +50,7 @@ void Terrain2DProp2DJob::set_prop_mesher(const Ref<Terrain2DMesher> &mesher) {
 }
 
 void Terrain2DProp2DJob::phase_physics_process() {
+	/*
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
 
 	//TODO this should only update the differences
@@ -58,7 +59,7 @@ void Terrain2DProp2DJob::phase_physics_process() {
 	}
 
 	chunk->colliders_clear();
-
+*/
 #ifdef MESH_DATA_RESOURCE_PRESENT
 //TODO
 /*
@@ -99,13 +100,13 @@ void Terrain2DProp2DJob::phase_physics_process() {
 	}
 	*/
 #endif
-
+/*
 #if TOOLS_ENABLED
 	if (SceneTree::get_singleton()->is_debugging_collisions_hint() && chunk->collider_get_count() > 0) {
 		chunk->draw_debug_mdr_colliders();
 	}
 #endif
-
+*/
 	set_build_phase_type(BUILD_PHASE_TYPE_NORMAL);
 	next_phase();
 }
