@@ -130,10 +130,10 @@ void Terrain2DWorld::set_level_generator(const Ref<Terrain2DLevelGenerator> &lev
 	_level_generator = level_generator;
 }
 
-int Terrain2DWorld::get_cell_size_x() const{
+int Terrain2DWorld::get_cell_size_x() const {
 	return _cell_size_x;
 }
-void Terrain2DWorld::set_cell_size_x(const int value){
+void Terrain2DWorld::set_cell_size_x(const int value) {
 	_cell_size_x = value;
 
 	for (int i = 0; i < chunk_get_count(); ++i) {
@@ -146,7 +146,7 @@ void Terrain2DWorld::set_cell_size_x(const int value){
 	}
 }
 
-int Terrain2DWorld::get_cell_size_y() const{
+int Terrain2DWorld::get_cell_size_y() const {
 	return _cell_size_y;
 }
 void Terrain2DWorld::set_cell_size_y(const int value) {
@@ -185,6 +185,13 @@ void Terrain2DWorld::set_player(Node2D *player) {
 }
 void Terrain2DWorld::set_player_bind(Node *player) {
 	set_player(Object::cast_to<Node2D>(player));
+}
+
+Transform2D Terrain2DWorld::get_custom_transform() {
+	return _custom_transform;
+}
+void Terrain2DWorld::set_custom_transform(const Transform2D &value) {
+	_custom_transform = value;
 }
 
 Ref<Terrain2DWorldArea> Terrain2DWorld::world_area_get(const int index) const {
@@ -439,7 +446,8 @@ Ref<Terrain2DChunk> Terrain2DWorld::_create_chunk(const int x, const int y, Ref<
 	chunk->set_library(_library);
 	chunk->set_cell_size_x(_cell_size_x);
 	chunk->set_cell_size_y(_cell_size_y);
-
+	chunk->set_custom_transform(_custom_transform);
+	
 	chunk->set_size(_chunk_size_x, _chunk_size_y, _data_margin_start, _data_margin_end);
 	//chunk->set_translation(Vector3(x * _chunk_size_x * _voxel_scale, y * _chunk_size_y * _voxel_scale, z * _chunk_size_z * _voxel_scale));
 
@@ -767,7 +775,7 @@ uint8_t Terrain2DWorld::get_voxel_at_world_position(const Vector2 &world_positio
 	Vector2 pos = world_position;
 	pos.x /= _cell_size_x;
 	pos.y /= _cell_size_y;
-	
+
 	//Note: floor is needed to handle negative numbers properly
 	int x = static_cast<int>(Math::floor(pos.x / get_chunk_size_x()));
 	int y = static_cast<int>(Math::floor(pos.y / get_chunk_size_y()));
@@ -1168,6 +1176,10 @@ void Terrain2DWorld::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_player", "player"), &Terrain2DWorld::set_player_bind);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "player", PROPERTY_HINT_RESOURCE_TYPE, "node2D", 0), "set_player", "get_player");
 
+	ClassDB::bind_method(D_METHOD("get_custom_transform"), &Terrain2DWorld::get_custom_transform);
+	ClassDB::bind_method(D_METHOD("set_custom_transform", "player"), &Terrain2DWorld::set_custom_transform);
+	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM2D, "get_custom_transform"), "set_custom_transform", "get_custom_transform");
+
 	ClassDB::bind_method(D_METHOD("world_area_get", "index"), &Terrain2DWorld::world_area_get);
 	ClassDB::bind_method(D_METHOD("world_area_add", "area"), &Terrain2DWorld::world_area_add);
 	ClassDB::bind_method(D_METHOD("world_area_remove", "index"), &Terrain2DWorld::world_area_remove);
@@ -1278,7 +1290,7 @@ void Terrain2DWorld::_bind_methods() {
 			PropertyInfo(Variant::INT, "selected_voxel"),
 			PropertyInfo(Variant::INT, "isolevel")));
 #else
-	GDVIRTUAL_BIND(_set_voxel_with_tool, "mode_add", "hit_position",  "selected_voxel", "isolevel");
+	GDVIRTUAL_BIND(_set_voxel_with_tool, "mode_add", "hit_position", "selected_voxel", "isolevel");
 #endif
 
 	ClassDB::bind_method(D_METHOD("set_voxel_with_tool", "mode_add", "hit_position", "selected_voxel", "isolevel"), &Terrain2DWorld::set_voxel_with_tool);

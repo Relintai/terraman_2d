@@ -190,6 +190,9 @@ public:
 	void set_voxel_world(Terrain2DWorld *world);
 	void set_voxel_world_bind(Node *world);
 
+	Transform2D get_custom_transform();
+	void set_custom_transform(const Transform2D &value);
+
 	//Jobs
 	Ref<Terrain2DJob> job_get(const int index) const;
 	void job_set(const int index, const Ref<Terrain2DJob> &job);
@@ -446,6 +449,8 @@ protected:
 	bool _queued_generation;
 
 	RID _canvas_item;
+
+	Transform2D _custom_transform;
 };
 
 #endif

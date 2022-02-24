@@ -114,6 +114,9 @@ public:
 	void set_player(Node2D *player);
 	void set_player_bind(Node *player);
 
+	Transform2D get_custom_transform();
+	void set_custom_transform(const Transform2D &value);
+
 	//World Areas
 	Ref<Terrain2DWorldArea> world_area_get(const int index) const;
 	void world_area_add(const Ref<Terrain2DWorldArea> &area);
@@ -283,6 +286,8 @@ private:
 	int _num_frame_chunk_build_steps;
 
 	Vector<Ref<Terrain2DLight>> _lights;
+
+	Transform2D _custom_transform;
 };
 
 _FORCE_INLINE_ bool operator==(const Terrain2DWorld::IntPos &a, const Terrain2DWorld::IntPos &b) {

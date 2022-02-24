@@ -242,6 +242,13 @@ void Terrain2DChunk::set_voxel_world_bind(Node *world) {
 	set_voxel_world(Object::cast_to<Terrain2DWorld>(world));
 }
 
+Transform2D Terrain2DChunk::get_custom_transform() {
+	return _custom_transform;
+}
+void Terrain2DChunk::set_custom_transform(const Transform2D &value) {
+	_custom_transform = value;
+}
+
 Ref<Terrain2DJob> Terrain2DChunk::job_get(int index) const {
 	ERR_FAIL_INDEX_V(index, _jobs.size(), Ref<Terrain2DJob>());
 
@@ -1247,7 +1254,12 @@ void Terrain2DChunk::_generation_physics_process(const float delta) {
 
 void Terrain2DChunk::_world_transform_changed() {
 	Transform2D t;
-	t.set_origin( Vector2(_position_x * static_cast<int>(_size_x) * _cell_size_x, _position_y * static_cast<int>(_size_y) * _cell_size_y));
+	Vector2 pos = Vector2(_position_x * static_cast<int>(_size_x) * _cell_size_x, _position_y * static_cast<int>(_size_y) * _cell_size_y);
+	
+	pos = _custom_transform.xform(pos);
+
+	t *= _custom_transform;
+	t.set_origin(pos);
 
 	set_transform(t);
 
@@ -1463,6 +1475,10 @@ void Terrain2DChunk::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_voxel_world"), &Terrain2DChunk::get_voxel_world);
 	ClassDB::bind_method(D_METHOD("set_voxel_world", "world"), &Terrain2DChunk::set_voxel_world_bind);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "voxel_world", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DWorld", 0), "set_voxel_world", "get_voxel_world");
+
+	ClassDB::bind_method(D_METHOD("get_custom_transform"), &Terrain2DChunk::get_custom_transform);
+	ClassDB::bind_method(D_METHOD("set_custom_transform", "player"), &Terrain2DChunk::set_custom_transform);
+	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM2D, "get_custom_transform"), "set_custom_transform", "get_custom_transform");
 
 	//Terra Data
 	ClassDB::bind_method(D_METHOD("channel_setup"), &Terrain2DChunk::channel_setup);
