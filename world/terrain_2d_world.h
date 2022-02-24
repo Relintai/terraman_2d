@@ -98,8 +98,11 @@ public:
 	Ref<Terrain2DLevelGenerator> get_level_generator() const;
 	void set_level_generator(const Ref<Terrain2DLevelGenerator> &level_generator);
 
-	float get_voxel_scale() const;
-	void set_voxel_scale(const float value);
+	int get_cell_size_x() const;
+	void set_cell_size_x(const int value);
+
+	int get_cell_size_y() const;
+	void set_cell_size_y(const int value);
 
 	int get_chunk_spawn_range() const;
 	void set_chunk_spawn_range(const int value);
@@ -260,7 +263,8 @@ private:
 
 	Ref<Terrain2DLibrary> _library;
 	Ref<Terrain2DLevelGenerator> _level_generator;
-	float _voxel_scale;
+	int _cell_size_x;
+	int _cell_size_y;
 	int _chunk_spawn_range;
 
 	HashMap<IntPos, Ref<Terrain2DChunk>, IntPosHasher> _chunks;

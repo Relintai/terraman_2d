@@ -183,8 +183,11 @@ public:
 	Ref<Terrain2DLibrary> get_library();
 	void set_library(const Ref<Terrain2DLibrary> &value);
 
-	float get_voxel_scale() const;
-	void set_voxel_scale(const float value);
+	int get_cell_size_x() const;
+	void set_cell_size_x(const int value);
+
+	int get_cell_size_y() const;
+	void set_cell_size_y(const int value);
 
 	Terrain2DWorld *get_voxel_world() const;
 	void set_voxel_world(Terrain2DWorld *world);
@@ -420,7 +423,8 @@ protected:
 
 	Vector<uint8_t *> _channels;
 
-	float _voxel_scale;
+	int _cell_size_x;
+	int _cell_size_y;
 
 	int _current_job;
 	Vector<Ref<Terrain2DJob>> _jobs;

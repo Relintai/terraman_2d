@@ -561,7 +561,7 @@ void Terrain2DChunkDefault::debug_mesh_send() {
 }
 
 void Terrain2DChunkDefault::draw_cross_voxels(Vector3 pos) {
-	pos *= _voxel_scale;
+	pos *= get_cell_size_x();
 
 	int size = _debug_mesh_array.size();
 	_debug_mesh_array.resize(_debug_mesh_array.size() + 6);
@@ -577,7 +577,7 @@ void Terrain2DChunkDefault::draw_cross_voxels(Vector3 pos) {
 }
 
 void Terrain2DChunkDefault::draw_cross_voxels_fill(Vector3 pos, float fill) {
-	pos *= _voxel_scale;
+	pos *= get_cell_size_x();
 
 	int size = _debug_mesh_array.size();
 	_debug_mesh_array.resize(_debug_mesh_array.size() + 6);

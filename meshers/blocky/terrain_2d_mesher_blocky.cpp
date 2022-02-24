@@ -50,7 +50,8 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 
 	int x_size = chunk->get_size_x();
 	int z_size = chunk->get_size_z();
-	float voxel_scale = get_voxel_scale();
+	int cell_size_x = get_cell_size_x();
+	int cell_size_y = get_cell_size_y();
 
 	uint8_t *channel_type = chunk->channel_get(_channel_index_type);
 
@@ -159,11 +160,16 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 				surface->transform_uv_scaled(Terrain2DSurface::TERRAIN_2D_SIDE_TOP, Vector2(1, 1), x % get_texture_scale(), z % get_texture_scale(), get_texture_scale())
 			};
 
+			int xx = (x + 1) * cell_size_x;
+			int xx1 = x * cell_size_x;
+			int yy = z * cell_size_y;
+			int yy1 = (z + 1) * cell_size_y;
+
 			Vector2 verts[] = {
-				Vector2(x + 1, z) * voxel_scale,
-				Vector2(x, z) * voxel_scale,
-				Vector2(x, z + 1) * voxel_scale,
-				Vector2(x + 1, z + 1) * voxel_scale
+				Vector2(xx1, yy),
+				Vector2(xx, yy),
+				Vector2(xx, yy1),
+				Vector2(xx1, yy1)
 			};
 
 			for (int i = 0; i < 4; ++i) {

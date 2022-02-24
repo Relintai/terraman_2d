@@ -105,11 +105,11 @@ _FORCE_INLINE_ Vector2 Terrain2DChunk::get_position() const {
 	return Vector2(_position_x, _position_z);
 }
 _FORCE_INLINE_ Vector2 Terrain2DChunk::get_world_position() const {
-	return Vector2(_position_x * _size_x * _voxel_scale, _position_z * _size_z * _voxel_scale);
+	return Vector2(_position_x * _size_x * _cell_size_x, _position_z * _size_z * _cell_size_y);
 }
 
 _FORCE_INLINE_ Vector3 Terrain2DChunk::get_world_size() const {
-	return Vector3(_size_x * _voxel_scale, 0, _size_z * _voxel_scale);
+	return Vector3(_size_x * _cell_size_x, 0, _size_z * _cell_size_y);
 }
 
 _FORCE_INLINE_ AABB Terrain2DChunk::get_world_aabb() const {
@@ -218,11 +218,18 @@ void Terrain2DChunk::set_library(const Ref<Terrain2DLibrary> &value) {
 	_library = value;
 }
 
-float Terrain2DChunk::get_voxel_scale() const {
-	return _voxel_scale;
+int Terrain2DChunk::get_cell_size_x() const{
+	return _cell_size_x;
 }
-void Terrain2DChunk::set_voxel_scale(const float value) {
-	_voxel_scale = value;
+void Terrain2DChunk::set_cell_size_x(const int value){
+	_cell_size_x = value;
+}
+
+int Terrain2DChunk::get_cell_size_y() const{
+	return _cell_size_y;
+}
+void Terrain2DChunk::set_cell_size_y(const int value) {
+	_cell_size_y = value;
 }
 
 Terrain2DWorld *Terrain2DChunk::get_voxel_world() const {
@@ -624,9 +631,8 @@ int Terrain2DChunk::voxel_structure_get_count() const {
 void Terrain2DChunk::voxel_structure_add_at_position(Ref<Terrain2DStructure> structure, const Vector3 &world_position) {
 	ERR_FAIL_COND(!structure.is_valid());
 
-	structure->set_position_x(static_cast<int>(world_position.x / _voxel_scale));
-	structure->set_position_y(static_cast<int>(world_position.y / _voxel_scale));
-	structure->set_position_z(static_cast<int>(world_position.z / _voxel_scale));
+	structure->set_position_x(static_cast<int>(world_position.x / _cell_size_x));
+	structure->set_position_y(static_cast<int>(world_position.y / _cell_size_y));
 
 	voxel_structure_add(structure);
 }
@@ -1081,7 +1087,8 @@ Terrain2DChunk::Terrain2DChunk() {
 	_dirty = false;
 	_state = TERRAIN_2D_CHUNK_STATE_OK;
 
-	_voxel_scale = 1;
+	_cell_size_x = 32;
+	_cell_size_y = 32;
 
 	_voxel_world = NULL;
 
@@ -1240,7 +1247,7 @@ void Terrain2DChunk::_generation_physics_process(const float delta) {
 
 void Terrain2DChunk::_world_transform_changed() {
 	Transform2D t;
-	t.set_origin( Vector2(_position_x * static_cast<int>(_size_x) * _voxel_scale, _position_z * static_cast<int>(_size_z) * _voxel_scale));
+	t.set_origin( Vector2(_position_x * static_cast<int>(_size_x) * _cell_size_x, _position_z * static_cast<int>(_size_z) * _cell_size_y));
 
 	set_transform(t);
 
@@ -1435,9 +1442,13 @@ void Terrain2DChunk::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_library", "value"), &Terrain2DChunk::set_library);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DLibrary"), "set_library", "get_library");
 
-	ClassDB::bind_method(D_METHOD("get_voxel_scale"), &Terrain2DChunk::get_voxel_scale);
-	ClassDB::bind_method(D_METHOD("set_voxel_scale", "value"), &Terrain2DChunk::set_voxel_scale);
-	ADD_PROPERTY(PropertyInfo(Variant::REAL, "voxel_scale"), "set_voxel_scale", "get_voxel_scale");
+	ClassDB::bind_method(D_METHOD("get_cell_size_x"), &Terrain2DChunk::get_cell_size_x);
+	ClassDB::bind_method(D_METHOD("set_cell_size_x", "value"), &Terrain2DChunk::set_cell_size_x);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "cell_size_x"), "set_cell_size_x", "get_cell_size_x");
+
+	ClassDB::bind_method(D_METHOD("get_cell_size_y"), &Terrain2DChunk::get_cell_size_y);
+	ClassDB::bind_method(D_METHOD("set_cell_size_y", "value"), &Terrain2DChunk::set_cell_size_y);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "cell_size_y"), "set_cell_size_y", "get_cell_size_y");
 
 	ClassDB::bind_method(D_METHOD("job_get", "index"), &Terrain2DChunk::job_get);
 	ClassDB::bind_method(D_METHOD("job_set", "index", "job"), &Terrain2DChunk::job_set);

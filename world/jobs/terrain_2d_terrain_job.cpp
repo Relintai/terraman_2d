@@ -361,7 +361,8 @@ void Terrain2DTerrain2DJob::_reset() {
 
 	ERR_FAIL_COND(!_mesher.is_valid());
 
-	_mesher->set_voxel_scale(_chunk->get_voxel_scale());
+	_mesher->set_cell_size_x(_chunk->get_cell_size_x());
+	_mesher->set_cell_size_y(_chunk->get_cell_size_y());
 
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
 	Ref<Terrain2DMesherDefault> md = _mesher;
@@ -371,7 +372,8 @@ void Terrain2DTerrain2DJob::_reset() {
 	}
 
 	if (_liquid_mesher.is_valid()) {
-		_liquid_mesher->set_voxel_scale(_chunk->get_voxel_scale());
+		_liquid_mesher->set_cell_size_x(_chunk->get_cell_size_x());
+		_liquid_mesher->set_cell_size_y(_chunk->get_cell_size_y());
 
 		md = _liquid_mesher;
 

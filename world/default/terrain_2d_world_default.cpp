@@ -54,7 +54,9 @@ PoolColorArray Terrain2DWorldDefault::get_vertex_colors(const Transform &transfo
 	for (int i = 0; i < vertices.size(); ++i) {
 		Vector3 v = transform.xform(vertices[i]);
 
-		Vector3 pos = v / get_voxel_scale();
+		Vector3 pos = v;
+		v.x /= get_cell_size_x();
+		v.z /= get_cell_size_y();
 
 		//Note: floor is needed to handle negative numbers proiberly
 		int x = static_cast<int>(Math::floor(pos.x / get_chunk_size_x()));

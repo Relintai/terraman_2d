@@ -30,12 +30,12 @@ SOFTWARE.
 #ifndef Reference
 #define Reference RefCounted
 #endif
-#include "core/templates/vector.h"
 #include "core/math/color.h"
+#include "core/templates/vector.h"
 #else
+#include "core/color.h"
 #include "core/reference.h"
 #include "core/vector.h"
-#include "core/color.h"
 #endif
 
 #include "../defines.h"
@@ -120,8 +120,11 @@ public:
 	float get_base_light_value() const;
 	void set_base_light_value(const float value);
 
-	float get_voxel_scale() const;
-	void set_voxel_scale(const float voxel_scale);
+	int get_cell_size_x() const;
+	void set_cell_size_x(const int val);
+
+	int get_cell_size_y() const;
+	void set_cell_size_y(const int val);
 
 	Rect2 get_uv_margin() const;
 	void set_uv_margin(const Rect2 margin);
@@ -211,7 +214,8 @@ protected:
 	Ref<Terrain2DLibrary> _library;
 	Ref<Material> _material;
 
-	float _voxel_scale;
+	int _cell_size_x;
+	int _cell_size_y;
 
 	float _ao_strength;
 	float _base_light_value;

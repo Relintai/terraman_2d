@@ -127,11 +127,18 @@ void Terrain2DMesher::set_base_light_value(float value) {
 	_base_light_value = value;
 }
 
-float Terrain2DMesher::get_voxel_scale() const {
-	return _voxel_scale;
+int Terrain2DMesher::get_cell_size_x() const {
+	return _cell_size_x;
 }
-void Terrain2DMesher::set_voxel_scale(const float voxel_scale) {
-	_voxel_scale = voxel_scale;
+void Terrain2DMesher::set_cell_size_x(const int val) {
+	_cell_size_x = val;
+}
+
+int Terrain2DMesher::get_cell_size_y() const {
+	return _cell_size_y;
+}
+void Terrain2DMesher::set_cell_size_y(const int val) {
+	_cell_size_y = val;
 }
 
 Rect2 Terrain2DMesher::get_uv_margin() const {
@@ -729,7 +736,8 @@ Terrain2DMesher::Terrain2DMesher(const Ref<Terrain2DLibrary> &library) {
 	_library = library;
 
 	_mesher_index = 0;
-	_voxel_scale = 1;
+	_cell_size_x = 32;
+	_cell_size_y = 32;
 	_ao_strength = 0.25;
 	_base_light_value = 0.5;
 	_uv_margin = Rect2(0, 0, 1, 1);
@@ -741,7 +749,8 @@ Terrain2DMesher::Terrain2DMesher(const Ref<Terrain2DLibrary> &library) {
 
 Terrain2DMesher::Terrain2DMesher() {
 	_mesher_index = 0;
-	_voxel_scale = 1;
+	_cell_size_x = 32;
+	_cell_size_y = 32;
 	_ao_strength = 0.25;
 	_base_light_value = 0.5;
 	_uv_margin = Rect2(0, 0, 1, 1);
@@ -796,9 +805,13 @@ void Terrain2DMesher::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_material", "value"), &Terrain2DMesher::set_material);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "set_material", "get_material");
 
-	ClassDB::bind_method(D_METHOD("get_voxel_scale"), &Terrain2DMesher::get_voxel_scale);
-	ClassDB::bind_method(D_METHOD("set_voxel_scale", "value"), &Terrain2DMesher::set_voxel_scale);
-	ADD_PROPERTY(PropertyInfo(Variant::REAL, "voxel_scale"), "set_voxel_scale", "get_voxel_scale");
+	ClassDB::bind_method(D_METHOD("get_cell_size_x"), &Terrain2DMesher::get_cell_size_x);
+	ClassDB::bind_method(D_METHOD("set_cell_size_x", "value"), &Terrain2DMesher::set_cell_size_x);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "cell_size_x"), "set_cell_size_x", "get_cell_size_x");
+
+	ClassDB::bind_method(D_METHOD("get_cell_size_y"), &Terrain2DMesher::get_cell_size_y);
+	ClassDB::bind_method(D_METHOD("set_cell_size_y", "value"), &Terrain2DMesher::set_cell_size_y);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "cell_size_y"), "set_cell_size_y", "get_cell_size_y");
 
 	ClassDB::bind_method(D_METHOD("get_ao_strength"), &Terrain2DMesher::get_ao_strength);
 	ClassDB::bind_method(D_METHOD("set_ao_strength", "value"), &Terrain2DMesher::set_ao_strength);
@@ -819,7 +832,6 @@ void Terrain2DMesher::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("add_mesh_data_resource_transform", "mesh", "transform", "uv_rect"), &Terrain2DMesher::add_mesh_data_resource_transform, DEFVAL(Rect2(0, 0, 1, 1)));
 	ClassDB::bind_method(D_METHOD("add_mesh_data_resource_transform_colored", "mesh", "transform", "colors", "uv_rect"), &Terrain2DMesher::add_mesh_data_resource_transform_colored, DEFVAL(Rect2(0, 0, 1, 1)));
 #endif
-
 
 #if VERSION_MAJOR < 4
 	BIND_VMETHOD(MethodInfo("_add_mesher", PropertyInfo(Variant::OBJECT, "mesher", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DMesher")));
