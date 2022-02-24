@@ -1245,14 +1245,10 @@ void Terrain2DChunk::_generation_physics_process(const float delta) {
 }
 
 void Terrain2DChunk::_world_transform_changed() {
-	Transform2D wt;
+	Transform2D t;
+	t.set_origin( Vector2(_position_x * static_cast<int>(_size_x) * _voxel_scale, _position_z * static_cast<int>(_size_z) * _voxel_scale));
 
-	if (_voxel_world != NULL) {
-		wt = _voxel_world->get_transform();
-	}
-
-	//TODO
-	//set_transform(wt * Transform(Basis(), Vector3(_position_x * static_cast<int>(_size_x) * _voxel_scale, 0, _position_z * static_cast<int>(_size_z) * _voxel_scale)));
+	set_transform(t);
 }
 
 /*

@@ -445,7 +445,7 @@ void Terrain2DChunkDefault::free_index(const int mesh_index) {
 
 void Terrain2DChunkDefault::update_transforms() {
 	RID empty_rid;
-	//Transform t = get_transform();
+	//Transform2D t = get_transform();
 
 	List<Variant> keys;
 
