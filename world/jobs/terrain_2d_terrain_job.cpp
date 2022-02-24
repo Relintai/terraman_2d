@@ -82,8 +82,17 @@ void Terrain2DTerrain2DJob::phase_library_setup() {
 			Ref<Terrain2DMaterialCache> cache = lib->material_cache_get(_chunk->material_cache_key_get());
 
 			if (!cache.is_valid()) {
-				//todo library texture get
-				
+				//Try a fallback texture
+				Ref<Terrain2DChunkDefault> cd = _chunk;
+
+				if (cd.is_valid()) {
+					Ref<Texture> tex = lib->texture_get();
+
+					if (tex.is_valid()) {
+						cd->mesh_rid_set(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_TEXTURE_RID, tex->get_rid());
+					}
+				}
+
 				next_phase();
 				return;
 			}
@@ -103,6 +112,16 @@ void Terrain2DTerrain2DJob::phase_library_setup() {
 				if (tex.is_valid()) {
 					cd->mesh_rid_set(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_TEXTURE_RID, tex->get_rid());
 				}
+			}
+		}
+	} else {
+		Ref<Terrain2DChunkDefault> cd = _chunk;
+
+		if (cd.is_valid()) {
+			Ref<Texture> tex = lib->texture_get();
+
+			if (tex.is_valid()) {
+				cd->mesh_rid_set(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_TEXTURE_RID, tex->get_rid());
 			}
 		}
 	}
