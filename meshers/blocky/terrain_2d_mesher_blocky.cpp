@@ -26,13 +26,6 @@ SOFTWARE.
 
 #include "../../library/terrain_2d_material_cache.h"
 
-bool Terrain2DMesherBlocky::get_always_add_colors() const {
-	return _always_add_colors;
-}
-void Terrain2DMesherBlocky::set_always_add_colors(const bool value) {
-	_always_add_colors = value;
-}
-
 void Terrain2DMesherBlocky::_add_chunk(Ref<Terrain2DChunk> p_chunk) {
 	Ref<Terrain2DChunkDefault> chunk = p_chunk;
 
@@ -94,8 +87,8 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 	for (int y = margin_start; y < y_size + margin_start; ++y) {
 		for (int x = margin_start; x < x_size + margin_start; ++x) {
 			int indexes[4] = {
-				chunk->get_data_index(x + 1, y),
 				chunk->get_data_index(x, y),
+				chunk->get_data_index(x + 1, y),
 				chunk->get_data_index(x, y + 1),
 				chunk->get_data_index(x + 1, y + 1)
 			};
@@ -146,35 +139,38 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 			}
 
 			int vc = get_vertex_count();
+			add_indices(vc + 0);
+			add_indices(vc + 1);
 			add_indices(vc + 2);
 			add_indices(vc + 1);
-			add_indices(vc + 0);
-			add_indices(vc + 3);
 			add_indices(vc + 2);
-			add_indices(vc + 0);
+			add_indices(vc + 3);
 
 			Vector2 uvs[] = {
-				surface->transform_uv(Vector2(1, 0)),
 				surface->transform_uv(Vector2(0, 0)),
+				surface->transform_uv(Vector2(1, 0)),
 				surface->transform_uv(Vector2(0, 1)),
 				surface->transform_uv(Vector2(1, 1))
 			};
 
-			int xx = (x + 1) * cell_size_x;
-			int xx1 = x * cell_size_x;
+			int xx = x * cell_size_x;
+			int xx1 = (x + 1) * cell_size_x;
 			int yy = y * cell_size_y;
 			int yy1 = (y + 1) * cell_size_y;
 
 			Vector2 verts[] = {
-				Vector2(xx1, yy),
 				Vector2(xx, yy),
+				Vector2(xx1, yy),
 				Vector2(xx, yy1),
 				Vector2(xx1, yy1)
 			};
 
 			for (int i = 0; i < 4; ++i) {
-				if (use_lighting || _always_add_colors)
+				if (use_lighting) {
 					add_color(light[i]);
+				} else {
+					add_color(Color(1, 1, 1, 1));
+				}
 
 				add_uv(uvs[i]);
 				add_vertex(verts[i]);
@@ -184,7 +180,6 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 }
 
 Terrain2DMesherBlocky::Terrain2DMesherBlocky() {
-	_always_add_colors = false;
 }
 
 Terrain2DMesherBlocky::~Terrain2DMesherBlocky() {
@@ -192,8 +187,4 @@ Terrain2DMesherBlocky::~Terrain2DMesherBlocky() {
 
 void Terrain2DMesherBlocky::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("_add_chunk", "buffer"), &Terrain2DMesherBlocky::_add_chunk);
-
-	ClassDB::bind_method(D_METHOD("get_always_add_colors"), &Terrain2DMesherBlocky::get_always_add_colors);
-	ClassDB::bind_method(D_METHOD("set_always_add_colors", "value"), &Terrain2DMesherBlocky::set_always_add_colors);
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "always_add_colors"), "set_always_add_colors", "get_always_add_colors");
 }

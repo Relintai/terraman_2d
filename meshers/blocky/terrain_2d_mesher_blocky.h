@@ -41,9 +41,6 @@ class Terrain2DMesherBlocky : public Terrain2DMesherDefault {
 	GDCLASS(Terrain2DMesherBlocky, Terrain2DMesherDefault);
 
 public:
-	bool get_always_add_colors() const;
-	void set_always_add_colors(const bool value);
-
 	void _add_chunk(Ref<Terrain2DChunk> p_chunk);
 
 	void add_chunk_normal(Ref<Terrain2DChunkDefault> chunk);
@@ -53,9 +50,6 @@ public:
 
 protected:
 	static void _bind_methods();
-
-private:
-	bool _always_add_colors;
 };
 
 #endif
