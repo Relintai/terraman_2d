@@ -117,6 +117,12 @@ void Terrain2DJob::generate_random_ao(int seed, int octaves, int period, float p
 	int position_x = _chunk->get_position_x();
 	int position_y = _chunk->get_position_y();
 
+	int psx = position_x * size_x;
+	int psy = position_y * size_y;
+
+	float cx = _chunk->get_cell_size_x();
+	float cy = _chunk->get_cell_size_y();
+
 	Ref<OpenSimplexNoise> noise;
 	noise.instance();
 
@@ -127,8 +133,12 @@ void Terrain2DJob::generate_random_ao(int seed, int octaves, int period, float p
 
 	for (int x = -margin_start; x < size_x + margin_end; ++x) {
 		for (int y = -margin_start; y < size_y + margin_end; ++y) {
+			float xx = x + psx;
+			float yy = y + psy;
+			xx /= cx;
+			yy /= cy;
 
-			float val = noise->get_noise_2d(x + (position_x * size_x), y + (position_y * size_y));
+			float val = noise->get_noise_2d(xx, yy);
 
 			val *= scale_factor;
 
