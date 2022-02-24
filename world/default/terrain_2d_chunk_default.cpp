@@ -262,7 +262,6 @@ void Terrain2DChunkDefault::meshes_create(const int mesh_index, const int mesh_c
 	ERR_FAIL_COND(m.has(MESH_TYPE_INDEX_MESH));
 
 	Array am;
-	Array ami;
 
 	for (int i = 0; i < mesh_count; ++i) {
 		RID mesh_rid = VS::get_singleton()->mesh_create();
@@ -290,6 +289,41 @@ void Terrain2DChunkDefault::meshes_free(const int mesh_index) {
 			if (r != rid) {
 				VS::get_singleton()->free(r);
 			}
+		}
+	}
+
+	m.erase(MESH_TYPE_INDEX_MESH);
+}
+
+void Terrain2DChunkDefault::mesh_create(const int mesh_index) {
+	ERR_FAIL_COND(_voxel_world == NULL);
+	ERR_FAIL_COND(!get_library().is_valid());
+
+	if (!_rids.has(mesh_index))
+		_rids[mesh_index] = Dictionary();
+
+	Dictionary m = _rids[mesh_index];
+
+	ERR_FAIL_COND(m.has(MESH_TYPE_INDEX_MESH));
+
+	RID mesh_rid = VS::get_singleton()->mesh_create();
+
+	m[MESH_TYPE_INDEX_MESH] = mesh_rid;
+
+	_rids[mesh_index] = m;
+}
+void Terrain2DChunkDefault::mesh_free(const int mesh_index) {
+	if (!_rids.has(mesh_index))
+		return;
+
+	Dictionary m = _rids[mesh_index];
+	RID rid;
+
+	if (m.has(MESH_TYPE_INDEX_MESH)) {
+		RID r = m[MESH_TYPE_INDEX_MESH];
+
+		if (r != rid) {
+			VS::get_singleton()->free(r);
 		}
 	}
 
@@ -405,6 +439,7 @@ void Terrain2DChunkDefault::colliders_free(const int mesh_index) {
 
 void Terrain2DChunkDefault::free_index(const int mesh_index) {
 	meshes_free(mesh_index);
+	mesh_free(mesh_index);
 	colliders_free(mesh_index);
 }
 
@@ -842,6 +877,8 @@ void Terrain2DChunkDefault::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("meshes_create", "mesh_index", "mesh_count"), &Terrain2DChunkDefault::meshes_create);
 	ClassDB::bind_method(D_METHOD("meshes_free", "mesh_index"), &Terrain2DChunkDefault::meshes_free);
+	ClassDB::bind_method(D_METHOD("mesh_create", "mesh_index"), &Terrain2DChunkDefault::mesh_create);
+	ClassDB::bind_method(D_METHOD("mesh_free", "mesh_index"), &Terrain2DChunkDefault::mesh_free);
 
 	ClassDB::bind_method(D_METHOD("create_colliders", "mesh_index", "layer_mask"), &Terrain2DChunkDefault::colliders_create, DEFVAL(1));
 	ClassDB::bind_method(D_METHOD("free_colliders", "mesh_index"), &Terrain2DChunkDefault::colliders_free);

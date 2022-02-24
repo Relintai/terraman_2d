@@ -277,6 +277,8 @@ void Terrain2DWorld::chunk_add(Ref<Terrain2DChunk> chunk, const int x, const int
 	}
 
 	emit_signal("chunk_added", chunk);
+
+	update();
 }
 bool Terrain2DWorld::chunk_has(const int x, const int z) const {
 	return _chunks.has(IntPos(x, z));
@@ -319,6 +321,7 @@ Ref<Terrain2DChunk> Terrain2DWorld::chunk_remove(const int x, const int z) {
 	_chunks.erase(pos);
 
 	emit_signal("chunk_removed", chunk);
+	update();
 
 	return chunk;
 }
@@ -340,7 +343,8 @@ Ref<Terrain2DChunk> Terrain2DWorld::chunk_remove_index(const int index) {
 	//_generating.erase(chunk);
 
 	emit_signal("chunk_removed", chunk);
-
+	update();
+	
 	return chunk;
 }
 
@@ -376,6 +380,8 @@ void Terrain2DWorld::chunks_clear() {
 
 	//never remove from this here
 	//_generating.clear();
+
+	update();
 }
 
 Ref<Terrain2DChunk> Terrain2DWorld::chunk_get_or_create(int x, int z) {

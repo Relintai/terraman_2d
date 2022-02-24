@@ -128,6 +128,8 @@ public:
 
 	void meshes_create(const int mesh_index, const int mesh_count);
 	void meshes_free(const int mesh_index);
+	void mesh_create(const int mesh_index);
+	void mesh_free(const int mesh_index);
 
 	void colliders_create(const int mesh_index, const int layer_mask = 1);
 	void colliders_create_area(const int mesh_index, const int layer_mask = 1);
