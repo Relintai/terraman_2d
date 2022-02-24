@@ -301,6 +301,7 @@ public:
 	void world_light_removed(const Ref<Terrain2DLight> &light);
 	void generation_process(const float delta);
 	void generation_physics_process(const float delta);
+	void draw();
 
 	Transform2D get_transform() const;
 	void set_transform(const Transform2D &transform);

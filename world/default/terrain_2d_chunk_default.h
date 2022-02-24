@@ -26,15 +26,14 @@ SOFTWARE.
 #include "core/version.h"
 
 #if VERSION_MAJOR > 3
-#include "core/string/ustring.h"
 #include "core/config/engine.h"
+#include "core/string/ustring.h"
 #include "core/variant/array.h"
 #else
-#include "core/ustring.h"
-#include "core/engine.h"
 #include "core/array.h"
+#include "core/engine.h"
+#include "core/ustring.h"
 #endif
-
 
 #include "../terrain_2d_chunk.h"
 
@@ -44,12 +43,12 @@ SOFTWARE.
 #include "core/os/thread.h"
 #include "core/os/thread_safe.h"
 
-#include "scene/resources/packed_scene.h"
-#include "../terrain_2d_world.h"
 #include "../../data/terrain_2d_light.h"
-#include "../../meshers/terrain_2d_mesher.h"
-#include "../../library/terrain_2d_surface.h"
 #include "../../library/terrain_2d_library.h"
+#include "../../library/terrain_2d_surface.h"
+#include "../../meshers/terrain_2d_mesher.h"
+#include "../terrain_2d_world.h"
+#include "scene/resources/packed_scene.h"
 
 class Terrain2DWorld;
 class Terrain2DJob;
@@ -85,6 +84,7 @@ public:
 		MESH_TYPE_INDEX_SHAPE,
 		MESH_TYPE_INDEX_BODY,
 		MESH_TYPE_INDEX_AREA,
+		MESH_TYPE_INDEX_TEXTURE_RID,
 	};
 
 	enum BuildFlags {
@@ -181,6 +181,7 @@ protected:
 
 	virtual void _exit_tree();
 	virtual void _world_transform_changed();
+	virtual void _draw();
 
 	//lights
 	virtual void _bake_lights();
@@ -209,7 +210,7 @@ protected:
 	RID _debug_mesh_instance;
 	PoolVector3Array _debug_mesh_array;
 
-	Vector<Ref<Terrain2DLight> > _lights;
+	Vector<Ref<Terrain2DLight>> _lights;
 };
 
 VARIANT_ENUM_CAST(Terrain2DChunkDefault::DefaultChannels);

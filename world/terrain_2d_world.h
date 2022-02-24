@@ -210,6 +210,7 @@ public:
 	~Terrain2DWorld();
 
 protected:
+	virtual void _draw();
 	virtual void _generate_chunk(Ref<Terrain2DChunk> chunk);
 	virtual Ref<Terrain2DChunk> _create_chunk(int x, int z, Ref<Terrain2DChunk> p_chunk);
 	virtual int _get_channel_index_info(const ChannelTypeInfo channel_type);

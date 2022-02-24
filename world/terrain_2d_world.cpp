@@ -905,6 +905,18 @@ Terrain2DWorld ::~Terrain2DWorld() {
 	_lights.clear();
 }
 
+void Terrain2DWorld::_draw() {
+	for (int i = 0; i < _chunks_vector.size(); ++i) {
+		Ref<Terrain2DChunk> chunk = _chunks_vector[i];
+
+		ERR_CONTINUE(!chunk.is_valid());
+
+		if (chunk->get_visible()) {
+			chunk->draw();
+		}
+	}
+}
+
 void Terrain2DWorld::_generate_chunk(Ref<Terrain2DChunk> chunk) {
 	ERR_FAIL_COND(!chunk.is_valid());
 
@@ -976,10 +988,12 @@ void Terrain2DWorld::_notification(int p_what) {
 				CALL(_generation_finished);
 
 				emit_signal("generation_finished");
+				update();
 
 				return;
 			}
 
+			bool needs_update = false;
 			for (int i = 0; i < _generating.size(); ++i) {
 				Ref<Terrain2DChunk> chunk = _generating.get(i);
 
@@ -992,6 +1006,7 @@ void Terrain2DWorld::_notification(int p_what) {
 				if (!chunk->get_is_generating()) {
 					_generating.VREMOVE(i);
 					--i;
+					needs_update = true;
 					continue;
 				}
 
@@ -1000,6 +1015,10 @@ void Terrain2DWorld::_notification(int p_what) {
 					--i;
 					continue;
 				}
+			}
+
+			if (needs_update) {
+				update();
 			}
 
 			if (_generating.size() >= _max_concurrent_generations)
@@ -1059,6 +1078,9 @@ void Terrain2DWorld::_notification(int p_what) {
 			}
 			break;
 		}
+		case NOTIFICATION_DRAW: {
+			call("_draw");
+		} break;
 	}
 }
 
@@ -1243,6 +1265,9 @@ void Terrain2DWorld::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("set_voxel_with_tool", "mode_add", "hit_position", "hit_normal", "selected_voxel", "isolevel"), &Terrain2DWorld::set_voxel_with_tool);
 	ClassDB::bind_method(D_METHOD("_set_voxel_with_tool", "mode_add", "hit_position", "hit_normal", "selected_voxel", "isolevel"), &Terrain2DWorld::_set_voxel_with_tool);
+
+	BIND_VMETHOD(MethodInfo("_draw"));
+	ClassDB::bind_method(D_METHOD("_draw"), &Terrain2DWorld::_draw);
 
 	BIND_ENUM_CONSTANT(CHANNEL_TYPE_INFO_TYPE);
 	BIND_ENUM_CONSTANT(CHANNEL_TYPE_INFO_ISOLEVEL);

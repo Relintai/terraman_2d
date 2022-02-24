@@ -333,7 +333,7 @@ void Terrain2DChunkDefault::colliders_create(const int mesh_index, const int lay
 	_rids[mesh_index] = m;
 	*/
 
-//todo
+	//todo
 }
 void Terrain2DChunkDefault::colliders_create_area(const int mesh_index, const int layer_mask) {
 	/*
@@ -646,6 +646,40 @@ void Terrain2DChunkDefault::_world_transform_changed() {
 	update_transforms();
 }
 
+void Terrain2DChunkDefault::_draw() {
+	if (_is_generating) {
+		return;
+	}
+
+	Terrain2DWorld *world = get_voxel_world();
+
+	ERR_FAIL_COND(!world);
+
+	RID terrain_mesh_rid = mesh_rid_get(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_MESH);
+
+	if (terrain_mesh_rid != RID()) {
+		RID terrain_texture_rid = mesh_rid_get(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_TEXTURE_RID);
+
+		VisualServer::get_singleton()->canvas_item_add_mesh(world->get_canvas_item(), terrain_mesh_rid, get_transform(), Color(1, 1, 1, 1), terrain_texture_rid, RID());
+	}
+
+	RID liquid_mesh_rid = mesh_rid_get(MESH_INDEX_LIQUID, MESH_TYPE_INDEX_MESH);
+
+	if (liquid_mesh_rid != RID()) {
+		RID liquid_texture_rid = mesh_rid_get(MESH_INDEX_LIQUID, MESH_TYPE_INDEX_TEXTURE_RID);
+
+		VisualServer::get_singleton()->canvas_item_add_mesh(world->get_canvas_item(), liquid_mesh_rid, get_transform(), Color(1, 1, 1, 1), liquid_texture_rid, RID());
+	}
+
+	RID prop_mesh_rid = mesh_rid_get(MESH_INDEX_PROP, MESH_TYPE_INDEX_MESH);
+
+	if (prop_mesh_rid != RID()) {
+		RID prop_texture_rid = mesh_rid_get(MESH_INDEX_PROP, MESH_TYPE_INDEX_TEXTURE_RID);
+
+		VisualServer::get_singleton()->canvas_item_add_mesh(world->get_canvas_item(), prop_mesh_rid, get_transform(), Color(1, 1, 1, 1), prop_texture_rid, RID());
+	}
+}
+
 //Lights
 void Terrain2DChunkDefault::_bake_lights() {
 	clear_baked_lights();
@@ -841,7 +875,8 @@ void Terrain2DChunkDefault::_bind_methods() {
 
 	//virtuals
 	ClassDB::bind_method(D_METHOD("_channel_setup"), &Terrain2DChunkDefault::_channel_setup);
-	
+	ClassDB::bind_method(D_METHOD("_draw"), &Terrain2DChunkDefault::_draw);
+
 	//lights
 	ClassDB::bind_method(D_METHOD("_bake_lights"), &Terrain2DChunkDefault::_bake_lights);
 	ClassDB::bind_method(D_METHOD("_bake_light", "light"), &Terrain2DChunkDefault::_bake_light);
@@ -869,6 +904,8 @@ void Terrain2DChunkDefault::_bind_methods() {
 	BIND_CONSTANT(MESH_TYPE_INDEX_MESH);
 	BIND_CONSTANT(MESH_TYPE_INDEX_SHAPE);
 	BIND_CONSTANT(MESH_TYPE_INDEX_BODY);
+	BIND_CONSTANT(MESH_TYPE_INDEX_AREA);
+	BIND_CONSTANT(MESH_TYPE_INDEX_TEXTURE_RID);
 
 	BIND_ENUM_CONSTANT(BUILD_FLAG_USE_ISOLEVEL);
 	BIND_ENUM_CONSTANT(BUILD_FLAG_USE_LIGHTING);

@@ -1039,6 +1039,10 @@ void Terrain2DChunk::generation_physics_process(const float delta) {
 	call("_generation_physics_process", delta);
 }
 
+void Terrain2DChunk::draw() {
+	call("_draw");
+}
+
 Transform2D Terrain2DChunk::get_transform() const {
 	return _transform;
 }
@@ -1319,6 +1323,7 @@ void Terrain2DChunk::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_visibility_changed", PropertyInfo(Variant::BOOL, "visible")));
 	BIND_VMETHOD(MethodInfo("_world_light_added", PropertyInfo(Variant::OBJECT, "light", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DLight")));
 	BIND_VMETHOD(MethodInfo("_world_light_removed", PropertyInfo(Variant::OBJECT, "light", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DLight")));
+	BIND_VMETHOD(MethodInfo("_draw"));
 
 	BIND_VMETHOD(MethodInfo("_generation_process", PropertyInfo(Variant::REAL, "delta")));
 	BIND_VMETHOD(MethodInfo("_generation_physics_process", PropertyInfo(Variant::REAL, "delta")));
