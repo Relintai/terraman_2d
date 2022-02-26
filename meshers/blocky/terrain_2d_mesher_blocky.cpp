@@ -41,15 +41,26 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 	//	if (!chunk->get_channel(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO))
 	//		chunk->generate_ao();
 
+	uint8_t *channel_type = chunk->channel_get(_channel_index_type);
+
+	if (!channel_type)
+		return;
+
+	uint8_t *channel_flags = chunk->channel_get(Terrain2DChunkDefault::DEFAULT_CHANNEL_FLAGS);
+
+	if (!channel_flags)
+		return;
+
 	int x_size = chunk->get_size_x();
 	int y_size = chunk->get_size_y();
 	int cell_size_x = get_cell_size_x();
 	int cell_size_y = get_cell_size_y();
 
-	uint8_t *channel_type = chunk->channel_get(_channel_index_type);
-
-	if (!channel_type)
-		return;
+	Transform2D mesh_transform_terrain = chunk->mesh_transform_terrain_get();
+	Transform2D mesh_transform_wall_north = chunk->mesh_transform_wall_north_get();
+	Transform2D mesh_transform_wall_south = chunk->mesh_transform_wall_south_get();
+	Transform2D mesh_transform_wall_east = chunk->mesh_transform_wall_east_get();
+	Transform2D mesh_transform_wall_west = chunk->mesh_transform_wall_west_get();
 
 	uint8_t *channel_color_r = NULL;
 	uint8_t *channel_color_g = NULL;
@@ -111,6 +122,8 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 			if (!surface.is_valid())
 				continue;
 
+			int flags = channel_flags[indexes[0]];
+
 			if (use_lighting) {
 				for (int i = 0; i < 4; ++i) {
 					int indx = indexes[i];
@@ -140,14 +153,6 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 				}
 			}
 
-			int vc = get_vertex_count();
-			add_indices(vc + 0);
-			add_indices(vc + 1);
-			add_indices(vc + 2);
-			add_indices(vc + 1);
-			add_indices(vc + 2);
-			add_indices(vc + 3);
-
 			Vector2 uvs[] = {
 				surface->transform_uv_scaled(Vector2(0, 0), x % texture_scale, y % texture_scale, texture_scale),
 				surface->transform_uv_scaled(Vector2(1, 0), x % texture_scale, y % texture_scale, texture_scale),
@@ -155,27 +160,171 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 				surface->transform_uv_scaled(Vector2(1, 1), x % texture_scale, y % texture_scale, texture_scale)
 			};
 
-			int xx = x * cell_size_x;
-			int xx1 = (x + 1) * cell_size_x;
-			int yy = y * cell_size_y;
-			int yy1 = (y + 1) * cell_size_y;
-
-			Vector2 verts[] = {
-				Vector2(xx, yy),
-				Vector2(xx1, yy),
-				Vector2(xx, yy1),
-				Vector2(xx1, yy1)
+			Vector2 verts_normal[] = {
+				Vector2(0, 0),
+				Vector2(cell_size_x, 0),
+				Vector2(0, cell_size_y),
+				Vector2(cell_size_x, cell_size_y)
 			};
 
-			for (int i = 0; i < 4; ++i) {
-				if (use_lighting) {
-					add_color(light[i]);
-				} else {
-					add_color(Color(1, 1, 1, 1));
+			// Note that +y is down!
+			Vector2 verts_wall[] = {
+				Vector2(0, -cell_size_y),
+				Vector2(cell_size_x, -cell_size_y),
+				Vector2(0, 0),
+				Vector2(cell_size_x, 0)
+			};
+
+			bool render_normal = true;
+
+			int vc = get_vertex_count();
+
+			bool hole = (flags & Terrain2DChunkDefault::FLAG_CHANNEL_WALL_HOLE) != 0;
+
+			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_WALL_NORTH) != 0) {
+				render_normal = false;
+
+				Vector2 vert_start_offset = mesh_transform_terrain.xform(Vector2(x * cell_size_x, y * cell_size_y));
+
+				for (int i = 0; i < 4; ++i) {
+					if (use_lighting) {
+						add_color(light[i]);
+					} else {
+						add_color(Color(1, 1, 1, 1));
+					}
+
+					add_uv(uvs[i]);
+
+					if (hole) {
+						add_vertex(mesh_transform_wall_north.xform(verts_normal[i]) + vert_start_offset);
+					} else {
+						add_vertex(mesh_transform_wall_north.xform(verts_wall[i]) + vert_start_offset);
+					}
 				}
 
-				add_uv(uvs[i]);
-				add_vertex(verts[i]);
+				add_indices(vc + 0);
+				add_indices(vc + 1);
+				add_indices(vc + 2);
+				add_indices(vc + 1);
+				add_indices(vc + 2);
+				add_indices(vc + 3);
+
+				vc += 4;
+			}
+
+			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_WALL_WEST) != 0) {
+				render_normal = false;
+
+				Vector2 vert_start_offset = mesh_transform_terrain.xform(Vector2(x * cell_size_x, (y + 1) * cell_size_y));
+
+				for (int i = 0; i < 4; ++i) {
+					if (use_lighting) {
+						add_color(light[i]);
+					} else {
+						add_color(Color(1, 1, 1, 1));
+					}
+
+					add_uv(uvs[i]);
+
+					if (hole) {
+						add_vertex(mesh_transform_wall_west.xform(verts_normal[i]) + vert_start_offset);
+					} else {
+						add_vertex(mesh_transform_wall_west.xform(verts_wall[i]) + vert_start_offset);
+					}
+				}
+
+				add_indices(vc + 0);
+				add_indices(vc + 1);
+				add_indices(vc + 2);
+				add_indices(vc + 1);
+				add_indices(vc + 2);
+				add_indices(vc + 3);
+
+				vc += 4;
+			}
+
+			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_WALL_SOUTH) != 0) {
+				render_normal = false;
+
+				Vector2 vert_start_offset = mesh_transform_terrain.xform(Vector2(x * cell_size_x, (y + 1) * cell_size_y));
+
+				for (int i = 0; i < 4; ++i) {
+					if (use_lighting) {
+						add_color(light[i]);
+					} else {
+						add_color(Color(1, 1, 1, 1));
+					}
+
+					add_uv(uvs[i]);
+
+					if (hole) {
+						add_vertex(mesh_transform_wall_south.xform(verts_normal[i]) + vert_start_offset);
+					} else {
+						add_vertex(mesh_transform_wall_south.xform(verts_wall[i]) + vert_start_offset);
+					}
+				}
+
+				add_indices(vc + 0);
+				add_indices(vc + 1);
+				add_indices(vc + 2);
+				add_indices(vc + 1);
+				add_indices(vc + 2);
+				add_indices(vc + 3);
+
+				vc += 4;
+			}
+
+			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_WALL_EAST) != 0) {
+				render_normal = false;
+
+				Vector2 vert_start_offset = mesh_transform_terrain.xform(Vector2((x + 1) * cell_size_x, (y + 1) * cell_size_y));
+
+				for (int i = 0; i < 4; ++i) {
+					if (use_lighting) {
+						add_color(light[i]);
+					} else {
+						add_color(Color(1, 1, 1, 1));
+					}
+
+					add_uv(uvs[i]);
+
+					if (hole) {
+						add_vertex(mesh_transform_wall_east.xform(verts_normal[i]) + vert_start_offset);
+					} else {
+						add_vertex(mesh_transform_wall_east.xform(verts_wall[i]) + vert_start_offset);
+					}
+				}
+
+				add_indices(vc + 0);
+				add_indices(vc + 1);
+				add_indices(vc + 2);
+				add_indices(vc + 1);
+				add_indices(vc + 2);
+				add_indices(vc + 3);
+
+				vc += 4;
+			}
+
+			if (render_normal) {
+				Vector2 vert_start_offset = mesh_transform_terrain.xform(Vector2(x * cell_size_x, y * cell_size_y));
+
+				for (int i = 0; i < 4; ++i) {
+					if (use_lighting) {
+						add_color(light[i]);
+					} else {
+						add_color(Color(1, 1, 1, 1));
+					}
+
+					add_uv(uvs[i]);
+					add_vertex(mesh_transform_terrain.xform(verts_normal[i]) + vert_start_offset);
+				}
+
+				add_indices(vc + 0);
+				add_indices(vc + 1);
+				add_indices(vc + 2);
+				add_indices(vc + 1);
+				add_indices(vc + 2);
+				add_indices(vc + 3);
 			}
 		}
 	}
