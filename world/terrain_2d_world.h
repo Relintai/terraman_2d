@@ -114,8 +114,20 @@ public:
 	void set_player(Node2D *player);
 	void set_player_bind(Node *player);
 
-	Transform2D get_custom_transform();
-	void set_custom_transform(const Transform2D &value);
+	Transform2D mesh_transform_terrain_get();
+	void mesh_transform_terrain_set(const Transform2D &value);
+
+	Transform2D mesh_transform_wall_north_get();
+	void mesh_transform_wall_north_set(const Transform2D &value);
+
+	Transform2D mesh_transform_wall_south_get();
+	void mesh_transform_wall_south_set(const Transform2D &value);
+
+	Transform2D mesh_transform_wall_east_get();
+	void mesh_transform_wall_east_set(const Transform2D &value);
+
+	Transform2D mesh_transform_wall_west_get();
+	void mesh_transform_wall_west_set(const Transform2D &value);
 
 	//World Areas
 	Ref<Terrain2DWorldArea> world_area_get(const int index) const;
@@ -287,7 +299,11 @@ private:
 
 	Vector<Ref<Terrain2DLight>> _lights;
 
-	Transform2D _custom_transform;
+	Transform2D _mesh_transform_terrain;
+	Transform2D _mesh_transform_wall_north;
+	Transform2D _mesh_transform_wall_south;
+	Transform2D _mesh_transform_wall_east;
+	Transform2D _mesh_transform_wall_west;
 };
 
 _FORCE_INLINE_ bool operator==(const Terrain2DWorld::IntPos &a, const Terrain2DWorld::IntPos &b) {

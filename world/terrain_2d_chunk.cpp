@@ -242,11 +242,40 @@ void Terrain2DChunk::set_voxel_world_bind(Node *world) {
 	set_voxel_world(Object::cast_to<Terrain2DWorld>(world));
 }
 
-Transform2D Terrain2DChunk::get_custom_transform() {
-	return _custom_transform;
+
+Transform2D Terrain2DChunk::mesh_transform_terrain_get() {
+	return _mesh_transform_terrain;
 }
-void Terrain2DChunk::set_custom_transform(const Transform2D &value) {
-	_custom_transform = value;
+void Terrain2DChunk::mesh_transform_terrain_set(const Transform2D &value) {
+	_mesh_transform_terrain = value;
+}
+
+Transform2D Terrain2DChunk::mesh_transform_wall_north_get() {
+	return _mesh_transform_wall_north;
+}
+void Terrain2DChunk::mesh_transform_wall_north_set(const Transform2D &value) {
+	_mesh_transform_wall_north = value;
+}
+
+Transform2D Terrain2DChunk::mesh_transform_wall_south_get() {
+	return _mesh_transform_wall_south;
+}
+void Terrain2DChunk::mesh_transform_wall_south_set(const Transform2D &value) {
+	_mesh_transform_wall_south = value;
+}
+
+Transform2D Terrain2DChunk::mesh_transform_wall_east_get() {
+	return _mesh_transform_wall_east;
+}
+void Terrain2DChunk::mesh_transform_wall_east_set(const Transform2D &value) {
+	_mesh_transform_wall_east = value;
+}
+
+Transform2D Terrain2DChunk::mesh_transform_wall_west_get() {
+	return _mesh_transform_wall_west;
+}
+void Terrain2DChunk::mesh_transform_wall_west_set(const Transform2D &value) {
+	_mesh_transform_wall_west = value;
 }
 
 Ref<Terrain2DJob> Terrain2DChunk::job_get(int index) const {
@@ -1256,9 +1285,9 @@ void Terrain2DChunk::_world_transform_changed() {
 	Transform2D t;
 	Vector2 pos = Vector2(_position_x * static_cast<int>(_size_x) * _cell_size_x, _position_y * static_cast<int>(_size_y) * _cell_size_y);
 	
-	pos = _custom_transform.xform(pos);
+	pos = _mesh_transform_terrain.xform(pos);
 
-	t *= _custom_transform;
+	//t *= _custom_transform;
 	t.set_origin(pos);
 
 	set_transform(t);
@@ -1476,9 +1505,27 @@ void Terrain2DChunk::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_voxel_world", "world"), &Terrain2DChunk::set_voxel_world_bind);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "voxel_world", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DWorld", 0), "set_voxel_world", "get_voxel_world");
 
-	ClassDB::bind_method(D_METHOD("get_custom_transform"), &Terrain2DChunk::get_custom_transform);
-	ClassDB::bind_method(D_METHOD("set_custom_transform", "player"), &Terrain2DChunk::set_custom_transform);
-	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM2D, "get_custom_transform"), "set_custom_transform", "get_custom_transform");
+	ADD_GROUP("Mesh Transforms", "mesh_transform");
+	ClassDB::bind_method(D_METHOD("mesh_transform_terrain_get"), &Terrain2DChunk::mesh_transform_terrain_get);
+	ClassDB::bind_method(D_METHOD("mesh_transform_terrain_set", "player"), &Terrain2DChunk::mesh_transform_terrain_set);
+	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM2D, "mesh_transform_terrain"), "mesh_transform_terrain_set", "mesh_transform_terrain_get");
+
+	ClassDB::bind_method(D_METHOD("mesh_transform_wall_north_get"), &Terrain2DChunk::mesh_transform_wall_north_get);
+	ClassDB::bind_method(D_METHOD("mesh_transform_wall_north_set", "player"), &Terrain2DChunk::mesh_transform_wall_north_set);
+	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM2D, "mesh_transform_wall_north"), "mesh_transform_wall_north_set", "mesh_transform_wall_north_get");
+
+	ClassDB::bind_method(D_METHOD("mesh_transform_wall_south_get"), &Terrain2DChunk::mesh_transform_wall_south_get);
+	ClassDB::bind_method(D_METHOD("mesh_transform_wall_south_set", "player"), &Terrain2DChunk::mesh_transform_wall_south_set);
+	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM2D, "mesh_transform_wall_south"), "mesh_transform_wall_south_set", "mesh_transform_wall_south_get");
+
+	ClassDB::bind_method(D_METHOD("mesh_transform_wall_east_get"), &Terrain2DChunk::mesh_transform_wall_east_get);
+	ClassDB::bind_method(D_METHOD("mesh_transform_wall_east_set", "player"), &Terrain2DChunk::mesh_transform_wall_east_set);
+	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM2D, "mesh_transform_wall_east"), "mesh_transform_wall_east_set", "mesh_transform_wall_east_get");
+
+	ClassDB::bind_method(D_METHOD("mesh_transform_wall_west_get"), &Terrain2DChunk::mesh_transform_wall_west_get);
+	ClassDB::bind_method(D_METHOD("mesh_transform_wall_west_set", "player"), &Terrain2DChunk::mesh_transform_wall_west_set);
+	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM2D, "mesh_transform_wall_west"), "mesh_transform_wall_west_set", "mesh_transform_wall_west_get");
+
 
 	//Terra Data
 	ClassDB::bind_method(D_METHOD("channel_setup"), &Terrain2DChunk::channel_setup);

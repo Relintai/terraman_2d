@@ -74,24 +74,25 @@ public:
 	};
 
 	enum ChannelFlags {
-		//+y
+		//-y (down)
 		FLAG_CHANNEL_WALL_NORTH = 1 << 0,
-		FLAG_CHANNEL_WALL_PY = 1 << 0,
-		//-y
+		FLAG_CHANNEL_WALL_NY = 1 << 0,
+		//+y (up)
 		FLAG_CHANNEL_WALL_SOUTH = 1 << 1,
-		FLAG_CHANNEL_WALL_NY = 1 << 1,
-		//+x
+		FLAG_CHANNEL_WALL_PY = 1 << 1,
+		//+x (right)
 		FLAG_CHANNEL_WALL_EAST = 1 << 2,
 		FLAG_CHANNEL_WALL_PX = 1 << 2,
-		//-x
+		//-x (left)
 		FLAG_CHANNEL_WALL_WEST = 1 << 3,
 		FLAG_CHANNEL_WALL_NX = 1 << 3,
 
-		FLAG_CHANNEL_WALL_COLLIDER = 1 << 4,
-		FLAG_CHANNEL_WALL_FLIP_H = 1 << 5,
-		FLAG_CHANNEL_WALL_FLIP_V= 1 << 6,
-		//All of these has to fit to a uint8_t!
-		//Don't add more than one actual flag entry!
+		FLAG_CHANNEL_COLLIDER = 1 << 4,
+		FLAG_CHANNEL_FLIP_H = 1 << 5,
+		FLAG_CHANNEL_FLIP_V= 1 << 6,
+
+		// Walls become holes
+		FLAG_CHANNEL_WALL_HOLE = 1 << 7,
 	};
 
 	enum {
