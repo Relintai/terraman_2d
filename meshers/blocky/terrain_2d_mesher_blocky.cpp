@@ -160,7 +160,7 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 				Vector2(1, 1)
 			};
 
-			if (texture_scale <= 1) {
+			if (texture_scale > 1) {
 				for (int i = 0; i < 4; ++i) {
 					uvs[i] = surface->transform_uv_scaled(uvs[i], x % texture_scale, y % texture_scale, texture_scale);
 				}
