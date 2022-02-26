@@ -59,8 +59,8 @@ void Terrain2DSurfaceMerger::refresh_rects() {
 	}
 
 	Rect2 region = at->get_region();
-	float w = at->get_width();
-	float h = at->get_height();
+	float w = tex->get_width();
+	float h = tex->get_height();
 
 	Rect2 r;
 
