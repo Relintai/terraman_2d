@@ -63,7 +63,7 @@ _FORCE_INLINE_ Vector2 Terrain2DSurface::transform_uv_scaled(const Vector2 &p_uv
 	Rect2 r = _rect;
 
 	float sizex = r.size.x / static_cast<float>(p_max);
-	float sizey = r.size.x / static_cast<float>(p_max);
+	float sizey = r.size.y / static_cast<float>(p_max);
 
 	uv.x *= sizex;
 	uv.y *= sizey;
