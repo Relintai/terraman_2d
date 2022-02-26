@@ -63,6 +63,7 @@ public:
 
 	enum DefaultChannels {
 		DEFAULT_CHANNEL_TYPE = 0,
+		DEFAULT_CHANNEL_FLAGS,
 		DEFAULT_CHANNEL_LIQUID_TYPE,
 		DEFAULT_CHANNEL_LIGHT_COLOR_R,
 		DEFAULT_CHANNEL_LIGHT_COLOR_G,
@@ -70,6 +71,27 @@ public:
 		DEFAULT_CHANNEL_AO,
 		DEFAULT_CHANNEL_RANDOM_AO,
 		MAX_DEFAULT_CHANNELS
+	};
+
+	enum ChannelFlags {
+		//+y
+		FLAG_CHANNEL_WALL_NORTH = 1 << 0,
+		FLAG_CHANNEL_WALL_PY = 1 << 0,
+		//-y
+		FLAG_CHANNEL_WALL_SOUTH = 1 << 1,
+		FLAG_CHANNEL_WALL_NY = 1 << 1,
+		//+x
+		FLAG_CHANNEL_WALL_EAST = 1 << 2,
+		FLAG_CHANNEL_WALL_PX = 1 << 2,
+		//-x
+		FLAG_CHANNEL_WALL_WEST = 1 << 3,
+		FLAG_CHANNEL_WALL_NX = 1 << 3,
+
+		FLAG_CHANNEL_WALL_COLLIDER = 1 << 4,
+		FLAG_CHANNEL_WALL_FLIP_H = 1 << 5,
+		FLAG_CHANNEL_WALL_FLIP_V= 1 << 6,
+		//All of these has to fit to a uint8_t!
+		//Don't add more than one actual flag entry!
 	};
 
 	enum {
@@ -211,5 +233,6 @@ protected:
 
 VARIANT_ENUM_CAST(Terrain2DChunkDefault::DefaultChannels);
 VARIANT_ENUM_CAST(Terrain2DChunkDefault::BuildFlags);
+VARIANT_ENUM_CAST(Terrain2DChunkDefault::ChannelFlags);
 
 #endif
