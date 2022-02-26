@@ -82,6 +82,8 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 		mcache = _library->material_cache_get(chunk->material_cache_key_get());
 	}
 
+	int texture_scale = get_texture_scale();
+
 	int margin_start = chunk->get_margin_start();
 	//z_size + margin_start is fine, x, and z are in data space.
 	for (int y = margin_start; y < y_size + margin_start; ++y) {
@@ -147,10 +149,10 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 			add_indices(vc + 3);
 
 			Vector2 uvs[] = {
-				surface->transform_uv(Vector2(0, 0)),
-				surface->transform_uv(Vector2(1, 0)),
-				surface->transform_uv(Vector2(0, 1)),
-				surface->transform_uv(Vector2(1, 1))
+				surface->transform_uv_scaled(Vector2(0, 0), x % texture_scale, y % texture_scale, texture_scale),
+				surface->transform_uv_scaled(Vector2(1, 0), x % texture_scale, y % texture_scale, texture_scale),
+				surface->transform_uv_scaled(Vector2(0, 1), x % texture_scale, y % texture_scale, texture_scale),
+				surface->transform_uv_scaled(Vector2(1, 1), x % texture_scale, y % texture_scale, texture_scale)
 			};
 
 			int xx = x * cell_size_x;
