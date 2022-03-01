@@ -38,6 +38,7 @@ sources = [
 
     "meshers/terrain_2d_mesher.cpp",
 
+    "meshers/isometric/terrain_2d_mesher_isometric.cpp",
     "meshers/simple/terrain_2d_mesher_simple.cpp",
     "meshers/default/terrain_2d_mesher_default.cpp",
 
@@ -47,11 +48,14 @@ sources = [
     "world/block_terrain_2d_structure.cpp",
     "world/terrain_2d_environment_data.cpp",
 
+    "world/default/terrain_2d_world_default.cpp",
+    "world/default/terrain_2d_chunk_default.cpp",
+
     "world/simple/terrain_2d_chunk_simple.cpp",
     "world/simple/terrain_2d_world_simple.cpp",
 
-    "world/default/terrain_2d_world_default.cpp",
-    "world/default/terrain_2d_chunk_default.cpp",
+    "world/isometric/terrain_2d_chunk_isometric.cpp",
+    "world/isometric/terrain_2d_world_isometric.cpp",
 
     "level_generator/terrain_2d_level_generator.cpp",
     "level_generator/terrain_2d_level_generator_flat.cpp",

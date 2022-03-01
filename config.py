@@ -45,9 +45,13 @@ def get_doc_classes():
         "BlockTerrain2DStructure",
         "Terrain2DWorld",
 
-        "Terrain2DMesherBlocky",
-        "Terrain2DWorldBlocky",
-        "Terrain2DChunkBlocky",
+        "Terrain2DMesherSimple",
+        "Terrain2DWorldSimple",
+        "Terrain2DChunkSimple",
+
+        "Terrain2DMesherIsometric",
+        "Terrain2DWorldIsometric",
+        "Terrain2DChunkIsometric",
 
         "Terrain2DWorldMarchingCubes",
         "Terrain2DChunkMarchingCubes",

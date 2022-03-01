@@ -25,15 +25,15 @@ SOFTWARE.
 #include "library/terrain_2d_surface.h"
 #include "library/terrain_2d_surface_simple.h"
 
-#include "library/terrain_2d_material_cache.h"
 #include "library/terrain_2d_library.h"
 #include "library/terrain_2d_library_simple.h"
+#include "library/terrain_2d_material_cache.h"
 
 #ifdef TEXTURE_PACKER_PRESENT
-#include "library/terrain_2d_surface_merger.h"
 #include "library/terrain_2d_library_merger.h"
 #include "library/terrain_2d_library_merger_pcm.h"
 #include "library/terrain_2d_material_cache_pcm.h"
+#include "library/terrain_2d_surface_merger.h"
 #endif
 
 #include "data/terrain_2d_light.h"
@@ -56,9 +56,12 @@ SOFTWARE.
 #include "world/terrain_2d_world_editor.h"
 
 #include "meshers/simple/terrain_2d_mesher_simple.h"
-
 #include "world/simple/terrain_2d_chunk_simple.h"
 #include "world/simple/terrain_2d_world_simple.h"
+
+#include "meshers/isometric/terrain_2d_mesher_isometric.h"
+#include "world/isometric/terrain_2d_chunk_isometric.h"
+#include "world/isometric/terrain_2d_world_isometric.h"
 
 #include "nodes/terrain_2d_light_node.h"
 
@@ -101,6 +104,10 @@ void register_terraman_2d_types() {
 	ClassDB::register_class<Terrain2DMesherSimple>();
 	ClassDB::register_class<Terrain2DWorldSimple>();
 	ClassDB::register_class<Terrain2DChunkSimple>();
+
+	ClassDB::register_class<Terrain2DMesherIsometric>();
+	ClassDB::register_class<Terrain2DWorldIsometric>();
+	ClassDB::register_class<Terrain2DChunkIsometric>();
 
 	ClassDB::register_class<Terrain2DLevelGenerator>();
 	ClassDB::register_class<Terrain2DLevelGeneratorFlat>();
