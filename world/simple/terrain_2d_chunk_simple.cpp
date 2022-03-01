@@ -20,22 +20,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAIN_2D_CHUNK_BLOCKY_H
-#define TERRAIN_2D_CHUNK_BLOCKY_H
+#include "terrain_2d_chunk_simple.h"
 
-#include "../default/terrain_2d_chunk_default.h"
+#include "../../defines.h"
 
-class Terrain2DChunkBlocky : public Terrain2DChunkDefault {
-	GDCLASS(Terrain2DChunkBlocky, Terrain2DChunkDefault);
+Terrain2DChunkSimple::Terrain2DChunkSimple() {
+}
 
-public:
-	Terrain2DChunkBlocky();
-	~Terrain2DChunkBlocky();
+Terrain2DChunkSimple::~Terrain2DChunkSimple() {
+}
 
-protected:
-	virtual void _setup_channels();
+void Terrain2DChunkSimple::_setup_channels() {
+	channel_set_count(MAX_DEFAULT_CHANNELS);
+}
 
-	static void _bind_methods();
-};
-
-#endif
+void Terrain2DChunkSimple::_bind_methods() {
+	ADD_PROPERTYI(PropertyInfo(Variant::POOL_BYTE_ARRAY, "data_channel"), "channel_set_compressed", "channel_get_compressed", 0);
+}

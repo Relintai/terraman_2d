@@ -38,7 +38,7 @@ sources = [
 
     "meshers/terrain_2d_mesher.cpp",
 
-    "meshers/blocky/terrain_2d_mesher_blocky.cpp",
+    "meshers/simple/terrain_2d_mesher_simple.cpp",
     "meshers/default/terrain_2d_mesher_default.cpp",
 
     "world/terrain_2d_world.cpp",
@@ -47,8 +47,8 @@ sources = [
     "world/block_terrain_2d_structure.cpp",
     "world/terrain_2d_environment_data.cpp",
 
-    "world/blocky/terrain_2d_chunk_blocky.cpp",
-    "world/blocky/terrain_2d_world_blocky.cpp",
+    "world/simple/terrain_2d_chunk_simple.cpp",
+    "world/simple/terrain_2d_world_simple.cpp",
 
     "world/default/terrain_2d_world_default.cpp",
     "world/default/terrain_2d_chunk_default.cpp",

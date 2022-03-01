@@ -20,20 +20,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAIN_2D_WORLD_BLOCKY_H
-#define TERRAIN_2D_WORLD_BLOCKY_H
+#ifndef TERRAIN_2D_CHUNK_SIMPLE_H
+#define TERRAIN_2D_CHUNK_SIMPLE_H
 
-#include "../default/terrain_2d_world_default.h"
+#include "../default/terrain_2d_chunk_default.h"
 
-class Terrain2DWorldBlocky : public Terrain2DWorldDefault {
-	GDCLASS(Terrain2DWorldBlocky, Terrain2DWorldDefault);
+class Terrain2DChunkSimple : public Terrain2DChunkDefault {
+	GDCLASS(Terrain2DChunkSimple, Terrain2DChunkDefault);
 
 public:
-	Terrain2DWorldBlocky();
-	~Terrain2DWorldBlocky();
+	Terrain2DChunkSimple();
+	~Terrain2DChunkSimple();
 
 protected:
-	Ref<Terrain2DChunk> _create_chunk(int x, int y, Ref<Terrain2DChunk> p_chunk);
+	virtual void _setup_channels();
 
 	static void _bind_methods();
 };

@@ -20,35 +20,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAIN_2D_MESHER_BLOCKY_H
-#define TERRAIN_2D_MESHER_BLOCKY_H
+#ifndef TERRAIN_2D_WORLD_BLOCKY_H
+#define TERRAIN_2D_WORLD_BLOCKY_H
 
-#include "core/version.h"
+#include "../default/terrain_2d_world_default.h"
 
-#if VERSION_MAJOR > 3
-#include "core/math/color.h"
-#else
-#include "core/color.h"
-#endif
-
-#include "core/math/vector2.h"
-#include "core/math/vector3.h"
-
-#include "../default/terrain_2d_mesher_default.h"
-#include "../../world/default/terrain_2d_chunk_default.h"
-
-class Terrain2DMesherBlocky : public Terrain2DMesherDefault {
-	GDCLASS(Terrain2DMesherBlocky, Terrain2DMesherDefault);
+class Terrain2DWorldSimple : public Terrain2DWorldDefault {
+	GDCLASS(Terrain2DWorldSimple, Terrain2DWorldDefault);
 
 public:
-	void _add_chunk(Ref<Terrain2DChunk> p_chunk);
-
-	void add_chunk_normal(Ref<Terrain2DChunkDefault> chunk);
-
-	Terrain2DMesherBlocky();
-	~Terrain2DMesherBlocky();
+	Terrain2DWorldSimple();
+	~Terrain2DWorldSimple();
 
 protected:
+	Ref<Terrain2DChunk> _create_chunk(int x, int y, Ref<Terrain2DChunk> p_chunk);
+
 	static void _bind_methods();
 };
 

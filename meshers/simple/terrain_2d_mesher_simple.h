@@ -20,20 +20,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "terrain_2d_chunk_blocky.h"
+#ifndef TERRAIN_2D_MESHER_SIMPLE_H
+#define TERRAIN_2D_MESHER_SIMPLE_H
 
-#include "../../defines.h"
+#include "core/version.h"
 
-Terrain2DChunkBlocky::Terrain2DChunkBlocky() {
-}
+#if VERSION_MAJOR > 3
+#include "core/math/color.h"
+#else
+#include "core/color.h"
+#endif
 
-Terrain2DChunkBlocky::~Terrain2DChunkBlocky() {
-}
+#include "core/math/vector2.h"
+#include "core/math/vector3.h"
 
-void Terrain2DChunkBlocky::_setup_channels() {
-	channel_set_count(MAX_DEFAULT_CHANNELS);
-}
+#include "../default/terrain_2d_mesher_default.h"
+#include "../../world/default/terrain_2d_chunk_default.h"
 
-void Terrain2DChunkBlocky::_bind_methods() {
-	ADD_PROPERTYI(PropertyInfo(Variant::POOL_BYTE_ARRAY, "data_channel"), "channel_set_compressed", "channel_get_compressed", 0);
-}
+class Terrain2DMesherSimple : public Terrain2DMesherDefault {
+	GDCLASS(Terrain2DMesherSimple, Terrain2DMesherDefault);
+
+public:
+	void _add_chunk(Ref<Terrain2DChunk> p_chunk);
+
+	void add_chunk_normal(Ref<Terrain2DChunkDefault> chunk);
+
+	Terrain2DMesherSimple();
+	~Terrain2DMesherSimple();
+
+protected:
+	static void _bind_methods();
+};
+
+#endif

@@ -55,10 +55,10 @@ SOFTWARE.
 
 #include "world/terrain_2d_world_editor.h"
 
-#include "meshers/blocky/terrain_2d_mesher_blocky.h"
+#include "meshers/simple/terrain_2d_mesher_simple.h"
 
-#include "world/blocky/terrain_2d_chunk_blocky.h"
-#include "world/blocky/terrain_2d_world_blocky.h"
+#include "world/simple/terrain_2d_chunk_simple.h"
+#include "world/simple/terrain_2d_world_simple.h"
 
 #include "nodes/terrain_2d_light_node.h"
 
@@ -98,9 +98,9 @@ void register_terraman_2d_types() {
 	ClassDB::register_class<Terrain2DChunkDefault>();
 	ClassDB::register_class<Terrain2DWorldDefault>();
 
-	ClassDB::register_class<Terrain2DMesherBlocky>();
-	ClassDB::register_class<Terrain2DWorldBlocky>();
-	ClassDB::register_class<Terrain2DChunkBlocky>();
+	ClassDB::register_class<Terrain2DMesherSimple>();
+	ClassDB::register_class<Terrain2DWorldSimple>();
+	ClassDB::register_class<Terrain2DChunkSimple>();
 
 	ClassDB::register_class<Terrain2DLevelGenerator>();
 	ClassDB::register_class<Terrain2DLevelGeneratorFlat>();

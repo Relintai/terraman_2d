@@ -20,13 +20,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "terrain_2d_mesher_blocky.h"
+#include "terrain_2d_mesher_simple.h"
 
 #include "core/math/math_funcs.h"
 
 #include "../../library/terrain_2d_material_cache.h"
 
-void Terrain2DMesherBlocky::_add_chunk(Ref<Terrain2DChunk> p_chunk) {
+void Terrain2DMesherSimple::_add_chunk(Ref<Terrain2DChunk> p_chunk) {
 	Ref<Terrain2DChunkDefault> chunk = p_chunk;
 
 	ERR_FAIL_COND(!chunk.is_valid());
@@ -36,7 +36,7 @@ void Terrain2DMesherBlocky::_add_chunk(Ref<Terrain2DChunk> p_chunk) {
 	add_chunk_normal(chunk);
 }
 
-void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
+void Terrain2DMesherSimple::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 	//if ((get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_GENERATE_AO) != 0)
 	//	if (!chunk->get_channel(Terrain2DChunkDefault::DEFAULT_CHANNEL_AO))
 	//		chunk->generate_ao();
@@ -340,12 +340,12 @@ void Terrain2DMesherBlocky::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 	}
 }
 
-Terrain2DMesherBlocky::Terrain2DMesherBlocky() {
+Terrain2DMesherSimple::Terrain2DMesherSimple() {
 }
 
-Terrain2DMesherBlocky::~Terrain2DMesherBlocky() {
+Terrain2DMesherSimple::~Terrain2DMesherSimple() {
 }
 
-void Terrain2DMesherBlocky::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("_add_chunk", "buffer"), &Terrain2DMesherBlocky::_add_chunk);
+void Terrain2DMesherSimple::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("_add_chunk", "buffer"), &Terrain2DMesherSimple::_add_chunk);
 }
