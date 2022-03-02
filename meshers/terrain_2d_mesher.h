@@ -123,7 +123,7 @@ public:
 	Rect2 get_uv_margin() const;
 	void set_uv_margin(const Rect2 margin);
 
-	void reset();
+	virtual void reset();
 
 	void add_chunk(Ref<Terrain2DChunk> chunk);
 
