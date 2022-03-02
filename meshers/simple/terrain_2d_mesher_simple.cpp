@@ -338,6 +338,10 @@ void Terrain2DMesherSimple::add_chunk_normal(Ref<Terrain2DChunkDefault> chunk) {
 			}
 		}
 	}
+
+	if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
+		bake_colors(chunk);
+	}
 }
 
 Terrain2DMesherSimple::Terrain2DMesherSimple() {

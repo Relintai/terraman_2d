@@ -688,13 +688,15 @@ void Terrain2DChunkDefault::_draw() {
 
 	ERR_FAIL_COND(!world);
 
-	RID terrain_mesh_rid = mesh_rid_get(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_MESH);
+	for (int i = 0; i < mesh_rid_get_count(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_MESH); ++i) {
+		RID terrain_mesh_rid = mesh_rid_get_index(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_MESH, i);
 
-	if (terrain_mesh_rid != RID()) {
-		RID terrain_texture_rid = mesh_rid_get(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_TEXTURE_RID);
+		if (terrain_mesh_rid != RID()) {
+			RID terrain_texture_rid = mesh_rid_get(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_TEXTURE_RID);
 
-		//Note: the transform parameter is not implemented in gles2
-		VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(), terrain_mesh_rid, Transform2D(), Color(1, 1, 1, 1), terrain_texture_rid, RID());
+			//Note: the transform parameter is not implemented in gles2
+			VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(), terrain_mesh_rid, Transform2D(), Color(1, 1, 1, 1), terrain_texture_rid, RID());
+		}
 	}
 
 	RID liquid_mesh_rid = mesh_rid_get(MESH_INDEX_LIQUID, MESH_TYPE_INDEX_MESH);

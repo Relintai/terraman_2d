@@ -249,7 +249,7 @@ void Terrain2DTerrain2DJob::phase_terrain_mesh() {
 		}
 	}
 
-	if (_mesher->get_vertex_count() == 0 && (!_liquid_mesher.is_valid() || _liquid_mesher->get_vertex_count() == 0)) {
+	if ((_mesher->get_vertex_count() == 0 && _mesher->get_stored_mesh_count() == 0) && (!_liquid_mesher.is_valid() || _liquid_mesher->get_vertex_count() == 0)) {
 		reset_stages();
 		next_phase();
 
@@ -263,14 +263,14 @@ void Terrain2DTerrain2DJob::phase_terrain_mesh() {
 		if (mesh_rid == RID()) {
 			//need to allocate the meshes
 			//allocate
-			chunk->mesh_create(Terrain2DChunkDefault::MESH_INDEX_TERRAIN);
+			chunk->meshes_create(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, 1 + _mesher->get_stored_mesh_count());
 
 		} else {
 			//we have the meshes, just clear
 			int count = chunk->mesh_rid_get_count(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH);
 
 			for (int i = 0; i < count; ++i) {
-				mesh_rid = chunk->mesh_rid_get(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH);
+				mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, i);
 
 				if (VS::get_singleton()->mesh_get_surface_count(mesh_rid) > 0)
 #if !GODOT4
@@ -392,15 +392,19 @@ void Terrain2DTerrain2DJob::step_type_normal() {
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
 
 	//TODO make this automatic in build_mesh
-	if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
-		_mesher->bake_colors(_chunk);
-	}
+	//if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
+	//	_mesher->bake_colors(_chunk);
+	//}
 
 	temp_mesh_arr = _mesher->build_mesh();
-
-	RID mesh_rid = chunk->mesh_rid_get(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH);
-
+	RID mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, 0);
 	VS::get_singleton()->mesh_add_surface_from_arrays(mesh_rid, VisualServer::PRIMITIVE_TRIANGLES, temp_mesh_arr);
+
+	for (int i = 0; i < _mesher->get_stored_mesh_count(); ++i) {
+		Array arr = _mesher->build_stored_mesh(i);
+		mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, i + 1);
+		VS::get_singleton()->mesh_add_surface_from_arrays(mesh_rid, VisualServer::PRIMITIVE_TRIANGLES, arr);
+	}
 }
 
 Terrain2DTerrain2DJob::Terrain2DTerrain2DJob() {
