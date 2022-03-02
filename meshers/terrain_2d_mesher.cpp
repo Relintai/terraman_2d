@@ -345,6 +345,140 @@ void Terrain2DMesher::remove_doubles_hashed() {
 	//print_error("after " + String::num(_vertices.size()) + " " + String::num(duration.count()));
 }
 
+
+void Terrain2DMesher::store_mesh() {
+	Terrain2DMesherStoredMesh m;
+
+	m.vertices = _vertices;
+	m.indices = _indices;
+
+	_vertices.resize(0);
+	_indices.resize(0);
+
+	_stored_meshes.push_back(m);
+}
+
+int Terrain2DMesher::get_stored_mesh_count() const {
+	return _stored_meshes.size();
+}
+
+Array Terrain2DMesher::build_stored_mesh(const int index) {
+	ERR_FAIL_INDEX_V(index, _stored_meshes.size(), Array());
+
+	Array a;
+	a.resize(VisualServer::ARRAY_MAX);
+
+	const Terrain2DMesherStoredMesh &md = _stored_meshes[index];
+
+	if (md.vertices.size() == 0) {
+		//Nothing to do
+		return a;
+	}
+
+	{
+		PoolVector<Vector2> array;
+		array.resize(md.vertices.size());
+#if !GODOT4
+		PoolVector<Vector2>::Write w = array.write();
+#endif
+
+		for (int i = 0; i < md.vertices.size(); ++i) {
+#if !GODOT4
+			w[i] = md.vertices[i].vertex;
+#else
+			array.set(i, md.vertices[i].vertex);
+#endif
+		}
+
+#if !GODOT4
+		w.release();
+#endif
+
+		a[VisualServer::ARRAY_VERTEX] = array;
+	}
+
+	if ((_format & VisualServer::ARRAY_FORMAT_COLOR) != 0) {
+		PoolVector<Color> array;
+		array.resize(md.vertices.size());
+#if !GODOT4
+		PoolVector<Color>::Write w = array.write();
+#endif
+
+		for (int i = 0; i < md.vertices.size(); ++i) {
+#if !GODOT4
+			w[i] = md.vertices[i].color;
+#else
+			array.set(i, md.vertices[i].color);
+#endif
+		}
+
+#if !GODOT4
+		w.release();
+#endif
+		a[VisualServer::ARRAY_COLOR] = array;
+	}
+
+	if ((_format & VisualServer::ARRAY_FORMAT_TEX_UV) != 0) {
+		PoolVector<Vector2> array;
+		array.resize(md.vertices.size());
+#if !GODOT4
+		PoolVector<Vector2>::Write w = array.write();
+#endif
+
+		for (int i = 0; i < md.vertices.size(); ++i) {
+#if !GODOT4
+			w[i] = md.vertices[i].uv;
+#else
+			array.set(i, md.vertices[i].uv);
+#endif
+		}
+
+#if !GODOT4
+		w.release();
+#endif
+
+		a[VisualServer::ARRAY_TEX_UV] = array;
+	}
+
+	if (md.indices.size() > 0) {
+		PoolVector<int> array;
+		array.resize(md.indices.size());
+#if !GODOT4
+		PoolVector<int>::Write w = array.write();
+#endif
+
+		for (int i = 0; i < md.indices.size(); ++i) {
+#if !GODOT4
+			w[i] = md.indices[i];
+#else
+			array.set(i, md.indices[i]);
+#endif
+		}
+
+#if !GODOT4
+		w.release();
+#endif
+		a[VisualServer::ARRAY_INDEX] = array;
+	}
+
+	return a;
+}
+void Terrain2DMesher::build_stored_mesh_into(const int index, RID mesh) {
+	ERR_FAIL_COND(mesh == RID());
+
+	VS::get_singleton()->mesh_clear(mesh);
+
+	if (_vertices.size() == 0) {
+		//Nothing to do
+		return;
+	}
+
+	Array arr = build_stored_mesh(index);
+
+	VS::get_singleton()->mesh_add_surface_from_arrays(mesh, VisualServer::PRIMITIVE_TRIANGLES, arr);
+}
+
+
 void Terrain2DMesher::reset() {
 	_vertices.resize(0);
 	_indices.resize(0);
@@ -353,6 +487,8 @@ void Terrain2DMesher::reset() {
 	_last_uv = Vector2();
 	_last_bones.clear();
 	_last_weights.clear();
+
+	_stored_meshes.resize(0);
 }
 
 void Terrain2DMesher::add_chunk(Ref<Terrain2DChunk> chunk) {
@@ -853,4 +989,9 @@ void Terrain2DMesher::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("remove_doubles"), &Terrain2DMesher::remove_doubles);
 	ClassDB::bind_method(D_METHOD("remove_doubles_hashed"), &Terrain2DMesher::remove_doubles_hashed);
+
+	ClassDB::bind_method(D_METHOD("store_mesh"), &Terrain2DMesher::store_mesh);
+	ClassDB::bind_method(D_METHOD("get_stored_mesh_count"), &Terrain2DMesher::get_stored_mesh_count);
+	ClassDB::bind_method(D_METHOD("build_stored_mesh", "index"), &Terrain2DMesher::build_stored_mesh);
+	ClassDB::bind_method(D_METHOD("build_stored_mesh_into", "index", "mesh"), &Terrain2DMesher::build_stored_mesh_into);
 }

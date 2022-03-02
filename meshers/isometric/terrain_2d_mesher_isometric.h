@@ -46,24 +46,11 @@ public:
 	void add_chunk_normal(Ref<Terrain2DChunkDefault> chunk);
 	void mesh_base(Ref<Terrain2DChunkDefault> chunk);
 
-	void reset();
-	void next_mesh();
-	int get_mesh_count() const;
-	Array build_mesh_index(const int index);
-	void build_mesh_index_into(const int index, RID mesh);
-
 	Terrain2DMesherIsometric();
 	~Terrain2DMesherIsometric();
 
 protected:
 	static void _bind_methods();
-
-	struct Terrain2DMesherIsometricMesh {
-		PoolVector<Vertex> vertices;
-		PoolVector<int> indices;
-	};
-
-	Vector<Terrain2DMesherIsometricMesh> _meshes;
 };
 
 #endif

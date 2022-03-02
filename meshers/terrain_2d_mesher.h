@@ -149,6 +149,11 @@ public:
 	void remove_doubles();
 	void remove_doubles_hashed();
 
+	void store_mesh();
+	int get_stored_mesh_count() const;
+	Array build_stored_mesh(const int index);
+	void build_stored_mesh_into(const int index, RID mesh);
+
 	PoolVector<Vector2> get_vertices() const;
 	void set_vertices(const PoolVector<Vector2> &values);
 	int get_vertex_count() const;
@@ -209,6 +214,13 @@ protected:
 	float _ao_strength;
 	float _base_light_value;
 	Rect2 _uv_margin;
+
+	struct Terrain2DMesherStoredMesh {
+		PoolVector<Vertex> vertices;
+		PoolVector<int> indices;
+	};
+
+	Vector<Terrain2DMesherStoredMesh> _stored_meshes;
 };
 
 #endif
