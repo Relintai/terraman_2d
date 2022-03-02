@@ -258,7 +258,7 @@ void Terrain2DTerrain2DJob::phase_terrain_mesh() {
 
 	//set up the meshes
 	if (should_do()) {
-		RID mesh_rid = chunk->mesh_rid_get(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH);
+		RID mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, 0);
 
 		if (mesh_rid == RID()) {
 			//need to allocate the meshes
