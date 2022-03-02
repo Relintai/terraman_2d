@@ -265,9 +265,12 @@ void Terrain2DTerrain2DJob::phase_terrain_mesh() {
 			//allocate
 			chunk->meshes_create(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, 1 + _mesher->get_stored_mesh_count());
 
+			chunk->_mesh_transforms.resize(1 + _mesher->get_stored_mesh_count());
+
 		} else {
 			//we have the meshes, just clear
 			int count = chunk->mesh_rid_get_count(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH);
+			chunk->_mesh_transforms.resize(count);
 
 			for (int i = 0; i < count; ++i) {
 				mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, i);
@@ -278,6 +281,8 @@ void Terrain2DTerrain2DJob::phase_terrain_mesh() {
 #else
 					VS::get_singleton()->mesh_clear(mesh_rid);
 #endif
+
+				chunk->_mesh_transforms.write[i] = Transform2D();
 			}
 		}
 	}
@@ -404,6 +409,8 @@ void Terrain2DTerrain2DJob::step_type_normal() {
 		Array arr = _mesher->build_stored_mesh(i);
 		mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, i + 1);
 		VS::get_singleton()->mesh_add_surface_from_arrays(mesh_rid, VisualServer::PRIMITIVE_TRIANGLES, arr);
+
+		chunk->_mesh_transforms.write[i + 1] = _mesher->get_stored_mesh_transform(i);
 	}
 }
 

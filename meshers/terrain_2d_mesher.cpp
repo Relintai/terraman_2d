@@ -85,6 +85,13 @@ void Terrain2DMesher::set_texture_scale(const int value) {
 	_texture_scale = value;
 }
 
+Transform2D Terrain2DMesher::get_mesh_transform() {
+	return _mesh_transform;
+}
+void Terrain2DMesher::set_mesh_transform(const Transform2D &value) {
+	_mesh_transform = value;
+}
+
 Ref<Terrain2DLibrary> Terrain2DMesher::get_library() {
 	return _library;
 }
@@ -345,12 +352,12 @@ void Terrain2DMesher::remove_doubles_hashed() {
 	//print_error("after " + String::num(_vertices.size()) + " " + String::num(duration.count()));
 }
 
-
 void Terrain2DMesher::store_mesh() {
 	Terrain2DMesherStoredMesh m;
 
 	m.vertices = _vertices;
 	m.indices = _indices;
+	m.transform = _mesh_transform;
 
 	_vertices.resize(0);
 	_indices.resize(0);
@@ -463,6 +470,13 @@ Array Terrain2DMesher::build_stored_mesh(const int index) {
 
 	return a;
 }
+
+Transform2D Terrain2DMesher::get_stored_mesh_transform(const int index) {
+	ERR_FAIL_INDEX_V(index, _stored_meshes.size(), Transform2D());
+
+	return _stored_meshes[index].transform;
+}
+
 void Terrain2DMesher::build_stored_mesh_into(const int index, RID mesh) {
 	ERR_FAIL_COND(mesh == RID());
 
@@ -477,7 +491,6 @@ void Terrain2DMesher::build_stored_mesh_into(const int index, RID mesh) {
 
 	VS::get_singleton()->mesh_add_surface_from_arrays(mesh, VisualServer::PRIMITIVE_TRIANGLES, arr);
 }
-
 
 void Terrain2DMesher::reset() {
 	_vertices.resize(0);
@@ -908,6 +921,10 @@ void Terrain2DMesher::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_texture_scale", "value"), &Terrain2DMesher::set_texture_scale);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "texture_scale"), "set_texture_scale", "get_texture_scale");
 
+	ClassDB::bind_method(D_METHOD("get_mesh_transform"), &Terrain2DMesher::get_mesh_transform);
+	ClassDB::bind_method(D_METHOD("set_mesh_transform", "value"), &Terrain2DMesher::set_mesh_transform);
+	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM2D, "mesh_transform"), "set_mesh_transform", "get_mesh_transform");
+
 	ClassDB::bind_method(D_METHOD("get_library"), &Terrain2DMesher::get_library);
 	ClassDB::bind_method(D_METHOD("set_library", "value"), &Terrain2DMesher::set_library);
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "library", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DLibrary"), "set_library", "get_library");
@@ -993,5 +1010,6 @@ void Terrain2DMesher::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("store_mesh"), &Terrain2DMesher::store_mesh);
 	ClassDB::bind_method(D_METHOD("get_stored_mesh_count"), &Terrain2DMesher::get_stored_mesh_count);
 	ClassDB::bind_method(D_METHOD("build_stored_mesh", "index"), &Terrain2DMesher::build_stored_mesh);
+	ClassDB::bind_method(D_METHOD("get_stored_mesh_transform", "index"), &Terrain2DMesher::get_stored_mesh_transform);
 	ClassDB::bind_method(D_METHOD("build_stored_mesh_into", "index", "mesh"), &Terrain2DMesher::build_stored_mesh_into);
 }

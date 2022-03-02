@@ -199,6 +199,9 @@ public:
 	Terrain2DChunkDefault();
 	~Terrain2DChunkDefault();
 
+	//Todo make this a generic thing
+	Vector<Transform2D> _mesh_transforms;
+
 protected:
 	virtual void _channel_setup();
 

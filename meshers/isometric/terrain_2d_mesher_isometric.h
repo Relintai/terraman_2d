@@ -45,8 +45,7 @@ public:
 
 	void add_chunk_normal(Ref<Terrain2DChunkDefault> chunk);
 	void mesh_base(Ref<Terrain2DChunkDefault> chunk);
-	void mesh_wall_back(Ref<Terrain2DChunkDefault> chunk);
-	void mesh_wall_front(Ref<Terrain2DChunkDefault> chunk);
+	void mesh_walls(Ref<Terrain2DChunkDefault> chunk);
 
 	Terrain2DMesherIsometric();
 	~Terrain2DMesherIsometric();

@@ -102,6 +102,9 @@ public:
 	int get_texture_scale() const;
 	void set_texture_scale(const int value);
 
+	Transform2D get_mesh_transform();
+	void set_mesh_transform(const Transform2D &value);
+
 	Ref<Terrain2DLibrary> get_library();
 	void set_library(const Ref<Terrain2DLibrary> &library);
 
@@ -152,6 +155,7 @@ public:
 	void store_mesh();
 	int get_stored_mesh_count() const;
 	Array build_stored_mesh(const int index);
+	Transform2D get_stored_mesh_transform(const int index);
 	void build_stored_mesh_into(const int index, RID mesh);
 
 	PoolVector<Vector2> get_vertices() const;
@@ -197,6 +201,8 @@ protected:
 
 	int _texture_scale;
 
+	Transform2D _mesh_transform;
+
 	PoolVector<Vertex> _vertices;
 	PoolVector<int> _indices;
 
@@ -218,6 +224,7 @@ protected:
 	struct Terrain2DMesherStoredMesh {
 		PoolVector<Vertex> vertices;
 		PoolVector<int> indices;
+		Transform2D transform;
 	};
 
 	Vector<Terrain2DMesherStoredMesh> _stored_meshes;
