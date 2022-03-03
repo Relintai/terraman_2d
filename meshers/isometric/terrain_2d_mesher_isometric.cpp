@@ -100,14 +100,17 @@ void Terrain2DMesherIsometric::mesh_base(Ref<Terrain2DChunkDefault> chunk) {
 
 	int margin_start = chunk->get_margin_start();
 	//z_size + margin_start is fine, x, and z are in data space.
-	for (int y = margin_start; y < y_size + margin_start; ++y) {
-		for (int x = margin_start; x < x_size + margin_start; ++x) {
+	for (int dy = margin_start; dy < y_size + margin_start; ++dy) {
+		for (int dx = margin_start; dx < x_size + margin_start; ++dx) {
 			int indexes[4] = {
-				chunk->get_data_index(x, y),
-				chunk->get_data_index(x + 1, y),
-				chunk->get_data_index(x, y + 1),
-				chunk->get_data_index(x + 1, y + 1)
+				chunk->get_data_index(dx, dy),
+				chunk->get_data_index(dx + 1, dy),
+				chunk->get_data_index(dx, dy + 1),
+				chunk->get_data_index(dx + 1, dy + 1)
 			};
+
+			int x = dx - margin_start;
+			int y = dy - margin_start;
 
 			uint8_t type = channel_type[indexes[0]];
 
@@ -387,14 +390,17 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 
 	int margin_start = chunk->get_margin_start();
 	//z_size + margin_start is fine, x, and z are in data space.
-	for (int y = margin_start; y < y_size + margin_start; ++y) {
-		for (int x = margin_start; x < x_size + margin_start; ++x) {
+	for (int dy = margin_start; dy < y_size + margin_start; ++dy) {
+		for (int dx = margin_start; dx < x_size + margin_start; ++dx) {
 			int indexes[4] = {
-				chunk->get_data_index(x, y),
-				chunk->get_data_index(x + 1, y),
-				chunk->get_data_index(x, y + 1),
-				chunk->get_data_index(x + 1, y + 1)
+				chunk->get_data_index(dx, dy),
+				chunk->get_data_index(dx + 1, dy),
+				chunk->get_data_index(dx, dy + 1),
+				chunk->get_data_index(dx + 1, dy + 1)
 			};
+
+			int x = dx - margin_start;
+			int y = dy - margin_start;
 
 			uint8_t type = channel_type[indexes[0]];
 
@@ -460,31 +466,22 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 				}
 			}
 
-			Vector2 verts_normal[] = {
-				Vector2(0, 0),
-				Vector2(cell_size_x, 0),
-				Vector2(0, cell_size_y),
-				Vector2(cell_size_x, cell_size_y)
-			};
-
-			// Note that +y is down!
-			Vector2 verts_wall[] = {
-				Vector2(0, -cell_size_y),
-				Vector2(cell_size_x, -cell_size_y),
-				Vector2(0, 0),
-				Vector2(cell_size_x, 0)
-			};
-
-			int vc = get_vertex_count();
-
 			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_WALL_HOLE) != 0) {
 				continue;
 			}
 
-			_mesh_transform = Transform2D(0, mesh_transform_terrain.xform(Vector2(x * cell_size_x, y * cell_size_y)));
-
 			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_WALL_NORTH) != 0) {
-				Vector2 vert_start_offset = mesh_transform_terrain.xform(Vector2(cell_size_x, cell_size_y));
+				int vc = get_vertex_count();
+
+				_mesh_transform = Transform2D(0, mesh_transform_terrain.xform(Vector2((x + 1) * cell_size_x, y * cell_size_y)));
+
+				// Note that +y is down!
+				Vector2 verts_wall_north[] = {
+					Vector2(-cell_size_x, -cell_size_y),
+					Vector2(0, -cell_size_y),
+					Vector2(-cell_size_x, 0),
+					Vector2(0, 0)
+				};
 
 				for (int i = 0; i < 4; ++i) {
 					if (use_lighting) {
@@ -494,7 +491,7 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 					}
 
 					add_uv(uvs[i]);
-					add_vertex(mesh_transform_wall_north.xform(verts_wall[i]) + vert_start_offset);
+					add_vertex(mesh_transform_wall_north.xform(verts_wall_north[i]));
 				}
 
 				add_indices(vc + 0);
@@ -504,11 +501,24 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 				add_indices(vc + 2);
 				add_indices(vc + 3);
 
-				vc += 4;
+				if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
+					bake_colors(chunk);
+				}
+
+				store_mesh();
 			}
 
 			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_WALL_WEST) != 0) {
-				Vector2 vert_start_offset = mesh_transform_terrain.xform(Vector2(cell_size_x, cell_size_y + cell_size_y));
+				int vc = get_vertex_count();
+
+				_mesh_transform = Transform2D(0, mesh_transform_terrain.xform(Vector2(x * cell_size_x, (y + 1) * cell_size_y)));
+
+				Vector2 verts_wall_west[] = {
+					Vector2(0, -cell_size_y),
+					Vector2(cell_size_x, -cell_size_y),
+					Vector2(0, 0),
+					Vector2(cell_size_x, 0)
+				};
 
 				for (int i = 0; i < 4; ++i) {
 					if (use_lighting) {
@@ -519,7 +529,8 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 
 					add_uv(uvs[i]);
 
-					add_vertex(mesh_transform_wall_west.xform(verts_wall[i]) + vert_start_offset);
+					//add_vertex(mesh_transform_wall_west.xform(verts_wall[i]));
+					add_vertex(mesh_transform_wall_west.xform(verts_wall_west[i]));
 				}
 
 				add_indices(vc + 0);
@@ -529,11 +540,24 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 				add_indices(vc + 2);
 				add_indices(vc + 3);
 
-				vc += 4;
+				if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
+					bake_colors(chunk);
+				}
+
+				store_mesh();
 			}
 
 			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_WALL_SOUTH) != 0) {
-				Vector2 vert_start_offset = mesh_transform_terrain.xform(Vector2(cell_size_x, cell_size_y + cell_size_y));
+				int vc = get_vertex_count();
+
+				_mesh_transform = Transform2D(0, mesh_transform_terrain.xform(Vector2((x)*cell_size_x, (y + 1) * cell_size_y)));
+
+				Vector2 verts_wall_south[] = {
+					Vector2(0, -cell_size_y),
+					Vector2(cell_size_x, -cell_size_y),
+					Vector2(0, 0),
+					Vector2(cell_size_x, 0)
+				};
 
 				for (int i = 0; i < 4; ++i) {
 					if (use_lighting) {
@@ -543,7 +567,8 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 					}
 
 					add_uv(uvs[i]);
-					add_vertex(mesh_transform_wall_south.xform(verts_wall[i]) + vert_start_offset);
+					add_vertex(mesh_transform_wall_south.xform(verts_wall_south[i]));
+					//add_vertex((verts_wall_south[i]));
 				}
 
 				add_indices(vc + 0);
@@ -553,11 +578,24 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 				add_indices(vc + 2);
 				add_indices(vc + 3);
 
-				vc += 4;
+				if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
+					bake_colors(chunk);
+				}
+
+				store_mesh();
 			}
 
 			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_WALL_EAST) != 0) {
-				Vector2 vert_start_offset = mesh_transform_terrain.xform(Vector2(cell_size_x + cell_size_x, cell_size_y + cell_size_y));
+				int vc = get_vertex_count();
+
+				_mesh_transform = Transform2D(0, mesh_transform_terrain.xform(Vector2((x + 1)*cell_size_x, (y ) * cell_size_y)));
+
+				Vector2 verts_wall_east[] = {
+					Vector2(-cell_size_x, -cell_size_y),
+					Vector2(0, -cell_size_y),
+					Vector2(-cell_size_x, 0),
+					Vector2(0, 0)
+				};
 
 				for (int i = 0; i < 4; ++i) {
 					if (use_lighting) {
@@ -567,7 +605,8 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 					}
 
 					add_uv(uvs[i]);
-					add_vertex(mesh_transform_wall_east.xform(verts_wall[i]) + vert_start_offset);
+					add_vertex(mesh_transform_wall_east.xform(verts_wall_east[i]));
+					//add_vertex((verts_wall_east[i]));
 				}
 
 				add_indices(vc + 0);
@@ -577,10 +616,6 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 				add_indices(vc + 2);
 				add_indices(vc + 3);
 
-				vc += 4;
-			}
-
-			if (_vertices.size() > 0) {
 				if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
 					bake_colors(chunk);
 				}

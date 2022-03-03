@@ -157,6 +157,7 @@ public:
 	Array build_stored_mesh(const int index);
 	Transform2D get_stored_mesh_transform(const int index);
 	void build_stored_mesh_into(const int index, RID mesh);
+	AABB calculate_stored_mesh_aabb(const int index);
 
 	PoolVector<Vector2> get_vertices() const;
 	void set_vertices(const PoolVector<Vector2> &values);

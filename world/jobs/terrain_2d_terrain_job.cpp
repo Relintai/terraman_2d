@@ -411,6 +411,8 @@ void Terrain2DTerrain2DJob::step_type_normal() {
 		VS::get_singleton()->mesh_add_surface_from_arrays(mesh_rid, VisualServer::PRIMITIVE_TRIANGLES, arr);
 
 		chunk->_mesh_transforms.write[i + 1] = _mesher->get_stored_mesh_transform(i);
+		//AABB aabb = _mesher->calculate_stored_mesh_aabb(i);
+		//VS::get_singleton()->mesh_set_custom_aabb(mesh_rid, aabb);
 	}
 }
 

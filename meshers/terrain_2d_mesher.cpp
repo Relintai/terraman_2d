@@ -492,6 +492,28 @@ void Terrain2DMesher::build_stored_mesh_into(const int index, RID mesh) {
 	VS::get_singleton()->mesh_add_surface_from_arrays(mesh, VisualServer::PRIMITIVE_TRIANGLES, arr);
 }
 
+AABB Terrain2DMesher::calculate_stored_mesh_aabb(const int index) {
+	ERR_FAIL_INDEX_V(index, _stored_meshes.size(), AABB());
+
+	const Terrain2DMesherStoredMesh &md = _stored_meshes[index];
+
+	if (md.vertices.size() == 0) {
+		//Nothing to do
+		return AABB();
+	}
+
+	AABB aabb;
+
+	int len = md.vertices.size();
+	aabb.position = Vector3(md.vertices[0].vertex.x, md.vertices[0].vertex.y, 0);
+
+	for (int i = 0; i < len; i++) {
+		aabb.expand_to(Vector3(md.vertices[i].vertex.x, md.vertices[i].vertex.y, 0));
+	}
+
+	return aabb;
+}
+
 void Terrain2DMesher::reset() {
 	_vertices.resize(0);
 	_indices.resize(0);
