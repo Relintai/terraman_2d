@@ -481,7 +481,7 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 				continue;
 			}
 
-			_mesh_transform = Transform2D(0, Vector2(x * cell_size_x, y * cell_size_y));
+			_mesh_transform = Transform2D(0, mesh_transform_terrain.xform(Vector2(x * cell_size_x, y * cell_size_y)));
 
 			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_WALL_NORTH) != 0) {
 				Vector2 vert_start_offset = mesh_transform_terrain.xform(Vector2(cell_size_x, cell_size_y));
@@ -579,15 +579,16 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 
 				vc += 4;
 			}
-			
+
+			if (_vertices.size() > 0) {
+				if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
+					bake_colors(chunk);
+				}
+
+				store_mesh();
+			}
 		}
 	}
-
-	if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
-		bake_colors(chunk);
-	}
-
-	store_mesh();
 }
 
 Terrain2DMesherIsometric::Terrain2DMesherIsometric() {

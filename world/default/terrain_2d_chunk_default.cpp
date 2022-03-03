@@ -694,12 +694,10 @@ void Terrain2DChunkDefault::_draw() {
 		if (terrain_mesh_rid != RID()) {
 			RID terrain_texture_rid = mesh_rid_get(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_TEXTURE_RID);
 
-			//VisualServer::get_singleton()->canvas_item_add_set_transform(get_canvas_item(), _mesh_transforms[i]);
+			VisualServer::get_singleton()->canvas_item_add_set_transform(get_canvas_item(), _mesh_transforms[i]);
 
 			//Note: the transform parameter is not implemented in gles2
-			VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(), terrain_mesh_rid, _mesh_transforms[i], Color(1, 1, 1, 1), terrain_texture_rid, RID());
-
-			//VisualServer::get_singleton()->canvas_item_set_transform(get_canvas_item(), Transform2D());
+			VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(), terrain_mesh_rid, Transform2D(), Color(1, 1, 1, 1), terrain_texture_rid, RID());
 		}
 	}
 
