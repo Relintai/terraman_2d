@@ -28,6 +28,7 @@ SOFTWARE.
 
 #include "../world/default/terrain_2d_chunk_default.h"
 #include "../world/terrain_2d_chunk.h"
+#include "scene/resources/rectangle_shape_2d.h"
 
 bool Terrain2DMesher::Vertex::operator==(const Vertex &p_vertex) const {
 	if (vertex != p_vertex.vertex)
@@ -512,6 +513,15 @@ AABB Terrain2DMesher::calculate_stored_mesh_aabb(const int index) {
 	}
 
 	return aabb;
+}
+
+Ref<Shape2D> Terrain2DMesher::create_terrain_tile_collider_shape(Ref<Terrain2DChunk> chunk) {
+	Ref<RectangleShape2D> sh;
+	sh.instance();
+
+	sh->set_extents(Vector2(_cell_size_x, _cell_size_y));
+
+	return sh;
 }
 
 void Terrain2DMesher::reset() {
@@ -1019,6 +1029,7 @@ void Terrain2DMesher::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("add_indices", "indice"), &Terrain2DMesher::add_indices);
 
 	ClassDB::bind_method(D_METHOD("reset"), &Terrain2DMesher::reset);
+	ClassDB::bind_method(D_METHOD("create_terrain_tile_collider_shape", "chunk"), &Terrain2DMesher::create_terrain_tile_collider_shape);
 
 	//ClassDB::bind_method(D_METHOD("calculate_vertex_ambient_occlusion", "meshinstance_path", "radius", "intensity", "sampleCount"), &Terrain2DMesher::calculate_vertex_ambient_occlusion_path);
 

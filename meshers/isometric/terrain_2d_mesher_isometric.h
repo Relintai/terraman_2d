@@ -46,6 +46,8 @@ public:
 	void mesh_base(Ref<Terrain2DChunkDefault> chunk);
 	void mesh_walls(Ref<Terrain2DChunkDefault> chunk);
 
+	Ref<Shape2D> create_terrain_tile_collider_shape(Ref<Terrain2DChunk> chunk);
+
 	Terrain2DMesherIsometric();
 	~Terrain2DMesherIsometric();
 

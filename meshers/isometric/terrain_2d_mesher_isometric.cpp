@@ -25,6 +25,7 @@ SOFTWARE.
 #include "core/math/math_funcs.h"
 
 #include "../../library/terrain_2d_material_cache.h"
+#include "scene/resources/convex_polygon_shape_2d.h"
 
 void Terrain2DMesherIsometric::_add_chunk(Ref<Terrain2DChunk> p_chunk) {
 	Ref<Terrain2DChunkDefault> chunk = p_chunk;
@@ -588,7 +589,7 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_WALL_EAST) != 0) {
 				int vc = get_vertex_count();
 
-				_mesh_transform = Transform2D(0, mesh_transform_terrain.xform(Vector2((x + 1)*cell_size_x, (y ) * cell_size_y)));
+				_mesh_transform = Transform2D(0, mesh_transform_terrain.xform(Vector2((x + 1) * cell_size_x, (y)*cell_size_y)));
 
 				Vector2 verts_wall_east[] = {
 					Vector2(-cell_size_x, -cell_size_y),
@@ -624,6 +625,23 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 			}
 		}
 	}
+}
+
+Ref<Shape2D> Terrain2DMesherIsometric::create_terrain_tile_collider_shape(Ref<Terrain2DChunk> chunk) {
+	Ref<ConvexPolygonShape2D> sh;
+	sh.instance();
+
+	Vector<Vector2> points;
+
+	Transform2D mesh_transform_terrain = chunk->mesh_transform_terrain_get();
+	points.push_back(mesh_transform_terrain.xform(Vector2(0, 0)));
+	points.push_back(mesh_transform_terrain.xform(Vector2(_cell_size_x, 0)));
+	points.push_back(mesh_transform_terrain.xform(Vector2(0, _cell_size_y)));
+	points.push_back(mesh_transform_terrain.xform(Vector2(_cell_size_x, _cell_size_y)));
+
+	sh->set_points(points);
+
+	return sh;
 }
 
 Terrain2DMesherIsometric::Terrain2DMesherIsometric() {

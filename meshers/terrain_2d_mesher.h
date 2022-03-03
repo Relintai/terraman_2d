@@ -56,6 +56,8 @@ include_pool_vector
 #include "../../mesh_data_resource/mesh_data_resource.h"
 #endif
 
+#include "scene/resources/shape_2d.h"
+
 #include "../library/terrain_2d_library.h"
 
 		class Terrain2DLibrary;
@@ -158,6 +160,8 @@ public:
 	Transform2D get_stored_mesh_transform(const int index);
 	void build_stored_mesh_into(const int index, RID mesh);
 	AABB calculate_stored_mesh_aabb(const int index);
+
+	virtual Ref<Shape2D> create_terrain_tile_collider_shape(Ref<Terrain2DChunk> chunk);
 
 	PoolVector<Vector2> get_vertices() const;
 	void set_vertices(const PoolVector<Vector2> &values);
