@@ -350,9 +350,13 @@ public:
 
 	bool is_safe_to_delete();
 
-	_FORCE_INLINE_ RID get_canvas_item() const {
-		return _canvas_item;
+	_FORCE_INLINE_ RID get_canvas_item(const int index) const {
+		return _canvas_items[index];
 	}
+	_FORCE_INLINE_ int get_canvas_item_count() {
+		return _canvas_items.size();
+	}
+	void setup_canvas_items_size(const int amount);
 
 	Terrain2DChunk();
 	~Terrain2DChunk();
@@ -460,7 +464,7 @@ protected:
 	bool _abort_build;
 	bool _queued_generation;
 
-	RID _canvas_item;
+	Vector<RID> _canvas_items;
 
 	Transform2D _mesh_transform_terrain;
 	Transform2D _mesh_transform_wall_north;

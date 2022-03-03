@@ -682,7 +682,11 @@ void Terrain2DChunkDefault::_draw() {
 		return;
 	}
 
-	VisualServer::get_singleton()->canvas_item_clear(get_canvas_item());
+	setup_canvas_items_size(mesh_rid_get_count(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_MESH));
+
+	for (int i = 0; i < get_canvas_item_count(); ++i) {
+		VisualServer::get_singleton()->canvas_item_clear(get_canvas_item(i));
+	}
 
 	Terrain2DWorld *world = get_voxel_world();
 
@@ -694,10 +698,12 @@ void Terrain2DChunkDefault::_draw() {
 		if (terrain_mesh_rid != RID()) {
 			RID terrain_texture_rid = mesh_rid_get(MESH_INDEX_TERRAIN, MESH_TYPE_INDEX_TEXTURE_RID);
 
-			VisualServer::get_singleton()->canvas_item_add_set_transform(get_canvas_item(), _mesh_transforms[i]);
+			VisualServer::get_singleton()->canvas_item_set_transform(get_canvas_item(i), get_transform() * _mesh_transforms[i]);
+
+			VisualServer::get_singleton()->canvas_item_clear(get_canvas_item(i));
 
 			//Note: the transform parameter is not implemented in gles2
-			VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(), terrain_mesh_rid, Transform2D(), Color(1, 1, 1, 1), terrain_texture_rid, RID());
+			VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(i), terrain_mesh_rid, Transform2D(), Color(1, 1, 1, 1), terrain_texture_rid, RID());
 		}
 	}
 
@@ -707,7 +713,7 @@ void Terrain2DChunkDefault::_draw() {
 		RID liquid_texture_rid = mesh_rid_get(MESH_INDEX_LIQUID, MESH_TYPE_INDEX_TEXTURE_RID);
 
 		//Note: the transform parameter is not implemented in gles2
-		VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(), liquid_mesh_rid, Transform2D(), Color(1, 1, 1, 1), liquid_texture_rid, RID());
+		VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(0), liquid_mesh_rid, Transform2D(), Color(1, 1, 1, 1), liquid_texture_rid, RID());
 	}
 
 	RID prop_mesh_rid = mesh_rid_get(MESH_INDEX_PROP, MESH_TYPE_INDEX_MESH);
@@ -716,7 +722,7 @@ void Terrain2DChunkDefault::_draw() {
 		RID prop_texture_rid = mesh_rid_get(MESH_INDEX_PROP, MESH_TYPE_INDEX_TEXTURE_RID);
 
 		//Note: the transform parameter is not implemented in gles2
-		VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(), prop_mesh_rid, Transform2D(), Color(1, 1, 1, 1), prop_texture_rid, RID());
+		VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(0), prop_mesh_rid, Transform2D(), Color(1, 1, 1, 1), prop_texture_rid, RID());
 	}
 }
 

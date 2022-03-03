@@ -218,14 +218,14 @@ void Terrain2DChunk::set_library(const Ref<Terrain2DLibrary> &value) {
 	_library = value;
 }
 
-int Terrain2DChunk::get_cell_size_x() const{
+int Terrain2DChunk::get_cell_size_x() const {
 	return _cell_size_x;
 }
-void Terrain2DChunk::set_cell_size_x(const int value){
+void Terrain2DChunk::set_cell_size_x(const int value) {
 	_cell_size_x = value;
 }
 
-int Terrain2DChunk::get_cell_size_y() const{
+int Terrain2DChunk::get_cell_size_y() const {
 	return _cell_size_y;
 }
 void Terrain2DChunk::set_cell_size_y(const int value) {
@@ -241,7 +241,6 @@ void Terrain2DChunk::set_voxel_world(Terrain2DWorld *world) {
 void Terrain2DChunk::set_voxel_world_bind(Node *world) {
 	set_voxel_world(Object::cast_to<Terrain2DWorld>(world));
 }
-
 
 Transform2D Terrain2DChunk::mesh_transform_terrain_get() {
 	return _mesh_transform_terrain;
@@ -1112,6 +1111,30 @@ bool Terrain2DChunk::is_safe_to_delete() {
 #endif
 }
 
+void Terrain2DChunk::setup_canvas_items_size(const int amount) {
+	if (amount > _canvas_items.size()) {
+		while (amount > _canvas_items.size()) {
+			RID ci = VisualServer::get_singleton()->canvas_item_create();
+
+			if (_voxel_world) {
+				VisualServer::get_singleton()->canvas_item_set_parent(ci, get_voxel_world()->get_canvas_item());
+			}
+
+			_canvas_items.push_back(ci);
+		}
+
+		return;
+	} else {
+		while (amount != _canvas_items.size()) {
+			RID ci = _canvas_items[_canvas_items.size() - 1];
+
+			VisualServer::get_singleton()->free(ci);
+
+			_canvas_items.resize(_canvas_items.size() - 1);
+		}
+	}
+}
+
 Terrain2DChunk::Terrain2DChunk() {
 	_is_processing = false;
 	_is_phisics_processing = false;
@@ -1152,12 +1175,10 @@ Terrain2DChunk::Terrain2DChunk() {
 	_current_job = -1;
 
 	_queued_generation = false;
-
-	_canvas_item = VisualServer::get_singleton()->canvas_item_create();
 }
 
 Terrain2DChunk::~Terrain2DChunk() {
-	VisualServer::get_singleton()->free(_canvas_item);
+	setup_canvas_items_size(0);
 
 	if (_library.is_valid()) {
 		_library.unref();
@@ -1190,7 +1211,9 @@ Terrain2DChunk::~Terrain2DChunk() {
 
 void Terrain2DChunk::_enter_tree() {
 	if (_voxel_world) {
-		VisualServer::get_singleton()->canvas_item_set_parent(get_canvas_item(), get_voxel_world()->get_canvas_item());
+		for (int i = 0; i < _canvas_items.size(); ++i) {
+			VisualServer::get_singleton()->canvas_item_set_parent(_canvas_items[i], get_voxel_world()->get_canvas_item());
+		}
 	}
 
 	for (int i = 0; i < _jobs.size(); ++i) {
@@ -1284,7 +1307,7 @@ void Terrain2DChunk::_generation_physics_process(const float delta) {
 void Terrain2DChunk::_world_transform_changed() {
 	Transform2D t;
 	Vector2 pos = Vector2(_position_x * static_cast<int>(_size_x) * _cell_size_x, _position_y * static_cast<int>(_size_y) * _cell_size_y);
-	
+
 	pos = _mesh_transform_terrain.xform(pos);
 
 	//t *= _custom_transform;
@@ -1292,7 +1315,9 @@ void Terrain2DChunk::_world_transform_changed() {
 
 	set_transform(t);
 
-	VisualServer::get_singleton()->canvas_item_set_transform(get_canvas_item(), t);
+	if (get_canvas_item_count() > 0) {
+		VisualServer::get_singleton()->canvas_item_set_transform(get_canvas_item(0), t);
+	}
 }
 
 /*
@@ -1525,7 +1550,6 @@ void Terrain2DChunk::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("mesh_transform_wall_west_get"), &Terrain2DChunk::mesh_transform_wall_west_get);
 	ClassDB::bind_method(D_METHOD("mesh_transform_wall_west_set", "player"), &Terrain2DChunk::mesh_transform_wall_west_set);
 	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM2D, "mesh_transform_wall_west"), "mesh_transform_wall_west_set", "mesh_transform_wall_west_get");
-
 
 	//Terra Data
 	ClassDB::bind_method(D_METHOD("channel_setup"), &Terrain2DChunk::channel_setup);
