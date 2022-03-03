@@ -43,7 +43,6 @@ class Terrain2DMesherIsometric : public Terrain2DMesherDefault {
 public:
 	void _add_chunk(Ref<Terrain2DChunk> p_chunk);
 
-	void add_chunk_normal(Ref<Terrain2DChunkDefault> chunk);
 	void mesh_base(Ref<Terrain2DChunkDefault> chunk);
 	void mesh_walls(Ref<Terrain2DChunkDefault> chunk);
 
