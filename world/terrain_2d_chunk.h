@@ -205,6 +205,9 @@ public:
 	Transform2D mesh_transform_wall_west_get();
 	void mesh_transform_wall_west_set(const Transform2D &value);
 
+	Ref<Shape2D> get_default_tile_shape();
+	void set_default_tile_shape(const Ref<Shape2D> &shape);
+
 	//Jobs
 	Ref<Terrain2DJob> job_get(const int index) const;
 	void job_set(const int index, const Ref<Terrain2DJob> &job);
@@ -463,6 +466,8 @@ protected:
 
 	bool _abort_build;
 	bool _queued_generation;
+
+	Ref<Shape2D> _default_tile_shape;
 
 	Vector<RID> _canvas_items;
 

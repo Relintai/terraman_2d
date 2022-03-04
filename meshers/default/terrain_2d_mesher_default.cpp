@@ -23,6 +23,7 @@ SOFTWARE.
 #include "terrain_2d_mesher_default.h"
 
 #include "../../world/default/terrain_2d_chunk_default.h"
+#include "../../library/terrain_2d_material_cache.h"
 
 #include "../../defines.h"
 
@@ -39,6 +40,77 @@ _FORCE_INLINE_ void Terrain2DMesherDefault::set_build_flags(const int flags) {
 		_format |= VisualServer::ARRAY_FORMAT_COLOR;
 	} else {
 		_format ^= VisualServer::ARRAY_FORMAT_COLOR;
+	}
+}
+
+void Terrain2DMesherDefault::create_tile_colliders(Ref<Terrain2DChunk> ch) {
+	Ref<Terrain2DChunkDefault> chunk = ch;
+
+	ERR_FAIL_COND(!chunk.is_valid());
+
+	if (!chunk->get_default_tile_shape().is_valid()) {
+		chunk->set_default_tile_shape(create_terrain_tile_collider_shape(chunk));
+	}
+
+	uint8_t *channel_flags = chunk->channel_get(Terrain2DChunkDefault::DEFAULT_CHANNEL_FLAGS);
+
+	if (!channel_flags)
+		return;
+
+	Ref<Shape2D> tile_collider_shape = chunk->get_default_tile_shape();
+
+	RID body_rid = chunk->_2d_body_rid;
+
+	if (body_rid == RID()) {
+		body_rid = Physics2DServer::get_singleton()->body_create();
+		chunk->_2d_body_rid = body_rid;
+
+		if (chunk->is_in_tree()) {
+			RID space = chunk->get_voxel_world()->get_world_2d()->get_space();
+			Physics2DServer::get_singleton()->body_set_space(body_rid, space);
+		}
+
+		Physics2DServer::get_singleton()->body_set_state(body_rid, Physics2DServer::BODY_STATE_TRANSFORM, chunk->get_transform());
+	}
+
+	Physics2DServer::get_singleton()->body_set_mode(body_rid, Physics2DServer::BODY_MODE_STATIC);
+	Physics2DServer::get_singleton()->body_attach_object_instance_id(body_rid, get_instance_id());
+	//TODO
+	Physics2DServer::get_singleton()->body_set_collision_layer(body_rid, 1);
+	Physics2DServer::get_singleton()->body_set_collision_mask(body_rid, 1);
+
+	int x_size = chunk->get_size_x();
+	int y_size = chunk->get_size_y();
+	int cell_size_x = get_cell_size_x();
+	int cell_size_y = get_cell_size_y();
+
+	Transform2D mesh_transform_terrain = chunk->mesh_transform_terrain_get();
+
+	Ref<Terrain2DMaterialCache> mcache;
+
+	if (chunk->material_cache_key_has()) {
+		mcache = _library->material_cache_get(chunk->material_cache_key_get());
+	}
+
+	int texture_scale = get_texture_scale();
+
+	int margin_start = chunk->get_margin_start();
+	//z_size + margin_start is fine, x, and z are in data space.
+	for (int dy = margin_start; dy < y_size + margin_start; ++dy) {
+		for (int dx = margin_start; dx < x_size + margin_start; ++dx) {
+			int index = chunk->get_data_index(dx, dy);
+
+			int x = dx - margin_start;
+			int y = dy - margin_start;
+
+			int flags = channel_flags[index];
+
+			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_COLLIDER) != 0) {
+				Transform2D coll_transform(0, mesh_transform_terrain.xform(Vector2((x)*cell_size_x, y * cell_size_y)));
+
+				Physics2DServer::get_singleton()->body_add_shape(body_rid, tile_collider_shape->get_rid(), coll_transform);
+			}
+		}
 	}
 }
 

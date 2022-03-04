@@ -277,6 +277,13 @@ void Terrain2DChunk::mesh_transform_wall_west_set(const Transform2D &value) {
 	_mesh_transform_wall_west = value;
 }
 
+Ref<Shape2D> Terrain2DChunk::get_default_tile_shape() {
+	return _default_tile_shape;
+}
+void Terrain2DChunk::set_default_tile_shape(const Ref<Shape2D> &shape) {
+	_default_tile_shape = shape;
+}
+
 Ref<Terrain2DJob> Terrain2DChunk::job_get(int index) const {
 	ERR_FAIL_INDEX_V(index, _jobs.size(), Ref<Terrain2DJob>());
 
@@ -1550,6 +1557,10 @@ void Terrain2DChunk::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("mesh_transform_wall_west_get"), &Terrain2DChunk::mesh_transform_wall_west_get);
 	ClassDB::bind_method(D_METHOD("mesh_transform_wall_west_set", "player"), &Terrain2DChunk::mesh_transform_wall_west_set);
 	ADD_PROPERTY(PropertyInfo(Variant::TRANSFORM2D, "mesh_transform_wall_west"), "mesh_transform_wall_west_set", "mesh_transform_wall_west_get");
+
+	ClassDB::bind_method(D_METHOD("get_default_tile_shape"), &Terrain2DChunk::get_default_tile_shape);
+	ClassDB::bind_method(D_METHOD("set_default_tile_shape", "shape"), &Terrain2DChunk::set_default_tile_shape);
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "default_tile_shape", PROPERTY_HINT_RESOURCE_TYPE, "Shape2D"), "set_default_tile_shape", "get_default_tile_shape");
 
 	//Terra Data
 	ClassDB::bind_method(D_METHOD("channel_setup"), &Terrain2DChunk::channel_setup);

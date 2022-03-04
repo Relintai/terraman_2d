@@ -145,6 +145,7 @@ public:
 	void bake_liquid_colors(Ref<Terrain2DChunk> chunk);
 
 	PoolVector<Vector2> build_collider() const;
+	virtual void create_tile_colliders(Ref<Terrain2DChunk> chunk);
 
 	void bake_lights(MeshInstance *node, Vector<Ref<Terrain2DLight>> &lights);
 

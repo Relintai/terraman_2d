@@ -201,6 +201,7 @@ public:
 
 	//Todo make this a generic thing
 	Vector<Transform2D> _mesh_transforms;
+	RID _2d_body_rid;
 
 protected:
 	virtual void _channel_setup();

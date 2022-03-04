@@ -43,6 +43,8 @@ public:
 	int get_build_flags() const;
 	void set_build_flags(const int flags);
 
+	void create_tile_colliders(Ref<Terrain2DChunk> chunk);
+
 	Terrain2DMesherDefault();
 	~Terrain2DMesherDefault();
 

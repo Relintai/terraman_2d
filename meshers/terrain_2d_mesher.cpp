@@ -29,6 +29,7 @@ SOFTWARE.
 #include "../world/default/terrain_2d_chunk_default.h"
 #include "../world/terrain_2d_chunk.h"
 #include "scene/resources/rectangle_shape_2d.h"
+#include "servers/physics_2d_server.h"
 
 bool Terrain2DMesher::Vertex::operator==(const Vertex &p_vertex) const {
 	if (vertex != p_vertex.vertex)
@@ -695,6 +696,9 @@ PoolVector<Vector2> Terrain2DMesher::build_collider() const {
 	}
 
 	return face_points;
+}
+
+void Terrain2DMesher::create_tile_colliders(Ref<Terrain2DChunk> chunk) {
 }
 
 void Terrain2DMesher::bake_lights(MeshInstance *node, Vector<Ref<Terrain2DLight>> &lights) {

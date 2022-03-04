@@ -223,6 +223,9 @@ void Terrain2DTerrain2DJob::phase_physics_process() {
 		temp_arr_collider_liquid.resize(0);
 	}
 */
+
+	_mesher->create_tile_colliders(_chunk);
+
 	set_build_phase_type(BUILD_PHASE_TYPE_NORMAL);
 	reset_stages();
 	next_phase();
