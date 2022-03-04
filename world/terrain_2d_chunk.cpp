@@ -1325,6 +1325,12 @@ void Terrain2DChunk::_world_transform_changed() {
 	if (get_canvas_item_count() > 0) {
 		VisualServer::get_singleton()->canvas_item_set_transform(get_canvas_item(0), t);
 	}
+
+#if TOOLS_ENABLED
+	if (_debug_canvas_item.is_valid()) {
+		VisualServer::get_singleton()->canvas_item_set_transform(_debug_canvas_item, t);
+	}
+#endif
 }
 
 /*

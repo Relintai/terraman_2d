@@ -22,8 +22,8 @@ SOFTWARE.
 
 #include "terrain_2d_mesher_default.h"
 
-#include "../../world/default/terrain_2d_chunk_default.h"
 #include "../../library/terrain_2d_material_cache.h"
+#include "../../world/default/terrain_2d_chunk_default.h"
 
 #include "../../defines.h"
 
@@ -73,6 +73,11 @@ void Terrain2DMesherDefault::create_tile_colliders(Ref<Terrain2DChunk> ch) {
 		Physics2DServer::get_singleton()->body_set_state(body_rid, Physics2DServer::BODY_STATE_TRANSFORM, chunk->get_transform());
 	}
 
+#if TOOLS_ENABLED
+	chunk->_debug_terrain_collider_transforms.clear();
+#endif
+	Physics2DServer::get_singleton()->body_clear_shapes(body_rid);
+
 	Physics2DServer::get_singleton()->body_set_mode(body_rid, Physics2DServer::BODY_MODE_STATIC);
 	Physics2DServer::get_singleton()->body_attach_object_instance_id(body_rid, get_instance_id());
 	//TODO
@@ -92,7 +97,18 @@ void Terrain2DMesherDefault::create_tile_colliders(Ref<Terrain2DChunk> ch) {
 		mcache = _library->material_cache_get(chunk->material_cache_key_get());
 	}
 
-	int texture_scale = get_texture_scale();
+#if TOOLS_ENABLED
+	SceneTree *st = SceneTree::get_singleton();
+
+	bool debug_shapes = false;
+	if (st) {
+		if (Engine::get_singleton()->is_editor_hint()) {
+			//debug_shapes = show_collision;
+		} else {
+			debug_shapes = st->is_debugging_collisions_hint();
+		}
+	}
+#endif
 
 	int margin_start = chunk->get_margin_start();
 	//z_size + margin_start is fine, x, and z are in data space.
@@ -107,6 +123,12 @@ void Terrain2DMesherDefault::create_tile_colliders(Ref<Terrain2DChunk> ch) {
 
 			if ((flags & Terrain2DChunkDefault::FLAG_CHANNEL_COLLIDER) != 0) {
 				Transform2D coll_transform(0, mesh_transform_terrain.xform(Vector2((x)*cell_size_x, y * cell_size_y)));
+
+#if TOOLS_ENABLED
+				if (debug_shapes) {
+					chunk->_debug_terrain_collider_transforms.push_back(coll_transform);
+				}
+#endif
 
 				Physics2DServer::get_singleton()->body_add_shape(body_rid, tile_collider_shape->get_rid(), coll_transform);
 			}

@@ -202,6 +202,9 @@ public:
 	//Todo make this a generic thing
 	Vector<Transform2D> _mesh_transforms;
 	RID _2d_body_rid;
+#if TOOLS_ENABLED
+	Vector<Transform2D> _debug_terrain_collider_transforms;
+#endif
 
 protected:
 	virtual void _channel_setup();

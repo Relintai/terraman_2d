@@ -727,6 +727,43 @@ void Terrain2DChunkDefault::_draw() {
 		//Note: the transform parameter is not implemented in gles2
 		VisualServer::get_singleton()->canvas_item_add_mesh(get_canvas_item(0), prop_mesh_rid, Transform2D(), Color(1, 1, 1, 1), prop_texture_rid, RID());
 	}
+
+#if TOOLS_ENABLED
+	SceneTree *st = SceneTree::get_singleton();
+
+	bool debug_shapes = false;
+	if (st) {
+		if (Engine::get_singleton()->is_editor_hint()) {
+			//debug_shapes = show_collision;
+		} else {
+			debug_shapes = st->is_debugging_collisions_hint();
+		}
+	}
+
+	if (debug_shapes) {
+		if (_debug_canvas_item == RID()) {
+			_debug_canvas_item = VisualServer::get_singleton()->canvas_item_create();
+
+			if (_voxel_world) {
+				VisualServer::get_singleton()->canvas_item_set_parent(_debug_canvas_item, get_voxel_world()->get_canvas_item());
+			}
+
+			VisualServer::get_singleton()->canvas_item_set_transform(_debug_canvas_item, get_transform());
+			VisualServer::get_singleton()->canvas_item_set_z_index(_debug_canvas_item, 1);
+		}
+
+		VisualServer::get_singleton()->canvas_item_clear(_debug_canvas_item);
+
+		Color debug_collision_color = st->get_debug_collisions_color();
+
+		Ref<Shape2D> shape = get_default_tile_shape();
+
+		for (int i = 0; i < _debug_terrain_collider_transforms.size(); ++i) {
+			VisualServer::get_singleton()->canvas_item_add_set_transform(_debug_canvas_item, _debug_terrain_collider_transforms[i]);
+			shape->draw(_debug_canvas_item, debug_collision_color);
+		}
+	}
+#endif
 }
 
 //Lights

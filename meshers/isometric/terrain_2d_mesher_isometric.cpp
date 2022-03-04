@@ -635,10 +635,10 @@ Ref<Shape2D> Terrain2DMesherIsometric::create_terrain_tile_collider_shape(Ref<Te
 
 	Transform2D mesh_transform_terrain = chunk->mesh_transform_terrain_get();
 	points.push_back(mesh_transform_terrain.xform(Vector2(0, 0)));
-	points.push_back(mesh_transform_terrain.xform(Vector2(_cell_size_x, 0)));
 	points.push_back(mesh_transform_terrain.xform(Vector2(0, _cell_size_y)));
 	points.push_back(mesh_transform_terrain.xform(Vector2(_cell_size_x, _cell_size_y)));
-
+	points.push_back(mesh_transform_terrain.xform(Vector2(_cell_size_x, 0)));
+	
 	sh->set_points(points);
 
 	return sh;

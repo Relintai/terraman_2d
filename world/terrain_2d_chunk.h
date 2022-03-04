@@ -364,6 +364,10 @@ public:
 	Terrain2DChunk();
 	~Terrain2DChunk();
 
+#if TOOLS_ENABLED
+	RID _debug_canvas_item;
+#endif
+
 protected:
 	virtual void _enter_tree();
 	virtual void _exit_tree();
