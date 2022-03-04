@@ -332,7 +332,6 @@ void Terrain2DChunkDefault::mesh_free(const int mesh_index) {
 }
 
 void Terrain2DChunkDefault::colliders_create(const int mesh_index, const int layer_mask) {
-	/*
 	ERR_FAIL_COND(_voxel_world == NULL);
 	ERR_FAIL_COND(PhysicsServer::get_singleton()->is_flushing_queries());
 	//ERR_FAIL_COND(!get_voxel_world()->is_inside_tree());
@@ -345,8 +344,8 @@ void Terrain2DChunkDefault::colliders_create(const int mesh_index, const int lay
 	ERR_FAIL_COND(m.has(MESH_TYPE_INDEX_BODY));
 	ERR_FAIL_COND(m.has(MESH_TYPE_INDEX_SHAPE));
 
-	RID shape_rid = Physics2DServer::get_singleton()->shape_create(Physics2DServer::SHAPE_CONCAVE_POLYGON);
-	RID body_rid = Physics2DServer::get_singleton()->body_create(Physics2DServer::BODY_MODE_STATIC);
+	RID shape_rid = Physics2DServer::get_singleton()->concave_polygon_shape_create();
+	RID body_rid = Physics2DServer::get_singleton()->body_create();
 
 	Physics2DServer::get_singleton()->body_set_collision_layer(body_rid, layer_mask);
 	Physics2DServer::get_singleton()->body_set_collision_mask(body_rid, layer_mask);
@@ -366,11 +365,8 @@ void Terrain2DChunkDefault::colliders_create(const int mesh_index, const int lay
 	m[MESH_TYPE_INDEX_SHAPE] = shape_rid;
 
 	_rids[mesh_index] = m;
-*/
-	//todo
 }
 void Terrain2DChunkDefault::colliders_create_area(const int mesh_index, const int layer_mask) {
-	/*
 	ERR_FAIL_COND(_voxel_world == NULL);
 	ERR_FAIL_COND(PhysicsServer::get_singleton()->is_flushing_queries());
 
@@ -382,34 +378,31 @@ void Terrain2DChunkDefault::colliders_create_area(const int mesh_index, const in
 	ERR_FAIL_COND(m.has(MESH_TYPE_INDEX_AREA));
 	ERR_FAIL_COND(m.has(MESH_TYPE_INDEX_SHAPE));
 
-	RID shape_rid = PhysicsServer::get_singleton()->shape_create(PhysicsServer::SHAPE_CONCAVE_POLYGON);
-	RID area_rid = PhysicsServer::get_singleton()->area_create();
+	RID shape_rid = Physics2DServer::get_singleton()->concave_polygon_shape_create();
+	RID area_rid = Physics2DServer::get_singleton()->area_create();
 
-	PhysicsServer::get_singleton()->area_attach_object_instance_id(area_rid, _voxel_world->get_instance_id());
-	PhysicsServer::get_singleton()->area_set_param(area_rid, PhysicsServer::AREA_PARAM_GRAVITY, 9.8);
-	PhysicsServer::get_singleton()->area_set_param(area_rid, PhysicsServer::AREA_PARAM_GRAVITY_VECTOR, Vector3(0, -1, 0));
+	Physics2DServer::get_singleton()->area_attach_object_instance_id(area_rid, _voxel_world->get_instance_id());
 
-	//PhysicsServer::get_singleton()->area_set_monitor_callback(area_rid, this, "_body_area_inout");
-	//PhysicsServer::get_singleton()->area_set_area_monitor_callback(area_rid, this, "_body_area_area_inout");
-	//PhysicsServer::get_singleton()->area_set_monitorable(area_rid, true);
+	//Physics2DServer::get_singleton()->area_set_monitor_callback(area_rid, this, "_body_area_inout");
+	//Physics2DServer::get_singleton()->area_set_area_monitor_callback(area_rid, this, "_body_area_area_inout");
+	//Physics2DServer::get_singleton()->area_set_monitorable(area_rid, true);
 
-	PhysicsServer::get_singleton()->area_set_collision_layer(area_rid, layer_mask);
-	PhysicsServer::get_singleton()->area_set_collision_mask(area_rid, layer_mask);
+	Physics2DServer::get_singleton()->area_set_collision_layer(area_rid, layer_mask);
+	Physics2DServer::get_singleton()->area_set_collision_mask(area_rid, layer_mask);
 
-	if (get_voxel_world()->is_inside_tree() && get_voxel_world()->is_inside_world()) {
-		Ref<World> world = get_voxel_world()->GET_WORLD();
+	if (get_voxel_world()->is_inside_tree()) {
+		Ref<World2D> world = get_voxel_world()->get_world_2d();
 
 		if (world.is_valid() && world->get_space() != RID())
-			PhysicsServer::get_singleton()->area_set_space(area_rid, world->get_space());
+			Physics2DServer::get_singleton()->area_set_space(area_rid, world->get_space());
 	}
 
-	PhysicsServer::get_singleton()->area_add_shape(area_rid, shape_rid, get_transform());
+	Physics2DServer::get_singleton()->area_add_shape(area_rid, shape_rid, get_transform());
 
 	m[MESH_TYPE_INDEX_AREA] = area_rid;
 	m[MESH_TYPE_INDEX_SHAPE] = shape_rid;
 
 	_rids[mesh_index] = m;
-	*/
 }
 
 void Terrain2DChunkDefault::colliders_free(const int mesh_index) {
@@ -445,7 +438,7 @@ void Terrain2DChunkDefault::free_index(const int mesh_index) {
 
 void Terrain2DChunkDefault::update_transforms() {
 	RID empty_rid;
-	//Transform2D t = get_transform();
+	Transform2D t = get_transform();
 
 	List<Variant> keys;
 
@@ -463,7 +456,7 @@ void Terrain2DChunkDefault::update_transforms() {
 			RID rid = d[MESH_TYPE_INDEX_BODY];
 
 			if (rid != empty_rid) {
-				//PhysicsServer::get_singleton()->body_set_state(rid, PhysicsServer::BODY_STATE_TRANSFORM, t);
+				Physics2DServer::get_singleton()->body_set_state(rid, Physics2DServer::BODY_STATE_TRANSFORM, t);
 			}
 		}
 
@@ -471,13 +464,13 @@ void Terrain2DChunkDefault::update_transforms() {
 			RID rid = d[MESH_TYPE_INDEX_AREA];
 
 			if (rid != empty_rid) {
-				//PhysicsServer::get_singleton()->area_set_shape_transform(rid, 0, t);
+				Physics2DServer::get_singleton()->area_set_shape_transform(rid, 0, t);
 			}
 		}
 	}
 
 	for (int i = 0; i < collider_get_count(); ++i) {
-		//PhysicsServer::get_singleton()->body_set_state(collider_get_body(i), PhysicsServer::BODY_STATE_TRANSFORM, get_transform() * collider_get_transform(i));
+		Physics2DServer::get_singleton()->body_set_state(collider_get_body(i), Physics2DServer::BODY_STATE_TRANSFORM, get_transform() * collider_get_transform(i));
 	}
 
 	if (_2d_body_rid != RID()) {

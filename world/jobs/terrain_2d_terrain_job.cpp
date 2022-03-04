@@ -198,7 +198,6 @@ void Terrain2DTerrain2DJob::phase_collider() {
 }
 
 void Terrain2DTerrain2DJob::phase_physics_process() {
-	/*
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
 
 	if (temp_arr_collider.size() != 0) {
@@ -206,7 +205,7 @@ void Terrain2DTerrain2DJob::phase_physics_process() {
 			chunk->colliders_create(Terrain2DChunkDefault::MESH_INDEX_TERRAIN);
 		}
 
-		PhysicsServer::get_singleton()->shape_set_data(chunk->mesh_rid_get(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_SHAPE), temp_arr_collider);
+		Physics2DServer::get_singleton()->shape_set_data(chunk->mesh_rid_get(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_SHAPE), temp_arr_collider);
 
 		temp_arr_collider.resize(0);
 	}
@@ -218,11 +217,10 @@ void Terrain2DTerrain2DJob::phase_physics_process() {
 			}
 		}
 
-		PhysicsServer::get_singleton()->shape_set_data(chunk->mesh_rid_get(Terrain2DChunkDefault::MESH_INDEX_LIQUID, Terrain2DChunkDefault::MESH_TYPE_INDEX_SHAPE), temp_arr_collider_liquid);
+		Physics2DServer::get_singleton()->shape_set_data(chunk->mesh_rid_get(Terrain2DChunkDefault::MESH_INDEX_LIQUID, Terrain2DChunkDefault::MESH_TYPE_INDEX_SHAPE), temp_arr_collider_liquid);
 
 		temp_arr_collider_liquid.resize(0);
 	}
-*/
 
 	_mesher->create_tile_colliders(_chunk);
 
@@ -398,11 +396,6 @@ void Terrain2DTerrain2DJob::_physics_process(float delta) {
 
 void Terrain2DTerrain2DJob::step_type_normal() {
 	Ref<Terrain2DChunkDefault> chunk = _chunk;
-
-	//TODO make this automatic in build_mesh
-	//if ((chunk->get_build_flags() & Terrain2DChunkDefault::BUILD_FLAG_USE_LIGHTING) != 0) {
-	//	_mesher->bake_colors(_chunk);
-	//}
 
 	temp_mesh_arr = _mesher->build_mesh();
 	RID mesh_rid = chunk->mesh_rid_get_index(Terrain2DChunkDefault::MESH_INDEX_TERRAIN, Terrain2DChunkDefault::MESH_TYPE_INDEX_MESH, 0);
