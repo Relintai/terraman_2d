@@ -20,10 +20,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TERRAIN_2D_REGISTER_TYPES_H
-#define TERRAIN_2D_REGISTER_TYPES_H
+#ifndef TERRAMAN_2D_REGISTER_TYPES_H
+#define TERRAMAN_2D_REGISTER_TYPES_H
 
-void register_terraman_2d_types();
-void unregister_terraman_2d_types();
+#include "modules/register_module_types.h"
+
+void initialize_terraman_2d_module(ModuleInitializationLevel p_level);
+void uninitialize_terraman_2d_module(ModuleInitializationLevel p_level);
 
 #endif

@@ -22,6 +22,8 @@ SOFTWARE.
 
 #include "register_types.h"
 
+#include "core/object/class_db.h"
+
 #include "library/terrain_2d_surface.h"
 #include "library/terrain_2d_surface_simple.h"
 
@@ -70,59 +72,63 @@ SOFTWARE.
 #include "world/jobs/terrain_2d_prop_job.h"
 #include "world/jobs/terrain_2d_terrain_job.h"
 
-void register_terraman_2d_types() {
-	ClassDB::register_class<Terrain2DMesher>();
-	ClassDB::register_class<Terrain2DMesherDefault>();
+void initialize_terraman_2d_module(ModuleInitializationLevel p_level) {
+	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE) {
+		GDREGISTER_CLASS(Terrain2DMesher);
+		GDREGISTER_CLASS(Terrain2DMesherDefault);
 
-	ClassDB::register_class<Terrain2DSurface>();
-	ClassDB::register_class<Terrain2DSurfaceSimple>();
+		GDREGISTER_CLASS(Terrain2DSurface);
+		GDREGISTER_CLASS(Terrain2DSurfaceSimple);
 
-	ClassDB::register_class<Terrain2DLibrary>();
-	ClassDB::register_class<Terrain2DLibrarySimple>();
+		GDREGISTER_CLASS(Terrain2DLibrary);
+		GDREGISTER_CLASS(Terrain2DLibrarySimple);
 
-	ClassDB::register_class<Terrain2DMaterialCache>();
+		GDREGISTER_CLASS(Terrain2DMaterialCache);
 
 #ifdef TEXTURE_PACKER_PRESENT
-	ClassDB::register_class<Terrain2DSurfaceMerger>();
-	ClassDB::register_class<Terrain2DLibraryMerger>();
-	ClassDB::register_class<Terrain2DLibraryMergerPCM>();
-	ClassDB::register_class<Terrain2DMaterialCachePCM>();
+		GDREGISTER_CLASS(Terrain2DSurfaceMerger);
+		GDREGISTER_CLASS(Terrain2DLibraryMerger);
+		GDREGISTER_CLASS(Terrain2DLibraryMergerPCM);
+		GDREGISTER_CLASS(Terrain2DMaterialCachePCM);
 #endif
 
-	ClassDB::register_class<Terrain2DLight>();
-	ClassDB::register_class<Terrain2DLightNode>();
+		GDREGISTER_CLASS(Terrain2DLight);
+		GDREGISTER_CLASS(Terrain2DLightNode);
 
-	ClassDB::register_class<Terrain2DWorld>();
-	ClassDB::register_class<Terrain2DChunk>();
-	ClassDB::register_class<Terrain2DStructure>();
-	ClassDB::register_class<BlockTerrain2DStructure>();
-	ClassDB::register_class<Terrain2DEnvironmentData>();
+		GDREGISTER_CLASS(Terrain2DWorld);
+		GDREGISTER_CLASS(Terrain2DChunk);
+		GDREGISTER_CLASS(Terrain2DStructure);
+		GDREGISTER_CLASS(BlockTerrain2DStructure);
+		GDREGISTER_CLASS(Terrain2DEnvironmentData);
 
-	ClassDB::register_class<Terrain2DChunkDefault>();
-	ClassDB::register_class<Terrain2DWorldDefault>();
+		GDREGISTER_CLASS(Terrain2DChunkDefault);
+		GDREGISTER_CLASS(Terrain2DWorldDefault);
 
-	ClassDB::register_class<Terrain2DMesherSimple>();
-	ClassDB::register_class<Terrain2DWorldSimple>();
-	ClassDB::register_class<Terrain2DChunkSimple>();
+		GDREGISTER_CLASS(Terrain2DMesherSimple);
+		GDREGISTER_CLASS(Terrain2DWorldSimple);
+		GDREGISTER_CLASS(Terrain2DChunkSimple);
 
-	ClassDB::register_class<Terrain2DMesherIsometric>();
-	ClassDB::register_class<Terrain2DWorldIsometric>();
-	ClassDB::register_class<Terrain2DChunkIsometric>();
+		GDREGISTER_CLASS(Terrain2DMesherIsometric);
+		GDREGISTER_CLASS(Terrain2DWorldIsometric);
+		GDREGISTER_CLASS(Terrain2DChunkIsometric);
 
-	ClassDB::register_class<Terrain2DLevelGenerator>();
-	ClassDB::register_class<Terrain2DLevelGeneratorFlat>();
+		GDREGISTER_CLASS(Terrain2DLevelGenerator);
+		GDREGISTER_CLASS(Terrain2DLevelGeneratorFlat);
 
-	ClassDB::register_class<Terrain2DWorldArea>();
+		GDREGISTER_CLASS(Terrain2DWorldArea);
 
-	ClassDB::register_class<Terrain2DJob>();
-	ClassDB::register_class<Terrain2DTerrain2DJob>();
-	ClassDB::register_class<Terrain2DLightJob>();
-	ClassDB::register_class<Terrain2DProp2DJob>();
+		GDREGISTER_CLASS(Terrain2DJob);
+		GDREGISTER_CLASS(Terrain2DTerrain2DJob);
+		GDREGISTER_CLASS(Terrain2DLightJob);
+		GDREGISTER_CLASS(Terrain2DProp2DJob);
+	}
 
 #ifdef TOOLS_ENABLED
-	EditorPlugins::add_by_type<Terrain2DWorldEditorPlugin>();
+	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR) {
+		EditorPlugins::add_by_type<Terrain2DWorldEditorPlugin>();
+	}
 #endif
 }
 
-void unregister_terraman_2d_types() {
+void uninitialize_terraman_2d_module(ModuleInitializationLevel p_level) {
 }
