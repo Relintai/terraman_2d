@@ -518,7 +518,7 @@ AABB Terrain2DMesher::calculate_stored_mesh_aabb(const int index) {
 
 Ref<Shape2D> Terrain2DMesher::create_terrain_tile_collider_shape(Ref<Terrain2DChunk> chunk) {
 	Ref<RectangleShape2D> sh;
-	sh.instance();
+	sh.instantiate();
 
 	sh->set_extents(Vector2(_cell_size_x, _cell_size_y));
 

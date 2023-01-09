@@ -234,7 +234,7 @@ Terrain2DWorldEditor::Terrain2DWorldEditor(EditorNode *p_editor) {
 	spatial_editor_hb->set_alignment(BoxContainer::ALIGN_BEGIN);
 	SpatialEditor::get_singleton()->add_control_to_menu_panel(spatial_editor_hb);
 
-	_tool_button_group.instance();
+	_tool_button_group.instantiate();
 
 	ToolButton *add_button = memnew(ToolButton);
 	add_button->set_text("Add");
@@ -291,7 +291,7 @@ Terrain2DWorldEditor::Terrain2DWorldEditor(EditorNode *p_editor) {
 	scs->add_child(_surfaces_vbox_container);
 	_surfaces_vbox_container->set_h_size_flags(SIZE_EXPAND_FILL);
 
-	_surfaces_button_group.instance();
+	_surfaces_button_group.instantiate();
 }
 Terrain2DWorldEditor::~Terrain2DWorldEditor() {
 	_world = NULL;

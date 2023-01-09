@@ -629,7 +629,7 @@ void Terrain2DMesherIsometric::mesh_walls(Ref<Terrain2DChunkDefault> chunk) {
 
 Ref<Shape2D> Terrain2DMesherIsometric::create_terrain_tile_collider_shape(Ref<Terrain2DChunk> chunk) {
 	Ref<ConvexPolygonShape2D> sh;
-	sh.instance();
+	sh.instantiate();
 
 	Vector<Vector2> points;
 

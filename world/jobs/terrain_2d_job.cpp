@@ -124,7 +124,7 @@ void Terrain2DJob::generate_random_ao(int seed, int octaves, int period, float p
 	float cy = _chunk->get_cell_size_y();
 
 	Ref<OpenSimplexNoise> noise;
-	noise.instance();
+	noise.instantiate();
 
 	noise->set_seed(seed);
 	noise->set_octaves(octaves);

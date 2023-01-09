@@ -36,20 +36,20 @@ Ref<Terrain2DChunk> Terrain2DWorldIsometric::_create_chunk(int x, int y, Ref<Ter
 
 	if (chunk->job_get_count() == 0) {
 		Ref<Terrain2DTerrain2DJob> tj;
-		tj.instance();
+		tj.instantiate();
 
 		Ref<Terrain2DLightJob> lj;
-		lj.instance();
+		lj.instantiate();
 
 		tj->set_mesher(Ref<Terrain2DMesher>(memnew(Terrain2DMesherIsometric())));
 
 		Ref<Terrain2DMesherIsometric> liquid_mesher;
-		liquid_mesher.instance();
+		liquid_mesher.instantiate();
 		liquid_mesher->set_channel_index_type(Terrain2DChunkDefault::DEFAULT_CHANNEL_LIQUID_TYPE);
 		tj->set_liquid_mesher(liquid_mesher);
 
 		Ref<Terrain2DProp2DJob> pj;
-		pj.instance();
+		pj.instantiate();
 		pj->set_prop_mesher(Ref<Terrain2DMesher>(memnew(Terrain2DMesherIsometric)));
 
 		chunk->job_add(lj);

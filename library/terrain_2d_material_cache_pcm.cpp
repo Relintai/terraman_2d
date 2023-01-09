@@ -170,7 +170,7 @@ void Terrain2DMaterialCachePCM::_setup_material_albedo(Ref<Texture> texture) {
 }
 
 Terrain2DMaterialCachePCM::Terrain2DMaterialCachePCM() {
-	_packer.instance();
+	_packer.instantiate();
 
 #if GODOT4
 #warning implement

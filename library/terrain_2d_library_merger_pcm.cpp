@@ -143,7 +143,7 @@ void Terrain2DLibraryMergerPCM::_material_cache_get_key(Ref<Terrain2DChunk> chun
 	//print_error("New cache: " + hstr);
 
 	Ref<Terrain2DMaterialCachePCM> cache;
-	cache.instance();
+	cache.instantiate();
 	cache->inc_ref_count();
 
 	cache->set_texture_flags(get_texture_flags());
@@ -322,7 +322,7 @@ void Terrain2DLibraryMergerPCM::_prop_material_cache_get_key(Ref<Terrain2DChunk>
 	//print_error("New prop cache: " + hstr);
 
 	Ref<Terrain2DMaterialCachePCM> cache;
-	cache.instance();
+	cache.instantiate();
 	cache->inc_ref_count();
 
 	cache->set_texture_flags(get_texture_flags());
@@ -546,7 +546,7 @@ void Terrain2DLibraryMergerPCM::set_prop(const int index, const Ref<Prop2DData> 
 void Terrain2DLibraryMergerPCM::remove_prop(const int index) {
 	ERR_FAIL_INDEX(index, _props.size());
 
-	_props.remove(index);
+	_props.remove_at(index);
 }
 int Terrain2DLibraryMergerPCM::get_num_props() const {
 	return _props.size();
@@ -694,7 +694,7 @@ void Terrain2DLibraryMergerPCM::_setup_material_albedo(const int material_index,
 }
 
 Terrain2DLibraryMergerPCM::Terrain2DLibraryMergerPCM() {
-	_packer.instance();
+	_packer.instantiate();
 
 #if GODOT4
 #warning implement
@@ -706,7 +706,7 @@ Terrain2DLibraryMergerPCM::Terrain2DLibraryMergerPCM() {
 	_packer->set_keep_original_atlases(false);
 	_packer->set_margin(0);
 
-	_prop_packer.instance();
+	_prop_packer.instantiate();
 
 #if GODOT4
 #warning implement

@@ -114,13 +114,13 @@ Ref<Terrain2DChunk> Terrain2DWorldDefault::_create_chunk(int x, int y, Ref<Terra
 
 	if (chunk->job_get_count() == 0) {
 		Ref<Terrain2DTerrain2DJob> tj;
-		tj.instance();
+		tj.instantiate();
 
 		Ref<Terrain2DLightJob> lj;
-		lj.instance();
+		lj.instantiate();
 
 		Ref<Terrain2DProp2DJob> pj;
-		pj.instance();
+		pj.instantiate();
 		pj->set_prop_mesher(Ref<Terrain2DMesher>(memnew(Terrain2DMesherDefault)));
 
 		chunk->job_add(lj);
