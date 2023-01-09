@@ -207,7 +207,7 @@ Rect2 Terrain2DLibraryMerger::get_prop_uv_rect(const Ref<Texture> &texture) {
 		return Rect2(0, 0, 1, 1);
 	}
 
-	Ref<Image> image = tex->get_data();
+	Ref<Image> image = tex->get_image();
 
 	if (!image.is_valid()) {
 		return Rect2(0, 0, 1, 1);
@@ -321,11 +321,8 @@ void Terrain2DLibraryMerger::_setup_material_albedo(const int material_index, co
 Terrain2DLibraryMerger::Terrain2DLibraryMerger() {
 	_packer.instantiate();
 
-#if GODOT4
 #warning implement
-#else
-	_packer->set_texture_flags(Texture::FLAG_MIPMAPS | Texture::FLAG_FILTER);
-#endif
+	//_packer->set_texture_flags(Texture::FLAG_MIPMAPS | Texture::FLAG_FILTER);
 
 	_packer->set_max_atlas_size(1024);
 	_packer->set_keep_original_atlases(false);
@@ -333,11 +330,8 @@ Terrain2DLibraryMerger::Terrain2DLibraryMerger() {
 
 	_prop_packer.instantiate();
 
-#if GODOT4
 #warning implement
-#else
-	_prop_packer->set_texture_flags(Texture::FLAG_MIPMAPS | Texture::FLAG_FILTER);
-#endif
+	//_prop_packer->set_texture_flags(Texture::FLAG_MIPMAPS | Texture::FLAG_FILTER);
 
 	_prop_packer->set_max_atlas_size(1024);
 	_prop_packer->set_keep_original_atlases(false);
