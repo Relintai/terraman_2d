@@ -38,7 +38,7 @@ SOFTWARE.
 
 #include "../defines.h"
 #include "../world/default/terrain_2d_chunk_default.h"
-#include "core/hashfuncs.h"
+#include "core/templates/hashfuncs.h"
 #include "core/message_queue.h"
 #include "terrain_2d_material_cache_pcm.h"
 
@@ -689,7 +689,7 @@ void Terrain2DLibraryMergerPCM::_setup_material_albedo(const int material_index,
 	}
 
 	if (shmat.is_valid()) {
-		shmat->set_shader_param("texture_albedo", texture);
+		shmat->set_shader_parameter("texture_albedo", texture);
 	}*/
 }
 

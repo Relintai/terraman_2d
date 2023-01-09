@@ -370,7 +370,7 @@ void Terrain2DLibrary::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "initialized", PROPERTY_HINT_NONE, "", 0), "set_initialized", "get_initialized");
 
 #if VERSION_MAJOR < 4
-	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::BOOL, "ret"), "_supports_caching"));
+	//BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::BOOL, "ret"), "_supports_caching"));
 #else
 	GDVIRTUAL_BIND(_supports_caching);
 #endif
@@ -391,15 +391,15 @@ void Terrain2DLibrary::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "prop_texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture"), "prop_texture_set", "prop_texture_get");
 
 #if VERSION_MAJOR < 4
-	BIND_VMETHOD(MethodInfo("_setup_material_albedo", PropertyInfo(Variant::INT, "material_index"), PropertyInfo(Variant::OBJECT, "texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture")));
+	//BIND_VMETHOD(MethodInfo("_setup_material_albedo", PropertyInfo(Variant::INT, "material_index"), PropertyInfo(Variant::OBJECT, "texture", PROPERTY_HINT_RESOURCE_TYPE, "Texture")));
 #else
 	GDVIRTUAL_BIND(_setup_material_albedo, "material_index", "texture");
 #endif
 
 #if VERSION_MAJOR < 4
-	BIND_VMETHOD(MethodInfo("_material_cache_get_key", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
-	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "ret", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DMaterialCache"), "_material_cache_get", PropertyInfo(Variant::INT, "key")));
-	BIND_VMETHOD(MethodInfo("_material_cache_unref", PropertyInfo(Variant::INT, "key")));
+	//BIND_VMETHOD(MethodInfo("_material_cache_get_key", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
+	//BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "ret", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DMaterialCache"), "_material_cache_get", PropertyInfo(Variant::INT, "key")));
+	//BIND_VMETHOD(MethodInfo("_material_cache_unref", PropertyInfo(Variant::INT, "key")));
 #else
 	GDVIRTUAL_BIND(_material_cache_get_key, "chunk", "texture");
 	GDVIRTUAL_BIND(_material_cache_get, "key");
@@ -418,9 +418,9 @@ void Terrain2DLibrary::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "material_set", "material_get");
 
 #if VERSION_MAJOR < 4
-	BIND_VMETHOD(MethodInfo("_liquid_material_cache_get_key", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
-	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "ret", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DMaterialCache"), "_liquid_material_cache_get", PropertyInfo(Variant::INT, "key")));
-	BIND_VMETHOD(MethodInfo("_liquid_material_cache_unref", PropertyInfo(Variant::INT, "key")));
+	//BIND_VMETHOD(MethodInfo("_liquid_material_cache_get_key", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
+	//BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "ret", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DMaterialCache"), "_liquid_material_cache_get", PropertyInfo(Variant::INT, "key")));
+	//BIND_VMETHOD(MethodInfo("_liquid_material_cache_unref", PropertyInfo(Variant::INT, "key")));
 #else
 	GDVIRTUAL_BIND(_liquid_material_cache_get_key, "chunk", "texture");
 	GDVIRTUAL_BIND(_liquid_material_cache_get, "key");
@@ -439,9 +439,9 @@ void Terrain2DLibrary::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "liquid_material", PROPERTY_HINT_RESOURCE_TYPE, "Material"), "liquid_material_set", "liquid_material_get");
 
 #if VERSION_MAJOR < 4
-	BIND_VMETHOD(MethodInfo("_prop_material_cache_get_key", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
-	BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "ret", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DMaterialCache"), "_prop_material_cache_get", PropertyInfo(Variant::INT, "key")));
-	BIND_VMETHOD(MethodInfo("_prop_material_cache_unref", PropertyInfo(Variant::INT, "key")));
+	//BIND_VMETHOD(MethodInfo("_prop_material_cache_get_key", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
+	//BIND_VMETHOD(MethodInfo(PropertyInfo(Variant::OBJECT, "ret", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DMaterialCache"), "_prop_material_cache_get", PropertyInfo(Variant::INT, "key")));
+	//BIND_VMETHOD(MethodInfo("_prop_material_cache_unref", PropertyInfo(Variant::INT, "key")));
 #else
 	GDVIRTUAL_BIND(_prop_material_cache_get_key, "chunk", "texture");
 	GDVIRTUAL_BIND(_prop_material_cache_get, "key");

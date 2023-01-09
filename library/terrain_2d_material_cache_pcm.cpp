@@ -88,7 +88,7 @@ Rect2 Terrain2DMaterialCachePCM::additional_texture_get_uv_rect(const Ref<Textur
 		return Rect2(0, 0, 1, 1);
 	}
 
-	Ref<Image> image = tex->get_data();
+	Ref<Image> image = tex->get_image();
 
 	if (!image.is_valid()) {
 		return Rect2(0, 0, 1, 1);
@@ -165,7 +165,7 @@ void Terrain2DMaterialCachePCM::_setup_material_albedo(Ref<Texture> texture) {
 	Ref<ShaderMaterial> shmat = m;
 
 	if (shmat.is_valid()) {
-		shmat->set_shader_param("texture_albedo", texture);
+		shmat->set_shader_parameter("texture_albedo", texture);
 	}
 }
 

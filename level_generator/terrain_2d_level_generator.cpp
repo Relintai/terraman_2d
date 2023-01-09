@@ -37,7 +37,7 @@ Terrain2DLevelGenerator::~Terrain2DLevelGenerator() {
 }
 
 void Terrain2DLevelGenerator::_bind_methods() {
-	BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
+	//BIND_VMETHOD(MethodInfo("_generate_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
 
 	ClassDB::bind_method(D_METHOD("generate_chunk", "chunk"), &Terrain2DLevelGenerator::generate_chunk);
 }

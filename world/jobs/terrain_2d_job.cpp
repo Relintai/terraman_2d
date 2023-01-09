@@ -293,8 +293,8 @@ Terrain2DJob::~Terrain2DJob() {
 }
 
 void Terrain2DJob::_bind_methods() {
-	BIND_VMETHOD(MethodInfo("_process", PropertyInfo(Variant::REAL, "delta")));
-	BIND_VMETHOD(MethodInfo("_physics_process", PropertyInfo(Variant::REAL, "delta")));
+	//BIND_VMETHOD(MethodInfo("_process", PropertyInfo(Variant::REAL, "delta")));
+	//BIND_VMETHOD(MethodInfo("_physics_process", PropertyInfo(Variant::REAL, "delta")));
 
 	ClassDB::bind_method(D_METHOD("get_build_phase_type"), &Terrain2DJob::get_build_phase_type);
 	ClassDB::bind_method(D_METHOD("set_build_phase_type", "value"), &Terrain2DJob::set_build_phase_type);
@@ -311,14 +311,14 @@ void Terrain2DJob::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("next_job"), &Terrain2DJob::next_job);
 
-	BIND_VMETHOD(MethodInfo("_reset"));
+	//BIND_VMETHOD(MethodInfo("_reset"));
 
 	ClassDB::bind_method(D_METHOD("reset"), &Terrain2DJob::reset);
 	ClassDB::bind_method(D_METHOD("_reset"), &Terrain2DJob::_reset);
 
 	ClassDB::bind_method(D_METHOD("_execute"), &Terrain2DJob::_execute);
 
-	BIND_VMETHOD(MethodInfo("_execute_phase"));
+	//BIND_VMETHOD(MethodInfo("_execute_phase"));
 
 	ClassDB::bind_method(D_METHOD("execute_phase"), &Terrain2DJob::execute_phase);
 	ClassDB::bind_method(D_METHOD("_execute_phase"), &Terrain2DJob::_execute_phase);
@@ -350,7 +350,7 @@ void Terrain2DJob::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("should_do", "just_check"), &Terrain2DJob::should_do, DEFVAL(false));
 	ClassDB::bind_method(D_METHOD("should_return"), &Terrain2DJob::should_return);
 
-	BIND_VMETHOD(MethodInfo("_execute"));
+	//BIND_VMETHOD(MethodInfo("_execute"));
 	ClassDB::bind_method(D_METHOD("execute"), &Terrain2DJob::execute);
 
 	ADD_SIGNAL(MethodInfo("completed"));

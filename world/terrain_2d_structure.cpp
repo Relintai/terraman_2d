@@ -74,7 +74,7 @@ Terrain2DStructure::~Terrain2DStructure() {
 
 void Terrain2DStructure::_bind_methods() {
 #if VERSION_MAJOR < 4
-	BIND_VMETHOD(MethodInfo("_write_to_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
+	//BIND_VMETHOD(MethodInfo("_write_to_chunk", PropertyInfo(Variant::OBJECT, "chunk", PROPERTY_HINT_RESOURCE_TYPE, "Terrain2DChunk")));
 #else
 	GDVIRTUAL_BIND(_write_to_chunk, "chunk");
 #endif
